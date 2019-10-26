@@ -3,5 +3,30 @@
   
   
   
+  <entry>
+    <title>hexo的使用指南</title>
+    <link href="undefined2019/10/26/hexo%E7%9A%84%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/"/>
+    <url>2019/10/26/hexo%E7%9A%84%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/</url>
+    
+    <content type="html"><![CDATA[<p>#简写</p><blockquote><p>hexo n “我的博客” == hexo new “我的博客” —–&gt;新建文章<br>hexo p == hexo publish<br>hexo g == hexo generate —-&gt;生成<br>hexo s == hexo server —–&gt; 启动服务预览<br>hexo d == hexo deploy —–&gt;部署到博客上<br>#服务器<br>hexo clean —&gt;清除缓存<br>hexo g —-&gt;生成静态网页<br>hexo d —-&gt;开始部署<br>#监视文件变动<br>hexo generate –watch –&gt;监视文件变动<br>#完成后部署<br>hexo generate –deploy == hexo g -d<br>hexo deploy –generate == hexo d -g</p></blockquote>]]></content>
+    
+    
+    <categories>
+      
+      <category>hexo</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>hexo</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
   
 </search>
