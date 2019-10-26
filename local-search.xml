@@ -4,6 +4,19 @@
   
   
   <entry>
+    <title>哈工大-操作系统(实验二）-系统调用</title>
+    <link href="undefined2019/10/27/%E5%93%88%E5%B7%A5%E5%A4%A7-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E5%AE%9E%E9%AA%8C%E4%BA%8C%EF%BC%89-%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8/"/>
+    <url>2019/10/27/%E5%93%88%E5%B7%A5%E5%A4%A7-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E5%AE%9E%E9%AA%8C%E4%BA%8C%EF%BC%89-%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8/</url>
+    
+    <content type="html"><![CDATA[<p>此次实验的基本内容是：在linux-0.11上添加两个系统调用，并编写两个简单的应用程序测试他们。<br><br>感谢两位大佬的博客指点：<br><br><a href="https://www.jianshu.com/p/5786cd42b152" target="_blank" rel="noopener" title="寒夏凉秋">https://www.jianshu.com/p/5786cd42b152</a>  <br><br>  <a href="https://github.com/Wangzhike/HIT-Linux-0.11" target="_blank" rel="noopener" title="qiuyu_mac">https://github.com/Wangzhike/HIT-Linux-0.11</a><br></p><h1 id="应用程序怎么调用系统调用？"><a href="#应用程序怎么调用系统调用？" class="headerlink" title="应用程序怎么调用系统调用？"></a>应用程序怎么调用系统调用？</h1><blockquote><p>通常情况下，调用系统调用与调用一个普通的自定义代码没什么区别，但是调用后发生的事情不同，调用自定义函数通常通过call指令直接跳转到目标函数的地址处，继续运行，但是调用系统调用，是调用系统库中为系统调用编写的一个接口函数，叫做API（Application Programming Interface）（它对应一个宏_syscallx，在unistd.h中）。<br>API并不能完成系统调用的真正功能，它要做的是去调用真正的系统调用。</p><h2 id="系统调用的基本过程"><a href="#系统调用的基本过程" class="headerlink" title="系统调用的基本过程"></a>系统调用的基本过程</h2><p>1.应用程序调用库函数（API）<br><br>2.API函数要么通过自己添加含有int $0x80的嵌入汇编代码,要么调用syscall0到syscall3这四个宏函数（这四个函数在include/unistd.h中定义）将系统调用号存入EAX寄存器，通过int $0x80编程异常处理进入到内核态的<strong>系统调用</strong>处理函数system_call<br><br>3.<strong>系统调用</strong> 处理函数system_call根据系统调用号，调用对应的内核函数（真正的<strong>系统调用</strong>实现函数）<br><br>4.system_call处理完成后返回API函数中，并将内核函数的返回值通过EAX寄存器传递给API函数<br><br>5.API函数将返回值返回给应用程序<br>##在Linux 0.11中添加一个系统调用foo（）的步骤：<br>1.编写API函数 foo()，根据器参数的个数，调用syscall0到syscall3这四个宏函数的其中一个，或者手动添加含有int $0x80的嵌入汇编代码，通过EAX寄存器传入系统调用号，进入内核。<br><br>2.在内核中实现 真正的系统调用函数sys_foo，并修改对应的makefile文件<br><br>3.同时在sys_call_table中加入sys_foo()函数的函数名，既入口地址，在该头文件中声明sys_foo()函数<br><br>4.在include/unistd.h中定义sys_foo()函数的系统调用号<br><br>5.修改kernel/system_call.s中代表系统调用总数的变量nr_system_calls的值<br><br>6.编写测试程序，修改添加了foo（）系统调用的Linux 0.11的文件系统下的unistd.h的文件，加入foo（）的系统调用号，运行测试程序，检验效果。</p></blockquote><p>。。。。。。。未完待续</p>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>hexo的常用指令</title>
     <link href="undefined2019/10/26/hexo%E7%9A%84%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/"/>
     <url>2019/10/26/hexo%E7%9A%84%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/</url>
