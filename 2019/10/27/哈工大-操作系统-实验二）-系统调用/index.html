@@ -131,7 +131,9 @@
 <h2 id="（2）在Linux-0-11中添加一个系统调用foo（）的步骤："><a href="#（2）在Linux-0-11中添加一个系统调用foo（）的步骤：" class="headerlink" title="（2）在Linux 0.11中添加一个系统调用foo（）的步骤："></a>（2）在Linux 0.11中添加一个系统调用foo（）的步骤：</h2><p>1.编写API函数 foo()，根据器参数的个数，调用syscall0到syscall3这四个宏函数的其中一个，或者手动添加含有int $0x80的嵌入汇编代码，通过EAX寄存器传入系统调用号，进入内核。<br><br>2.在内核中实现 真正的系统调用函数sys_foo，并修改对应的makefile文件<br><br>3.同时在sys_call_table中加入sys_foo()函数的函数名，既入口地址，在该头文件中声明sys_foo()函数<br><br>4.在include/unistd.h中定义sys_foo()函数的系统调用号<br><br>5.修改kernel/system_call.s中代表系统调用总数的变量nr_system_calls的值<br><br>6.编写测试程序，修改添加了foo（）系统调用的Linux 0.11的文件系统下的unistd.h的文件，加入foo（）的系统调用号，运行测试程序，检验效果。</p>
 <h3 id="实操："><a href="#实操：" class="headerlink" title="实操："></a>实操：</h3><p>(1).在虚拟机中编写号iam.c跟whoami.c两个文件（这两个文件就是我们全部完成实验步骤后在boch中运行的程序）<br><br>写好这两个文件后，在oslab中运行<br><br><code>sudo ./mount-hdc</code><br><br>可以把虚拟机硬盘挂载在oslab/hdc目录下然后再将文件复制到oslab/hdc/usr/root/下，usr/root/就是你的linux 0.11开机后所在的目录&lt;就相当于window的桌面上的东西&gt;<br><br>iam.c<br></p>
 </blockquote>
-<pre><code>#define __LIBRARY__
+<pre><code>//为什么要写#define __LIBRARY__这句话呢？我猜测是因为unistd.h中有一句#ifdef __LIBRARY__,
+//只有__LIBRARY__被定义过才能展开_syscall1().
+#define __LIBRARY__  
 #include &lt;unistd.h&gt;
 #include &lt;string.h&gt;
 #include &lt;errno.h&gt;
@@ -311,7 +313,7 @@ sys_setreuid,sys_setregid, sys_iam, sys_whoami };//记得在中断向量表的�
 <p>(5).在include/unistd.h中定义sys_iam和sys_whoami的函数系统调用号。<br><br><strong>注意：unistd.h不能直接在oslab中修改</strong>，需要运行<br></p>
 <blockquote>
 </blockquote>
-<p><code>sudo ./mount-hdc</code><br><br>把虚拟机硬盘挂载在oslab/hdc目录下，在hdc/usr/include目录中修改unistd.h。<br></p>
+<p><code>sudo ./mount-hdc</code><br><br>把虚拟机硬盘挂载在oslab/hdc目录下，在hdc/usr/include目录中修改unistd.h。<br><br>至于为什么要这么做自己也没搞懂。</p>
 <blockquote>
 </blockquote>
 <pre><code>#define __NR_setup    0   /* used only by init, to get system going */
