@@ -141,13 +141,13 @@ int main(int argc,char* argv[])
 {
     iam(argv[1]);
     return 0;
-}</code></pre><p> whoami.c<br></p>
+}</code></pre><p>whoami.c<br></p>
 <blockquote>
 </blockquote>
 <pre><code>#define __LIBRARY__
- #include &lt;unistd.h&gt;
- #include &lt;errno.h&gt;
- #include &lt;stdio.h&gt; 
+#include &lt;unistd.h&gt;
+#include &lt;errno.h&gt;
+#include &lt;stdio.h&gt; 
 _syscall2(int, whoami, char*, name, unsigned int, size);
 int main(int argc, char ** argv)
 {
@@ -155,7 +155,7 @@ char t[30];
 whoami(t, 30);
 printf(&quot;%s\n&quot;, t);
 return 0;
-}</code></pre><p>(2).编写who.c文件（里面包括sys_iam()和sys_whoami()文件),将完成的who.c放进linux-0.11/kernel目录下<br><br>   who.c<br></p>
+}</code></pre><p>(2).编写who.c文件（里面包括sys_iam()和sys_whoami()文件),将完成的who.c放进linux-0.11/kernel目录下<br><br>who.c<br></p>
 <blockquote>
 </blockquote>
 <pre><code>#include &lt;string.h&gt;
@@ -216,7 +216,6 @@ exit.s exit.o: exit.c ../include/errno.h ../include/signal.h \
   ../include/linux/kernel.h ../include/linux/tty.h ../include/termios.h \
   ../include/asm/segment.h</code></pre><p>(4).在sys_call_table中(sys_call_table是一个指针变量存在于linux-0.11/include/linux/sys.h)加入sys_iam和sys_whoami函数的函数名，即入口地址，在改头文件中声明sys_iam和sys_whoami函数。</p>
 <blockquote>
-</blockquote>
 <pre><code>extern int sys_setup();
 extern int sys_exit();
 extern int sys_fork();
@@ -288,11 +287,10 @@ extern int sys_sigaction();
 extern int sys_sgetmask();
 extern int sys_ssetmask();
 extern int sys_setreuid();
-extern int sys_setregid();</code></pre><blockquote>
+extern int sys_setregid();</code></pre></blockquote>
 <pre><code>extern int sys_iam();//需要新增的地方
-extern int sys_whoami();
-
-fn_ptr sys_call_table[] = { sys_setup, sys_exit, sys_fork, sys_read,
+extern int sys_whoami();</code></pre><blockquote>
+<pre><code>fn_ptr sys_call_table[] = { sys_setup, sys_exit, sys_fork, sys_read,
 sys_write, sys_open, sys_close, sys_waitpid, sys_creat, sys_link,
 sys_unlink, sys_execve, sys_chdir, sys_time, sys_mknod, sys_chmod,
 sys_chown, sys_break, sys_stat, sys_lseek, sys_getpid, sys_mount,
