@@ -190,7 +190,7 @@ put_fs_byte(msg[i], name+i);
 if(msg[i] == &#39;\0&#39;) break;
 }
 return i;
-}</code></pre><p>(3).修改linux-0.11/kernel中的makefile文件。<br><br>修改makefile文件为的是让添加的who.c文件可以和其他Linux代码链接在一起。<br><br>修改完成后“make all”就能自动把who.c加入到内核中了</p>
+}</code></pre><p>(3).修改linux-0.11/kernel中的makefile文件。<br><br>修改makefile文件为的是让添加的who.c文件可以和其他Linux代码链接在一起。<br><br><strong>修改完成后“make all”就能自动把who.c加入到内核中了</strong></p>
 <blockquote>
 </blockquote>
 <pre><code>OBJS  = sched.o system_call.o traps.o asm.o fork.o \
@@ -214,7 +214,7 @@ exit.s exit.o: exit.c ../include/errno.h ../include/signal.h \
   ../include/sys/types.h ../include/sys/wait.h ../include/linux/sched.h \
   ../include/linux/head.h ../include/linux/fs.h ../include/linux/mm.h \
   ../include/linux/kernel.h ../include/linux/tty.h ../include/termios.h \
-  ../include/asm/segment.h</code></pre><p>(4).在sys_call_table中(sys_call_table是一个指针变量存在于linux-0.11/include/linux/sys.h)加入sys_iam和sys_whoami函数的函数名，即入口地址，在改头文件中声明sys_iam和sys_whoami函数。</p>
+  ../include/asm/segment.h</code></pre><p>(4).在sys_call_table中(<strong>sys_call_table是一个指针变量存在于linux-0.11/include/linux/sys.h</strong>)加入sys_iam和sys_whoami函数的函数名，即入口地址，在改头文件中声明sys_iam和sys_whoami函数。</p>
 <blockquote>
 </blockquote>
 <pre><code>extern int sys_setup();
@@ -307,7 +307,7 @@ sys_uname, sys_umask, sys_chroot, sys_ustat, sys_dup2, sys_getppid,
 sys_getpgrp, sys_setsid, sys_sigaction, sys_sgetmask, sys_ssetmask,
 sys_setreuid,sys_setregid, sys_iam, sys_whoami };//记得在中断向量表的最后填上系统调用</code></pre><blockquote>
 </blockquote>
-<p>(5).在include/unistd.h中定义sys_iam和sys_whoami的函数系统调用号。<br><br>注意unistd.h不能直接在oslab中修改，需要运行<br></p>
+<p>(5).在include/unistd.h中定义sys_iam和sys_whoami的函数系统调用号。<br><br><strong>注意：unistd.h不能直接在oslab中修改</strong>，需要运行<br></p>
 <blockquote>
 </blockquote>
 <p><code>sudo ./mount-hdc</code><br><br>把虚拟机硬盘挂载在oslab/hdc目录下，在hdc/usr/include目录中修改unistd.h。<br></p>
@@ -395,9 +395,9 @@ sa_flags = 8
 sa_restorer = 12
 nr_system_calls = 74</code></pre><p>(7).自此大功告成，cd 进入oslab中执行 ./run运行系统，<br>在boch中编译iam.c和whoam.c。</p>
 <blockquote>
+</blockquote>
 <pre><code>gcc -o iam iam.c 
 gcc -o whoami whoami.c </code></pre><p>运行./iam 和 ./whoami 。</p>
-</blockquote>
 
             <hr>
           </div>
