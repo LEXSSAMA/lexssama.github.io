@@ -216,6 +216,7 @@ exit.s exit.o: exit.c ../include/errno.h ../include/signal.h \
   ../include/linux/kernel.h ../include/linux/tty.h ../include/termios.h \
   ../include/asm/segment.h</code></pre><p>(4).在sys_call_table中(sys_call_table是一个指针变量存在于linux-0.11/include/linux/sys.h)加入sys_iam和sys_whoami函数的函数名，即入口地址，在改头文件中声明sys_iam和sys_whoami函数。</p>
 <blockquote>
+</blockquote>
 <pre><code>extern int sys_setup();
 extern int sys_exit();
 extern int sys_fork();
@@ -287,9 +288,11 @@ extern int sys_sigaction();
 extern int sys_sgetmask();
 extern int sys_ssetmask();
 extern int sys_setreuid();
-extern int sys_setregid();</code></pre></blockquote>
+extern int sys_setregid();</code></pre><blockquote>
+</blockquote>
 <pre><code>extern int sys_iam();//需要新增的地方
 extern int sys_whoami();</code></pre><blockquote>
+</blockquote>
 <pre><code>fn_ptr sys_call_table[] = { sys_setup, sys_exit, sys_fork, sys_read,
 sys_write, sys_open, sys_close, sys_waitpid, sys_creat, sys_link,
 sys_unlink, sys_execve, sys_chdir, sys_time, sys_mknod, sys_chmod,
@@ -302,7 +305,10 @@ sys_getgid, sys_signal, sys_geteuid, sys_getegid, sys_acct, sys_phys,
 sys_lock, sys_ioctl, sys_fcntl, sys_mpx, sys_setpgid, sys_ulimit,
 sys_uname, sys_umask, sys_chroot, sys_ustat, sys_dup2, sys_getppid,
 sys_getpgrp, sys_setsid, sys_sigaction, sys_sgetmask, sys_ssetmask,
-sys_setreuid,sys_setregid, sys_iam, sys_whoami };//记得在中断向量表的最后填上系统调用</code></pre><p>(5).在include/unistd.h中定义sys_iam和sys_whoami的函数系统调用号。<br><br>注意unistd.h不能直接在oslab中修改，需要运行<br></p>
+sys_setreuid,sys_setregid, sys_iam, sys_whoami };//记得在中断向量表的最后填上系统调用</code></pre><blockquote>
+</blockquote>
+<p>(5).在include/unistd.h中定义sys_iam和sys_whoami的函数系统调用号。<br><br>注意unistd.h不能直接在oslab中修改，需要运行<br></p>
+<blockquote>
 </blockquote>
 <p><code>sudo ./mount-hdc</code><br><br>把虚拟机硬盘挂载在oslab/hdc目录下，在hdc/usr/include目录中修改unistd.h。<br></p>
 <blockquote>
@@ -386,9 +392,8 @@ sys_setreuid,sys_setregid, sys_iam, sys_whoami };//记得在中断向量表的�
 <pre><code>sa_handler = 0
 sa_mask = 4
 sa_flags = 8
-sa_restorer = 12</code></pre><blockquote>
-</blockquote>
-<pre><code>nr_system_calls = 74 //这里72改为74.</code></pre><p>(7).自此大功告成，cd 进入oslab中执行 ./run运行系统，<br>在boch中编译iam.c和whoam.c。</p>
+sa_restorer = 12
+nr_system_calls = 74</code></pre><p>(7).自此大功告成，cd 进入oslab中执行 ./run运行系统，<br>在boch中编译iam.c和whoam.c。</p>
 <blockquote>
 <pre><code>gcc -o iam iam.c 
 gcc -o whoami whoami.c </code></pre><p>运行./iam 和 ./whoami 。</p>
