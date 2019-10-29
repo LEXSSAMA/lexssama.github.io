@@ -125,7 +125,7 @@
         <div class="post-content mx-auto">
           <div class="markdown-body">
             <p>#ELF目标文件格式<br><br>目标文件格式有很多种，例如：System V UNIX 的COFF，window 的PE，Linux 的ELF。<br><br>##链接视图<br></p>
-<h3 id="可重定位目标文件格式"><a href="#可重定位目标文件格式" class="headerlink" title="可重定位目标文件格式"></a>可重定位目标文件格式<br></h3><center>![](目标文件格式/20180708185336199.png)</center><br>
+<h3 id="可重定位目标文件格式"><a href="#可重定位目标文件格式" class="headerlink" title="可重定位目标文件格式"></a>可重定位目标文件格式<br></h3><center>![](https://i.imgur.com/jqIT7Cm.png)</center><br>
 **1.ELF头**<br>
 ELF头位于目标文件的起始位置，包括文件结构说明信息。ELF头的数据结构分为32位系统对于结构和64位系统对应结构。(可以使用readelf -h 命令对某个可重定位目标文件的ELF头进行解析。例如：对main.o头文件进行解析：readelf -h main.o）<br>
 **2.节**<br>
@@ -143,7 +143,7 @@ ELF头位于目标文件的起始位置，包括文件结构说明信息。ELF�
 **3.节头表**<br>
 节头表由若干个表项组成，每个表现描述相应的一个节的节名，在文件中的偏移，大小，访问属性，对齐方式等。
 ##执行视图<br>
-<center>![](目标文件格式/fSqCY0UBZnX35qDCxjx67h98ps8JduKzOqgUQBtL.png)</center><br>
+<center>![](https://i.imgur.com/NcskVZ5.png)</center><br>
 <center> **ELF可执行目标文件**</center>
 <br>
 与ELF可重定位文件不同的是：<br>
@@ -153,7 +153,7 @@ ELF头位于目标文件的起始位置，包括文件结构说明信息。ELF�
 **4.**多了一个程序头表：也叫做段头表，是一个结构数组。<br>
 
 <p>##可执行文件的存储器映像<br></p>
-<center>![](目标文件格式/20170621205440745.png)</center><br>
+<center>![](https://i.imgur.com/9zK4S7B.jpg)</center><br>
 当启动一个一个可执行目标文件时，首先会通过某种方式调出常驻内存的一个称为加载器（loader)的操作系统程序来进行处理，例如，任何的Unix程序的加载执行都是通过调用execve目标文件中相关节的内容与虚拟地址空间中的只读代码段和可读写代码段通过页表建立映射，然后启动可执行目标文件中的第一条指令执行。（这里关系到页表的内容在6.5节还没学到)
             <hr>
           </div>
