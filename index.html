@@ -137,14 +137,17 @@
         
         <div class="index-excerpt" >
           <div class="index-text mb-1">目标文件格式有很多种，例如：System V UNIX 的COFF，window 的PE，Linux 的ELF。#ELF目标文件格式##链接视图
-可重定位目标文件格式![ELF可重定位目标文件](https://img-blog.csdn.net/20180708185336199?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1hpbmRvbGlhX1Jpbmc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70) 
-
- **ELF可重定位目标文件**
-####1.ELF头
+可重定位目标文件格式![ELF可重定位目标文件](https://i.imgur.com/Xx4HKPp.png)
+**1.ELF头**
 ELF头位于目标文件的起始位置，包括文件结构说明信息。ELF头的数据结构分为32位系统对于结构和64位系统对应结构。(可以使用readelf -h 命令对某个可重定位目标文件的ELF头进行解析。例如：对main.o头文件进行解析：readelf -h main.o）
-####2.节
+**2.节**
 节是ELF文件的主体信息，包含了链接过程所用的目标代码信息，包括指令，数据，符号表和重定位信息等。
-**.text :**目</div>
+.text :目标代码部分
+.rodata:只读数据节
+.data:已初始化全局变量
+.bss:未初始化的全局变量（不占据实际的磁盘空间）
+.symtab：符号表，程序中定义的函数名和全局静态变量名都属于符号，与这些符号相关的信息也保存在符号表中。
+.rel.text: .text节相关的可重定位信息。当链接器将某一个目标文件和其</div>
         </div>
       </a>
 
