@@ -15,7 +15,7 @@
   <meta name="description" content="">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <title>标签 - 计算机系统基础 ~ lexssama</title>
+  <title>目标文件格式 ~ lexssama</title>
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
   <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
   <link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
@@ -31,7 +31,7 @@
 
 
 <body>
-  <header style="height: 80vh;">
+  <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -102,6 +102,9 @@
             </span>
 
             
+              <br>
+              <p class="mt-3">星期二, 十月 29日 2019, 4:41 下午</p>
+            
           </div>
 
           
@@ -112,41 +115,95 @@
 
   <main>
     
-      <div class="container nopadding-md">
-        <div class="py-5 z-depth-3" id="board">
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
-
-<div class="list-group">
-  <p class="h4">共计 2 篇文章</p>
-  <hr>
-  
-    
       
-      <p class="h5">2019</p>
-    
-    <a href="/2019/10/29/%E7%9B%AE%E6%A0%87%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">目标文件格式</span>
-      <span style="float: right;">10-29</span>
-    </a>
-  
-    
-    <a href="/2019/10/29/%E7%AC%AC4%E7%AB%A0%E2%80%94%E2%80%94%E7%A8%8B%E5%BA%8F%E7%9A%84%E9%93%BE%E6%8E%A5/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">第4章—程序的链接</span>
-      <span style="float: right;">10-29</span>
-    </a>
-  
-</div>
 
-
-              </div>
-            </div>
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto">
+          <div class="markdown-body">
+            <p>目标文件格式有很多种，例如：System V UNIX 的COFF，window 的PE，Linux 的ELF。<br>#ELF目标文件格式<br>##链接视图</p>
+<h3 id="可重定位目标文件格式"><a href="#可重定位目标文件格式" class="headerlink" title="可重定位目标文件格式"></a>可重定位目标文件格式</h3><center>![ELF可重定位目标文件](https://img-blog.csdn.net/20180708185336199?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1hpbmRvbGlhX1Jpbmc=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70) </center>
+<br>
+ <center>**ELF可重定位目标文件**</center>
+####1.ELF头
+ELF头位于目标文件的起始位置，包括文件结构说明信息。ELF头的数据结构分为32位系统对于结构和64位系统对应结构。(可以使用readelf -h 命令对某个可重定位目标文件的ELF头进行解析。例如：对main.o头文件进行解析：readelf -h main.o）
+####2.节
+节是ELF文件的主体信息，包含了链接过程所用的目标代码信息，包括指令，数据，符号表和重定位信息等。<br>
+**.text :**目标代码部分<br>
+**.rodata：**只读数据节<br>
+**.data:**已初始化全局变量<br>
+**.bss:**未初始化的全局变量（不占据实际的磁盘空间）<br>
+**.symtab：**符号表，程序中定义的函数名和全局静态变量名都属于符号，与这些符号相关的信息也保存在符号表中。<br>
+**.rel.text:** .text节相关的可重定位信息。当链接器将某一个目标文件和其他目标文件组合时，.text节中的代码被合并后，一些指令中引用的操作地址信息或跳转目标指令的位置信息等都可以能被修改，通常，调用外部函数或引用全局变量的指令中的地址字段需要修改。<br> 
+**.rel.data:** .data节相关的可重定位信息。当链接器将某个目标文件和其他目标文件组合时, .data节中的代码被合并后，一些全局静态变量的地址可能被修改。<br>
+**.debug:**调试用符号表，有些表项对定义的局部变量和定义的类型进行说明，有些表项对定义和引用的全局静态变量进行说明。只有使用带-g选项的gcc命令才能得到这张表。<br>
+**.line：**C源程序中的行号和.text节中机器指令之间的映射。只有使用带-g选项的gcc命令才能得到这张表。<br>
+**.strlab:**字符串表，包括.symtab节和.debug节中的符号以及节头表中的节名。字符串表就是以null结尾的字符串序列。<br>
+####3.节头表
+节头表由若干个表项组成，每个表现描述相应的一个节的节名，在文件中的偏移，大小，访问属性，对齐方式等。
+##执行视图
+<center>![ELF可执行目标文件](https://hhcycj.oss-cn-beijing.aliyuncs.com/posts/2019-06-01/fSqCY0UBZnX35qDCxjx67h98ps8JduKzOqgUQBtL.png)</center>
+<center> **ELF可执行目标文件**</center>
+<br>
+与ELF可重定位文件不同的是：<br>
+**1.**ELF头文件中的字段e\_entry给出了系统将控制权转移到虚拟地址（入口点），即执行程序时第一条指令的地址而可重定位文件中，此字段为0。
+<br>
+**2.**多了一个.init节，其中.init节定义了一个_init函数用来可执行目标文件开始执行时的初始化工作，当程序开始时，系统进入主函数之前先执行这个节中的指令代码。<br>
+**3.**去掉了用去重定位的节.rel.text和.rel.data（因为已经重定位完毕了）。<br>
+**4.**多了一个程序头表：也叫做段头表，是一个结构数组。<br>
+##可执行文件的存储器映像
+![Linux下可执行目标文件运行时的存储器映像](https://img-blog.csdn.net/20170621205440745)
+当启动一个一个可执行目标文件时，首先会通过某种方式调出常驻内存的一个称为加载器（loader)的操作系统程序来进行处理，例如，任何的Unix程序的加载执行都是通过调用execve目标文件中相关节的内容与虚拟地址空间中的只读代码段和可读写代码段通过页表建立映射，然后启动可执行目标文件中的第一条指令执行。（这里关系到页表的内容在6.5节还没学到)
+            <hr>
+          </div>
+          <br>
+          <div>
+            
+              <p>
+                <i class="iconfont icon-inbox"></i>
+                
+                  <a class="hover-with-bg" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80-%E8%A2%81%E6%98%A5%E9%A3%8E">计算机系统基础-袁春风</a>
+                  &nbsp;
+                
+              </p>
+            
+            <p>
+              <i class="iconfont icon-tag"></i>
+              
+                <a class="hover-with-bg" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80">计算机系统基础</a>
+              
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
           </div>
         </div>
       </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+  </div>
+</div>
+
     
   </main>
 
@@ -200,6 +257,11 @@
   <script src="/js/lazyload.js" ></script>
 
 
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
 
   <script src="/lib/prettify/prettify.min.js" ></script>
   <script>
@@ -215,7 +277,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "标签 - 计算机系统基础&nbsp;",
+        "目标文件格式&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 80,
