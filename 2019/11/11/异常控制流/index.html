@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/spider.png">
+  <link rel="icon" type="image/png" href="/img/spider.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="description" content="">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>异常控制流 ~ lexssama</title>
+  <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
+  <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
+  <link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
+  <link rel="stylesheet" href="/lib/github-markdown/github-markdown.min.css"  >
+  <link rel="stylesheet" href="https://at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+  
+    <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css"  >
+  
+  <link rel="stylesheet" href="/css/main.css"  >
+
+  
+</head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>lexssama</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">Archives</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/categories/">Categories</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">Tags</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">About</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+</nav>
+
+    <div class="view intro-2" id="background"
+         style="background: url('/img/136457.jpg')no-repeat center center;
+           background-size: cover;
+           background-attachment: fixed;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <br>
+              <p class="mt-3">星期一, 十一月 11日 2019, 10:24 晚上</p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto">
+          <div class="markdown-body">
+            <p><strong>教材：《计算机系统基础》，本博客主要用来梳理学习思路。（不然会很乱）</strong></p>
+<h1 id="7-1-进程与进程的上下文切换"><a href="#7-1-进程与进程的上下文切换" class="headerlink" title="7.1 进程与进程的上下文切换"></a>7.1 进程与进程的上下文切换</h1><h2 id="7-1-1-程序与进程的概念"><a href="#7-1-1-程序与进程的概念" class="headerlink" title="7.1.1 程序与进程的概念"></a>7.1.1 程序与进程的概念</h2><p><strong>程序：</strong>程序就是代码与数据的集合，程序的代码是一个机器指令序列，因而程序是一种静态的概念，它作为目标模块存放在磁盘中，或者作为一个存储段存在一个地址空间中。<br><br><strong>进程：</strong>进程就是程序的一次运行过程（进程具有动态的含义），计算机处理的所有任务实际上是由进程完成的。<br><br><strong>计算机系统中的任务通常是指进程，例如Linux内核中把进程称为任务，每个进程主要通过一个称为进程描述符的结构来描述，其结构类型定义为task_structure，包括了一个进程的所有信息，所有进程通过一个双向循环环链表实现的任务列表（task list）来描述，任务列表中的每个元素是一个进程描述符，IA-32中的任务状态段（TSS），任务门（task gate）等概念中所称的任务，实际上也是指进程。<br></strong></p>
+<p><strong>进程的引入为应用程序提供了以下两个方面的抽象：一个独立的逻辑控制流和一个私有的虚拟地址空间。每个进程拥有一个独立的逻辑控制流使得程序员以为自己的程序在执行过程中独占使用处理器，每个进程拥有一个私有的虚拟地址空间，使得程序员以为自己的程序在执行过程中独占存储器。<br></strong></p>
+<h2 id="7-1-2-进程的逻辑控制流"><a href="#7-1-2-进程的逻辑控制流" class="headerlink" title="7.1.2 进程的逻辑控制流"></a>7.1.2 进程的逻辑控制流</h2><p><strong>逻辑控制流：</strong>指令的执行过程中，会形成一个指令执行的地址序列，对于确定的输入数据，其指令执行的地址序列也是确定的，这个确定的指令执行地址序列称为逻辑控制流.（<strong>不知道定义在说些什么直接上图</strong>）<br><img src="https://i.imgur.com/vJTH0zM.png" srcset="/img/loading.gif" alt><br><br><strong>进程p1的逻辑控制流是：A<sub>11</sub><del>A<sub>13</sub>,A<sub>11</sub></del>A<sub>14</sub>,A<sub>15</sub>~A<sub>16</sub>。（其他进程同理）<br></strong><br><strong>并发：</strong>不同进程的逻辑控制流在时间上交错或者重叠的情况称为并发。<br><br><strong>并行：</strong>我们称两个同时执行的进程的逻辑控制流是并行的。<br><br><strong>并行是并发的一个特例。</strong></p>
+<h2 id="7-1-3-进程的上下文切换"><a href="#7-1-3-进程的上下文切换" class="headerlink" title="7.1.3 进程的上下文切换"></a>7.1.3 进程的上下文切换</h2><p><strong>上下文切换：</strong> 操作系统通过处理器让处理器轮流执行多个进程，实现不同进程中指令交替执行的机制称为进程的上下文切换。<br><br><strong>进程的上下文：</strong> 进程的物理实体（代码和数据）和支持进程运行的环境合称进程的上下文。<br><br><strong>进程的上下文包括：用户级上下文和系统级上下文。</strong><br><br><img src="https://i.imgur.com/b9nyp7P.png" srcset="/img/loading.gif" alt><br><br><strong>系统级上下文和用户级上下文包括的内容如上图所示<br><br>进程的控制信息包括各种内核数据结构，例如记录有关进程信息表，页表，打开文件列表等。（具体如下图所示）</strong><br><img src="https://i.imgur.com/kMOm5Jn.png" srcset="/img/loading.gif" alt><br><br><strong>寄存器上下文：</strong>处理器中各个寄存器的内容被称为寄存器上下文。<br></p>
+<p>**上下文切换发生在操作系统调度一个新进程到处理器运行时，需要完成三件事：<br></p>
+<ol>
+<li>将当前处理器的寄存器上下文保存在当前进程的系统上下文的现场信息中；<br></li>
+<li>将新进程系统上下文中的现场信息作为新的就寄存器上下文恢复到处理器的各个寄存器中；</li>
+<li>将控制转移到新进程执行。这里，一个重要的上下文信息是PC的值，当前进程被打断的断点处的PC作为寄存器上下文的一部分被保存在进程现场信息中，这样，下次该进程再次被调度到处理器上执行时，就可以从现场信息中获得断点处的PC，从而能从断点处开始执行。<br>**</li>
+</ol>
+<p><img src="https://i.imgur.com/fIhPaLr.png" srcset="/img/loading.gif" alt><br></p>
+<p>从上图可以看出，<strong>在一个进程的整个生命周期中，可能会有其他不同的进程在处理器中交替运行</strong>，例如上图给出了上述shell命令行执行过程中shell进程与hello进程上下文切换过程，首先运行shell进程，从shell命令行中读入字符串“./hello”到主存；当shell进程读到字符“[Enter]”后，shell进程将通过系统调用从用户态转到内核态执行，由操作系统内核程序进行上下文切换，以保存shell进程的上下文并创建hello进程的上下文，hello进程结束后，再转到操作系统完成控制权从hello进程回到shell进程的切换。<br></p>
+<h2 id="7-1-4进程的存储器映射"><a href="#7-1-4进程的存储器映射" class="headerlink" title="7.1.4进程的存储器映射"></a>7.1.4进程的存储器映射</h2><p>以Linux系统为例，对进程的存储器映射进行介绍，进程的存储器映射，是指将进程的虚拟地址空间的一个区域或者硬盘上的对象建立关联，已初始化一个vm_area_struct结构中的信息，使用mmap（）函数实现存储器的映射并通过缺页中断处理进行读写操作。(<strong>虚拟地址空间和硬盘建立关联后，以后CPU运行程序的时候就是通过虚拟地址来存取指令和数据，CPU给出虚拟地址后由MMU来把虚拟地址变为线性地址（分段方式）,再由线性地址转化为物理地址（分页方式），这就与第六章联系起来</strong>)<br></p>
+<h3 id="lt-1-gt-mmap函数的功能"><a href="#lt-1-gt-mmap函数的功能" class="headerlink" title="&lt;1&gt;.mmap函数的功能"></a>&lt;1&gt;.mmap函数的功能</h3><p><code>void* mmap(void* start ,size\_t length ,int flags, int fd,off_t offset)</code><br><br>若该函数的返回值式-1（MAP_FAILED），则表示出错；否则，返回值为指向映射区域的指针。该函数的功能是，将指向文件fd中偏移量offset开始的长度为length字节的一块信息，映射到虚拟地址空间中起始位置为start，长度为length字节的一块区域。<br></p>
+<p><img src="https://i.imgur.com/eaNZfe8.png" srcset="/img/loading.gif" alt><br><br>参数prot指定该区域页面的访问权限，对应vm_area_struct结构中的vm_prot字段，可能的取值包括以下几种：<br></p>
+<ol>
+<li>PROT_EXE：区域内页面由可执行指令组成<br></li>
+<li>PROT_READ：区域内容可读<br></li>
+<li>PROT_WRITE：区域内容可读可写<br></li>
+<li>PROT_NONE：区域内容不可被访问<br><br>参数flags指定该区域映射对象的类型，对应vm_area_struct结构中的vm_flags字段，可能的取值包括以下两种：<br></li>
+<li>普通文件：最典型的是可执行文件和共享库文件，通常映射到只读代码区域（.init .text .rodata）和已初始化数据区域（.data）的对象再可执行文件中，这些对象都属于私有对象，采用写时拷贝的技术映射到虚拟地址空间，所映射到的区域称为私有区域，对应对象称为私有的写时拷贝对象，此时参数flags设置为MAP_PRIVATE；映射到共享库区域的对象在共享库文件中，这些对象都属于共享对象，所映射的区域称为共享区域，此时flags设置为MAP_SHARED。<br><br>CPU<strong>第一次访问</strong>对应虚拟页面时，内核在主存中找到一个空闲页框（没有则淘汰一个），然后从硬盘上的文件装入所映射的对象信息，如果文件中的对象不是正好为页面大小的整数倍，内核将用零来填充余下的部分。<br></li>
+</ol>
+<p>2.匿名文件：由内核创建，全部由0组成，对应区域中的每个虚拟页面称为<strong>请求零的页面</strong>。参数flags设置为MAP_ANON。通常未初始化数据区（.bss），运行时堆和用户栈等区域中都为私有的，请求零的页，此时flags设置为MAP_PRIVATE | MAP_ANON。<br></p>
+<h3 id="lt-2-gt-共享对象和私有的写时拷贝对象"><a href="#lt-2-gt-共享对象和私有的写时拷贝对象" class="headerlink" title="&lt;2&gt;.共享对象和私有的写时拷贝对象"></a>&lt;2&gt;.共享对象和私有的写时拷贝对象</h3><p><strong>共享库的动态链接具有共享性，其优点是：虽然由很多进程都调用共享库中的代码（例如 printf（）），但是共享库代码段在内存和硬盘中都由一个副本。</strong><br><br>那么问题来了,怎么实现一个共享库副本由多个进程共享呢？答案是：通过存储器映射机制来实现。<br><br><img src="https://i.imgur.com/NMtcu18.png" srcset="/img/loading.gif" alt><br><br><strong>映射过程：</strong><br><br><strong>因为共享对象在硬盘上只有一个副本，也即对应的共享库文件名是唯一的，（如上图）所以内核可以判断出进程1已经在主存给共享对象分配了页框，因而进程2的加载运行过程中，内核只要将进程2对应区域内页表项中的页框号直接填上即可。在多个进程共享同一个共享对象时，在主存中仅保存一个副本，每个进程在访问各自的共享区域时，实际上都在同一个对应页框中存取信息，因此，一个进程共享区域进行写操作结果，对于所有共享一个共享对象的进程都是可见的，而且结果也会反映在硬盘上对应的共享对象中。<br></strong></p>
+<p><strong>私有的写时拷贝对象（A）有点像共享对象（B）（A也是像B一样，相同的代码或者数据共用主存页框不过对应的是私有对象，但是A在需要修改页框内数据时会生成一个私有的写时拷贝页，不会影响其他进程，写回硬盘时也仅仅只会修改对应进程的文件，不会影响其他进程。)<br></strong><br>具体如下说明：<br><br>一个可执行文件被多次加载执行以形成不同的进程，因而系统中多个进程可能由同样的只读代码区域和可读可写数据区域，也即不同进程的区域可能会映射到同一个对象。与共享库文件中的共享文件不同，可执行文件中的对象是私有的，映射到的是进程的私有区域，因此在这种私有区域中写操作结果，对于其他进程是不可见的，也不会反映在对于的硬盘对象中。要实现这种功能，内核可以为不同进程中对于区域的虚拟页主存中分配各自独立的页框。但是这会浪费很多空间。<br></p>
+<p>为了解决这个问题就有了私有对象的写时拷贝技术。</p>
+<p><strong>具体做法是：</strong><br><br>假设可执行文件a.out对应的两个进程在系统中并发执行，先启动的进程1会将a.out中私有对象映射到自己的VM用户空间区域中，<strong>内核将这些区域中的页面标记为私有的写时拷贝页，并将对应页表项中的访问权限标记为只读</strong>，在进程1运行过程中，内核为这个私有对象在主存中分配了若干页框，同样，后启动的进程2也会将a.out中的私有对象映射到自己的VM用户空间区域中，标记对应页面为私有的写时拷贝页和只读访问权限，并使页表项中的页框号与进程1的页框号相同，如下图所示，如果两个进程都没进行写操作，例如只读代码区就不会发生写操作，那么该区域中的虚拟页在主存中就只有一个副本，可以节省主存空间。<br><img src="https://i.imgur.com/3wn4nrh.png" srcset="/img/loading.gif" alt><br></p>
+<p>若进程2对私有的写时拷贝页面（例如，可读可写数据区域所在页面）发生了写操作，那么就与只读访问权限不符合，发生保护异常，内核就会进行页故障处理，在处理过程中，内核判断出保护异常时由于进程试图对私有的写时拷贝页面进行写操作造成的，此时，内核就会在主存中为这个页面分配一个新页框（如下图所示），把页面的内容拷贝到新页框中，并修改进程2中对应的页表项，填入新分配的页框号，将访问权限改成可读可写，页故障处理完后回到发生故障的指令重新执行，此时进程2就可以正常执行写操作了，写时拷贝技术通常延迟拷贝私有对象所在页面，使得主存物理地址得到最充分的使用。<br><br><img src="https://i.imgur.com/LnVFAfz.png" srcset="/img/loading.gif" alt><br></p>
+
+            <hr>
+          </div>
+          <br>
+          <div>
+            
+              <p>
+                <i class="iconfont icon-inbox"></i>
+                
+                  <a class="hover-with-bg" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80-%E8%A2%81%E6%98%A5%E9%A3%8E">计算机系统基础-袁春风</a>
+                  &nbsp;
+                
+              </p>
+            
+            <p>
+              <i class="iconfont icon-tag"></i>
+              
+                <a class="hover-with-bg" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80-%E8%A2%81%E6%98%A5%E9%A3%8E">计算机系统基础-袁春风</a>
+              
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+  </div>
+</div>
+
+    
+  </main>
+
+  
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <b>Fluid</b></a>
+    <br>
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="/lib/jquery/jquery.min.js" ></script>
+<script src="/lib/popper/popper.min.js" ></script>
+<script src="/lib/bootstrap/js/bootstrap.min.js" ></script>
+<script src="/lib/mdbootstrap/js/mdb.min.js" ></script>
+<script src="/js/main.js" ></script>
+
+  <script src="/js/lazyload.js" ></script>
+
+
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
+
+  <script src="/lib/prettify/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+  <script src="/lib/typed/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "异常控制流&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 80,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+  <script src="/lib/anchor/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "false",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script>
+    if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent) || (/Safari/i.test(navigator.userAgent) && !/Chrome/i.test(navigator.userAgent))) {
+      $("#background").css("background-attachment", "scroll");
+    }
+  </script>
+
+</body>
+</html>
