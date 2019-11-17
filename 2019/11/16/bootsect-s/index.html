@@ -15,7 +15,7 @@
   <meta name="description" content="">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <title>归档 ~ lexssama</title>
+  <title>bootsect.s ~ lexssama</title>
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
   <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
   <link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
@@ -31,7 +31,7 @@
 
 
 <body>
-  <header style="height: 80vh;">
+  <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -102,6 +102,9 @@
             </span>
 
             
+              <br>
+              <p class="mt-3">星期六, 十一月 16日 2019, 8:36 晚上</p>
+            
           </div>
 
           
@@ -112,100 +115,111 @@
 
   <main>
     
-      <div class="container nopadding-md">
-        <div class="py-5 z-depth-3" id="board">
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto">
+          <div class="markdown-body">
+            <h1 id="阅读bootsect-s源码时遇到的问题记录和解决"><a href="#阅读bootsect-s源码时遇到的问题记录和解决" class="headerlink" title="阅读bootsect.s源码时遇到的问题记录和解决"></a>阅读bootsect.s源码时遇到的问题记录和解决</h1><p>1.<br><code>56.  jmpi   go，INITSEG</code><br><br>jmpi指令是段内跳转指令，跳转的目的地是INITSEG:go,这句话的意思是跳到INITSEG处偏移地址为go处的指令执行。</p>
+<p>2.<br>bootsect.s中用到的各种中断<br></p>
+<pre><code>INT 0x10, AH = 1 -- set up the cursor
+INT 0x10, AH = 3 -- cursor position
+INT 0x10, AH = 0xE -- display char
+INT 0x10, AH = 0xF -- get video page and mode
+INT 0x10, AH = 0x11 -- set 8x8 font
+INT 0x10, AH = 0x12 -- detect EGA/VGA
+INT 0x10, AH = 0x13 -- display string
+INT 0x10, AH = 0x1200 -- Alternate print screen
+INT 0x10, AH = 0x1201 -- turn off cursor emulation
+INT 0x10, AX = 0x4F00 -- video memory size
+INT 0x10, AX = 0x4F01 -- VESA get mode information call
+INT 0x10, AX = 0x4F02 -- select VESA video modes
+INT 0x10, AX = 0x4F0A -- VESA 2.0 protected mode interface
+
+INT 0x11 -- Hardware detection
+(see ATA using BIOS for more detail on these BIOS function calls)
+
+INT 0x13, AH = 0 -- reset floppy/hard disk
+INT 0x13, AH = 2 -- read floppy/hard disk in CHS mode
+INT 0x13, AH = 3 -- write floppy/hard disk in CHS mode
+INT 0x13, AH = 0x15 -- detect second disk
+INT 0x13, AH = 0x41 -- test existence of INT 13 extensions
+INT 0x13, AH = 0x42 -- read hard disk in LBA mode
+INT 0x13, AH = 0x43 -- write hard disk in LBA mode
+
+(see Detecting Memory (x86) for more detail on these BIOS function calls)
+
+INT 0x12 -- get low memory size
+INT 0x15, EAX = 0xE820 -- get complete memory map
+INT 0x15, AX = 0xE801 -- get contiguous memory size
+INT 0x15, AX = 0xE881 -- get contiguous memory size
+INT 0x15, AH = 0x88 -- get contiguous memory size
+
+INT 0x15, AH = 0xC0 -- Detect MCA bus
+INT 0x15, AX = 0x0530 -- Detect APM BIOS
+INT 0x15, AH = 0x5300 -- APM detect
+INT 0x15, AX = 0x5303 -- APM connect using 32 bit
+INT 0x15, AX = 0x5304 -- APM disconnect
+
+INT 0x16, AH = 0 -- read keyboard scancode (blocking)
+INT 0x16, AH = 1 -- read keyboard scancode (non-blocking)
+INT 0x16, AH = 3 -- keyboard repeat rate</code></pre><br>
+![](https://i.imgur.com/USbgQLK.png)<br>
+
+<p>3.<code>87.  seg cs</code> <br><br>seg是段超越指令，某些时候你不想使用默认的段地址寄存器，那么你可以强制指定一个段地址寄存器（这里强制指定段地址寄存器为CS）。<br><br>默认的段寄存器是：<br><br>CS：IP<br><br>DS：SI<br><br>ES：DI <br><br>SS:SP<br><br>而且seg指令能影响的只有下一条指令，也就是说seg只能把下一条指令中的默认段寄存器改为自己指定的段寄存器。<br></p>
+<p>4.<code>147. sread :   .word1+SETUPLEN</code> <br><br>sread 是一个标号，处理到sread时，ASM会把1+SETUPLEN的值按16bit放在此标号中。<br><br>.word就是在这个地方放一个值，相当于在这里定义了一个数据变量，用.word定义的是16bit的数据<br></p>
+
+            <hr>
+          </div>
+          <br>
+          <div>
+            
+              <p>
+                <i class="iconfont icon-inbox"></i>
                 
-
-<div class="list-group">
-  <p class="h4">共计 12 篇文章</p>
-  <hr>
-  
-    
-      
-      <p class="h5">2019</p>
-    
-    <a href="/2019/11/17/bootsect-s%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">bootsect.s源码分析</span>
-      <span style="float: right;">11-17</span>
-    </a>
-  
-    
-    <a href="/2019/11/16/bootsect-s/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">bootsect.s</span>
-      <span style="float: right;">11-16</span>
-    </a>
-  
-    
-    <a href="/2019/11/11/%E5%BC%82%E5%B8%B8%E6%8E%A7%E5%88%B6%E6%B5%81/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">异常控制流</span>
-      <span style="float: right;">11-11</span>
-    </a>
-  
-    
-    <a href="/2019/11/04/%E5%B1%82%E6%AC%A1%E7%BB%93%E6%9E%84%E5%AD%98%E5%82%A8%E7%B3%BB%E7%BB%9F/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">层次结构存储系统</span>
-      <span style="float: right;">11-04</span>
-    </a>
-  
-    
-    <a href="/2019/10/30/%E7%AC%A6%E5%8F%B7%E8%A1%A8%E5%92%8C%E7%AC%A6%E5%8F%B7%E8%A7%A3%E6%9E%90/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">符号表和符号解析</span>
-      <span style="float: right;">10-30</span>
-    </a>
-  
-    
-    <a href="/2019/10/29/%E7%9B%AE%E6%A0%87%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">目标文件格式</span>
-      <span style="float: right;">10-29</span>
-    </a>
-  
-    
-    <a href="/2019/10/29/%E7%AC%AC4%E7%AB%A0%E2%80%94%E2%80%94%E7%A8%8B%E5%BA%8F%E7%9A%84%E9%93%BE%E6%8E%A5/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">第4章—程序的链接</span>
-      <span style="float: right;">10-29</span>
-    </a>
-  
-    
-    <a href="/2019/10/27/GCC%E5%86%85%E5%B5%8C%E6%B1%87%E7%BC%96%E4%B8%AD%E5%B8%B8%E8%A7%81%E7%9A%84constraint/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">GCC内嵌汇编中常见的constraint</span>
-      <span style="float: right;">10-27</span>
-    </a>
-  
-    
-    <a href="/2019/10/27/%E5%AE%8F%EF%BC%8C-define/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">宏，#define</span>
-      <span style="float: right;">10-27</span>
-    </a>
-  
-    
-    <a href="/2019/10/27/C-main%E5%87%BD%E6%95%B0%E4%B8%AD%E5%8F%82%E6%95%B0argc%E5%92%8Cargv%E5%90%AB%E4%B9%89%E4%BB%A5%E5%8F%8A%E7%94%A8%E6%B3%95/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">C++ main函数中参数argc和argv含义以及用法</span>
-      <span style="float: right;">10-27</span>
-    </a>
-  
-</div>
-
-  <nav aria-label="index posts navigation">
-    <ul class="pagination pg-blue justify-content-center mt-5">
-      
-      
-        <li class="page-item">
-          <a class="page-link" href="/archives/page/2/#board">下一页</a>
-        </li>
-      
-    </ul>
-  </nav>
-
-
-              </div>
-            </div>
+                  <a class="hover-with-bg" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">操作系统</a>
+                  &nbsp;
+                
+              </p>
+            
+            <p>
+              <i class="iconfont icon-tag"></i>
+              
+                <a class="hover-with-bg" href="/tags/bootsect.s">bootsect.s</a>
+              
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
           </div>
         </div>
       </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+  </div>
+</div>
+
     
   </main>
 
@@ -259,6 +273,11 @@
   <script src="/js/lazyload.js" ></script>
 
 
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
 
   <script src="/lib/prettify/prettify.min.js" ></script>
   <script>
@@ -274,7 +293,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "归档&nbsp;",
+        "bootsect.s&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 80,
