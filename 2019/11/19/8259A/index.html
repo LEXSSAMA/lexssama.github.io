@@ -139,10 +139,10 @@
 <p><strong>IBM_PC_XT：</strong><br><br><img src="https://i.imgur.com/CmR9TSr.jpg" srcset="/img/loading.gif" alt="IBM_PC_XT"><br></p>
 <p><strong>IBM_PC_AT：</strong><br><br><img src="https://i.imgur.com/aL2YX1m.jpg" srcset="/img/loading.gif" alt></p>
 <h2 id="8259A的工作原理"><a href="#8259A的工作原理" class="headerlink" title="8259A的工作原理"></a>8259A的工作原理</h2><p>在总线控制器的控制下，8259A芯片可以处于编程状态和操作状态,编程状态CPU使用IN或OUT指令对8259A芯片进行初始化编程的状态，一旦完成初始化编程，芯片即进入操作状态,此时芯片即可随时响应外部设备提出的中断请求（IRQ0~IRQ15），同时系统还可以使用操作命令字随时修改其中其中断处理方式，通过中断判优选择，芯片将选中当前最高优先级的中断请求作为中断服务对象，然后通过CPU引脚INT通知CPU中断请求的到来，CPU响应后，芯片从数据总线D7-D0将编程设定在当前服务对象的中断号送出，CPU由此获取对应的中断向量值，并执行中断服务程序。<br></p>
-<p><strong>一个8259A芯片的逻辑框图：</strong><br><br><img src="https://i.imgur.com/Jrc0cac.png" srcset="/img/loading.gif" alt><br><br>图中：<br><br>中断请求寄存器IRR（Interrupt Request Register）：用来保存中断请求输入引脚上的所有请求，寄存器的8个比特位（D7-D0）分别对应引脚IR7-IR0<br><br>中断屏蔽寄存器IMR（Interrupt Mask Register）：用于保存被屏蔽的中断请求线对应的比特位，哪个比特位被置1就屏蔽哪一级中断请求，即IMR对IRR进行处理，其每个比特位对应IRR的每个请求比特位。<strong>对高优先级输入线的屏蔽并不会影响低优先级中断请求线的输入。</strong><br><br>优先级解析器PP(Priority Resolver)：用于确定IRR中所设置的比特位的优先级，选通最高优先级的中断请求到正在服务寄存器ISR（In-Service Register）中，ISR中保存着正在接受服务的中断请求。</p>
+<p><strong>一个8259A芯片的逻辑框图：</strong><br><br><img src="https://i.imgur.com/Jrc0cac.png" srcset="/img/loading.gif" alt><br><br>图中：<br><br>中断请求寄存器IRR（Interrupt Request Register）：用来保存中断请求输入引脚上的所有请求，寄存器的8个比特位（D7-D0）分别对应引脚IR7-IR0<br><br>中断屏蔽寄存器IMR（Interrupt Mask Register）：用于保存被屏蔽的中断请求线对应的比特位，哪个比特位被置1就屏蔽哪一级中断请求，即IMR对IRR进行处理，其每个比特位对应IRR的每个请求比特位。<strong>对高优先级输入线的屏蔽并不会影响低优先级中断请求线的输入。</strong><br><br>优先级解析器PP(Priority Resolver)：用于确定IRR中所设置的比特位的优先级，选通最高优先级的中断请求到正在服务寄存器ISR（In-Service Register）中。<br><br>ISR中保存着正在接受服务的中断请求等级。<br></p>
+<p>Interrupt request register (IRR) ：<br><br>It stores all the interrupt level which are requesting for Interrupt services.<br><br>Interrupt service register (ISR) ：<br><br>It stores the interrupt level which are currently being executed.<br><br>Interrupt mask register (IMR) ：<br><br>It stores the interrupt level which have to be masked by storing the masking bits of the interrupt level.<br></p>
 <p><strong>中断请求过程：</strong><br><br>来自各自设备的中断请求线分别连接在8259A的IR0-IR7引脚上，当这些引脚上有一个或者多个中断请求信号<strong>INTR（Interrupt Request,注意与后面的INTA区分）</strong>到来时，中断请求寄存器IRR中相应的比特位被置位锁存，此时若中断屏蔽寄存器IMR中对应位被置位，则相应的中断请求就不会发送到优先级解析器(PP)中。未屏蔽的中断请求会被送到优先级解析器，优先级最高的中断请求会被选出，此时8259A就会想CPU发送一个INT信号，而CPU则会在执行完当前的一条指令之后向8259A发送一个INTA(中断响应信号)来响应中断信号。8259A在收到这个响应信号之后就会把所选出的最高优先级中断请求保存到正在服务寄存器ISR中，即ISR中的对应比特被置位，与此同时，中断请求寄存器中的对应的比特位被复位，表示该中断请求开始被处理。此后CPU会向8259A发出第2个INTA脉冲信号，该信号用于通知8259A送出中断号，在该脉冲信号期间，8259A就会把一个代表中断号的8位数据发生到数据总线上供CPU读取。<br><br><img src="https://i.imgur.com/QcvFGx4.png" srcset="/img/loading.gif" alt><br><br>到此为止，CPU中断周期结束，如果8259A使用的是自动结束中断（AEOI ,Automatic End of Interrupt）方式，那么在第二个INTA脉冲信号的结尾处，正在服务寄存器ISR中的当前服务中断比特位就会被复位，若8259A使用非自动结束方式，那么中断服务程序结束时，程序就需要向8259A发生一个结束中断（EOI）命令以复位ISR中的比特位，如果中断请求来自级联的第2个8259A芯片，那就需要向两个芯片都发送EOI命令，此后8259A就会去判断下一个最高优先级的中断，并重复上述处理过程。<br></p>
-<p><strong>8259A芯片引脚图：</strong><br><br><img src="https://i.imgur.com/mD8tUNU.png" srcset="/img/loading.gif" alt></p>
-<p><strong>8259A实际图片：</strong><br><br><img src="https://i.imgur.com/F68WRcF.jpg" srcset="/img/loading.gif" alt></p>
+<p><strong>8259A芯片引脚图：</strong><br><br><img src="https://i.imgur.com/mD8tUNU.png" srcset="/img/loading.gif" alt><br><br><strong>8259A芯片引脚的功能图</strong><br><br><img src="https://i.imgur.com/AAXy1yz.png" srcset="/img/loading.gif" alt><br><br><strong>8259A实际图片：</strong><br><br><img src="https://i.imgur.com/F68WRcF.jpg" srcset="/img/loading.gif" alt><br></p>
 <h2 id="8259A的中断优先级"><a href="#8259A的中断优先级" class="headerlink" title="8259A的中断优先级"></a>8259A的中断优先级</h2><h3 id="固定优先级的方式"><a href="#固定优先级的方式" class="headerlink" title="固定优先级的方式"></a>固定优先级的方式</h3><p>在固定优先级方式中，IR7~IR0的中断优先级是由系统决定的，优先级的高低顺序是：IR0，IR1，IR2（如果IR2级联了从芯片则从芯片上的8个中断的优先级也是高于IR3及以后的）….IR7。</p>
 <h3 id="自动循环优先级方式"><a href="#自动循环优先级方式" class="headerlink" title="自动循环优先级方式"></a>自动循环优先级方式</h3><p>在自动循环优先权方式中，IR7~IR0的优先级是可以改变的，而且是自动改变的，其变化规律是：当某一个中断请求IRi服务结束后，该中断的优先级自动降低为最低，而其紧跟在后的中断请求IR（i+1）的优先级自动升级为最高。<br><br>例如，在初始状态IR4有请求，CPU为其服务完毕，IR4的优先级自动将为最低，而其后的IR5的优先级升为最高<br><br>如下图所示：<br><br><img src="https://i.imgur.com/rGw98XR.png" srcset="/img/loading.gif" alt><br></p>
 <p>开始的时候，优先级从高到低是<code>IR0，IR1，IR2,.....,IR7</code>,某时刻，IR4正在被CPU处理。处理完成后，IR4的优先级变为最低，而IR5的优先级变成最高，新的优先级是：<code>IR5,IR6,IR7,IR0,IR1,IR2,IR3,IR4</code>。<br></p>
@@ -154,13 +154,55 @@
 <h2 id="中断嵌套方式"><a href="#中断嵌套方式" class="headerlink" title="中断嵌套方式"></a>中断嵌套方式</h2><p>8259A的嵌套方式又分为普通嵌套（normal nested mode）和特殊完全嵌套（The Special Fully Nest Mode）两种<br></p>
 <h3 id="普通嵌套方式"><a href="#普通嵌套方式" class="headerlink" title="普通嵌套方式"></a>普通嵌套方式</h3><p>也叫做完全嵌套或者普通完全嵌套，此方式是8259A在初始化时默认选择的方式。其特点是：IR0优先级最高 ，IR7优先级最低。在CPU中断服务期间，若又新的中断请求到来，只允许比当前服务的优先级更高的中断请求进去，对应于“同级”或“低级”的请求则禁止响应<br></p>
 <h3 id="特殊完全嵌套方式"><a href="#特殊完全嵌套方式" class="headerlink" title="特殊完全嵌套方式"></a>特殊完全嵌套方式</h3><p>其特点是：IR7~IR0的优先级顺序与普通嵌套方式相同；不同之处是CPU中断服务期间，除了允许高级别的中断请求进入外，还允许同级请求进入，从而实现了对同级请求的特殊嵌套。<br></p>
-<p>在多片8259A级联的情况下，主片通常设置为特殊的完全嵌套方式，从片设置为普通嵌套方式，当主片响应某一个从片的中断请求时，从片中的IR0<del>IR7的请求都是通过某个IRi请求引入，因此从片的IR7</del>IR0对于主片IRi来说，他们属于同级，只有主片工作于特殊完全嵌套状态下，从片才能实现完全嵌套。<br></p>
-<p><strong>我的理解：</strong>主片是：特殊的完全嵌套方式，从片是普通嵌套方式<br><br>则当CPU在处理一个从片的一个IR4请求时，传来一个从片的比IR4优先级高的请求，这里假设时IR3,因为IR3再从片的优先级比IR4所以不会被排除，这时因为从片的请求都要经过主片的IR2，所以对于CPU来说从片的IR3和IR4都是同级，又主片是特殊的完全嵌套方式，允许嵌套同级中断，所以从片的高优先级可以嵌套进从片的低优先级<br></p>
+<p>在多片8259A级联的情况下，主片通常设置为特殊的完全嵌套方式，从片设置为普通嵌套方式，当主片响应某一个从片的中断请求时，从片中的IR0 ~ IR7的请求都是通过某个IRi请求引入，因此从片的IR7 ~ IR0对于主片IR来说，他们属于同级，只有主片工作于特殊完全嵌套状态下，从片才能实现完全嵌套。<br></p>
+<p><strong>我的理解：</strong>主片是：特殊的完全嵌套方式，从片是普通嵌套方式<br><br>则当CPU在处理一个从片的一个IR4请求时，传来一个从片的比IR4优先级高的请求，这时因为从片的请求都要经过主片的IR2，所以对于CPU来说从片的IR3和IR4都是同级，所以不会被主片的优先级排除，所以可以实现从片的高优先级嵌套到从片的低优先级<br></p>
 <h2 id="中断屏蔽方式"><a href="#中断屏蔽方式" class="headerlink" title="中断屏蔽方式"></a>中断屏蔽方式</h2><p>中断屏蔽方式是对8259A的外部中断源IR7~IR0实现屏蔽的一种中断管理方式，又普通屏蔽方式和特殊屏蔽方式两种<br></p>
 <h3 id="普通屏蔽方式"><a href="#普通屏蔽方式" class="headerlink" title="普通屏蔽方式"></a>普通屏蔽方式</h3><p>写入操作命令字OCW1（是一个寄存器，用于对8259A中，中断屏蔽寄存器IMR进行读/写操作），将中断屏蔽寄存器（IMR）的Di位置1，以达到对IRi（i=0~7）中断请求的屏蔽（就是把OCW1寄存器中的数据写入IMR（中断屏蔽寄存器）中）<br></p>
 <p><img src="https://i.imgur.com/SPftWxK.png" srcset="/img/loading.gif" alt><br><br>若Mi=1，则屏蔽对应中断请求级IRi；若Mi=0，则允许相应的IRi，另外屏蔽高优先级不会影响低优先级的中断请求<br></p>
 <h3 id="特殊屏蔽方式"><a href="#特殊屏蔽方式" class="headerlink" title="特殊屏蔽方式"></a>特殊屏蔽方式</h3><p>8259A工作在特殊屏蔽方式时，所有未被屏蔽的优先级中断请求（较高的和较低的）均可在某个中断过程中被响应，即低优先级的中断可以打断正在服务的高优先级中断<br><br>在特殊屏蔽方式中，可在中断服务子程序中用中断屏蔽命令屏蔽当前正在处理的中断级，同时可使其在ISR中的对应位清零，这样一来不仅屏蔽了当前正在处理的中断级，而且也真正开放了较低级别的中断请求，在这种情况下，虽然CPU仍然继续执行较高级别的中断服务子程序，但是由于ISR中对应位已经清零，就如同没有响应该中断一样，此时对于较低级别的中断请求指令，CPU可以响应。<br></p>
-<p><strong>我的理解：</strong>在特殊屏蔽方式中，在中断服务子程序（假设这个正在执行的中断服务程序为“A”）中用一个中断屏蔽命令把IMR的A对应级别置1（屏蔽掉），而在ISR中把A对应的位清零（开放），这样就如图没有响应A级别中断一样，就可以响应比A级别高的或者比A级别低的请求<br></p>
+<p><strong>我的理解：</strong>在特殊屏蔽方式中，在中断服务子程序（假设这个正在执行的中断服务程序为“A”）中用一个中断屏蔽命令把IMR的A对应级别置1（屏蔽掉），而在ISR中把A对应的Di位清零（开放），这样就如图没有响应A级别中断一样，就可以响应比A级别高的或者比A级别低的请求<br></p>
+<h2 id="中断结束方式"><a href="#中断结束方式" class="headerlink" title="中断结束方式"></a>中断结束方式</h2><p>中断结束方式是指CPU为某个中断请求服务结束后，应及时清除中断服务标志位，否则就意味着中断服务还在继续，致使比它优先级低的中断请求无法得到响应。中断服务标志位存放在中断服务寄存器（ISR）中，当某个中断源IRi被响应后，ISR中的Di位被置1，服务完毕应及时清除，8259A提供了三种中断结束方式。<br><br>###自动结束方式<br>当ICW4（一个寄存器）中的自动中断结束（AEOI）比特位 置位时，通过CPU发出的第二个中断响应信号INTA脉冲的后沿，将ISR中的中断服务标志位清除，这种中断服务结束方式是由硬件自动完成的<br></p>
+<p>需要注意的是：ISR中为“1”位的清除是在中断响应过程中完成的，并非中断服务子程序的真正结束，因8259A并没有保存任何标志来表示当前服务尚未结束，此时，若有中断请求出现，且IF（标志寄存器EFLAGS中的一位）=1，则无论其优先级如何（比本级高，低或相同）都会得到响应，尤其是当某一个中断请求信号被CPU响应后，如不及时撤销，就会被再次响应（二次中断），这样可能会打乱正在服务的程序，因此这种方式只适用在中断请求信号的持续时间有一定限制，且没有中断嵌套的场合<br></p>
+<h3 id="普通结束方式"><a href="#普通结束方式" class="headerlink" title="普通结束方式"></a>普通结束方式</h3><p>普通结束方式是通过在中断服务子程序编程写入操作命令字OCW2,向8259A传送一个普通中断结束（EOI，end of interrpt） 命令（命令中不指定要复位的中断级）来清除ISR中优先级别最高的置位。<br></p>
+<p>由于这种结束方式是清除ISR中优先级别最高的那个置位，适合在使用完全嵌套方式下，因为在完全嵌套的方式下，中断优先级是固定的，8259A总是响应优先级最高的中断，保存在ISR中的最高优先级的对应位，一定对应于正在执行的服务程序。<br></p>
+<h3 id="特殊结束方式"><a href="#特殊结束方式" class="headerlink" title="特殊结束方式"></a>特殊结束方式</h3><p>特殊结束方式是通过中断服务程子程序中编程写入操作字OCW2，向8259A传送一个特殊的EOI命令（命令中指出要复位的中断级别）来清除ISR中的指定位。<br></p>
+<p>在某些情况下，中断请求的响应顺序并不遵从固定的优先级，比如8259A工作在特殊的屏蔽方式时，低优先级中断可以打断正在服务的高优先级中断，高优先级中断也可以打断正在服务的低优先级中断，此时根据ISR的内容无法确定出刚刚所处理的中断，这就需要EOI命令中指定要复位的中断级。<br></p>
+<h2 id="中断触发方式"><a href="#中断触发方式" class="headerlink" title="中断触发方式"></a>中断触发方式</h2><p>8259中断请求输入端IR7~IR0的触发方式有电平触发和边沿触发两种，由初始化命令字ICW1中的LTIM位来设定<br></p>
+<h3 id="电平触发方式"><a href="#电平触发方式" class="headerlink" title="电平触发方式"></a>电平触发方式</h3><p>当LTIM=1时（寄存器LCW1中的一位）为电平触发方式，当8259A检测到IRi端有高电平时产生中断。在这种触发方式中，要求触发电平必须保持到中断响应信号INTA有效为止，在CPU响应中断后，应及时撤销该请求信号，以防CPU再次响应，出现重复中断现象。<br></p>
+<h3 id="边沿触发方式"><a href="#边沿触发方式" class="headerlink" title="边沿触发方式"></a>边沿触发方式</h3><p>当LTIM=0时，为边沿触发方式，当8259A检测到IRi端有由低到高的跳变（上升沿）信号时产生中断。<br></p>
+<p>##数据总线的连接方式<br>8259A的数据线于系统数据总线的连接有缓冲和非缓冲两种方式<br><br>与缓存有关的引脚：SP/EN：<br><br>SLAVE PROGRAM/ENABLE BUFFER: This is a dual function pin.<br>When in the Buffered Mode it can be used as an output to control<br>buffer transceivers (EN). When not in the buffered mode it is used as<br>an input to designate a master (SP e 1) or slave (SP e 0).</p>
+<h3 id="缓冲方式"><a href="#缓冲方式" class="headerlink" title="缓冲方式"></a>缓冲方式</h3><p>如果8259A通过总线驱动器和系统数据总线连接，则应选择缓冲方式，此时EN为输出引脚，在8259A输出中断类型号时候，EN输出一个低电平，用此信号作为总线驱动器的启动信号。<br><br>在缓冲方式下，由ICW4的M/S位来标识本8259A是主片还是从片<br><br><img src="https://i.imgur.com/SaldsUy.png" srcset="/img/loading.gif" alt><br></p>
+<h3 id="非缓冲方式"><a href="#非缓冲方式" class="headerlink" title="非缓冲方式"></a>非缓冲方式</h3><p>如果8259A的数据线与系统数据总线直接相连，那么应选择非缓冲方式，此时SP为输入引脚，用其电平高低来标识8259A是主片（SP=1）还是从片（SP=0）<br>在非缓冲方式下，ICW4的BUF=0，M/S位无意义<br><br><img src="https://i.imgur.com/cseKaNX.png" srcset="/img/loading.gif" alt></p>
+<h2 id="8259A的编程"><a href="#8259A的编程" class="headerlink" title="8259A的编程"></a>8259A的编程</h2><h3 id="初始化命令字"><a href="#初始化命令字" class="headerlink" title="初始化命令字"></a>初始化命令字</h3><p> 在8259A可以正常工作之前，必须首先设置初始化命令字ICW（Initialization Command Words）寄存器组的内容，而其工作过程中，则可以使用写入操作命令字OCW（Operation Command Words）寄存器组来随时设置和管理8259A的工作方式<br></p>
+<p>A0线（可以看上面的引脚图，是8259A芯片的一个引脚）用于选择操作的寄存器。在PC/AT微机系统中，当A0=0时芯片的端口地址是0x20（主芯片）和0xA0（从芯片）；当A0=1时端口就是0x21（主芯片），和0xA1(从芯片)<br></p>
+<p>初始化命令字的编程操作流程如下图所示，由图可以看出，对ICW1和ICW2的设置是必需的，而只有当系统中包含多片8259A芯片并且是级联的情况下才需要对ICW3进行设置，这需要在ICW1的设置中明确指出，另外，是否需要对ICW4进行设置也需要在ICW1中指明<br></p>
+<p><img src="https://i.imgur.com/W3USeZ1.png" srcset="/img/loading.gif" alt><br></p>
+<h3 id="ICW1-寄存器"><a href="#ICW1-寄存器" class="headerlink" title="ICW1 寄存器"></a>ICW1 寄存器</h3><p>当发送的字节第5个比特位（D4）=1,并且地址线 A0=0时，表示是对ICW1编程，此时对于PC/AT微机系统的多片级联情况下，8259A主芯片的端口位置地址是:0x20,从芯片的端口地址是0xA0；<br><br>ICW1的格式如下：<br><br><img src="https://i.imgur.com/903C1cS.png" srcset="/img/loading.gif" alt><br><br><img src="https://i.imgur.com/OwWgjlt.png" srcset="/img/loading.gif" alt><br><br>在Linux-0.11内核中，ICW1被设置为0x11。表示中断请求是边沿触发，多片8259A级联并且需要发送ICW4。<br></p>
+<h3 id="ICW2-寄存器"><a href="#ICW2-寄存器" class="headerlink" title="ICW2 寄存器"></a>ICW2 寄存器</h3><p>ICW2用于设置芯片送出的中断号的高5位。在设置了ICW1之后，当A0=1时表示对ICW2时表示对ICW2进行设置。此时对于PC/AT微机系统的多片级联情况下，8259A主芯片的端口位置是0x21，从芯片的端口位置是：0xA1。<br></p>
+<p>ICW2的格式如下<br><br><img src="https://i.imgur.com/JLTstZP.png" srcset="/img/loading.gif" alt><br></p>
+<p>在使用8086/88处理器的系统或兼容系统中，T7<del>T3是中断号的高5位，与8259A芯片自动设置的低3位（8259A按IR0</del>IR7三位编码自动填入），组成一个8位的中断号，8259A在收到第2个中断响应脉冲时会把中断号送到数据总线上供CPU读取。<br></p>
+<p><img src="https://i.imgur.com/oAMrBPv.png" srcset="/img/loading.gif" alt><br></p>
+<p>Linux-0.11系统把主片的ICW2设置位0x20，表示主片中断请求0<del>7级对应的中断号是`0x20</del>0x27`;把从片的ICW2设置为0x28，表示从片中断请求8<del>15级对应的中断号是0x28</del>0x2f。</p>
+<h3 id="ICW3-寄存器"><a href="#ICW3-寄存器" class="headerlink" title="ICW3 寄存器"></a>ICW3 寄存器</h3><p><img src="https://i.imgur.com/kITYIEW.png" srcset="/img/loading.gif" alt><br><br>主芯片的端口地址是0x21，从芯片地址是0xA1<br></p>
+<p>对于主片，Si=1，表示IRi接从INT引脚。就是主片S7~S0各比特位对于级联的从片。哪位为1则表示主片的该中断请求引脚IR上的信号来自从片，否则对应的IR引脚上没有从片<br></p>
+<p>对于从片，ID2<del>ID0三个比特位对应各从片的标识号，即连接到主片的中断级。当某个从片接收到级联线（CAS2-CAS0）输入的值与自己的ID2</del>ID0相等时，表示此从片被选中，此时该从片应该向数据总线发送自己当前被选中的中断请求的中断号。<br></p>
+<p>Linux-0.11内核把8259A主片的ICW3设置为0x04，即S2=1，其余各位为0，表示主芯片的IR2引脚连接一个从芯片。从芯片的ICW3被设置为0x02，即标识号为2。表示此从片连接到主片的IR2的引脚，因此，中断优先级的排列次序为：<br>0级位最高级，1级次之，接下来是从片上的8<del>15级，最后是主片上的3</del>7级。<br></p>
+<h3 id="ICW4-寄存器"><a href="#ICW4-寄存器" class="headerlink" title="ICW4 寄存器"></a>ICW4 寄存器</h3><p>当ICW1的位0（IC4）置位时，表示需要ICW4.地址线A0=1，主芯片的端口是0x21，从芯片的端口地址是0xA1。<br><br><img src="https://i.imgur.com/Fhdx0Ax.png" srcset="/img/loading.gif" alt><br><br><img src="https://i.imgur.com/dUtsn8F.png" srcset="/img/loading.gif" alt><br><br>Linux-0.11内核送往8259A主芯片和从芯片的ICW4命令字的值均为0x01，表示8259A芯片被设置成普通全嵌套，非缓冲，非自动结束中断方式，并且用于8086及其兼容系统。<br></p>
+<h2 id="操作命令字寄存器"><a href="#操作命令字寄存器" class="headerlink" title="操作命令字寄存器"></a>操作命令字寄存器</h2><p>对8259A设置了初始化命令字后，芯片就已经准备好接收设备的中断信号了，但在8259A工作期间，我们也可以利用操作命令字OCW1~OCW3 来监测8259A的工作状况，或者随时改变初始化时设定的8259A的工作方式。<br></p>
+<p>需要说明的是，与初始化命令字ICW1<del>ICW4需要按规定的顺序进行设置不同，操作命令字OCW1</del>OCW3的设置没有规定其先后顺序，使用时根据需要灵活选择不同的操作命令字写入到8259A中。<br></p>
+<h3 id="OCW1-寄存器"><a href="#OCW1-寄存器" class="headerlink" title="OCW1 寄存器"></a>OCW1 寄存器</h3><p>OCW1 用于对8259A中中断屏蔽寄存器IMR进行读/写操作。地址线A0需为1。<br><br><img src="https://i.imgur.com/dxGevGN.png" srcset="/img/loading.gif" alt><br></p>
+<p>若Mi=1，则屏蔽对应的请求级IRi，若Mi=0，则允许IRi，另外，屏蔽高的优先级并不会影响其他低优先级的中断请求。<br></p>
+<p>在Linux-0.11内核初始化过程中，代码在设置好相关的设备驱动程序后就会利用该操作命令字来修改相关的中断请求屏蔽位。例如在软盘驱动初始化结束时，为了允许软驱设备发出中断请求，就会读端口0x21以取的8259A芯片的当前屏蔽字，然后与上~0x40来复位M6（软盘控制器控制器连接到了中断请求IR6上），最后再写回中断屏蔽寄存器中。<br></p>
+<h3 id="OCW2-寄存器"><a href="#OCW2-寄存器" class="headerlink" title="OCW2 寄存器"></a>OCW2 寄存器</h3><p><img src="https://i.imgur.com/RbZMylj.png" srcset="/img/loading.gif" alt><br></p>
+<p>Linux-0.11内核仅使用该操作命令字在中断处理过程结束之前向8259A发送结束中断（EOI）命令，所使用的OCW2值为0x20，表示为固定优先级，正常的EOI中断结束命令<br></p>
+<h3 id="OCW3-寄存器"><a href="#OCW3-寄存器" class="headerlink" title="OCW3 寄存器"></a>OCW3 寄存器</h3><p>OCW3用于设置或清除特殊屏蔽方式和读取寄存器状态（IRR和ISR）。当D4D3=01，且地址线A0=0时，表示对OCW3进行编程，在Linux-0.11内核中没有使用该操作命令字。<br></p>
+<p><img src="https://i.imgur.com/mjEQJJG.png" srcset="/img/loading.gif" alt><br><br><img src="https://i.imgur.com/Vukfd9R.png" srcset="/img/loading.gif" alt><br></p>
+<h4 id="POLL-Mode"><a href="#POLL-Mode" class="headerlink" title="POLL Mode"></a>POLL Mode</h4><p>当INT输出引脚不使用或者CPU内部中断允许标志为0时，外部设备无法向CPU传递有效的中断请求信号，在这种情况下，可以采用查询模式。还有，当系统的中断源很多，超过了64个，也可以使用查询模式<br></p>
+<p>在OCW3的P位置为1后下一个可读命令，8259A看作是CPU的中断响应信号，8259A把IRR相应位清0，ISR对应位置1，并把查询字送到数据总线。读命令从数据总线上读取查询字，其格式为：<br></p>
+<p><img src="https://i.imgur.com/qlpvExn.png" srcset="/img/loading.gif" alt><br></p>
+<p>D7位 I=0：表示没有中断；<br><br>D7位 I=1：表示此片8259A有中断请求，W2~W0即为最高优先级中断请求。<br></p>
+<h2 id="命令字端口地址速查表"><a href="#命令字端口地址速查表" class="headerlink" title="命令字端口地址速查表"></a>命令字端口地址速查表</h2><p><img src="https://i.imgur.com/Ic6OEpb.png" srcset="/img/loading.gif" alt><br></p>
+<p><strong>转载</strong>：<br><br><strong>原作者：ARM的程序员敲着诗歌的梦</strong><br><br><strong>文章源地址</strong><a href="https://blog.csdn.net/longintchar/article/details/79439466" target="_blank" rel="noopener">https://blog.csdn.net/longintchar/article/details/79439466</a>，小部分添加了自己阅读时不明白地方的查阅补充<br></p>
 
             <hr>
           </div>
@@ -181,6 +223,8 @@
                 <a class="hover-with-bg" href="/tags/8259A">8259A</a>
               
                 <a class="hover-with-bg" href="/tags/Linux-0.11%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB">Linux-0.11源码阅读</a>
+              
+                <a class="hover-with-bg" href="/tags/setup.s">setup.s</a>
               
             </p>
             
