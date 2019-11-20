@@ -4,6 +4,33 @@
   
   
   <entry>
+    <title>键盘控制器</title>
+    <link href="undefined2019/11/20/%E9%94%AE%E7%9B%98%E6%8E%A7%E5%88%B6%E5%99%A8/"/>
+    <url>2019/11/20/%E9%94%AE%E7%9B%98%E6%8E%A7%E5%88%B6%E5%99%A8/</url>
+    
+    <content type="html"><![CDATA[<p><strong>本博客大部分内容来自博客：</strong><a href="http://liurugongzi.blog.sohu.com/158803381.html" target="_blank" rel="noopener">关于键盘的方方面面之一（总论8042）</a><br><br><strong>作者：道恒无名</strong><br><br><strong>小部分是记录自己学习时不明白知识点的查阅和分析</strong><br></p><p><strong>感谢《微型计算机接口技术》<br><br>作者：邓亚平, 陈昌志</strong></p><p>#键盘总论<br>说到键盘就不得不说“键盘控制器”。只有明确键盘的工作原理和其组成之后，才能进一步开始使用代码的形式用信息控制的方式表达。单片微处理器8042，大多集成在南桥中，控制整个键盘的工作。包括加电自检，键盘扫描码的缓冲以及与主板的通讯，8042分输出缓冲和输入缓冲，数据传输在I/O口的60h端口和64和h端口进行，前者是数据口，后者是命令和状态口。<br><br><img src="https://i.imgur.com/r3VFqr4.jpg" srcset="/img/loading.gif" alt><br></p><p>从键盘输入道CPU读取，中间要经历很多过程，但具体可以分为两大块：外设+内部组件，外设指的是键盘，键盘有自己的芯片（8048）。内部组件则是8042和CPU，8048和8042是联通内外的桥梁，也就是说CPU是通过8042与键盘沟通的，8048从外界得到信息输入，通过8042告诉CPU，同样CPU也将直接向8042发送命令，8042在给8048传递，8048的主要工作就是检索来自key matrix的外界输入，所产生的扫描码，将其存放于键盘自身的内部缓冲，而扫描码也因为厂商版本的差异而各自不同，8042的作用还有一个就是用来控制A20 GATE以决定CPU是否可以访问以MB为单位的偶数内存，以及想系统发送reset信号，让主机重新启动，8042还同样支持ps/2类型鼠标。<br></p><p>ps/s类型插口:<br><br><img src="https://i.imgur.com/5aILkQf.jpg" srcset="/img/loading.gif" alt><br></p><p>在键盘系统中，有两根线，Data line和 Clock line，用来对Scan code的检索和传递。如果Data line和Clock line都处于高电平状态，则8048每次检索到一个Scan code ，就会立即将其送到8042芯片，如果Data line 为高电平，而Clock line为低电平，则每次8048每次检索到一个Scan code，不会立即将其发送到8042芯片，而是先将其存放在键盘的内部缓存中，等Clock line 变成高电平后，再将缓冲中的Scan code发送给8042。<strong>如果Data line为低电平，则8048停止对Scan code的检索，转而等待接收来自8042的命令，这种情况下，如果Clock line为高电平，8048则会将接收到的命令的回复数据发送给8042，否则，则无法回复这些命令。所以8042需要向8042发送命令时，必须保证Clock line为高电平。</strong><br></p><p>如果8042芯片收到一个来自于8048芯片的Scan code或者命令回复字节，经处理后（可能存在的解码操作），会将其放入8042的Output buffer中，8042芯片会首先将状态寄存器（Status register）的OBF（Output Buffer Full）标志设置，随后将Output prot的IBF（bit -4）设为1，表示将产生一个IRQ1(中断请求信号，发给8259A)，然后将Clock line置为低电平，以禁止8042进一步接收8048的数据；然后发送一个IRQ1给Inter 8059A可编程中断控制器，由它将中断提交给CPU，CPU收到IRQ后，将调用IRQ对应的ISR（中断服务程序，这就是我们键盘Driver的一个重要部分）。随后此ISR可以从8042的数据端口60H中将Output buffer数据读取出来，并进行进一步的处理。当Output buffer 中的数据被读取出来之后，8042会将状态寄存器的OBF标志清0，然后将Clock line置位高电平，以允许进一步接收8048发送来的数据。<br><br><img src="https://i.imgur.com/vpJSVhT.jpg" srcset="/img/loading.gif" alt> <br><br><img src="https://i.imgur.com/ni1kY9b.png" srcset="/img/loading.gif" alt><br></p><p>8042自身有少量的RAM,以及一些ROM,这些内存与我们常说的内存（称为系统内存）没有任何关系，它们和系统内存不使用相同的地址空间，这些RAM和ROM是8042芯片处理器自身运算的需要。8042还有三个内部端口：<br><strong>Input port</strong>，<strong>Output port</strong>，和<strong>Test port</strong>。<br><br>Output port有System Reset 和A20 Gate 两个与键盘无关的重要的控制位，其他的位都是向8048芯片输出，让8048芯片参考的控制位，程序员最好不要动这些除了System Reset和A20 Gate之外的控制位。IBM AT 和IBM PS/2的这3个端口格式有些许不同，主要因为在IBM PS/2上，8048同时支持PS/2鼠标。<br></p><p><img src="https://i.imgur.com/k6RuTKU.png" srcset="/img/loading.gif" alt><br><br><img src="https://i.imgur.com/DA0MQM4.png" srcset="/img/loading.gif" alt><br><br><img src="https://i.imgur.com/Jnt3UfH.png" srcset="/img/loading.gif" alt><br></p><p>8042本身就是一个小的处理器，有4个8 比特的寄存器，status register （状态寄存器），output buffer（输出缓冲器），input buffer（输入缓存器），control register（控制寄存器）<br></p><p>Status Register （状态寄存器）：状态寄存器是一个8位只读寄存器，任何时刻均可被CPU读取，其作用也如名称一样，是随时用来判断情况的。其各位如下：<br></p><pre><code>Bit7: PARITY-EVEN(P_E): 从键盘获得的数据奇偶校验错误Bit6: RCV-TMOUT(R_T): 接收超时，置1Bit5: TRANS_TMOUT(T_T): 发送超时，置1Bit4: KYBD_INH(K_I): 为1，键盘没有被禁止。为0，键盘被禁止。Bit3: CMD_DATA(C_D): 为1，输入缓冲器中的内容为命令，为0，输入缓冲器中的内容为数据。Bit2: SYS_FLAG(S_F): 系统标志，加电启动置0，自检通过后置1Bit1: INPUT_BUF_FULL(I_B_F): 输入缓冲器满置1，i8042 取走后置0BitO: OUT_BUF_FULL(O_B_F): 输出缓冲器满置1，CPU读取后置0</code></pre><p>control Register （控制寄存器）：是一个可读可写的8 bit寄存器，是用来控制的，其各位的定义如下：<br><br>command byte 不能直接通过60h和64端口读取，若要访问它，必须首先通过64h端口向8042发布相应的命令，然后再通过60h存取；<br></p><pre><code>Bit7: 保留，应该为0Bit6: 将第二套扫描码翻译为第一套Bit5: 置1，禁止鼠标Bit4: 置1，禁止键盘Bit3: 置1，忽略状态寄存器中的 Bit4Bit2: 设置状态寄存器中的 Bit2Bit1: 置1，enable 鼠标中断BitO: 置1，enable 键盘中断</code></pre><p>Output buffer:输出缓冲器是一个8位只读寄存器，驱动从这个寄存器读取数据，这些数据包括：扫描码，送往8042命令的响应。间接的发往8048命令的响应，output buffer 被存放可以通过60h端口读取的数据。这些数据分为两大类：一类是通过64h端口发送的，被用来控制8042芯片的命令的返回结果；另一类则是8048芯片发过来的数据，后者又可以分为Scan code，和对哪些通过60h端口发送给8048的命令回复结果。<br></p><p>Input buffer：<br>输入缓存器是一个8位只写寄存器，缓冲驱动发送来的内容发往8042的命令，通过8042间接发往8048的命令，以及作为命令参数的数据。Input buffer 被用来向8042芯片发送命令与数据，以控制8042芯片和8048芯片。Input buffer 可以通过60h端口和64h端口写入，其中通过64h端口写入时用来控制8042芯片的命令，通过60h端口写入的数据又两种：一种是用来控制8042芯片的命令所需要的进一步数据；另一种是直接发给键盘用来控制8048芯片的命令。<br></p><p>两个I/O端口：60h和64h<br></p><p><img src="https://i.imgur.com/eAioB7w.png" srcset="/img/loading.gif" alt><br></p><p><strong>更多关于键盘的知识可以看这个网站：</strong><a href="https://docs.huihoo.com/gnu_linux/own_os/driver-keyboard_2.htm" target="_blank" rel="noopener">https://docs.huihoo.com/gnu_linux/own_os/driver-keyboard_2.htm</a></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>操作系统</category>
+      
+      <category>Linux源码分析</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>键盘</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>8259A</title>
     <link href="undefined2019/11/19/8259A/"/>
     <url>2019/11/19/8259A/</url>
