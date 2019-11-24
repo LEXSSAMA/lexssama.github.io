@@ -124,7 +124,8 @@
       <div class="py-5 z-depth-3" id="board">
         <div class="post-content mx-auto">
           <div class="markdown-body">
-            <h1 id="Setup-s程序"><a href="#Setup-s程序" class="headerlink" title="Setup.s程序"></a>Setup.s程序</h1><ol>
+            <p><strong>感谢：《Linux内核完全注释》作者：赵烔。</strong></p>
+<h1 id="Setup-s程序"><a href="#Setup-s程序" class="headerlink" title="Setup.s程序"></a>Setup.s程序</h1><ol>
 <li>Setup.s程序的主要作用是利用ROM BIOS中断读取系统数据，并将这些数据保存在0x90000开始的位置（覆盖掉了bootsect程序所在的地方），所取得的参数和保留的内存位置如下图。这些参数将被内核中相关的程序使用。<br><br><img src="https://i.imgur.com/eASugFV.jpg" srcset="/img/loading.gif" alt><br></li>
 <li>然后setup.s程序将system模块从0x10000-0x8ffff（当时认为内核系统模块system模块的长度不会超过此值：512KB）整块下移到内存绝对地址0x00000处。</li>
 <li>接下来加载中断描述符寄存器（IDTR）和全局描述符表寄存器（GDTR），开启A20地址线，重新设置两个中断控制芯片8259A(主芯片和从芯片)将硬件中断号重新设置为0x20-0x2f。<br></li>

@@ -129,6 +129,49 @@
     
     
     <div class="col-12 col-md-8 m-auto">
+      <a href="/2019/11/24/head-s%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">
+        <p class="h4 index-header">head.s源码分析</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">感谢：《Linux内核完全注释》作者：赵烔。感谢:“ARM的程序员敲着诗歌的梦”的博客：https://blog.csdn.net/longintchar/article/details/79513086
+head.s程序head.s程序在被编译后，会被连接成system模块的最前面的开始部分，这也就是为什么称其为头部（head）程序的原因。从这里开始，内核完全都是在保护模式下运行了。head.s汇编程序与前面的语法格式不同，它采用的是AT&amp;T的汇编语言格式，并且需要使用GNU的gas和gld进行编译连接，因此需要注意代码的赋值的方向是从左到右。这段程序实际上处于内存绝对地址（物理地址）0处开始的地方，这个程序的功能比较单一。
+
+首先是加载各个数据段寄存器，重新设置中断描述符表idt，共256项，并使各个表项均指向一个只报错误的哑中断程序。
+然后重新设置全局描述符表gdt.
+接着使用物理地址0与1M开始处的内容相比较的方法，检测A20地址线是否真的开启（如果没有开启，访问高于1MB物理内存地址使CPU实际上只会访问（IP MOD 1MB）地址的内容）
+然后程序测试PC机是否含有</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2019-11-24&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">操作系统</a>&nbsp;
+          
+            <a href="/categories/Linux%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90">Linux源码分析</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/Linux%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90">Linux源码分析</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
       <a href="/2019/11/23/setup-s%E7%A8%8B%E5%BA%8F%E5%88%86%E6%9E%90/">
         <p class="h4 index-header">setup.s程序分析</p>
         
@@ -136,13 +179,14 @@
           
         
         <div class="index-excerpt" >
-          <div class="index-text mb-1">Setup.s程序
+          <div class="index-text mb-1">感谢：《Linux内核完全注释》作者：赵烔。
+Setup.s程序
 Setup.s程序的主要作用是利用ROM BIOS中断读取系统数据，并将这些数据保存在0x90000开始的位置（覆盖掉了bootsect程序所在的地方），所取得的参数和保留的内存位置如下图。这些参数将被内核中相关的程序使用。
 然后setup.s程序将system模块从0x10000-0x8ffff（当时认为内核系统模块system模块的长度不会超过此值：512KB）整块下移到内存绝对地址0x00000处。
 接下来加载中断描述符寄存器（IDTR）和全局描述符表寄存器（GDTR），开启A20地址线，重新设置两个中断控制芯片8259A(主芯片和从芯片)将硬件中断号重新设置为0x20-0x2f。
 最后设置CPU控制器CR0（也称机器状态字），从而进入32位保护模式运行，并跳转到位于system模块最前面部分的head.s程序。
 
-为了能让head.s在32位保护模式下运行，setup.s程序中临时设置了中断描述符表（IDT）和全局描述符表（GDT），并在GDT中设置了当前内核代码段的描述符和数据段描述符，当进去head.s程序中会根据内核需要重新设置这些描述符表因此在进入保</div>
+为了能让head.s在32位保护模式下运行，setup.s程序中临时设置了中断描述符表（IDT）和全局描述符表（GDT），并在GDT中设置了当前内核代码段的描述符和数据段描述符，当进去head.s程序中</div>
         </div>
       </a>
 
@@ -461,41 +505,6 @@ INT 0x10, AH = 0x1201 -- turn off cursor emulation
           <div class="index-text mb-1">ELF目标文件格式目标文件格式有很多种，例如：System V UNIX 的COFF，window 的PE，Linux 的ELF。
 链接视图可重定位目标文件格式 
 (1).ELF头ELF头位于目标文件的起始位置，包括文件结构说明信息。ELF头的数据结构分为32位系统对于结构和64位系统对应结构。(可以使用readelf -h 命令对某个可重定位目标文件的ELF头进行解析。例如：对main.o头文件进行解析：readelf -h main.o）(2).节节是ELF文件的主体信息，包含了链接过程所用的目标代码信息，包括指令，数据，符号表和重定位信息等。.text :目标代码部分.rodata:只读数据节.data:已初始化全局变量.bss:未初始化的全局变量（不占据实际的磁盘空间）.symtab：符号表，程序中定义的函数名和全局静态变量名都属于符号，与这些符号相关的信息也保存在符号表中。.rel.text: .text节相关的可重定位信息。当链接器将某一个目标文件和其他目标文件组合时，.text节中的代码被合并后，一些指令中引用的操作地址信息或跳转目标指令的位置信息等都可以能被修改，通常，</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2019-10-29&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80-%E8%A2%81%E6%98%A5%E9%A3%8E">计算机系统基础-袁春风</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80">计算机系统基础</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2019/10/29/%E7%AC%AC4%E7%AB%A0%E2%80%94%E2%80%94%E7%A8%8B%E5%BA%8F%E7%9A%84%E9%93%BE%E6%8E%A5/">
-        <p class="h4 index-header">第4章—程序的链接</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">第4章 程序的链接-小结《课本214页》1.链接器位于编译器，指令集体系结构和操作系统的交叉点上，涉及指令系统，代码生成，机器语言，程序转换和虚拟存储管理等诸多概念。2.链接处理涉及三种目标文件格式：可重定位目标文件，可执行目标文件和共享库目标文件。3.共享库文件是一中特殊的可定位目标文件。4.ELF目标文件格式有链接视图和执行视图两种，前者是可重定位目标格式，后者是可执行目标格式。链接视图包括：ELF头，各种节，节头表。执行视图包括：ELF头，程序头表，各种节组成的段。5.链接包括两种链接形式：一是：静态链接，二是：动态链接。静态链接：就是将多个可重定位文件中的相同类型的节合并起来以生成完全链接的可执行目标文件，它的所有符号引用都是确定的虚拟地址空间中的最终地址，因而可以直接被加载执行。动态链接：动态链接模式下的可执行目标文件是部分链接的，还有一部分的引用地址没有确定，需要利用共享库中的定义符号进行重定位，因而需要由动态链接器来加载共享库并重定位可执行文件中部分文件的引用。动态链接又有两种形式分别是：一种是可执行目标文件加载时进行共享库的动态链接；另一种时可执行目标文件执行时进行共享</div>
         </div>
       </a>
 
