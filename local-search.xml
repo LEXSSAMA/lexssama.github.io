@@ -4,6 +4,64 @@
   
   
   <entry>
+    <title>文件类型，属性和目录项</title>
+    <link href="undefined2019/12/03/%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%EF%BC%8C%E5%B1%9E%E6%80%A7%E5%92%8C%E7%9B%AE%E5%BD%95%E9%A1%B9/"/>
+    <url>2019/12/03/%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%EF%BC%8C%E5%B1%9E%E6%80%A7%E5%92%8C%E7%9B%AE%E5%BD%95%E9%A1%B9/</url>
+    
+    <content type="html"><![CDATA[<h1 id="文件的类型和属性"><a href="#文件的类型和属性" class="headerlink" title="文件的类型和属性"></a>文件的类型和属性</h1><p>UNIX 类操作系统中的文件通常可分为6类。如果在shell下执行“ls -l”命令我们就可以从所列出的文件状态信息中知道文件的类型。见下图<br><br><img src="https://i.imgur.com/PXvmEXz.png" srcset="/img/loading.gif" alt><br><br>文件类型有“- ，d ，s ，p ，c ，b”六种类型。<br><br><strong>正规文件“-”</strong>：是一类文件系统对其不作解释的文件，包括有任何长度的字节流。例如源文件，二进制执行文件，文档，以及脚本文件。<br><br><strong>目录（d）：</strong>在UNIX文件系统中也是一种文件，但文件系统管理会对其内容进行解释，以使人们可以看到有哪些文件包含在一个目录中，以及它们使如何组织在一起构成一个分层次的文件系统的。<br><br><strong>符号连接（s）：</strong>用于使用一个不同文件名来引用另一个文件。符号连接可以跨越一个文件系统而连接到另一个文件系统中的一个文件上，删除一个符号连接并不影响被连接的文件。另外的还有一种连接方式称为<strong>“硬连接”</strong> 。它与这里所说的符号连接中的被连接文件的抵为相同，被作为一般文件对待，但是不能跨越文件系统，（一个磁盘上可以有多个文件系统）或设备进行连接，并且会递增文件的<strong>连接计数值</strong>（下面解释什么是连接计数值）。<br><br><strong>命名管道（p）：</strong> 文件是系统创建有名管道时建立的文件，可以用于无关进程之间的通信。（还不是很懂，懂了回来解释）<br><br><strong>字符设备（c）：</strong>文件用于以操作文件的方式访问字符设备，例如tty终端，内存设备以及网络设备。（也不是很懂，懂了回来补充）<br><br><strong>块设备（b） ：</strong> 文件用于访问像硬盘，软盘等的设备。在UNIX类操作系统中，块设备文件和字符设备文件一般均存放在系统的/dev目录中。<br></p><p><strong>“rwd”分别表示对文件可读，可写和可执行的许可权。</strong><br></p><p>图中的<strong>“链接计数”位表示文件被硬连接引用的次数。当计数减为零时，该文件即被删除。</strong><br><br>用户名表示该文件宿主的名称。<br><br>组名表示该用户所属组的名称。<br></p><h1 id="文件系统目录项结构"><a href="#文件系统目录项结构" class="headerlink" title="文件系统目录项结构"></a>文件系统目录项结构</h1><p>linux-0.11系统采用的是MINIX文件系统1.0版本。它的<strong>目录结构</strong>和<strong>目录项结构</strong>与传统的UNIX文件的目录项结构相同，定义在include/linux/fs.h文件中。<br><br>在文件系统的一个目录中，其中<strong>所有文件名信息对应的目录项</strong> 存储在<strong>该目录文件名文件的数据块</strong>中。<br><br>例如，目录名root/下的所有 <strong>文件名的目录项</strong> 就保存在 <strong>root/目录名文件的数据块</strong> 中，而文件系统根目录下的所有文件名信息则保存在指定i节点（即1号i节点）的数据块中<br></p><p>这里解释一下：<strong>一个文件（目录文件）由目录项，inode和数据块组成</strong>&lt;可以把Linux中的所有文件都看成目录文件&gt;。<br><br><strong>目录项 :</strong>包括文件名和inode节点（下图的Inode Number）（这个inode节点和inode是两个东西，inode节点是用来在inode table中寻找inode）目录项结构如下图：<br><br><img src="https://i.imgur.com/8dBQ6OI.png" srcset="/img/loading.gif" alt><br><br><strong>inode：（inode table 中的每一项就是一个inode）</strong>又称为文件索引节点，包括文件的基础信息，以及数据块的指针。<br><br><strong>数据块：（Data Blocks）</strong> 包括文件的具体内容。<br><br><img src="https://i.imgur.com/FqhA69j.png" srcset="/img/loading.gif" alt><br></p><p>在打开一个文件时，文件系统会根据给定的文件名找到其i节点号，从而通过其对应i节点号信息找到文件所在的磁盘块位置，见下图，例如对于要查找文件名/usr/bin/vi 的i节点号(如下简略图)，文件系统首先会从具有固定i节点号（1）的根目录开始操作，即从i节点号1的数据块中查找到名称为usr的目录项，从而的得到文件/usr的i节点号。根据文件/usr的i节点号文件系统可以顺利地取得目录/usr的数据块，并在其中可以查找到文件名bin的目录项，这样就知道/usr/bin的i节点号，因而我们就知道目录/usr/bin的目录（数据块）所在的位置，并在该目录中查找到vi文件的目录项，就可以得到文件路径是/usr/bin/vi的i节点号，从而可以在磁盘上的到该i节点号对应的inode（i节点）结构结构信息，。<br><br><img src="https://i.imgur.com/h6qgCRu.png" srcset="/img/loading.gif" alt><br></p><p>通过对用户程序指定的文件名，我们可以找到对应的目录项，根据目录项的i节点就看也找到到i节点表中的相应的i节点结构。<br><br><img src="https://i.imgur.com/iZcIpCz.png" srcset="/img/loading.gif" alt><br><br><strong>每个i节点结构都有一个链接计数器字段i_nlinks记录着指向该节点的目录项数，即文件的硬链接计数值</strong>上图中该字段值为2.在执行删除操作文件时，只有i节点链接计数值为零，内核才会真正删除磁盘文件上该文件的数据。<br></p><p>在每个目录中还包括两个特殊的文件目录项，它们的名称分别是“.”和“..”。<br><br><strong>“.”目录项给出当前目录的i节点号，而”..”目录项给出了当前目录父目录的i节点号(根据在Linux终端上的cd .和 cd ..命令细细体会)</strong><br><br><img src="https://i.imgur.com/q3Ls1dK.png" srcset="/img/loading.gif" alt><br><br>图中示出了我们在i节点号为56的目录中建立了一个mydir子目录，该子目录的i节点号是123，在mydir子目录中的”.”目录项指向自己的i节点123，而其”..”目录项则指向其父目录的i节点56.可见，由于一个目录的目录项本身总数会有两个链接，若其中总是会有两个链接（一个自己，一个父亲），若其中再包括子目录（x，y，z…….等等），那么这些子目录的父目录的i节点链接数就等于2+子目录数。<br></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>操作系统</category>
+      
+      <category>Linux-源码分析</category>
+      
+      <category>文件系统</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Linux-0.11</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>文件系统（fs）概述</title>
+    <link href="undefined2019/12/02/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%EF%BC%88fs%EF%BC%89%E6%A6%82%E8%BF%B0/"/>
+    <url>2019/12/02/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%EF%BC%88fs%EF%BC%89%E6%A6%82%E8%BF%B0/</url>
+    
+    <content type="html"><![CDATA[<p><strong>本博客大部分搬运于《Linux内核完全注释》赵烔编著，小部分增加一些自己阅读源码过程中遇到问题的解答。<br><br>目的是：希望在自己搬运的过程中，可以加深对Linux-0.11内核的理解和印象。</strong><br></p><h1 id="文件系统"><a href="#文件系统" class="headerlink" title="文件系统"></a>文件系统</h1><h2 id="总体功能"><a href="#总体功能" class="headerlink" title="总体功能"></a>总体功能</h2><p><img src="https://i.imgur.com/1O1Rf5s.png" srcset="/img/loading.gif" alt><br><br><img src="https://i.imgur.com/Si6oQuQ.jpg" srcset="/img/loading.gif" alt><br><br>FS目录中的各程序中函数之间的引用关系，我们可也把它们从功能上分为四个部分加以讨论：<br><br>第一部分： 是关于高速缓冲区的管理程序，主要实现了对硬盘等块设备进行数据高速存取的函数，该部分内容集中在buffer.c程序中实现。<br><br>第二部分： 代码描述了文件系统的低层通用函数，说明了文件索引节点的管理，磁盘，数据块的分配和释放以及文件名与i节点的转换算法。<br><br>第三部分：程序是有关对文件中数据进行读写操作，包括对字符设备，管道，块读写文件中的数据的访问。<br><br>第四部分： 程序主要涉及文件的系统调用接口的实现，主要涉及文件的打开，关闭，创建以及有关文件目录操作等的系统调用。<br></p><h2 id="MINIX文件系统"><a href="#MINIX文件系统" class="headerlink" title="MINIX文件系统"></a>MINIX文件系统</h2><p>在开发Linux-0.11内核文件时，使用的时1.0版本的MINIX文件系统。<br><br><img src="https://i.imgur.com/82rmjHk.png" srcset="/img/loading.gif" alt><br><br>对于一个360K的软盘，图中整个磁盘被划分为以1KB为单位的磁盘块，因此上图中共有360个磁盘块，每个方格表示一个磁盘块，在MINIX1.0文件系统中，其中磁盘块大小与逻辑块大小正好是一样的，也是一个字节，因此360KB的盘片也含有，在后面的讨论中有时会混合使用。<br></p><p>这里解释一下什么是逻辑块什么是磁盘块：<br><br><strong>磁盘块（block）：</strong>一个block由一个或者多个扇区（sector）组成，是软件（OS，文件系统）中的最小操作单位。<br><br><strong>逻辑块：</strong>逻辑块与物理块的关系类似于虚拟内存中的页与物理内存中的页面的关系。逻辑块的大小必须是物理块大小的整数倍，一般说来，两者是一样大<br><br><img src="https://i.imgur.com/pNwsdtp.jpg" srcset="/img/loading.gif" alt><br></p><h3 id="MINIX文件系统中各块"><a href="#MINIX文件系统中各块" class="headerlink" title="MINIX文件系统中各块"></a>MINIX文件系统中各块</h3><h4 id="引导块（Boot-Sector）"><a href="#引导块（Boot-Sector）" class="headerlink" title="引导块（Boot Sector）"></a>引导块（Boot Sector）</h4><p><strong>引导块是计算机加电启动时可由ROM BIOS自动读入的执行代码和数据。</strong>但并非所有盘都用于作为引导设备，所以对于不用于引导的盘片，这一盘块中可也不含代码，但任何盘片必须含有引导块空间，以保持MINIX文件系统格式的统一。即文件系统只是在块设备上空出一个存放引导块的空间，如果你把内核映像文件放在文件系统中，那么你就可以在文件系统所在设备的第一个块（即引导块空间），存放实际的引导程序，并由它来取得加载文件系统中 的内核映像。<br></p><p><strong>对于硬盘块设备</strong>通常在其上会划分处几个分区，并且在每个分区中都可存放一个不同的完整文件系统。<br><br><img src="https://i.imgur.com/pRGBPCl.png" srcset="/img/loading.gif" alt><br><br>硬盘的第一扇区是主引导扇区，其中存放着<strong>硬盘引导程序（MBR）</strong> 和 <strong>分区表信息</strong>。<br><br>分区表中的信息指明了硬盘上每个分区的类型，在硬盘中起始位置参数和结束位置参数以及占用的扇区总数，参见kernel/blk_drv/hd.c文件后的硬盘分区表结构。<br></p><h4 id="超级块-360KB软盘"><a href="#超级块-360KB软盘" class="headerlink" title="超级块(360KB软盘)"></a>超级块(360KB软盘)</h4><p>超级块用于存放盘设备上文件系统的结构信息，并说明各部分的大小。如下图<br><br><img src="https://i.imgur.com/2RShlbL.png" srcset="/img/loading.gif" alt><br><br>s_ninodes ：记录的这个文件系统上的i节点总数。<br><br>s_nozones ：表示设备上以逻辑块为单位的总逻辑块数。<br><br>s_imap_blocks ：表示i节点位图所占用的磁盘块数（i节点位图（inode bitmap）用来记录使用和未使用的inode表号）<br><br>s_zmap_blocks ：表示逻辑块位图所占用的磁盘块数。(逻辑块位图用于描述每个数据盘的使用情况)<br><br>s_firstdatazone ：表示文件系统上数据区开始处占用的第一个逻辑块块号。<br></p><h4 id="逻辑块位图-360KB软盘"><a href="#逻辑块位图-360KB软盘" class="headerlink" title="逻辑块位图(360KB软盘)"></a>逻辑块位图(360KB软盘)</h4><p><strong>逻辑块位图</strong>用于描述每个数据盘块的使用情况，除了第一个比特位（位0）以外，逻辑块位图中每个比特位依次代表盘上数据区中的一个逻辑块。因此逻辑块位图的比特位1代表盘上数据区中第一个数据盘块，而非盘上的第一各磁盘块（引导快）。当一个数据盘块被占用时，则逻辑块位图中相应比特位被置位。由于当所有磁盘数据盘块都被占用时查找空闲盘块的函数会返回0值，因此逻辑位图最低比特位（位0）闲置不用，并且在创建文件系统时会预先将其设置为1。<br></p><h4 id="i节点位图-360KB软盘"><a href="#i节点位图-360KB软盘" class="headerlink" title="i节点位图(360KB软盘)"></a>i节点位图(360KB软盘)</h4><p><strong>i节点位图</strong>用于说明i节点是否被使用，同样时每个比特位代表一个i节点。对于1k大小的盘块，一个盘块就可表示8192个i节点的使用情况，与逻辑块位图的情况类似，由于所有i节点都被使用时查找空闲i节点的函数会返回0值，因此i节点位图第一个字节的最低比特位（位0）和对应的i节点0都闲置不用，并且在创建文件系统时会预先将i节点0对应比特位图中的比特位置1，因此第一个i节点位图块只能表示8191个i节点的状况。<br></p><h4 id="i节点（360KB软盘）"><a href="#i节点（360KB软盘）" class="headerlink" title="i节点（360KB软盘）"></a>i节点（360KB软盘）</h4><p><strong>注意与i节点位图区分！两者不是同一个东西</strong><br><br>盘上的i节点部分存放着<strong>文件系统中文件或目录名的索引节点</strong> ，每个文件或者目录名都有一个i节点，每个i节点结构存放着对应文件的相关信息。<strong>一个i节点32字节</strong>  如下图<br><br><img src="https://i.imgur.com/V6xk127.png" srcset="/img/loading.gif" alt><br><br><strong>这里重点讲一下i_zone[9]：</strong><br><br>文件中的数据是放在磁盘块的数据区中的，而<strong>一个文件名则通过对应的i节点与这些数据磁盘块相联系，而一个文件则通过它对应的i节点与这些数据磁盘块相联系</strong> ，这些盘块的号码就存放在i节点的逻辑块数据i_zone[]中，其中i_zone[0]~~i_zone[6]用于存放文件开始的7个磁盘号，称为直接块，若文件小于等于7K字节则根据i节点可以很快就找到它所使用的盘块，若文件打一些时，就需要用到<strong>一次间接块</strong>（一次间接块是一个名词）了，这个盘块上存放附加的盘块号。对于MINIX文件系统它可以存放512个盘块号，因此可以寻址512个盘块。若文件还要大，则需要使用二次间接盘块（i_zone[8]），二次间接块可以寻址512<em>512个盘块,如下图<br><br><img src="https://i.imgur.com/t39qaNq.png" srcset="/img/loading.gif" alt><br><br>当所有i节点都被使用的时，查找空闲i节点的函数会返回值0，*</em>因此i节点位图最低比特位和i节点0都不使用，i节点0的结构被初始化成全零**，并在创建文件系统时将i节点0的比特位置位。<br></p><p>对于PC机来讲，一般以一个扇区的长度（512字节）作为块设备的数据块长度，而MINIX文件系统则将两个扇区（1024字节）作为一个数据块来处理，称之为一个磁盘块或盘块，其长度与高速缓冲区的缓冲块长度相同。编号从第一个盘块算起，也即引导快是0号盘块，而上述的逻辑块或区块则是盘块的2的幂次倍数，一个逻辑块长度可以等于1，2，4或8个盘块的长度。对于linux-0.11，逻辑块的长度等于盘块的长度，<strong>因此在代码注释中这两个术语含有相同，但是术语数据逻辑块（或数据盘块）则是指盘设备上数据部分中，从第一个数据盘块开始编号的盘块</strong><br></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>操作系统</category>
+      
+      <category>Linux-源码分析</category>
+      
+      <category>文件系统</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>Linux-0.11</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>head.s源码分析</title>
     <link href="undefined2019/11/24/head-s%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/"/>
     <url>2019/11/24/head-s%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/</url>
