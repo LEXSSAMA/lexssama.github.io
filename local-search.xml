@@ -4,6 +4,43 @@
   
   
   <entry>
+    <title>8253定时器/计数器</title>
+    <link href="undefined2019/12/16/8253%E5%AE%9A%E6%97%B6%E5%99%A8-%E8%AE%A1%E6%95%B0%E5%99%A8/"/>
+    <url>2019/12/16/8253%E5%AE%9A%E6%97%B6%E5%99%A8-%E8%AE%A1%E6%95%B0%E5%99%A8/</url>
+    
+    <content type="html"><![CDATA[<h1 id="8253定时器-计时器"><a href="#8253定时器-计时器" class="headerlink" title="8253定时器/计时器"></a>8253定时器/计时器</h1><p>微机应用系统常常需要为处理机和外部设备提供实时时钟，以实现延时控制和定时或对外部输入脉冲进行计数，实现这种功能的器件称为定时器/计数器。</p><h2 id="8253的功能与引脚"><a href="#8253的功能与引脚" class="headerlink" title="8253的功能与引脚"></a>8253的功能与引脚</h2><h3 id="8253的基本功能"><a href="#8253的基本功能" class="headerlink" title="8253的基本功能"></a>8253的基本功能</h3><ol><li>8253的基本功能是对外部输入脉冲进行计数，若外部输入的脉冲式连续而均匀的则利用脉冲个数乘以脉冲周期可以计算出时间，从而实现了定时功能。若外部输入脉冲式不均匀的，不连续的非周期脉冲，则8253起计时作用，8253芯片内具有3个独立的16位减法计数器（或称为计数通道），每个计数器性能如下：<br>（1）.最高计数频率2.6MHZ<br>（2）.可编程设定为二进制计数或BCD码计数，有6种工作方式，可编程确定是哪一种工作方式。<h3 id="8253的内部结构"><a href="#8253的内部结构" class="headerlink" title="8253的内部结构"></a>8253的内部结构</h3><img src="https://i.imgur.com/xYyeNcX.png" srcset="/img/loading.gif" alt="8253的内部结构"><br></li><li>数据总线缓存器（Data Bus Buffer）：该缓冲器为8位双向三态，是CPU与8253内部之间的数据传输通道。<br></li><li>读写逻辑电路（Read/Write Logic）：接收CPU送来的读写，片选及地址信号，对8253内部各部件进行操控。<br></li><li>控制字寄存器（Contorl Word register）：每个计数器（count0~count2）都有一个控制字寄存器，用来接收CPU写入的控制字，控制字是8位的只能写不能读，三个计数器的控制字寄存器共用一个控制端口，由写入的控制字的最高两位指明控制字属于哪个通道。<br></li><li>计数器0<del>2（count0</del>count2）：8253包含3个相互独立的、内部结构完全相同的16位减法计数器。每个计数器均包含一个8位的控制字寄存器（Contorl Word register），<strong>一个16位的计数初值寄存器CR，一个16位的减1计数器CE和一个16 位输出锁存寄存器OL</strong><br><br><img src="https://i.imgur.com/SAuNsaM.png" srcset="/img/loading.gif" alt="计数器结构"><br><br>计数器的工作原理：<br><br>写入计数器的初始值保存在计数初值寄存器种，由CLK脉冲的一个上升沿和一个下降沿将其装入减1计数器，减1计数器在CLK脉冲（GATE允许）作用下进行递减计数，直至计数值为0，输出OUT信号。输出锁存寄存器的值跟随减1计数器变化，仅当写入锁存控制字时，它锁存减1计数器的当前值（减1计数器可以继续计数），CPU读取后它自动解除锁存状态，又跟随减1计数器变化。所以在计数过程中，CPU随时可以用指令去任一计数器当前的计数值，这一操作对计数没有影响。</li></ol><h3 id="8253的引脚"><a href="#8253的引脚" class="headerlink" title="8253的引脚"></a>8253的引脚</h3><p><img src="https://i.imgur.com/JOXqHhd.png" srcset="/img/loading.gif" alt="8253的引脚"><br><br>8253为24引脚双列直插式封装结构，其引脚按功能分为与CPU接口引脚和与外设接口引脚，分别如下：<br></p><h4 id="1-与CPU的接口引脚："><a href="#1-与CPU的接口引脚：" class="headerlink" title="1). 与CPU的接口引脚："></a>1). 与CPU的接口引脚：<br></h4><p>D<sub>0</sub>~D<sub>7</sub>:三态双向数据线，与CPU数据总线直接相连。<br><br>\overline{WR}:写控制信号，低电平有效，当\overline{WR}为低电平时表示CPU正在对8253进行写操作。<br><br>\overline{RD}：读控制信号，输入，低电平有效，当\overline{RD}为低电平时表示CPU正在对8253的一个计数器进行读操作。<br><br>A1,A0:地址线，用于端口选择，8253需要占用4个连续的端口地址，这4个端口地址分别对应8253内部的控制寄存器（接收并存放工作方式控制字）和三个计数通道的计数值寄存器（接收并存放计数初值）。具体如下:<br><br>A<sub>1</sub>A<sub>0</sub>=11，选中控制寄存器端口，可以向8253送控制字。<br><br>A<sub>1</sub>A<sub>0</sub>=00，01，10，分别表示选择计数器0，1，2可以对它们读/写计数值&lt;br。<br><br>\overline{CS}:片选信号，低电平有效，当\overline{CS}=0时，8253被选中，允许CPU对其进行读写操作。<br></p><h4 id="2-与外设的接口引脚"><a href="#2-与外设的接口引脚" class="headerlink" title="2).与外设的接口引脚"></a>2).与外设的接口引脚</h4><p>CLK<sub>0</sub><del>CLK<sub>2</sub>：计数器0、1、2的外部计数时钟输入端。<br><br>GATK<sub>0</sub></del>GATK<sub>2</sub>：计数器0、1、2的门控信号输入端，门控信号用来禁止，允许或重新开始一个新的计数过程，详情见各工作方式。<br><br>OUT<sub>0</sub>~OUT<sub>2</sub>：计数器0、1、2的计数输出端。当定时/计数时间到时，该端输出标志信号。<br></p><h2 id="8253的工作方式"><a href="#8253的工作方式" class="headerlink" title="8253的工作方式"></a>8253的工作方式</h2><p><strong>1.方式0 计数结束产生中断</strong><br><br>采用方式0，当写入控制字CW（Control Word Register）后，OUT信号变为低电平，当将计数初值写入计数初值寄存器CR后，利用下一个CLK脉冲的下降沿将CR的内容装入计数执行单元CE中，再从下一个CLK脉冲的下降沿开始，CE执行减1计数过程，在计数期间，输入OUT一直保持低电平，直到CE的数组讲到0时，OUT变为高电平，以向CPU发送中断申请， 其工作波形如下图所示：<br><br><img src="https://i.imgur.com/oLU4E9L.png" srcset="/img/loading.gif" alt><br><br>当写入控制字后，计数器的输出OUT变成低电平，若门控信号GATE变为高电平，计数器开始减1计数并维持OUT为低电平，当计数器减到0时，输出端OUT变成高电平，并且一直保持到重新装入初值或复位时为止。<br><br>门口信号GATE可以暂停计数，当GATE=0时计数停止，GATE恢复为高电平后继续计数，所以，如果计数过程中，有段时间GATE变为低电平，那么输出端OUT的低电平持续时间会因此而延长相应的长度。<br><br>在计数过程中可以改变计数值，若是8位数，在写入新的计数值后立即开始按新值重新开始计数，若是16位数，写入第一个字节后计数停止，写入第二个字节后立即按新值重新计数（计数的初值的位数由控制字决定）<br><br><strong>2.方式1 可编程单稳态</strong><br><br><strong>3.方式2 分频器</strong><br><br><strong>4. 方式3 方波发生器</strong><br><br><strong>5.方式4 软件触发选通脉冲</strong><br><br><strong>6.方式5 硬件触发选通脉冲</strong><br><br><strong>仅介绍方式0，其他的详细去看书《微机原理与接口技术》 主编：陈光军 傅越千</strong><br><br><img src="https://i.imgur.com/NIcz1fW.png" srcset="/img/loading.gif" alt="8253工作方式"><br><br><strong>注意：（适用于所有工作方式）</strong><br><br><strong>1. 当控制字写入计数器后，所有控制逻辑电路立即处于复位状态（原始状态），计数器输出端OUT进入规定的初始状态。<br></strong><br><strong>2. 计数初值写入计数初值寄存器后，要经过一个时钟周期，计数器才开始计数。<br></strong><br><strong>3. 在时钟脉冲的上升沿对门控信号GATE进行采样。<br></strong><br><strong>4. 计数器真正开始计数时在时钟脉冲的下降沿。<br></strong></p><h2 id="8253的控制字与编程"><a href="#8253的控制字与编程" class="headerlink" title="8253的控制字与编程"></a>8253的控制字与编程</h2><p><strong>1. 工作方式控制字<br></strong><br>8253的控制字的由与CPU链接的引脚D<sub>0</sub>~D<sub>7</sub>送来:<br><br><img src="https://i.imgur.com/nySExdQ.png" srcset="/img/loading.gif" alt="工作方式控制字"></p><p><strong>2.初始化编程<br></strong><br>初始化编程步骤如下图：<br><br><img src="https://i.imgur.com/OOkVsAd.png" srcset="/img/loading.gif" alt="初始化编程"><br><br>关于计数初值，需要说明以下几点：<br></p><ol><li>使用任一计数通道（计数器），首先要向该通道写入方式控制字，以确定该通道的工作方式，写入控制字存入通道对应的控制寄存器中，当控制字D<sub>0</sub>=0时，即二进制计数，初值可以在0000H<del>FFFFH之间选择，初值为0表示最大值65536（2<sup>16</sup>）；当控制字D<sub>0</sub>=1时装入初值为BCD码格式其值可在0000</del>9999之间选择，初值为0表示最大值10000（10<sub>4</sub>），在写入指令中还必须写成十六进制数，例如计数初值为79，采用BCD计数，则指令中79必须写操79H.<br></li><li>控制字D<sub>4</sub>D<sub>5</sub>位决定控制字的位数（8位或16位），若为”01”,则只需写入计数值低8位，高8位自动置0，若为“10”，则需要写入计数值的高8位，低8位自动置0；若为“11”，则计数值位16位，分两次写入，必须写低8位，后写高8位。<br></li><li>计数初值要写入各计数器对应的端口地址，计数器0对应A<sub>1</sub>A<sub>0</sub>=00的端口位置，计数器1对应A<sub>1</sub>A<sub>0</sub>=01的端口位置，计数器2对应A<sub>1</sub>A<sub>0</sub>=10的端口位置。<br></li></ol>]]></content>
+    
+    
+    <categories>
+      
+      <category>操作系统</category>
+      
+      <category>Linux-0.11源码分析</category>
+      
+      <category>main（）函数</category>
+      
+      <category>sched_init()函数</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>操作系统</tag>
+      
+      <tag>Linux-0.11源码分析</tag>
+      
+      <tag>main（）函数</tag>
+      
+      <tag>sched_init()函数</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>文件类型，属性和目录项</title>
     <link href="undefined2019/12/03/%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%EF%BC%8C%E5%B1%9E%E6%80%A7%E5%92%8C%E7%9B%AE%E5%BD%95%E9%A1%B9/"/>
     <url>2019/12/03/%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%EF%BC%8C%E5%B1%9E%E6%80%A7%E5%92%8C%E7%9B%AE%E5%BD%95%E9%A1%B9/</url>
