@@ -129,6 +129,56 @@
     
     
     <div class="col-12 col-md-8 m-auto">
+      <a href="/2019/12/18/sched-init/">
+        <p class="h4 index-header">sched_init()</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">sched_init()//sched_init()源码：
+ int i;
+struct desc_struct *p;  //描述符结构指针。desc_struct 结构被定义在include/linux/head.h中,具体如下:
+typedef struct desc_struct 
+{   //定义了段描述符的数据结构，该结构仅说明每个描述符
+    unsigned long a,b;  //符由8个字节直接构成，每个描述符表共有256项
+}desc_table[256];Linux 系统开发之初，内核不成熟。内核代码会经常被修改linus怕自己无意中修改了这些关键性的数据结构，造成POSIX标准的不兼容。这里加入的这个判断语句并无必要，纯粹是为了提醒自己以及其他修改内核代码的人。
+//sched_init()源码：
+if(sizeof(struct sigaction)!=16)    //sigaction是存放有关信号状态的结构
+panic(&quot;Struct sigaction MUST be 16 bytes&quot;);在全局描述符表中设置初始任务（任务0</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2019-12-18&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">操作系统</a>&nbsp;
+          
+            <a href="/categories/Linux-0.11%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90">Linux-0.11源码分析</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">操作系统</a>&nbsp;
+          
+            <a href="/tags/Linux-0.11%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90">Linux-0.11源码分析</a>&nbsp;
+          
+            <a href="/tags/sched_init()">sched_init()</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
       <a href="/2019/12/16/8253%E5%AE%9A%E6%97%B6%E5%99%A8-%E8%AE%A1%E6%95%B0%E5%99%A8/">
         <p class="h4 index-header">8253定时器/计数器</p>
         
@@ -503,43 +553,6 @@ INT 0x10, AH = 0x1201 -- turn off cursor emulation
           <i class="iconfont icon-tag"></i>
           
             <a href="/tags/bootsect.s">bootsect.s</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2019/11/11/%E5%BC%82%E5%B8%B8%E6%8E%A7%E5%88%B6%E6%B5%81/">
-        <p class="h4 index-header">异常控制流</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">教材：《计算机系统基础》，本博客主要用来梳理学习思路。（不然会很乱）
-7.1 进程与进程的上下文切换7.1.1 程序与进程的概念程序：程序就是代码与数据的集合，程序的代码是一个机器指令序列，因而程序是一种静态的概念，它作为目标模块存放在磁盘中，或者作为一个存储段存在一个地址空间中。进程：进程就是程序的一次运行过程（进程具有动态的含义），计算机处理的所有任务实际上是由进程完成的。计算机系统中的任务通常是指进程，例如Linux内核中把进程称为任务，每个进程主要通过一个称为进程描述符的结构来描述，其结构类型定义为task_structure，包括了一个进程的所有信息，所有进程通过一个双向循环环链表实现的任务列表（task list）来描述，任务列表中的每个元素是一个进程描述符，IA-32中的任务状态段（TSS），任务门（task gate）等概念中所称的任务，实际上也是指进程。
-进程的引入为应用程序提供了以下两个方面的抽象：一个独立的逻辑控制流和一个私有的虚拟地址空间。每个进程拥有一个独立的逻辑控制流使得程序员以为自己的程序在执行过程中独占使用处理器，每个进程拥有一个私有的虚拟地址空间，使得</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2019-11-11&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80-%E8%A2%81%E6%98%A5%E9%A3%8E">计算机系统基础-袁春风</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80-%E8%A2%81%E6%98%A5%E9%A3%8E">计算机系统基础-袁春风</a>&nbsp;
           
         
       </div>
