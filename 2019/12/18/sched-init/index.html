@@ -133,7 +133,23 @@ struct desc_struct *p;  //描述符结构指针。</code></pre><p><strong>desc_s
 }desc_table[256];</code></pre><p>Linux 系统开发之初，内核不成熟。内核代码会经常被修改<br><br>linus怕自己无意中修改了这些关键性的数据结构，造成POSIX标准<br><br>的不兼容。这里加入的这个判断语句并无必要，纯粹是为了提醒自己<br><br>以及其他修改内核代码的人。<br></p>
 <pre><code>//sched_init()源码：
 if(sizeof(struct sigaction)!=16)    //sigaction是存放有关信号状态的结构
-panic(&quot;Struct sigaction MUST be 16 bytes&quot;);</code></pre><p>在全局描述符表中设置初始任务（任务0）的任务状态段描述符和局部数据描述符。<br><br><strong>FIRST_TSS_ENTRY(#define FIRST_TSS_ENTRY 4   //全局表中第一个任务状态段（TSS）描述符的选择索引号)</strong><br><br><strong>FIRST_LDT_ENTRY(#define FIRST_LDT_ENTRY （FIRST_TSS_ENTRY+1） //全局表中第1个局部描述符表（LDT）描述符的选择符索引号)值分别是4和5定义在include/linux/sched.h中</strong>；<br><br>gdt是一个描述符表数组（include/linux/head.h），实际上对应程序head.s中的<br>234行上的全局描述符表基址（_gdt）。<br><br>因此gdt+FIRST_TSS_ENTRY即为gdt[FIRST_TSS_ENTRY]即为gdt[4]),也即gdt数组第4项的地址，参见include/asm/system.h，第65行开始。<br></p>
+panic(&quot;Struct sigaction MUST be 16 bytes&quot;);</code></pre><p><strong>panic定义在kernel/panic.c</strong></p>
+<pre><code>void sys_sync(void);
+//该函数用来显示内核中出现的重大错误信息，并且运行文件系统同步函数，
+//然后进入死循环-&gt;死机。如果当前进程是任务0的话，还说明是交换任务出错
+//并且还没有运行文件系统同步函数。函数名前的关键字volatile用于告诉编译器gcc
+//该函数不会返回。这样可让gcc产生更好一些的代码，更重要的是这个关键字可以避免
+//某些（未初始化变量的）假警告信息。
+//等同于现在gcc的函数属性说明：void panic（const char *s）_attribute_((noreturn));
+volatile void panic(const char *s)
+{
+    printk(&quot;Kernel panic: %s\n\r&quot;,s);
+    if(current==task[0])
+    printk(&quot;In swapper task - not syncing\n\r&quot;);
+    else
+    sys_sync();
+    for(;;);
+}</code></pre><p>在全局描述符表中设置初始任务（任务0）的任务状态段描述符和局部数据描述符。<br><br><strong>FIRST_TSS_ENTRY(#define FIRST_TSS_ENTRY 4   //全局表中第一个任务状态段（TSS）描述符的选择索引号)</strong><br><br><strong>FIRST_LDT_ENTRY(#define FIRST_LDT_ENTRY （FIRST_TSS_ENTRY+1） //全局表中第1个局部描述符表（LDT）描述符的选择符索引号)值分别是4和5定义在include/linux/sched.h中</strong>；<br><br>gdt是一个描述符表数组（include/linux/head.h），实际上对应程序head.s中的<br>234行上的全局描述符表基址（_gdt）。<br><br>因此gdt+FIRST_TSS_ENTRY即为gdt[FIRST_TSS_ENTRY]即为gdt[4]),也即gdt数组第4项的地址，参见include/asm/system.h，第65行开始。<br></p>
 <pre><code>//sched_init()源码：
 set_tss_desc(gdt+FIRST_TSS_ENTRY，&amp;(init.task.task.tss));
 set_ldt_desc(gdt+FIRST_LDT_ENTRY,&amp;(init_task.task.ldt));</code></pre><p><strong>下面的三个define都是定义在include/asm/system.h。</strong></p>
@@ -208,6 +224,10 @@ for(i=1,i&lt;NR_TASKS;i++)
     struct tss_struct tss;
 };</code></pre><p>清除标志寄存器中的位NT，这样以后就不会有麻烦<br><br>NT标志用于扩展程序的递归调用（Nested Task）。当NT置位时，那么当前中断<br><br>任务执行iret指令时就会引起任务切换。NT指出TSS数据结构中的back_link字段是否有效<br></p>
 <pre><code>//sched_init()源码
+// pushf 是把堆栈指针esp减去2，使其指向堆栈顶部的空字单元，然后将16位标志寄存器的
+//内容送向esp指向的字的单元。
+//pushl作用与pushf一样但却是把32位标志寄存器（标志寄存器原本就是32位）
+//popf和popfl是弹出。
 _asm_(&quot;pushfl ; andl $0xffffbfff,(%esp);popfl&quot;); //复位NT标志。</code></pre><p>将任务0的TSS段选择符加载到任务寄存器tr。将局部描述符表段选择符加载到局部描述符表段选择符加载到局部描述符寄存器ldtr中。<br><br>！！注意是将GDT中相应的LDT描述符选择符加载到ldtr。只明确加这一次，以后新任务LDT的加载，是CPU根据TSS中的/LDT项自动加载。<br></p>
 <pre><code>//sched_init()源码
 ltr(0);     
