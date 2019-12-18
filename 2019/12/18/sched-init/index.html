@@ -151,7 +151,7 @@ volatile void panic(const char *s)
     for(;;);
 }</code></pre><p>在全局描述符表中设置初始任务（任务0）的任务状态段描述符和局部数据描述符。<br><br><strong>FIRST_TSS_ENTRY(#define FIRST_TSS_ENTRY 4   //全局表中第一个任务状态段（TSS）描述符的选择索引号)</strong><br><br><strong>FIRST_LDT_ENTRY(#define FIRST_LDT_ENTRY （FIRST_TSS_ENTRY+1） //全局表中第1个局部描述符表（LDT）描述符的选择符索引号)值分别是4和5定义在include/linux/sched.h中</strong>；<br><br>gdt是一个描述符表数组（include/linux/head.h），实际上对应程序head.s中的<br>234行上的全局描述符表基址（_gdt）。<br><br>因此gdt+FIRST_TSS_ENTRY即为gdt[FIRST_TSS_ENTRY]即为gdt[4]),也即gdt数组第4项的地址，参见include/asm/system.h，第65行开始。<br></p>
 <pre><code>//sched_init()源码：
-set_tss_desc(gdt+FIRST_TSS_ENTRY，&amp;(init.task.task.tss));
+set_tss_desc(gdt+FIRST_TSS_ENTRY，&amp;(init_task.task.tss));
 set_ldt_desc(gdt+FIRST_LDT_ENTRY,&amp;(init_task.task.ldt));</code></pre><p><strong>下面的三个define都是定义在include/asm/system.h。</strong></p>
 <pre><code>////在全局表中设置任务状态段/局部表描述符。状态段和局部表段的长度均被设置成104字节
 //参数：n -在全局表中的描述符项n所对应的地址；addr -状态段/局部表所在的基地址。
@@ -180,7 +180,34 @@ _asm_ (&quot;movw $104,%1\n\t&quot;\  //将TSS（或LDT）长度放入描述符�
 ////在全局表中设置局部表描述符。
 // n - 是该描述符的指针；addr -是描述符中段的基地址值。
 //局部表段描述符(ldt)的类型是0x82。
-#define set_ldt_desc(n,addr) _set_tssldt_desc(((char *)(n)),addr,&quot;0x82&quot;);</code></pre><p>清任务数组和描述符表项（注意i=1开始，所以刚刚设置初始任务的描述符还在）.</p>
+#define set_ldt_desc(n,addr) _set_tssldt_desc(((char *)(n)),addr,&quot;0x82&quot;);</code></pre><p><strong>init_task.task.tss和init_task.task.ldt则是定义在kernel/sched.c</strong></p>
+<pre><code>union task_union {
+    struct task_struct task;
+    char stack[PAGE_SIZE];
+};
+static union task_union init_task = {INIT_TASK,};</code></pre><p><strong>其中INIT_TASK是被定义在include/linux/sched.h中</strong></p>
+<pre><code>#define INIT_TASK \
+/* state etc */    { 0,15,15, \
+/* signals */    0,{{},},0, \
+/* ec,brk... */    0,0,0,0,0,0, \
+/* pid etc.. */    0,-1,0,0,0, \
+/* uid etc */    0,0,0,0,0,0, \
+/* alarm */    0,0,0,0,0,0, \
+/* math */    0, \
+/* fs info */    -1,0022,NULL,NULL,NULL,0, \
+/* filp */    {NULL,}, \
+    { \
+        {0,0}, \
+/* ldt */    {0x9f,0xc0fa00}, \
+        {0x9f,0xc0f200}, \
+    }, \
+/*tss*/    {0,PAGE_SIZE+(long)&amp;init_task,0x10,0,0,0,0,(long)&amp;pg_dir,\
+     0,0,0,0,0,0,0,0, \
+     0,0,0x17,0x17,0x17,0x17,0x17,0x17, \
+     _LDT(0),0x80000000, \
+        {} \
+    }, \
+}</code></pre><p>清任务数组和描述符表项（注意i=1开始，所以刚刚设置初始任务的描述符还在）.</p>
 <pre><code>//sched_init()源码：
 p=gdt+2+FIRST_TSS_ENTRY;    //不清除前面的6个描述符所以+2
 for(i=1,i&lt;NR_TASKS;i++)
