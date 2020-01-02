@@ -129,6 +129,204 @@
     
     
     <div class="col-12 col-md-8 m-auto">
+      <a href="/2019/10/27/GCC%E5%86%85%E5%B5%8C%E6%B1%87%E7%BC%96%E4%B8%AD%E5%B8%B8%E8%A7%81%E7%9A%84constraint/">
+        <p class="h4 index-header">GCC内嵌汇编中常见的constraint</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">1.”a”代表AL/AX/EAX/RAX寄存器2.”b”代表BL/BX/EBX/RBX寄存器3.”c”代表CL/CX/ECX/RCX寄存器4.”d”代表DL/DX/EDX/RDX寄存器5”D”代表DI寄存器6.”S”代表SI寄存器7.”m”代表内存操作数8.”r”,”q”代表寄存器操作数（就是随便一个寄存器）9.”i”代表立即数操作数10.”f”代表浮点寄存器操作数11.”F”代表浮点立即数操作数12.”o”内存操作数，要求内存地址范围是在同样一个段内13.”v”内存操作数，但是不在同一个段内14.”n”一个确定值的立即数
+</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2019-10-27&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E5%86%85%E5%B5%8C%E6%B1%87%E7%BC%96">内嵌汇编</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/%E5%86%85%E5%B5%8C%E6%B1%87%E7%BC%96">内嵌汇编</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2019/10/27/%E5%AE%8F%EF%BC%8C-define/">
+        <p class="h4 index-header">宏，#define</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">转载原文链接：https://blog.csdn.net/Boring_Wednesday/article/details/78756696
+
+                    
+                    
+                        
+                    
+                                            写在前面：
+
+
+
+本文所有代码均在Linux环境下运行
+
+
+
+Linux版本为CentOS 7.4
+
+
+
+
+
+宏定义
+
+
+  语法
+
+  #define name Stuff
+
+
+
+
+#define PI 3.14
+//定义一个M，值为3.14
+#define DO_FOREVER for(;;)
+//定义一个死循环
+#define REG register
+//定义REG来作为register的别名
+#define CASE break;case
+//在switch中用CASE来补上break;
+#define DEBUG_PRINT printf("file:%s\tline:%d</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2019-10-27&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E5%93%88%E5%B7%A5%E5%A4%A7-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">哈工大-操作系统</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/%E5%AE%8F">宏</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2019/10/27/C-main%E5%87%BD%E6%95%B0%E4%B8%AD%E5%8F%82%E6%95%B0argc%E5%92%8Cargv%E5%90%AB%E4%B9%89%E4%BB%A5%E5%8F%8A%E7%94%A8%E6%B3%95/">
+        <p class="h4 index-header">C++ main函数中参数argc和argv含义以及用法</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">原文链接:https://www.cnblogs.com/mtcnn/p/9412008.html
+
+
+
+argc 是 argument count的缩写，表示传入main函数的参数个数；
+argv 是 argument vector的缩写，表示传入main函数的参数序列或指针，并且第一个参数argv[0]一定是程序的名称，并且包含了程序所在的完整路径，所以确切的说需要我们输入的main函数的参数个数应该是argc-1个；
+简单用法示例，新建工程键代码：
+
+#include &lt;iostream&gt;
+
+using namespace std;
+void main(int argc,char *argv[]){    for(int i=0;i&lt;argc;i++)    {        cout&lt;&lt;“argument[“&lt;&lt;i&lt;&lt;“] is: “&lt;&lt;argv[i]&lt;&lt;endl;    }    system(“pause”);}
+
+
+argv是指向指针的指针，main函数的第二个参数“char *argv[]“也</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2019-10-27&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E5%93%88%E5%B7%A5%E5%A4%A7-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">哈工大-操作系统</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/C++">C++</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2019/10/27/%E5%93%88%E5%B7%A5%E5%A4%A7-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E5%AE%9E%E9%AA%8C%E4%BA%8C%EF%BC%89-%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8/">
+        <p class="h4 index-header">哈工大-操作系统(实验二）-系统调用</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">此次实验的基本内容是：在linux-0.11上添加两个系统调用，并编写两个简单的应用程序测试他们。感谢两位大佬的博客指点：https://www.jianshu.com/p/5786cd42b152    https://github.com/Wangzhike/HIT-Linux-0.11
+应用程序怎么调用系统调用？
+通常情况下，调用系统调用与调用一个普通的自定义代码没什么区别，但是调用后发生的事情不同，调用自定义函数通常通过call指令直接跳转到目标函数的地址处，继续运行，但是调用系统调用，是调用系统库中为系统调用编写的一个接口函数，叫做API（Application Programming Interface）（它对应一个宏_syscallx，在unistd.h中）。API并不能完成系统调用的真正功能，它要做的是去调用真正的系统调用。
+（1）系统调用的基本过程1.应用程序调用库函数（API）2.API函数要么通过自己添加含有int $0x80的嵌入汇编代码,要么调用syscall0到syscall3这四个宏函数（这四个函数在include/unistd.h中定义）将系统调用号存入</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2019-10-27&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E5%93%88%E5%B7%A5%E5%A4%A7-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">哈工大-操作系统</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/Linux">Linux</a>&nbsp;
+          
+            <a href="/tags/%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8">系统调用</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
       <a href="/2019/10/26/hexo%E7%9A%84%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/">
         <p class="h4 index-header">hexo的常用指令</p>
         

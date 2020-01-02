@@ -15,7 +15,7 @@
   <meta name="description" content="">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <title>目标文件格式 ~ lexssama</title>
+  <title>get_free_page（） ~ lexssama</title>
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
   <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
   <link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
@@ -103,7 +103,7 @@
 
             
               <br>
-              <p class="mt-3">星期二, 十月 29日 2019, 4:41 下午</p>
+              <p class="mt-3">星期四, 一月 2日 2020, 6:52 晚上</p>
             
           </div>
 
@@ -124,16 +124,37 @@
       <div class="py-5 z-depth-3" id="board">
         <div class="post-content mx-auto">
           <div class="markdown-body">
-            <h1 id="ELF目标文件格式"><a href="#ELF目标文件格式" class="headerlink" title="ELF目标文件格式"></a>ELF目标文件格式<br></h1><p>目标文件格式有很多种，例如：System V UNIX 的COFF，window 的PE，Linux 的ELF。<br></p>
-<h1 id="链接视图"><a href="#链接视图" class="headerlink" title="链接视图"></a>链接视图</h1><h3 id="可重定位目标文件格式"><a href="#可重定位目标文件格式" class="headerlink" title="可重定位目标文件格式"></a>可重定位目标文件格式</h3> <br>
-<p><strong>(1).ELF头</strong><br><br>ELF头位于目标文件的起始位置，包括文件结构说明信息。ELF头的数据结构分为32位系统对于结构和64位系统对应结构。(可以使用readelf -h 命令对某个可重定位目标文件的ELF头进行解析。例如：对main.o头文件进行解析：readelf -h main.o）<br><br><strong>(2).节</strong><br><br>节是ELF文件的主体信息，包含了链接过程所用的目标代码信息，包括指令，数据，符号表和重定位信息等。<br><br>.text :目标代码部分<br><br>.rodata:只读数据节<br><br>.data:已初始化全局变量<br><br>.bss:未初始化的全局变量（不占据实际的磁盘空间）<br><br>.symtab：符号表，程序中定义的函数名和全局静态变量名都属于符号，与这些符号相关的信息也保存在符号表中。<br><br>.rel.text: .text节相关的可重定位信息。当链接器将某一个目标文件和其他目标文件组合时，.text节中的代码被合并后，一些指令中引用的操作地址信息或跳转目标指令的位置信息等都可以能被修改，通常，调用外部函数或引用全局变量的指令中的地址字段需要修改。<br><br>.rel.data:.data节相关的可重定位信息。当链接器将某个目标文件和其他目标文件组合时, .data节中的代码被合并后，一些全局静态变量的地址可能被修改。<br><br>.debug:调试用符号表，有些表项对定义的局部变量和定义的类型进行说明，有些表项对定义和引用的全局静态变量进行说明。只有使用带-g选项的gcc命令才能得到这张表。<br><br>.line：C源程序中的行号和.text节中机器指令之间的映射。只有使用带-g选项的gcc命令才能得到这张表。<br><br>.strlab:字符串表，包括.symtab节和.debug节中的符号以及节头表中的节名。字符串表就是以null结尾的字符串序列。<br><br><strong>(3).节头表</strong><br><br>节头表由若干个表项组成，每个表现描述相应的一个节的节名，在文件中的偏移，大小，访问属性，对齐方式等。</p>
-<h2 id="执行视图"><a href="#执行视图" class="headerlink" title="执行视图"></a>执行视图</h2><br>
-
-<p>与ELF可重定位文件不同的是：<br><br><strong>1.</strong>ELF头文件中的字段e_entry给出了系统将控制权转移到虚拟地址（入口点），即执行程序时第一条指令的地址而可重定位文件中，此字段为0。<br><br><strong>2.</strong>多了一个.init节，其中.init节定义了一个_init函数用来可执行目标文件开始执行时的初始化工作，当程序开始时，系统进入主函数之前先执行这个节中的指令代码。<br><br><strong>3.</strong>去掉了用去重定位的节.rel.text和.rel.data（因为已经重定位完毕了）。<br><br><strong>4.</strong>多了一个程序头表：也叫做段头表，是一个结构数组。<br></p>
-<h2 id="可执行文件的存储器映像"><a href="#可执行文件的存储器映像" class="headerlink" title="可执行文件的存储器映像"></a>可执行文件的存储器映像</h2><br>
-
-<p>当启动一个一个可执行目标文件时，首先会通过某种方式调出常驻内存的一个称为加载器（loader)的操作系统程序来进行处理，例如，任何的Unix程序的加载执行都是通过调用execve目标文件中相关节的内容与虚拟地址空间中的只读代码段和可读写代码段通过页表建立映射，然后启动可执行目标文件中的第一条指令执行。（这里关系到页表的内容在6.5节还没学到)</p>
-
+            <h1 id="get-free-page"><a href="#get-free-page" class="headerlink" title="get_free_page()"></a>get_free_page()</h1><p>get_free_page()定义在kernel/mm/memory.c中<br><br><strong>get_free_page和free_page用来管理主内存区中物理内存的占用和空闲情况，与每个进程的线性地址无关<br></strong><br><strong>get_free_page（）函数的作用：</strong><br><br>get_free_page()函数用于主内存区中申请一页空闲内存页，并返回物理内存页的起始地址。它首先扫描内存页面字节图数组mem_map[]，寻找值是0的字节项（0代表整个页面为空闲页面）。若无则返回0结束，表示物理内存已经使用完，若找到值为0的字节，则将其置1，并换算出对应空闲页面的起始地址。然后对该内存进行清零操作。最后返回该空闲页面的物理内存起始地址。<br></p>
+<p><strong>这里解释一下mem_map[]：</strong><br><br>对于内核代码和数据所占物理内存区域以外的内存（1MB以上的内存），内核使用了一个字节数组mem_map[]来表示物理内存页面的状态，每个字节描述一个物理内存页的占用状态。其中的值表示被占用的次数，0表示对于的物理内存空闲着。当申请一页物理内存时，就将对应字节的值增1。<br><br>在内存管理初始化过程中，系统首先计算出1MB以上内存区域对于的内存页面数(PAGING_PAGES)，并把mem_map[]<br>所有项都置为100（占用），然后把主内存区域中对应的mem_map[]项中的值清零。因此内核所使用的位于1MB地址以上的高速缓冲区以及虚拟磁盘区域（若有的话）都已经被初始化为占用状态。mem_map[]中对应主内存区域的项则在内存使用过程中进行设置或者复位。<br></p>
+<p>mem_map[]定义在kernel/mm/memory.c<br></p>
+<pre><code>#define PAGING_MEMORY (15*1024*1024)    //分页内存15MB。主内存取最多15MB
+#define PAGING_PAGES (PAGING_MEMORY&gt;&gt;12) //分页后的内存页面数(3840)
+//物理内存映射字节图（1字节代表1页内存）。每个页面对应的字节用于标志页当前被引用
+//（占用）次数。它最大可以映射15MB的内存空间。再初始化函数mem_init()中，对于不能用
+//主存页面的位置均都预先设置成USED（100）.
+static unsigned char mem_map[PAGING_PAGES]={0,};</code></pre><p><strong>下面时get_free_page( )函数源码:</strong><br></p>
+<pre><code>unsigned long get_free_page(void)
+{</code></pre><p>这里定义了一个局部寄存器变量，该变量将被保存在eax寄存器中，以便高效的访问和操作。这种定义变量的方法主要用于内嵌汇编程序中，详细说明参见gcc手册“在指定寄存器中的变量”</p>
+<pre><code>    register unsigned long __res asm(&quot;ax&quot;);</code></pre><p>std置方向位(DF=1),倒着遍历。<br><br>这里分别解释指令 repne和scasb。<br><br>repne（repeat not equal）：表示如果下一条指令的两个操作数不相等则循环，循环次数是ecx，每循环一次ecx减1。<br>scasb表示[%al]-[%di]也就是比较查询寄存器di中是否有al中的字符，每比较一次di自动变化（指向下一个单元还是上一个单元，由方向位DF决定，这里是指向上一个单元）</p>
+<pre><code>    __asm__(&quot;std;repne;scasb\n\t&quot;    
+        &quot;jne 1f\n\t&quot;    //ecx减到0如果没有相等的就跳到后面标志1：处执行。
+        &quot;movb $1,1(%%edi)\n\t&quot; //1-&gt;[1+%edi],将对应页面内存映像比特位置1。
+        // 这里为什么是[1+%edi]而非%edi呢是因为scasb执行后会将di根据方向位加1或者减1。因为scasb执行后减一，所有这里要加回来</code></pre><p>这里开始计算空闲物理页面的起始地址:</p>
+<pre><code>        &quot;sall $12,%%ecx\n\t&quot;    //sall是左移指令，相当于ecx*4K=相对页面起始位置。
+        &quot;addl %2,%%ecx\n\t&quot;        //再加上低端内存地址，得到页面实际物理起始地址。
+        &quot;movl %%ecx,%%edx\n\t&quot;    //将页面实际起始地址-&gt;edx寄存器</code></pre><p>得到空闲物理页面的起始地址后准备开始清零操作。</p>
+<pre><code>        &quot;movl $1024,%%ecx\n\t&quot;    //寄存器ecx置计数值1024
+        &quot;leal 4092(%%edx),%%edi\n\t&quot;    //将4092+edx的位置-&gt;edi（该页面的末端）。
+        &quot;rep ; stosl\n\t&quot;    //将edi所指内存清零（反方向，即将该页面清零）</code></pre><p>清零后返回页面的起始地址。</p>
+<pre><code>        &quot;movl %%edx,%%eax\n&quot;    //将页面的起始地址-&gt;eax(返回值)
+        &quot;1:&quot;
+        :&quot;=a&quot;(__res)    
+        :&quot;0&quot;(0),&quot;i&quot;(LOW_MEM),&quot;c&quot;(PAHING_PAGES),
+        &quot;D&quot;(mem_map+PAGING_PAGES-1)
+        :&quot;di&quot;,&quot;cx&quot;,&quot;dx&quot;
+        );
+    return __res;
+}</code></pre>
             <hr>
           </div>
           <br>
@@ -142,7 +163,10 @@
               <p>
                 <i class="iconfont icon-inbox"></i>
                 
-                  <a class="hover-with-bg" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80-%E8%A2%81%E6%98%A5%E9%A3%8E">计算机系统基础-袁春风</a>
+                  <a class="hover-with-bg" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">操作系统</a>
+                  &nbsp;
+                
+                  <a class="hover-with-bg" href="/categories/Linux-0.11%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90">Linux-0.11源码分析</a>
                   &nbsp;
                 
               </p>
@@ -150,7 +174,9 @@
             <p>
               <i class="iconfont icon-tag"></i>
               
-                <a class="hover-with-bg" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80">计算机系统基础</a>
+                <a class="hover-with-bg" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">操作系统</a>
+              
+                <a class="hover-with-bg" href="/tags/Linux-0.11%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90">Linux-0.11源码分析</a>
               
             </p>
             
@@ -254,7 +280,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "目标文件格式&nbsp;",
+        "get_free_page（）&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 80,

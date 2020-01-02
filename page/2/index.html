@@ -129,6 +129,168 @@
     
     
     <div class="col-12 col-md-8 m-auto">
+      <a href="/2019/11/23/setup-s%E7%A8%8B%E5%BA%8F%E5%88%86%E6%9E%90/">
+        <p class="h4 index-header">setup.s程序分析</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">感谢：《Linux内核完全注释》作者：赵烔。
+Setup.s程序
+Setup.s程序的主要作用是利用ROM BIOS中断读取系统数据，并将这些数据保存在0x90000开始的位置（覆盖掉了bootsect程序所在的地方），所取得的参数和保留的内存位置如下图。这些参数将被内核中相关的程序使用。
+然后setup.s程序将system模块从0x10000-0x8ffff（当时认为内核系统模块system模块的长度不会超过此值：512KB）整块下移到内存绝对地址0x00000处。
+接下来加载中断描述符寄存器（IDTR）和全局描述符表寄存器（GDTR），开启A20地址线，重新设置两个中断控制芯片8259A(主芯片和从芯片)将硬件中断号重新设置为0x20-0x2f。
+最后设置CPU控制器CR0（也称机器状态字），从而进入32位保护模式运行，并跳转到位于system模块最前面部分的head.s程序。
+
+为了能让head.s在32位保护模式下运行，setup.s程序中临时设置了中断描述符表（IDT）和全局描述符表（GDT），并在GDT中设置了当前内核代码段的描述符和数据段描述符，当进去head.s程序中</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2019-11-23&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">操作系统</a>&nbsp;
+          
+            <a href="/categories/Linux-0.11%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90">Linux-0.11源码分析</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/Linux-0.11%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90">Linux-0.11源码分析</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2019/11/20/%E9%94%AE%E7%9B%98%E6%8E%A7%E5%88%B6%E5%99%A8/">
+        <p class="h4 index-header">键盘控制器</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">本博客大部分内容来自博客：关于键盘的方方面面之一（总论8042）作者：道恒无名小部分是记录自己学习时不明白知识点的查阅和分析
+感谢《微型计算机接口技术》作者：邓亚平, 陈昌志
+#键盘总论说到键盘就不得不说“键盘控制器”。只有明确键盘的工作原理和其组成之后，才能进一步开始使用代码的形式用信息控制的方式表达。单片微处理器8042，大多集成在南桥中，控制整个键盘的工作。包括加电自检，键盘扫描码的缓冲以及与主板的通讯，8042分输出缓冲和输入缓冲，数据传输在I/O口的60h端口和64和h端口进行，前者是数据口，后者是命令和状态口。
+从键盘输入道CPU读取，中间要经历很多过程，但具体可以分为两大块：外设+内部组件，外设指的是键盘，键盘有自己的芯片（8048）。内部组件则是8042和CPU，8048和8042是联通内外的桥梁，也就是说CPU是通过8042与键盘沟通的，8048从外界得到信息输入，通过8042告诉CPU，同样CPU也将直接向8042发送命令，8042在给8048传递，8048的主要工作就是检索来自key matrix的外界输入，所产生的扫描码，将其存放于键盘自身的内部缓冲，而扫描码也</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2019-11-20&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">操作系统</a>&nbsp;
+          
+            <a href="/categories/Linux-0.11%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90">Linux-0.11源码分析</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/%E9%94%AE%E7%9B%98">键盘</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2019/11/19/8259A/">
+        <p class="h4 index-header">8259A</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">转载：原作者：ARM的程序员敲着诗歌的梦文章源地址https://blog.csdn.net/longintchar/article/details/79439466，小部分添加了自己阅读时不明白地方的查阅补充
+可编程中断控制器（8259A）维基的定义：In computing, a programmable interrupt controller (PIC) is a device that is used to combine several sources of interrupt onto one or more CPU lines, while allowing priority levels to be assigned to its interrupt outputs. When the device has multiple interrupt outputs to assert, it asserts them in the order of their relative priority. Common modes of a PIC include hard pr</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2019-11-19&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">操作系统</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/8259A">8259A</a>&nbsp;
+          
+            <a href="/tags/Linux-0.11%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB">Linux-0.11源码阅读</a>&nbsp;
+          
+            <a href="/tags/setup.s">setup.s</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2019/11/17/bootsect-s%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">
+        <p class="h4 index-header">bootsect.s源码分析</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">本博客大部分搬运于《Linux内核完全注释》赵烔编著，小部分增加一些自己阅读源码过程中遇到问题的解答。目的是：希望在自己搬运的过程中，可以加深对Linux-0.11内核的理解和印象。感谢：https://blog.csdn.net/longintchar/article/details/79323783https://github.com/Wangzhike/HIT-Linux-0.11/blob/master/1-boot/OS-booting.md
+Bootsect.sbootsect.s代码时磁盘引导块程序，驻留在磁盘的第一个扇区中（引导扇区，0磁道（柱面），0磁头，第一个扇区）。在PC机加电ROM BIOS自检后，引导扇区由BIOS加载到内存，0x7C00处，然后将自己移动到内存0x90000处，该程序的主要作用是首先将setup模块（由setup.s编译成），从磁盘加载到内存，紧接在bootsect的后面位（0x90200），然后利用BIOS中断0x13取磁盘参数表中当前启动引导盘的参数，接着在屏幕上显示“Loading system…”字符串，再将system模块从磁盘上加</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2019-11-17&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">操作系统</a>&nbsp;
+          
+            <a href="/categories/Linux-0.11%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90">Linux-0.11源码分析</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/Linux-0.11%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90">Linux-0.11源码分析</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
       <a href="/2019/11/16/bootsect-s/">
         <p class="h4 index-header">bootsect.s</p>
         
@@ -352,204 +514,6 @@ INT 0x10, AH = 0x1201 -- turn off cursor emulation
           <i class="iconfont icon-tag"></i>
           
             <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80">计算机系统基础</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2019/10/27/GCC%E5%86%85%E5%B5%8C%E6%B1%87%E7%BC%96%E4%B8%AD%E5%B8%B8%E8%A7%81%E7%9A%84constraint/">
-        <p class="h4 index-header">GCC内嵌汇编中常见的constraint</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">1.”a”代表AL/AX/EAX/RAX寄存器2.”b”代表BL/BX/EBX/RBX寄存器3.”c”代表CL/CX/ECX/RCX寄存器4.”d”代表DL/DX/EDX/RDX寄存器5”D”代表DI寄存器6.”S”代表SI寄存器7.”m”代表内存操作数8.”r”,”q”代表寄存器操作数（就是随便一个寄存器）9.”i”代表立即数操作数10.”f”代表浮点寄存器操作数11.”F”代表浮点立即数操作数12.”o”内存操作数，要求内存地址范围是在同样一个段内13.”v”内存操作数，但是不在同一个段内14.”n”一个确定值的立即数
-</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2019-10-27&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/categories/%E5%86%85%E5%B5%8C%E6%B1%87%E7%BC%96">内嵌汇编</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/%E5%86%85%E5%B5%8C%E6%B1%87%E7%BC%96">内嵌汇编</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2019/10/27/%E5%AE%8F%EF%BC%8C-define/">
-        <p class="h4 index-header">宏，#define</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">转载原文链接：https://blog.csdn.net/Boring_Wednesday/article/details/78756696
-
-                    
-                    
-                        
-                    
-                                            写在前面：
-
-
-
-本文所有代码均在Linux环境下运行
-
-
-
-Linux版本为CentOS 7.4
-
-
-
-
-
-宏定义
-
-
-  语法
-
-  #define name Stuff
-
-
-
-
-#define PI 3.14
-//定义一个M，值为3.14
-#define DO_FOREVER for(;;)
-//定义一个死循环
-#define REG register
-//定义REG来作为register的别名
-#define CASE break;case
-//在switch中用CASE来补上break;
-#define DEBUG_PRINT printf("file:%s\tline:%d</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2019-10-27&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/categories/%E5%93%88%E5%B7%A5%E5%A4%A7-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">哈工大-操作系统</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/%E5%AE%8F">宏</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2019/10/27/C-main%E5%87%BD%E6%95%B0%E4%B8%AD%E5%8F%82%E6%95%B0argc%E5%92%8Cargv%E5%90%AB%E4%B9%89%E4%BB%A5%E5%8F%8A%E7%94%A8%E6%B3%95/">
-        <p class="h4 index-header">C++ main函数中参数argc和argv含义以及用法</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">原文链接:https://www.cnblogs.com/mtcnn/p/9412008.html
-
-
-
-argc 是 argument count的缩写，表示传入main函数的参数个数；
-argv 是 argument vector的缩写，表示传入main函数的参数序列或指针，并且第一个参数argv[0]一定是程序的名称，并且包含了程序所在的完整路径，所以确切的说需要我们输入的main函数的参数个数应该是argc-1个；
-简单用法示例，新建工程键代码：
-
-#include &lt;iostream&gt;
-
-using namespace std;
-void main(int argc,char *argv[]){    for(int i=0;i&lt;argc;i++)    {        cout&lt;&lt;“argument[“&lt;&lt;i&lt;&lt;“] is: “&lt;&lt;argv[i]&lt;&lt;endl;    }    system(“pause”);}
-
-
-argv是指向指针的指针，main函数的第二个参数“char *argv[]“也</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2019-10-27&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/categories/%E5%93%88%E5%B7%A5%E5%A4%A7-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">哈工大-操作系统</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/C++">C++</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2019/10/27/%E5%93%88%E5%B7%A5%E5%A4%A7-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F-%E5%AE%9E%E9%AA%8C%E4%BA%8C%EF%BC%89-%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8/">
-        <p class="h4 index-header">哈工大-操作系统(实验二）-系统调用</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">此次实验的基本内容是：在linux-0.11上添加两个系统调用，并编写两个简单的应用程序测试他们。感谢两位大佬的博客指点：https://www.jianshu.com/p/5786cd42b152    https://github.com/Wangzhike/HIT-Linux-0.11
-应用程序怎么调用系统调用？
-通常情况下，调用系统调用与调用一个普通的自定义代码没什么区别，但是调用后发生的事情不同，调用自定义函数通常通过call指令直接跳转到目标函数的地址处，继续运行，但是调用系统调用，是调用系统库中为系统调用编写的一个接口函数，叫做API（Application Programming Interface）（它对应一个宏_syscallx，在unistd.h中）。API并不能完成系统调用的真正功能，它要做的是去调用真正的系统调用。
-（1）系统调用的基本过程1.应用程序调用库函数（API）2.API函数要么通过自己添加含有int $0x80的嵌入汇编代码,要么调用syscall0到syscall3这四个宏函数（这四个函数在include/unistd.h中定义）将系统调用号存入</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2019-10-27&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/categories/%E5%93%88%E5%B7%A5%E5%A4%A7-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">哈工大-操作系统</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/Linux">Linux</a>&nbsp;
-          
-            <a href="/tags/%E7%B3%BB%E7%BB%9F%E8%B0%83%E7%94%A8">系统调用</a>&nbsp;
           
         
       </div>

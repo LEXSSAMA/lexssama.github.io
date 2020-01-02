@@ -4,6 +4,122 @@
   
   
   <entry>
+    <title>get_free_page（）</title>
+    <link href="undefined2020/01/02/get-free-page%EF%BC%88%EF%BC%89/"/>
+    <url>2020/01/02/get-free-page%EF%BC%88%EF%BC%89/</url>
+    
+    <content type="html"><![CDATA[<h1 id="get-free-page"><a href="#get-free-page" class="headerlink" title="get_free_page()"></a>get_free_page()</h1><p>get_free_page()定义在kernel/mm/memory.c中<br><br><strong>get_free_page和free_page用来管理主内存区中物理内存的占用和空闲情况，与每个进程的线性地址无关<br></strong><br><strong>get_free_page（）函数的作用：</strong><br><br>get_free_page()函数用于主内存区中申请一页空闲内存页，并返回物理内存页的起始地址。它首先扫描内存页面字节图数组mem_map[]，寻找值是0的字节项（0代表整个页面为空闲页面）。若无则返回0结束，表示物理内存已经使用完，若找到值为0的字节，则将其置1，并换算出对应空闲页面的起始地址。然后对该内存进行清零操作。最后返回该空闲页面的物理内存起始地址。<br></p><p><strong>这里解释一下mem_map[]：</strong><br><br>对于内核代码和数据所占物理内存区域以外的内存（1MB以上的内存），内核使用了一个字节数组mem_map[]来表示物理内存页面的状态，每个字节描述一个物理内存页的占用状态。其中的值表示被占用的次数，0表示对于的物理内存空闲着。当申请一页物理内存时，就将对应字节的值增1。<br><br>在内存管理初始化过程中，系统首先计算出1MB以上内存区域对于的内存页面数(PAGING_PAGES)，并把mem_map[]<br>所有项都置为100（占用），然后把主内存区域中对应的mem_map[]项中的值清零。因此内核所使用的位于1MB地址以上的高速缓冲区以及虚拟磁盘区域（若有的话）都已经被初始化为占用状态。mem_map[]中对应主内存区域的项则在内存使用过程中进行设置或者复位。<br></p><p>mem_map[]定义在kernel/mm/memory.c<br></p><pre><code>#define PAGING_MEMORY (15*1024*1024)    //分页内存15MB。主内存取最多15MB#define PAGING_PAGES (PAGING_MEMORY&gt;&gt;12) //分页后的内存页面数(3840)//物理内存映射字节图（1字节代表1页内存）。每个页面对应的字节用于标志页当前被引用//（占用）次数。它最大可以映射15MB的内存空间。再初始化函数mem_init()中，对于不能用//主存页面的位置均都预先设置成USED（100）.static unsigned char mem_map[PAGING_PAGES]={0,};</code></pre><p><strong>下面时get_free_page( )函数源码:</strong><br></p><pre><code>unsigned long get_free_page(void){</code></pre><p>这里定义了一个局部寄存器变量，该变量将被保存在eax寄存器中，以便高效的访问和操作。这种定义变量的方法主要用于内嵌汇编程序中，详细说明参见gcc手册“在指定寄存器中的变量”</p><pre><code>    register unsigned long __res asm(&quot;ax&quot;);</code></pre><p>std置方向位(DF=1),倒着遍历。<br><br>这里分别解释指令 repne和scasb。<br><br>repne（repeat not equal）：表示如果下一条指令的两个操作数不相等则循环，循环次数是ecx，每循环一次ecx减1。<br>scasb表示[%al]-[%di]也就是比较查询寄存器di中是否有al中的字符，每比较一次di自动变化（指向下一个单元还是上一个单元，由方向位DF决定，这里是指向上一个单元）</p><pre><code>    __asm__(&quot;std;repne;scasb\n\t&quot;            &quot;jne 1f\n\t&quot;    //ecx减到0如果没有相等的就跳到后面标志1：处执行。        &quot;movb $1,1(%%edi)\n\t&quot; //1-&gt;[1+%edi],将对应页面内存映像比特位置1。        // 这里为什么是[1+%edi]而非%edi呢是因为scasb执行后会将di根据方向位加1或者减1。因为scasb执行后减一，所有这里要加回来</code></pre><p>这里开始计算空闲物理页面的起始地址:</p><pre><code>        &quot;sall $12,%%ecx\n\t&quot;    //sall是左移指令，相当于ecx*4K=相对页面起始位置。        &quot;addl %2,%%ecx\n\t&quot;        //再加上低端内存地址，得到页面实际物理起始地址。        &quot;movl %%ecx,%%edx\n\t&quot;    //将页面实际起始地址-&gt;edx寄存器</code></pre><p>得到空闲物理页面的起始地址后准备开始清零操作。</p><pre><code>        &quot;movl $1024,%%ecx\n\t&quot;    //寄存器ecx置计数值1024        &quot;leal 4092(%%edx),%%edi\n\t&quot;    //将4092+edx的位置-&gt;edi（该页面的末端）。        &quot;rep ; stosl\n\t&quot;    //将edi所指内存清零（反方向，即将该页面清零）</code></pre><p>清零后返回页面的起始地址。</p><pre><code>        &quot;movl %%edx,%%eax\n&quot;    //将页面的起始地址-&gt;eax(返回值)        &quot;1:&quot;        :&quot;=a&quot;(__res)            :&quot;0&quot;(0),&quot;i&quot;(LOW_MEM),&quot;c&quot;(PAHING_PAGES),        &quot;D&quot;(mem_map+PAGING_PAGES-1)        :&quot;di&quot;,&quot;cx&quot;,&quot;dx&quot;        );    return __res;}</code></pre>]]></content>
+    
+    
+    <categories>
+      
+      <category>操作系统</category>
+      
+      <category>Linux-0.11源码分析</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>操作系统</tag>
+      
+      <tag>Linux-0.11源码分析</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>copy_process</title>
+    <link href="undefined2020/01/02/copy-process/"/>
+    <url>2020/01/02/copy-process/</url>
+    
+    <content type="html"><![CDATA[<h1 id="copy-process"><a href="#copy-process" class="headerlink" title="copy_process"></a>copy_process</h1><p>copy_process定义在kernel/fork.c中<br><br>在sys_fork中执行了find_empty_process找到空闲的任务结构后压入一些寄存器就执行copy_process<br><br>它的作用是：复制系统进程信息（task[nr]），并且设置必要的寄存器，它还整个地复制数据段。<br></p><p>sys_fork函数执行到copy_process时其栈内容如下图，正好对应copy_process函数的参数调用。<br><img src="https://i.imgur.com/Nuq10FZ.png" srcset="/img/loading.gif" alt></p><pre><code>int copy_process(int nr,long ebp,long edi,long esi,long gs,long none,        long ebx,long ecx,long edx,        long fs,long es,long ds,        long eip,long cs,long eflags,long esp,long ss){    struct task_struct *p;    int i;    struct file *f;</code></pre><p>首先为新任务数据结构分配内存(get_free_page（）,用来取得空闲的一页物理页面（4KB）)。如果内存分配出错，则返回出错码并退出。不出错则将新任务结构指针放入任务数组的nr中，（其中nr为任务号，由前面find_empty_process()返回。）接着把当前进程任务结构内容复制到刚申请到的内存页面p开始处。</p><pre><code>    p = (struct task_struct *) get_free_page(); //返回空闲物理页面地址（若无空闲页面则返回0）    if (!p)        return -EAGAIN;    task[nr] = p;    *p = *current;    //这样做不会复制超级用户堆栈（只复制进程结构）</code></pre><p>随后对复制来的进程结构内容进行一些修改，作为新进程的任务结构。<br>先将新进程的任务状态置为不可中断等待状态（有点像关中断），以防止内核调度其执行<br>然后设置新进程的进程号pid和父进程号father，并初始化进程运行时间片值等于其priority值<br>（一般为15个嘀咕）。接着复位新进程的信号位图，报警定时器，会话（session）领导标志leader，<br>进程及其子进程在内核和用户态运行时间统计值，还设置进程开始运行的系统时间start_time</p><pre><code>    p-&gt;state = TASK_UNINTERRUPTIBLE;        p-&gt;pid = last_pid;    //新进程号。也由find_empty_process()得到    p-&gt;father = current-&gt;pid;    //设置父进程号    p-&gt;counter = p-&gt;priority;    //运行时间片值    p-&gt;signal = 0;    //信号位图置0    p-&gt;alarm = 0;    //报警定时值（滴答数）    p-&gt;leader = 0;        /* process leadership doesn&#39;t inherit （进程的领导权是不能被继承的*/    p-&gt;utime = p-&gt;stime = 0;    //用户态时间和核心态运行时间    p-&gt;cutime = p-&gt;cstime = 0;    //子进程用户态和核心态运行时间    p-&gt;start_time = jiffies;    //进程开始运行时间（当前时间滴答数）    //在修改任务状态段TSS数据，由于系统给任务结构p分配了一页新内存，所以（PAGE_SIZE+（long）p）让esp0    //正好指向该页顶端。ss0:esp0用作程序在内核态执行时的栈，每个任务在GDT表中都有两个段描述符，一个是任务的TSS    //段描述符，一个是LDT表段描述符下面的p-&gt;tss.ldt = _LDT(nr)就是把GDT中本任务LDT段描述符的选择符保存在本任务的TSS段中    //当CPU执行切换任务时，会自动从TSS中把LDT段描述符的选择符加载到ldtr寄存器中    p-&gt;tss.back_link = 0;    p-&gt;tss.esp0 = PAGE_SIZE + (long) p;    //任务内核态栈指针。    p-&gt;tss.ss0 = 0x10;    //内核态栈的段选择符    p-&gt;tss.eip = eip;    //指令代码指针    p-&gt;tss.eflags = eflags;    //标志寄存器    p-&gt;tss.eax = 0;    //这是当fork（）返回时新进程会返回0的原因所在    p-&gt;tss.ecx = ecx;    p-&gt;tss.edx = edx;    p-&gt;tss.ebx = ebx;    p-&gt;tss.esp = esp;    p-&gt;tss.ebp = ebp;    p-&gt;tss.esi = esi;    p-&gt;tss.edi = edi;    p-&gt;tss.es = es &amp; 0xffff;    //段寄存器仅16位有效    p-&gt;tss.cs = cs &amp; 0xffff;    p-&gt;tss.ss = ss &amp; 0xffff;    p-&gt;tss.ds = ds &amp; 0xffff;    p-&gt;tss.fs = fs &amp; 0xffff;    p-&gt;tss.gs = gs &amp; 0xffff;    p-&gt;tss.ldt = _LDT(nr);    //任务局部表描述符的选择符    p-&gt;tss.trace_bitmap = 0x80000000;    //高16位有效    //如果当前任务使用了协处理器，就保存其上下文（即还需要把协处理器的完整状态保存到新进程的tss.i387结构中）。    //因为要创建新进程就是copy旧进程所有如果current用到协处理器就还需要保存协处理器汇编指令clts用于清除控制寄存器CR0    //中的任务已交换（TS）标志。每当发生任务切换，CPU都会设置该标志，该标志用于管理数学协处理器    //如果该标志置位，那么每个ESC指令都会被捕获（异常7）。如果协处理器存在标志MP也同时置位的话，    //那么WAIT指令也会捕获，因此任务切换发生在一个ESC指令开始执行之后，则协处理器中的内容就可能需要    //在执行新的ESC指令之前保存起来。捕获处理句柄会保存协处理器的内容并复位TS标志。指令fnsave用于    //把协处理器的所有状态保存到目的操作数指定的内存区域中（tss.i387）    if (last_task_used_math == current)        __asm__(&quot;clts ; fnsave %0&quot;::&quot;m&quot; (p-&gt;tss.i387));    //接下来复制进程页表。即线性地址空间中设置新代码段和数据段描述符中的基址和限长，    //并复制页表，如果出错（返回值不是0），则复位任务数组中相应项并释放为    //该新任务分配的用于任务结构的内存页。    if (copy_mem(nr,p)) {    //返回不为0表示出错        task[nr] = NULL;        free_page((long) p);        return -EAGAIN;    }    //如果父进程中有文件是打开的，则将对应文件的打开次数增加1.因为这里创建的子进程    //会与父进程共享这些打开的文件，将当前进程（父进程）的pwd，root和executable    //引用次数均增加1，与上面同样的道理，子进程也引用了这些i节点。    for (i=0; i&lt;NR_OPEN;i++)     //NR_OPEN被定义在fs.h中 （#define NR_OPEN 20）打开文件数。        if ((f=p-&gt;filp[i]))            f-&gt;f_count++;    if (current-&gt;pwd)        current-&gt;pwd-&gt;i_count++;    if (current-&gt;root)        current-&gt;root-&gt;i_count++;    if (current-&gt;executable)        current-&gt;executable-&gt;i_count++;    //随后在GDT表中设置新任务TSS段和LDT段描述符。这两个段的限长均被设置成104字节    //程序然后把新进程设置成就绪态，另外在任务切换时，任务寄存器tr由CPU自动加载。    //最后返回新进程号。    set_tss_desc(gdt+(nr&lt;&lt;1)+FIRST_TSS_ENTRY,&amp;(p-&gt;tss));    set_ldt_desc(gdt+(nr&lt;&lt;1)+FIRST_LDT_ENTRY,&amp;(p-&gt;ldt));    p-&gt;state = TASK_RUNNING;    /* do this last, just in case （最后才将新任务置成就绪态，以防万一）*/    return last_pid;}</code></pre>]]></content>
+    
+    
+    <categories>
+      
+      <category>操作系统</category>
+      
+      <category>Linux-0.11源码分析</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>操作系统</tag>
+      
+      <tag>Linux-0.11源码分析</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>find_empty_process</title>
+    <link href="undefined2020/01/02/find-empty-process/"/>
+    <url>2020/01/02/find-empty-process/</url>
+    
+    <content type="html"><![CDATA[<h1 id="find-empty-process"><a href="#find-empty-process" class="headerlink" title="find_empty_process"></a>find_empty_process</h1><p><strong>find_empty_process定义在kernel/fork.c中,函数的作用时为新进程取得不重复的进程号last_pid。函数返回任务数组中的任务号（数组项）</strong><br><br>首先获取新的进程号，如果last_pid增1后超出进程号的正数表示范围，则重新从1开始<br>使用pid号，然后再任务数组中搜索刚设置的pid号是否已经被任何任务使用。如果是则跳转<br>到函数开始处重新获得一个pid号。接着再任务数组中为新任务寻找一个空闲项，并<br>返回项号。last_pid是一个全局变量（定义在kernel/fork.c中，<em>long last_pid=0</em>）不用返回。如果此时任务数组中64个项64个项已经被全部占用，则返回出错码。<br></p><p>task[]定义在kernel/sched.c中是一个指针数组，即数组里的值都是指针，NR_TASK=64，第一项是进程0的任务结构的地址。这里不展开讲。</p><pre><code>struct task_struct *task[NR_TASKS]={&amp;(init_task.task),} </code></pre><p><strong>/—————————————————————————————–</strong></p><pre><code>int find_empty_process(void){    int i;    repeat:        if((++last_pid)&lt;0)  last_pid=1;   //long last_pid=0        for(i=0;i&lt;NR_TASKS;++i) //这里循环一遍是为了检测得到的last_pid是否被用，如果正在被用则goto repeat再找一个last_pid。            if(task[i]&amp;&amp;task[i]-&gt;pid==last_pid) goto repeat;        for(i=1;i&lt;NR_TASKS;i++) //如果来到这一步就证明找到一个没有正在被用的last_pid            if(!task[i])          //这个循环是为了新任务找出一个空闲项            return i;       //有空闲项则返回空闲项项号（即数组号）            return -EAGAIN; //没有空闲项则返回出错码 #define EAGAIN        11（定义在include/errno.h）。}</code></pre><p><strong>/——————————————————————————–</strong></p>]]></content>
+    
+    
+    <categories>
+      
+      <category>操作系统</category>
+      
+      <category>Linux-0.11源码分析</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>操作系统</tag>
+      
+      <tag>Linux-0.11源码分析</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>fork（）函数解析</title>
+    <link href="undefined2020/01/02/fork%EF%BC%88%EF%BC%89%E5%87%BD%E6%95%B0%E8%A7%A3%E6%9E%90/"/>
+    <url>2020/01/02/fork%EF%BC%88%EF%BC%89%E5%87%BD%E6%95%B0%E8%A7%A3%E6%9E%90/</url>
+    
+    <content type="html"><![CDATA[<p><strong>这里主要用Linux-0.11源码中的main.c中使用的fork来讲解</strong><br>#fork（）<br>在main.c中经过函数move_to_user_mode()后进入用户模式（进程0开始执行）。<br><br>进程0开始执行后马上进入fork()函数，目的是创建出子进程1。<br><br><strong>在main.c中需要注意的是fork函数是用内联函数（inline）的方式实现的！</strong><br><br><strong>为什么要用内联的方式实现呢？</strong><br><br>因为在创建新进程init（即进程1）的过程中，系统对其进行了一些特殊的处理。进程0和进程1实际上同时使用着内核代码区内（小于1MB的物理内存）相同的代码和数据物理内存页面（640KB），只是执行的代码不在一处，因此实际上它们也同时使用着相同的用户堆栈区。在为新进程init复制其父进程（进程0）的页目录和页表项时，进程0的640KB页表项属性没有改动过（仍然可读写），但是进程1的640KB对应的页表项却被设置成了只读，因此进程1开始执行时，其对用户栈的出入栈操作将导致页面写保护异常，从而会使内核的内存管理程序为进程1在主内存区分配一内存页面，并且把从任务0栈中相应页面内容复制到此新页面上。从此时起，任务1的用户态栈开始有自己独立的内存页面，即从任务1执行过出/入栈操作后，任务0和任务1的用户栈开始有变成独立的栈，为了不出现冲突问题，就必须要求任务0在任务1执行栈操作之前禁止使用到用户堆栈区域，而让进程init能单独使用堆栈，所以用到内联函数inline<br><br>因为在内核调度进程运行时序是随机的，有可能任务0创建了任务1后仍然先允许任务0，因此任务0执行fork（）操作后，随后的pause函数也必须采用内联函数形式来实现，以避免任务0在任务1之前使用用户栈。<br></p><h2 id="内联fork（）函数"><a href="#内联fork（）函数" class="headerlink" title="内联fork（）函数"></a>内联fork（）函数</h2><p>定义在init/main.c内</p><pre><code>static inline _syscall0(int,fork);</code></pre><p>_syscall0是一个宏，定义在include/unistd.h中<br><br>static inline _syscall0(int,fork)宏展开后的模样：</p><pre><code>static inline int fork(void){    long _res;    _asm_ volatile (&quot;int 0x80&quot; :&quot;=a(_res)&quot; :&quot;0&quot;(__NR_fork););    if(_res&gt;=0)    return (int)_res;    errno = -_res;    return -1;}</code></pre><p>int $0x80指令属于软中断(software interrupt)。软中断又叫做编程异常(programmed exception)，是异常的一种。<br>该指令的作用是以0x80作为索引值，用于在中断描述符表IDT中查找存储了中断处理程序信息的描述符。<br></p><p><strong>IDT表的0x80项被设定为&amp;system_call这里不展开讲</strong></p><pre><code>set_system_gate(0x80,&amp;system_call);</code></pre><p><strong>用户态的fork()API通过int0x80这个编译异常，可以从用户态进入到内核态。具体的说由用户态进入内核时，CPU的保护机制检测到特权级发生了变化，会自动将用户态程序在执行int0x80时的ss，esp，eflags，cs，eip这5个寄存器的值顺序压入进程0的内核栈中</strong><br><br>此时进程0的内核栈的模样：<br><br><img src="https://i.imgur.com/FGKK9r0.png" srcset="/img/loading.gif" alt><br>##system_call<br><strong>system_call被定义在linux/kernel/system_call.s中,<br>int 0x80 –linux系统调用的入口点(调用中断int0x80，eax是调用号)</strong><br></p><p><strong>-———————————————-</strong></p><pre><code>system_call:    cmpl $nr_system_call-1,%eax #调用号如果超出范围的话就在eax中置-1，并退出。     ja bad_sys_call #（eax-nr_system_call+1）如果大于则跳转到bad_sys_call</code></pre><p><strong>nr_system_call定义在linux/kernel/system_call.s,代表linux-0.11内核中的系统调用总数nr_system_call=72</strong><br><br><strong>bad_sys_call定义在linux/kernel/system_call.s<br></strong></p><pre><code>bad_sys_call:            movl $-1,%eax   #eax中置-1，退出中断            iret</code></pre><p><strong>-——————————————————-</strong></p><pre><code>    push %ds    //保存原段寄存器的值    push %es    push %fs    #一个系统调用最多可带3个参数，也可也不带参数，下面入栈的ebx，ecx，edx中    #放着系统调用相应的C语言函数（见94行）的调用参数，这几个寄存器的入栈顺序    #是由GNU GCC规定的，eax=调用号，ebx中可存放第一个参数，ecx中存放第二个参数，edx存放第三个参数    #系统调用语句可以参见头文件include/unistd.h中第133到183行的系统调用宏。    push %edx    push %ecx    push %ebx</code></pre><p>此时栈内的内容如下:<br><br><img src="https://i.imgur.com/mbMBI5E.png" srcset="/img/loading.gif" alt><br></p><p><strong>-————————————————————-</strong></p><pre><code>    movl $0x10,%edx # ds，es指向内核代码段    mov %dx,%ds    mov %dx,%es    #fs指向LDT的数据段，即指向执行本次系统调用的用户程序的数据段。    #注意，在Linux 0.11中内核给任务分配的代码和数据内存段是重叠的，它们    #的段基址和段限长相同。    #参见fork.c程序中copy_men()函数    movl $0x17,%edx    mov %dx,%fs    call sys_call_table(,%eax,4)    #间接调用指定功能的C函数    pushl %eax        #把系统调用返回值压栈。</code></pre><p><strong>sys_call_table(,%eax,4) 这句操作数的含义是：调用地址=[_sys_call_tale + %eax * 4]。AT&amp;T的寻址方式。 <br><br>sys_call_table[]是一个指针数组，定义在include/linux/sys.h中，该指针数组中设置了72个系统调用C处理函数的地址。</strong></p><pre><code>fn_ptr sys_call_table[] = { sys_setup, sys_exit, sys_fork, sys_read,sys_write, sys_open, sys_close, sys_waitpid, sys_creat, sys_link,sys_unlink, sys_execve, sys_chdir, sys_time, sys_Smknod, sys_chmod,sys_chown, sys_break, sys_stat, sys_lseek, sys_getpid, sys_mount,sys_umount, sys_setuid, sys_getuid, sys_stime, sys_ptrace, sys_alarm,sys_fstat, sys_pause, sys_utime, sys_stty, sys_gtty, sys_access,sys_nice, sys_ftime, sys_sync, sys_kill, sys_rename, sys_mkdir,sys_rmdir, sys_dup, sys_pipe, sys_times, sys_prof, sys_brk, sys_setgid,sys_getgid, sys_signal, sys_geteuid, sys_getegid, sys_acct, sys_phys,sys_lock, sys_ioctl, sys_fcntl, sys_mpx, sys_setpgid, sys_ulimit,sys_uname, sys_umask, sys_chroot, sys_ustat, sys_dup2, sys_getppid,sys_getpgrp, sys_setsid, sys_sigaction, sys_sgetmask, sys_ssetmask,sys_setreuid,sys_setregid };</code></pre><p><strong>fn_ptr是int类型指针定义在include/linux/sched.h中</strong>    <br></p><pre><code>typedef int (\*fn\_ptr)();</code></pre><p><strong>所以 call sys_call_table(,%eax,4) 也就相当于call sys_fork,（此时%eax=2，内联函数中设置），进入sys_fork()<br><br>sys_fork函数的源码定义在kernel/system_call.s<br></strong></p><pre><code> sys_fork:        call find_empty_process #为新建进程找到pid号和task数组存放新建进程PCB地址的位置后，返回进程号也即（task数组，的数组号）。        test1 %eax,%eax         #在eax中返回进程号。若返回负数则退出，负数说明返回了-EAGAIN(错误码)。        js  1f  #js跳转指令：sf位（符号位）被置位就跳转。        push    %gs        pushl   %esi        pushl   %edi        pushl   %ebp        pushl   %eax</code></pre><p><strong>此时栈内容为如下接着call copy_process,开始为新进程复制父进程的代码段和数据段:<br></strong><br><img src="https://i.imgur.com/Vz9o1Wk.png" srcset="/img/loading.gif" alt></p><pre><code>        call    copy_process    #调用C函数copy_process()(kernel/fork.c,68)。        addl    $20,%esp        #丢弃这里所有sys_fork内压入栈中的内容。    1:  ret</code></pre><p><strong>/———————————————————————-</strong></p><pre><code>    #下面96-100行查看当前任务的运行状态，如果不在就绪状态（state 不能与0）就去执行调度程序。    #如果任务在就绪状态，但其时间片已用完（counter=0），则也去执行调度程序。    #例如当后台进程组中的进程执行控制终端读写操作时，那么默认条件下该后台进程组所有进程    #会收到SIGTTIN或SIGTTOU信号，导致进程组中所有进程处于停止状态。而当前进程会立刻返回。     movl current,%eax   #取当前任务（进程）数据结构地址-&gt;eax。    cmpl $0,state(%eax)        # state 调用地址=[state+%eax]，因为eax为current所指的task_struct的地址。    jne reschedule    cmpl $0,counter(%eax)        # counter    je reschedule</code></pre><p><strong>-———————————————————————-</strong></p><pre><code>#以下这段代码执行从系统调用C函数返回后，对信号进行识别处理。其他中断服务退出时也将跳转到这里进行#处理后才退出中断过程，例如后面131行上的处理器出错中断int 16。ret_from_sys_call:#首先判别当前任务是否时初始任务task0，如果是则不必对其进行信号量方面的处理，直接返回。#下面的task对应C程序中的task[]数组，直接引用task相当于引用task[0]。    movl current,%eax        # task[0] cannot have signals    cmpl task,%eax    je 3f       #先前（forward）跳转到标号3处退出中断处理#通过对原调用程序选择符的检查来判断调用程序是否是用户任务。如果不是则直接退出中断#这是因为任务在内核态执行时不可抢占。否则对任务进行信号量的识别处理。这里比较选择符是否#为用户代码段的选择符0x000f (RPL=3，局部表，第1个段(代码段))来判断是否为用户任务，如#果不是则说明是某个中断服务程序跳转到第ret_from_sys_call，于是跳转退出中断程序。如果#原堆栈段选择符不为0x17（即原堆栈不在用户段中），也说明本次系统调用的调用者不是用户任务，则也退出。    cmpw $0x0f,CS(%esp)        # was old code segment supervisor ?(CS被定义为0x20就在这个函数的同一个文件内，%esp+0x20正好指向被压入的cs)     jne 3f    cmpw $0x17,OLDSS(%esp)        # was stack segment = 0x17 ?(同CS，OLDSS被定义为0x2C)    jne 3f#下面这段程序用于处理当前任务中的信号。首先去当前任务结构中的信号位图（32位，#每位代表1种信号），然后用任务结构中的信号阻塞（屏蔽）码，阻塞不允许的信号位，取得数值#最小的信号值，再把原信号位图中该信号对应的位复位（置 0），最后将该信号值作为参数之一调用#do_signal()。do_signal()在（kernel/signal.c,82）中，其参数包括13个入栈的信息。    movl signal(%eax),%ebx  #取信号位图-&gt;ebx，每一位代表一种信号，共有32个信号。    movl blocked(%eax),%ecx #取阻塞（屏蔽）信号位图-&gt;ecx。    notl %ecx   #每位取反    andl %ebx,%ecx  #获得许可的信号位图    bsfl %ecx,%ecx  #从低位（位0）开始扫描位图，看是否1的位，                    #若有，则ecx保留该为的偏移值（即第几位0-31）。    je 3f           #如果没有信号则向前跳转退出    btrl %ecx,%ebx  #复位该信号（ebx含有原signal位图）    movl %ebx,signal(%eax)  #重新保存signal位图信息-&gt;current-&gt;signal。      incl %ecx               #将信号调整为从1开始的数（1-32）。    pushl %ecx              #信号值入栈作为调用do_signal的参数之一    call do_signal          #调用C函数信号处理程序（kernel/signal.c，82）    popl %eax               #弹出入栈的信号值。3:    popl %eax               #这个eax中含有入栈的系统调用返回值。    popl %ebx    popl %ecx    popl %edx    pop %fs    pop %es    pop %ds    iret</code></pre>]]></content>
+    
+    
+    <categories>
+      
+      <category>操作系统</category>
+      
+      <category>Linux-0.11源码分析</category>
+      
+    </categories>
+    
+    
+    <tags>
+      
+      <tag>操作系统</tag>
+      
+      <tag>Linux-0.11源码分析</tag>
+      
+    </tags>
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>move_to_user_mode（）</title>
     <link href="undefined2019/12/19/move-to-user-mode%EF%BC%88%EF%BC%89/"/>
     <url>2019/12/19/move-to-user-mode%EF%BC%88%EF%BC%89/</url>
@@ -398,7 +514,7 @@
     <link href="undefined2019/10/29/%E7%9B%AE%E6%A0%87%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/"/>
     <url>2019/10/29/%E7%9B%AE%E6%A0%87%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/</url>
     
-    <content type="html"><![CDATA[<h1 id="ELF目标文件格式"><a href="#ELF目标文件格式" class="headerlink" title="ELF目标文件格式"></a>ELF目标文件格式<br></h1><p>目标文件格式有很多种，例如：System V UNIX 的COFF，window 的PE，Linux 的ELF。<br></p><h1 id="链接视图"><a href="#链接视图" class="headerlink" title="链接视图"></a>链接视图</h1><h3 id="可重定位目标文件格式"><a href="#可重定位目标文件格式" class="headerlink" title="可重定位目标文件格式"></a>可重定位目标文件格式</h3> <img src="/2019/10/29/%E7%9B%AE%E6%A0%87%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/20180708185336199.png" srcset="/img/loading.gif" class title="ELF可重定位目标文件"><br><p><strong>(1).ELF头</strong><br><br>ELF头位于目标文件的起始位置，包括文件结构说明信息。ELF头的数据结构分为32位系统对于结构和64位系统对应结构。(可以使用readelf -h 命令对某个可重定位目标文件的ELF头进行解析。例如：对main.o头文件进行解析：readelf -h main.o）<br><br><strong>(2).节</strong><br><br>节是ELF文件的主体信息，包含了链接过程所用的目标代码信息，包括指令，数据，符号表和重定位信息等。<br><br>.text :目标代码部分<br><br>.rodata:只读数据节<br><br>.data:已初始化全局变量<br><br>.bss:未初始化的全局变量（不占据实际的磁盘空间）<br><br>.symtab：符号表，程序中定义的函数名和全局静态变量名都属于符号，与这些符号相关的信息也保存在符号表中。<br><br>.rel.text: .text节相关的可重定位信息。当链接器将某一个目标文件和其他目标文件组合时，.text节中的代码被合并后，一些指令中引用的操作地址信息或跳转目标指令的位置信息等都可以能被修改，通常，调用外部函数或引用全局变量的指令中的地址字段需要修改。<br><br>.rel.data:.data节相关的可重定位信息。当链接器将某个目标文件和其他目标文件组合时, .data节中的代码被合并后，一些全局静态变量的地址可能被修改。<br><br>.debug:调试用符号表，有些表项对定义的局部变量和定义的类型进行说明，有些表项对定义和引用的全局静态变量进行说明。只有使用带-g选项的gcc命令才能得到这张表。<br><br>.line：C源程序中的行号和.text节中机器指令之间的映射。只有使用带-g选项的gcc命令才能得到这张表。<br><br>.strlab:字符串表，包括.symtab节和.debug节中的符号以及节头表中的节名。字符串表就是以null结尾的字符串序列。<br><br><strong>(3).节头表</strong><br><br>节头表由若干个表项组成，每个表现描述相应的一个节的节名，在文件中的偏移，大小，访问属性，对齐方式等。</p><h2 id="执行视图"><a href="#执行视图" class="headerlink" title="执行视图"></a>执行视图</h2><img src="/2019/10/29/%E7%9B%AE%E6%A0%87%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/fSqCY0UBZnX35qDCxjx67h98ps8JduKzOqgUQBtL.png" srcset="/img/loading.gif" class title="ELF可执行目标文件"><br><p>与ELF可重定位文件不同的是：<br><br><strong>1.</strong>ELF头文件中的字段e_entry给出了系统将控制权转移到虚拟地址（入口点），即执行程序时第一条指令的地址而可重定位文件中，此字段为0。<br><br><strong>2.</strong>多了一个.init节，其中.init节定义了一个_init函数用来可执行目标文件开始执行时的初始化工作，当程序开始时，系统进入主函数之前先执行这个节中的指令代码。<br><br><strong>3.</strong>去掉了用去重定位的节.rel.text和.rel.data（因为已经重定位完毕了）。<br><br><strong>4.</strong>多了一个程序头表：也叫做段头表，是一个结构数组。<br></p><h2 id="可执行文件的存储器映像"><a href="#可执行文件的存储器映像" class="headerlink" title="可执行文件的存储器映像"></a>可执行文件的存储器映像</h2><img src="/2019/10/29/%E7%9B%AE%E6%A0%87%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/20170621205440745.png" srcset="/img/loading.gif" class title="可执行文件的存储器映像"><br><p>当启动一个一个可执行目标文件时，首先会通过某种方式调出常驻内存的一个称为加载器（loader)的操作系统程序来进行处理，例如，任何的Unix程序的加载执行都是通过调用execve目标文件中相关节的内容与虚拟地址空间中的只读代码段和可读写代码段通过页表建立映射，然后启动可执行目标文件中的第一条指令执行。（这里关系到页表的内容在6.5节还没学到)</p>]]></content>
+    <content type="html"><![CDATA[<h1 id="ELF目标文件格式"><a href="#ELF目标文件格式" class="headerlink" title="ELF目标文件格式"></a>ELF目标文件格式<br></h1><p>目标文件格式有很多种，例如：System V UNIX 的COFF，window 的PE，Linux 的ELF。<br></p><h1 id="链接视图"><a href="#链接视图" class="headerlink" title="链接视图"></a>链接视图</h1><h3 id="可重定位目标文件格式"><a href="#可重定位目标文件格式" class="headerlink" title="可重定位目标文件格式"></a>可重定位目标文件格式</h3> <br><p><strong>(1).ELF头</strong><br><br>ELF头位于目标文件的起始位置，包括文件结构说明信息。ELF头的数据结构分为32位系统对于结构和64位系统对应结构。(可以使用readelf -h 命令对某个可重定位目标文件的ELF头进行解析。例如：对main.o头文件进行解析：readelf -h main.o）<br><br><strong>(2).节</strong><br><br>节是ELF文件的主体信息，包含了链接过程所用的目标代码信息，包括指令，数据，符号表和重定位信息等。<br><br>.text :目标代码部分<br><br>.rodata:只读数据节<br><br>.data:已初始化全局变量<br><br>.bss:未初始化的全局变量（不占据实际的磁盘空间）<br><br>.symtab：符号表，程序中定义的函数名和全局静态变量名都属于符号，与这些符号相关的信息也保存在符号表中。<br><br>.rel.text: .text节相关的可重定位信息。当链接器将某一个目标文件和其他目标文件组合时，.text节中的代码被合并后，一些指令中引用的操作地址信息或跳转目标指令的位置信息等都可以能被修改，通常，调用外部函数或引用全局变量的指令中的地址字段需要修改。<br><br>.rel.data:.data节相关的可重定位信息。当链接器将某个目标文件和其他目标文件组合时, .data节中的代码被合并后，一些全局静态变量的地址可能被修改。<br><br>.debug:调试用符号表，有些表项对定义的局部变量和定义的类型进行说明，有些表项对定义和引用的全局静态变量进行说明。只有使用带-g选项的gcc命令才能得到这张表。<br><br>.line：C源程序中的行号和.text节中机器指令之间的映射。只有使用带-g选项的gcc命令才能得到这张表。<br><br>.strlab:字符串表，包括.symtab节和.debug节中的符号以及节头表中的节名。字符串表就是以null结尾的字符串序列。<br><br><strong>(3).节头表</strong><br><br>节头表由若干个表项组成，每个表现描述相应的一个节的节名，在文件中的偏移，大小，访问属性，对齐方式等。</p><h2 id="执行视图"><a href="#执行视图" class="headerlink" title="执行视图"></a>执行视图</h2><br><p>与ELF可重定位文件不同的是：<br><br><strong>1.</strong>ELF头文件中的字段e_entry给出了系统将控制权转移到虚拟地址（入口点），即执行程序时第一条指令的地址而可重定位文件中，此字段为0。<br><br><strong>2.</strong>多了一个.init节，其中.init节定义了一个_init函数用来可执行目标文件开始执行时的初始化工作，当程序开始时，系统进入主函数之前先执行这个节中的指令代码。<br><br><strong>3.</strong>去掉了用去重定位的节.rel.text和.rel.data（因为已经重定位完毕了）。<br><br><strong>4.</strong>多了一个程序头表：也叫做段头表，是一个结构数组。<br></p><h2 id="可执行文件的存储器映像"><a href="#可执行文件的存储器映像" class="headerlink" title="可执行文件的存储器映像"></a>可执行文件的存储器映像</h2><br><p>当启动一个一个可执行目标文件时，首先会通过某种方式调出常驻内存的一个称为加载器（loader)的操作系统程序来进行处理，例如，任何的Unix程序的加载执行都是通过调用execve目标文件中相关节的内容与虚拟地址空间中的只读代码段和可读写代码段通过页表建立映射，然后启动可执行目标文件中的第一条指令执行。（这里关系到页表的内容在6.5节还没学到)</p>]]></content>
     
     
     <categories>
