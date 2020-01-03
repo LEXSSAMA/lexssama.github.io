@@ -129,6 +129,84 @@
     
     
     <div class="col-12 col-md-8 m-auto">
+      <a href="/2019/11/04/%E5%B1%82%E6%AC%A1%E7%BB%93%E6%9E%84%E5%AD%98%E5%82%A8%E7%B3%BB%E7%BB%9F/">
+        <p class="h4 index-header">层次结构存储系统</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">教材：《计算机系统基础》，本博客主要用来梳理学习思路。(不然好乱）不同类型的存储器设置的计算机中，其设置的顺序为：寄存器-&gt;cache-&gt;主存-&gt;硬盘-&gt;光盘和磁带。接下来就是详细的按顺序的介绍上面的存储器。
+6.1 存储器概述6.1.1 存储器的分类1.按照存储元件分类半导体存储器，磁表面存储器：磁盘存储器和磁带存储器，光介质存储器：光盘存储器。
+2.按存取方式分类(1).RAM(随机存取存储器）RAM特点是：按地址访问存储单元，RAM的存储介质是半导体存储器件，每个地址译码时间相同，在不用考虑行缓冲的前提下，每个单元的访问时间是一个常数，与地址无关（但是现在DRAM芯片大多都有行缓冲）。
+(2).SAM(顺序存取存储器)SAM的特点是：信息按照顺序存放和读出，其存取时间时间取决于信息存放的位置，以记录块为单位编址。例如：磁带存储器。（存储量大，存取速度慢）
+(3).DAM(直接存取存储器)DAM的特点是：兼有随机访问和顺序访问的特点。首先直接定位在需要读写的位置，然后顺序方式存取，磁盘存储器就是如此。
+(4).CAM/AM(相联存储器)CAM/AM特点是：按</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2019-11-04&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80-%E8%A2%81%E6%98%A5%E9%A3%8E">计算机系统基础-袁春风</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80-%E8%A2%81%E6%98%A5%E9%A3%8E">计算机系统基础-袁春风</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2019/10/30/%E7%AC%A6%E5%8F%B7%E8%A1%A8%E5%92%8C%E7%AC%A6%E5%8F%B7%E8%A7%A3%E6%9E%90/">
+        <p class="h4 index-header">符号表和符号解析</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">符号和符号表链接器在生成一个可执行文件时，必须完成符号解析，而要进行符号解析就必须要使用符号表。
+符号类型：全局符号，外部符号，本地符号。以模块m为例：包括在符号表中的符号有以下三种不同类型全局符号：在模块m中定义并被其他模块引用的符号，这类符号包括：非静态的函数名和定义为不带static属性的全局变量名。外部符号：在其他模块定义并被m引用的符号，包括在其他模块定义的外部函数名和外部变量名。本地符号：在模块m中定义并在m中引用的本地符号，这类符号包括带static属性的函数名和全局变量名。
+注意：上述三类符号不包括分配在栈中的非静态局部变量（auto变量），链接器不需要这一类变量的信息，因而他们不在节.symtab定义的符号表中。（指的是符号表中的符号在.data和.bss中的符号，和栈中的符号没关系）
+符号表里面装了：1.符号在字符串表中的索引（st_name）2.符号的值（st_value)在可重定位文件中，是指符号所在位置相对于所在节起始位置的字节偏移量。在可执行目标文件和共享文件中，st_value则是符号所在的虚拟地址。3.符号的类型（st_info)指出符号的类型和绑定属性</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2019-10-30&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80-%E8%A2%81%E6%98%A5%E9%A3%8E">计算机系统基础-袁春风</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80">计算机系统基础</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
       <a href="/2019/10/29/%E7%9B%AE%E6%A0%87%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/">
         <p class="h4 index-header">目标文件格式</p>
         

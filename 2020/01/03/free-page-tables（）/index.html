@@ -15,7 +15,7 @@
   <meta name="description" content="">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <title>copy_mem（） ~ lexssama</title>
+  <title>free_page_tables（）和free_page ( ) ~ lexssama</title>
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
   <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
   <link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
@@ -103,7 +103,7 @@
 
             
               <br>
-              <p class="mt-3">星期四, 一月 2日 2020, 8:32 晚上</p>
+              <p class="mt-3">星期五, 一月 3日 2020, 7:17 晚上</p>
             
           </div>
 
@@ -124,60 +124,55 @@
       <div class="py-5 z-depth-3" id="board">
         <div class="post-content mx-auto">
           <div class="markdown-body">
-            <h1 id="copy-mem"><a href="#copy-mem" class="headerlink" title="copy_mem( )"></a>copy_mem( )</h1><p>copy_mem( )被定义在kernel/fork.c中<br><br>copy_mem( )函数的作用是：<br><br>复制内存页表（即把父进程的内存页表复制给新进程）<br><br>参数nr是新任务号；p是新任务数据结构指针。<br><br><strong>该函数为新任务在线性地址空间中设置代码段<br>和数据段基址，限长，并复制页表。</strong>由于Linux系统采用了写时复制（copy on write）技术<br>因此这里仅为新进程设置自己的页目录表项和页表项，而没有实际为新进程分配物理内存页面。此时新进程<br>与其父进程共享所有内存页面，操作成功返回0，否则返回出错号。</p>
-<pre><code>int copy_mem (int nr,struct task_struct *p)
+            <h1 id="free-page-tables（）"><a href="#free-page-tables（）" class="headerlink" title="free_page_tables（）"></a>free_page_tables（）</h1><p>函数被定义在kernel/mm/memory.c中<br><br><strong>函数作用：</strong>free_page_tables( )用于释放指定线性地址和长度（页表个数）对应的物理内存页。首先判断指定的线性地址释放4M的边界上，若不是则显示出错信息，并死机，然后判断指定的地址值是否=0，若是，则显示出错信息“试图释放内核和缓冲区所占用的空间”，并死机；接着计算在页目录表中所占用的目录项数size，也即页表个数，并计算对应的起始目录项号，然后从对应的起始目录项开始，释放所占用的所以size个目录项；同时释放对应目录项所指的所有页表项和相应的物理内存页；最后刷新页变化高速缓冲。<br></p>
+<p>下面的函数释放页表连续的内存块，“exit（）”需要该函数。与copy_page_tables(),类似，该函数仅处理4MB长度的内存块。<br></p>
+<p>参数：from -起始线性基地址；size - 释放的字节长度。</p>
+<pre><code>     int free_page_tables(unsigned long from, unsigned long size)
 {
-    unsigned long old_data_base,new_data_base_limit;
-    unsigned long old_code_base,new_code_base_limit;</code></pre><p>首先取当前进程局部描述符表中代码段描述符和数据段描述符项中的段限长（字节数）。<br>0x0f是代码段选择符；0x17是数据段选择符。然后取当前进程代码段和数据段在线性地址<br>空间中的基地址。由于Linux-0.11内核还不支持代码和数据段分立的情况，因此这里需要<br>检测代码段和数据段基址和限长是否都分别相同。否则内核显示出错信息，并停止运行。<br>get_limit()和get_base()源码在下面<br></p>
-<pre><code>    code_limit=get_limit(0x0f);
-    data_limit=get_limit(0x17);
-    old_code_base=get_base(current-&gt;ldt[1]);
-    old_data_base=get_base(current-&gt;ldt[2]);
-    if(old_data_base!=old_code_base)
-        panic(&quot;We don&#39;t support separate I&amp;D&quot;);
-    if(data_limit&lt;code_limit)
-        panic(&quot;Bad data_limit&quot;);</code></pre><p>然后设置创建中的新进程在线性地址空间中的基地址等于（64MB*其任务号），并用该值<br>设置新进程局部描述表中段描述符中的基地址，接着设置新进程的页目录表项和页表项，<br>即复制当前进程（父进程）的页目录表和页表项。此时子进程共享父进程的内存页面。<br>正常情况下copy_page_tables()返回0，否则表示出错，则释放刚申请的页表项。<br>set_base的源码在下面<br></p>
-<pre><code>    new_data_base = new_code_base = nr*0x4000000;    //64MB*其任务号
-    p-&gt;start_code=new_code_base;
-    set_base(p-&gt;ldt[1],new_code_base);    //设置新进程的ldt表的代码段地址。
-    set_base(p-&gt;ldt[2],new_data_base);    //设置新进程的ldt表的数据段地址。</code></pre><p>接下来设置新进程的页目录表项和页表项<br><br>copy_page_table( )看这篇 <a href="https://lexssama.github.io/2020/01/03/copy-page-table%EF%BC%88%EF%BC%89/" target="_blank" rel="noopener">copy _page _table( )源码分析</a><br><br><br>free_page_table( )看这篇….<br></p>
-<pre><code>    if(copy_page_table(old_data_base,new_data_base,data_limit))
+    unsigned long *pg_table;
+    unsigned long *dir,nr;</code></pre><p>首先检测参数from给出的线性基地址是否在4MB的边界处，因为该函数只能处理这种情况。<br>若from=0，则出错。说明试图释放内核和缓冲所占空间。</p>
+<pre><code>    if(from &amp; 0x3ffff)
+        panic(&quot;free_page_tables called with wrong alignment&quot;);
+    if(!from)
+        panic(&quot;Trying to free up swapper memory space&quot;);
+        size= (size+0x3fffff)&gt;&gt;22;
+        dir=(unsigned long*) ((from&gt;&gt;20) &amp; 0xffc);/*_pg_dir =0*/
+    for(;size--&gt;0；dir++)
     {
-        free_page_table(new_data_base,data_limit);
-        return -ENOMEM;
+        if(!(1 &amp; *dir)) //1与目录项的p位相与，如果p=0（表示该目录项没有使用）则执行continue，否则则执行下一句。
+            continue;
+        pg_table = (unsigned long *)(0xfffff000 &amp; *dir);    //取页表地址
+        for(nr=0;nr&lt;1024;nr++) //这里free页表项中的1024项
+        {
+            if(1 &amp; pg_table)    //与页表项中的p位相与。
+                free_page(0xfffff000 &amp; *pg_table)    //释放*pg_table所指的物理地址页面的内存
+            *pa_table =0;
+            pg_table++;
+        }</code></pre><p>free_page（）源码在下面：</p>
+<pre><code>        free_page(0xfffff000 &amp; *dir);    //这里是free页目录项dir项所指的页表的内容
+        *dir =0;
     }
+    invalidate();
     return 0;
-}</code></pre><h2 id="get-limit-源码"><a href="#get-limit-源码" class="headerlink" title="get_limit()源码"></a>get_limit()源码</h2><p>get_limit()被定义在include/linux/sched.h<br><br><strong>函数目的是：取段选择符segment指定的描述符的段限长值</strong></p>
-<pre><code>//指令lsl是Load Segment Limit缩写。它从指定段描述符中取出分散的限长比特位拼成完整的
-//段限长值放入指定寄存器中。所得的段限长是实际字节数减1，因此这里还需要加1(incl加1指令)才返回。
-#define get_limit(segment) ({\
-unsigned long __limit;\
-__asm__(&quot;lsll %1，%0\n\t incl %0&quot;:&quot;=r&quot;(__limit):&quot;r&quot;(segment));\
-__limit;})</code></pre><h2 id="get-base-源码"><a href="#get-base-源码" class="headerlink" title="get_base()源码"></a>get_base()源码</h2><p>get_base()被定义在include/linux/sched.h<br><br><strong>函数目的是：取局部描述符表ldt所指段描述符中的基地址</strong></p>
-<pre><code>#define get_base(ldt) _get_base(((char *)&amp;(ldt)))</code></pre><p>_get_base（）</p>
-<pre><code>#define _get_base(addr)({\
-unsigned long __base;\
-__asm__(&quot;movb %3,%%dh\n\t&quot;\        //取[addr+7]处基址高16位的高8位（位31-24）-&gt;dh
-        &quot;movb %2,%%dl\n\t&quot;\        //取[addr+4]处基址高16位的低8位（位23-16）-&gt;dl    
-        &quot;shll $16,%%edx\n\t&quot;\    //基地址高16位移到edx中高16位处
-        &quot;movw %1,%%dx&quot;\            //取[addr+2]处基址低16位（位15-0）-&gt;dx。
-        :&quot;=d&quot;(__base)\            //从而edx中含有32位段基址。
-        :&quot;m&quot;(*((addr)+2))\
-         &quot;m&quot;(*((addr)+4))\
-         &quot;m&quot;(*((addr)+7)))
-__base;})</code></pre><h2 id="set-base"><a href="#set-base" class="headerlink" title="set_base( )"></a>set_base( )</h2><p>set_base( )被定义在include/linux/sched.h<br><br><strong>函数目的是：设置局部描述符表中ldt描述符的基地址字段</strong></p>
-<pre><code>#define set_base(ldt,base) _set_base(((char *)&amp;(ldt)),base)</code></pre><p>_set_base( )源码如下：<br></p>
-<pre><code>//设置位于地址addr处描述符中的各基地址字段（基地址是base）。
-#define _set_base(addr,base)\    
-__asm__(&quot;movw %%dx,%0\n\t&quot;\        //基址base低16位（位15~0）-&gt;[addr+2]
-        &quot;rorl $16,%%edx\n\t&quot;\    //edx中基址高16位（位31-16）-&gt;dx(循环左移)
-        &quot;movb %%dl,%1\n\t&quot;\        //基址高16位中的低8位（位23-16）-&gt;[addr+4]
-        &quot;movb %%dh,%2&quot;\            //基址高16位中的高8位（位31~24）-&gt;[addr+7]
-        ::&quot;m&quot;(*((addr)+2)),\
-          &quot;m&quot;(*((addr)+4)),\
-          &quot;m&quot;(*((addr)+7)),\
-          &quot;d&quot;(base)\
-          :&quot;dx&quot;)</code></pre>
+}</code></pre><h1 id="free-page"><a href="#free-page" class="headerlink" title="free_page ( )"></a>free_page ( )</h1><p>被定义在kernel/mm/memory.c<br><br>释放物理地址“addr”处的一页内存。用于函数“free_page_tables()”</p>
+<pre><code>    void free_page(unsigned long addr)
+    {
+//首先判断参数给定的物理地址addr的合理性。如果地址addr小于内存低端（1MB），
+//则表示在内核程序或高速缓冲中，对此不予处理。如果物理地址addr&gt;=系统所含物理内存最高端，则显示出错信息并且内核停止工作。
+        if(addr&lt;LOW_MEM) return;
+//如果物理地址&gt;=系统所含物理内存最高端，则显示出错信息，并且内核停止工作
+        if(addr&gt;=HIGH_MEMORY)
+            panic(&quot;trying to free nonexistent page&quot;);
+//如果参数addr验证通过，那么就根据这个物理地址换算出从内存地址低端开始计起的内存页面号。
+//页面=号=（addr-LOW_MEM)/4096。可见页面号从0号开始计算起。此时addr中存放页面号。
+//如果该页面号对应的页面映射字节不等于0，则减一返回此时该映射的字节为0则表示该页面已经被释放。
+//如果对应的页面字节原本就是0，表示物理页面本来就是空闲的，说明内核代码出问题，于是显示出错信息并停机。
+        addr -=LOW_MEM;
+        addr&gt;&gt;=12;
+        if(mem_map[addr]--) return;    //--a和a--的区别是前者返回a-1的值，后者返回值是a原始值。
+        mem_map[addr]=0;
+        panic(&quot;trying to free free page&quot;);
+    }</code></pre>
             <hr>
           </div>
           <br>
@@ -303,7 +298,7 @@ __asm__(&quot;movw %%dx,%0\n\t&quot;\        //基址base低16位（位15~0）-&
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "copy_mem（）&nbsp;",
+        "free_page_tables（）和free_page ( )&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 80,
