@@ -189,7 +189,7 @@ sys_setreuid,sys_setregid };</code></pre><p><strong>fn_ptr是int类型指针定�
         pushl   %esi
         pushl   %edi
         pushl   %ebp
-        pushl   %eax</code></pre><p><strong>此时栈内容为如下接着call copy_process,开始为新进程复制父进程的代码段和数据段:<br></strong><br><img src="https://i.imgur.com/Vz9o1Wk.png" srcset="/img/loading.gif" alt></p>
+        pushl   %eax</code></pre><p><strong>此时栈内容为如下接着call copy_process,开始为新进程复制父进程的代码段和数据段:<br></strong><br><img src="https://i.imgur.com/Vz9o1Wk.png" srcset="/img/loading.gif" alt><br><br>copy_process 看这一篇：<a href="https://lexssama.github.io/2020/01/02/copy-process/" target="_blank" rel="noopener">copy_process （）源码分析</a></p>
 <pre><code>        call    copy_process    #调用C函数copy_process()(kernel/fork.c,68)。
         addl    $20,%esp        #丢弃这里所有sys_fork内压入栈中的内容。
     1:  ret</code></pre><p><strong>/———————————————————————-</strong></p>
@@ -198,10 +198,15 @@ sys_setreuid,sys_setregid };</code></pre><p><strong>fn_ptr是int类型指针定�
     #例如当后台进程组中的进程执行控制终端读写操作时，那么默认条件下该后台进程组所有进程
     #会收到SIGTTIN或SIGTTOU信号，导致进程组中所有进程处于停止状态。而当前进程会立刻返回。
      movl current,%eax   #取当前任务（进程）数据结构地址-&gt;eax。
-    cmpl $0,state(%eax)        # state 调用地址=[state+%eax]，因为eax为current所指的task_struct的地址。
+    cmpl $0,state(%eax)        # state 调用地址=[%eax+state]，因为eax为current所指的task_struct的地址。
     jne reschedule
     cmpl $0,counter(%eax)        # counter
-    je reschedule</code></pre><p><strong>-———————————————————————-</strong></p>
+    je reschedule</code></pre><p><strong>reschedule定义在system_call.s中</strong><br></p>
+<pre><code>.align 2
+reschedule:
+    pushl $ret_from_sys_call    //保存system_call中标志ret_from_sys_call的地址
+    jmp schedule        //跳到函数schedule处执行
+.align 2</code></pre><p>schedule函数看这篇。。。<br><br><strong>-———————————————————————-</strong></p>
 <pre><code>#以下这段代码执行从系统调用C函数返回后，对信号进行识别处理。其他中断服务退出时也将跳转到这里进行
 #处理后才退出中断过程，例如后面131行上的处理器出错中断int 16。
 ret_from_sys_call:

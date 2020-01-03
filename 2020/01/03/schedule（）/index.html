@@ -15,7 +15,7 @@
   <meta name="description" content="">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <title>copy_process ~ lexssama</title>
+  <title>schedule（） ~ lexssama</title>
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
   <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
   <link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
@@ -103,7 +103,7 @@
 
             
               <br>
-              <p class="mt-3">星期四, 一月 2日 2020, 5:09 下午</p>
+              <p class="mt-3">星期五, 一月 3日 2020, 8:16 晚上</p>
             
           </div>
 
@@ -124,72 +124,66 @@
       <div class="py-5 z-depth-3" id="board">
         <div class="post-content mx-auto">
           <div class="markdown-body">
-            <h1 id="copy-process"><a href="#copy-process" class="headerlink" title="copy_process"></a>copy_process</h1><p>copy_process定义在kernel/fork.c中<br><br>在sys_fork中执行了find_empty_process找到空闲的任务结构后压入一些寄存器就执行copy_process<br><br>它的作用是：复制系统进程信息（task[nr]），并且设置必要的寄存器，它还整个地复制数据段。<br></p>
-<p>sys_fork函数执行到copy_process时其栈内容如下图，正好对应copy_process函数的参数调用。<br><img src="https://i.imgur.com/Nuq10FZ.png" srcset="/img/loading.gif" alt></p>
-<pre><code>int copy_process(int nr,long ebp,long edi,long esi,long gs,long none,
-        long ebx,long ecx,long edx,
-        long fs,long es,long ds,
-        long eip,long cs,long eflags,long esp,long ss)
-{
-    struct task_struct *p;
-    int i;
-    struct file *f;</code></pre><p>首先为新任务数据结构分配内存(get_free_page（）,用来取得空闲的一页物理页面（4KB）)。如果内存分配出错，则返回出错码并退出。不出错则将新任务结构指针放入任务数组的nr中，（其中nr为任务号，由前面find_empty_process()返回。）接着把当前进程任务结构内容复制到刚申请到的内存页面p开始处。<br><a href="https://lexssama.github.io/2020/01/02/get-free-page%EF%BC%88%EF%BC%89/" target="_blank" rel="noopener">get _free _page()源码分析</a></p>
-<pre><code>    p = (struct task_struct *) get_free_page(); //返回空闲物理页面地址（若无空闲页面则返回0）
-    if (!p)
-        return -EAGAIN;
-    task[nr] = p;
-    *p = *current;    //这样做不会复制超级用户堆栈（只复制进程结构）</code></pre><p>随后对复制来的进程结构内容进行一些修改，作为新进程的任务结构。<br>先将新进程的任务状态置为不可中断等待状态（有点像关中断），以防止内核调度其执行<br>然后设置新进程的进程号pid和父进程号father，并初始化进程运行时间片值等于其priority值<br>（一般为15个嘀咕）。接着复位新进程的信号位图，报警定时器，会话（session）领导标志leader，<br>进程及其子进程在内核和用户态运行时间统计值，还设置进程开始运行的系统时间start_time</p>
-<pre><code>    p-&gt;state = TASK_UNINTERRUPTIBLE;    
-    p-&gt;pid = last_pid;    //新进程号。也由find_empty_process()得到
-    p-&gt;father = current-&gt;pid;    //设置父进程号
-    p-&gt;counter = p-&gt;priority;    //运行时间片值
-    p-&gt;signal = 0;    //信号位图置0
-    p-&gt;alarm = 0;    //报警定时值（滴答数）
-    p-&gt;leader = 0;        /* process leadership doesn&#39;t inherit （进程的领导权是不能被继承的*/
-    p-&gt;utime = p-&gt;stime = 0;    //用户态时间和核心态运行时间
-    p-&gt;cutime = p-&gt;cstime = 0;    //子进程用户态和核心态运行时间
-    p-&gt;start_time = jiffies;    //进程开始运行时间（当前时间滴答数）</code></pre><p>在修改任务状态段TSS数据，由于系统给任务结构p分配了一页新内存，所以（PAGE_SIZE+（long）p）让esp0<br>正好指向该页顶端。ss0:esp0用作程序在内核态执行时的栈，每个任务在GDT表中都有两个段描述符，一个是任务的TSS段描述符，一个是LDT表段描述符下面的p-&gt;tss.ldt = _LDT(nr)就是把GDT中本任务LDT段描述符的选择符保存在本任务的TSS段中当CPU执行切换任务时，会自动从TSS中把LDT段描述符的选择符加载到ldtr寄存器中</p>
-<pre><code>    p-&gt;tss.back_link = 0;
-    p-&gt;tss.esp0 = PAGE_SIZE + (long) p;    //任务内核态栈指针=空闲物理页面地址+ PAGE_SIZE。
-    p-&gt;tss.ss0 = 0x10;    //内核态栈的段选择符
-    p-&gt;tss.eip = eip;    //指令代码指针
-    p-&gt;tss.eflags = eflags;    //标志寄存器
-    p-&gt;tss.eax = 0;    //这是当fork（）返回时新进程会返回0的原因所在
-    p-&gt;tss.ecx = ecx;
-    p-&gt;tss.edx = edx;
-    p-&gt;tss.ebx = ebx;
-    p-&gt;tss.esp = esp;
-    p-&gt;tss.ebp = ebp;
-    p-&gt;tss.esi = esi;
-    p-&gt;tss.edi = edi;
-    p-&gt;tss.es = es &amp; 0xffff;    //段寄存器仅16位有效
-    p-&gt;tss.cs = cs &amp; 0xffff;
-    p-&gt;tss.ss = ss &amp; 0xffff;
-    p-&gt;tss.ds = ds &amp; 0xffff;
-    p-&gt;tss.fs = fs &amp; 0xffff;
-    p-&gt;tss.gs = gs &amp; 0xffff;
-    p-&gt;tss.ldt = _LDT(nr);    //任务局部表描述符的选择符
-    p-&gt;tss.trace_bitmap = 0x80000000;    //高16位有效</code></pre><p>如果当前任务使用了协处理器，就需要保存其上下文（即还需要把协处理器的完整状态保存到新进程的tss.i387结构中）。因为要创建新进程就是copy旧进程所以如果current用到协处理器就还需要保存协处理器汇编指令clts用于清除控制寄存器CR0中的任务已交换（TS）标志。每当发生任务切换，CPU都会设置该标志，该标志用于管理数学协处理器如果该标志置位，那么每个ESC指令都会被捕获（异常7）。如果协处理器存在标志MP也同时置位的话，<br>那么WAIT指令也会捕获，因此任务切换发生在一个ESC指令开始执行之后，则协处理器中的内容就可能需要<br>在执行新的ESC指令之前保存起来。捕获处理句柄会保存协处理器的内容并复位TS标志。指令fnsave用于<br>把协处理器的所有状态保存到目的操作数指定的内存区域中（tss.i387）。<br><br>last_task_used_math定义在kernel/sched.c中<br><br>struct task_struct *last_task_used_math=NULL; //使用过协处理器的指针</p>
-<pre><code>    if (last_task_used_math == current)
-        __asm__(&quot;clts ; fnsave %0&quot;::&quot;m&quot; (p-&gt;tss.i387));</code></pre><p>接下来复制进程页表。即线性地址空间中设置新代码段和数据段描述符中的基址和限长，并复制页表，如果出错（返回值不是0），则复位任务数组中相应项并释放为该新任务分配的用于任务结构的内存页。<br>copy_mem()看这篇<a href="https://lexssama.github.io/2020/01/02/copy-mem%EF%BC%88%EF%BC%89/" target="_blank" rel="noopener">copy _mem()源码分析</a><br><br>free_page()看这篇<a href="https://lexssama.github.io/2020/01/03/free_page_tables%EF%BC%88%EF%BC%89%E5%92%8Cfree_page%20(%20)" target="_blank" rel="noopener">free _page()源码分析</a></p>
-<pre><code>    if (copy_mem(nr,p)) {    //返回不为0表示出错
-        task[nr] = NULL;
-        free_page((long) p);    //如果失败就释放申请的页面
-        return -EAGAIN;
-    }</code></pre><p>如果父进程中有文件是打开的，则将对应文件的打开次数增加1.因为这里创建的子进程会与父进程共享这些打开的文件，将当前进程（父进程）的pwd，root和executable引用次数均增加1，与上面同样的道理，子进程也引用了这些i节点。</p>
-<pre><code>    for (i=0; i&lt;NR_OPEN;i++)     //NR_OPEN被定义在fs.h中 （#define NR_OPEN 20）打开文件数。
-        if ((f=p-&gt;filp[i]))
-            f-&gt;f_count++;
-    if (current-&gt;pwd)
-        current-&gt;pwd-&gt;i_count++;
-    if (current-&gt;root)
-        current-&gt;root-&gt;i_count++;
-    if (current-&gt;executable)
-        current-&gt;executable-&gt;i_count++;</code></pre><p>随后在GDT表中设置新任务TSS段和LDT段描述符。这两个段的限长均被设置成104字节<br>程序然后把新进程设置成就绪态，另外在任务切换时，任务寄存器tr由CPU自动加载。<br>最后返回新进程号。<br><br>set_tss_desc()和set_ldt_desc()定义在include/asm/system.h<br></p>
-<pre><code>    set_tss_desc(gdt+(nr&lt;&lt;1)+FIRST_TSS_ENTRY,&amp;(p-&gt;tss));
-    set_ldt_desc(gdt+(nr&lt;&lt;1)+FIRST_LDT_ENTRY,&amp;(p-&gt;ldt));
-    p-&gt;state = TASK_RUNNING;    /* do this last, just in case （最后才将新任务置成就绪态，以防万一）*/
-    return last_pid;
+            <p>#schedule( )</p>
+<p>schedule定义在linux/kernel/sched.c中<br><br><strong>函数功能：</strong>schedule()函数负责选择系统中下一个运行的进程。它首先对所有任务（进程）进行检测，唤醒任何一个已经的到信号的任务。具体方法时针对任务数组中每一个任务，检查其报警定时值alarm，如果任务的alarm时间已经过期(alarm&lt;jiffies)，则在它的信号位图中设置SIGALRM，然后清alarm值。jiffies时系统从开机开始算起的滴答数（10ms/滴答）。在sched.h中定义。如果进程的信号位图中除去被阻塞的信号外还有其他信号，并且任务处于可中断睡眠状态（TASK_INTERRUPTIBLE），则置任务为就绪状态（TASK_RUNNING）。<br></p>
+<pre><code>    void schedule(void)
+    {
+        int i,next,c;
+        struct task_struct **p;    //任务结构指针的指针    </code></pre><p>检测alarm（进程的报警定时值），唤醒任何已得到信号的可中断任务<br><br>从任务数组中最后一个任务开始循环检测alarm。在循环时跳过空指针项。</p>
+<pre><code>        for(p=&amp;LAST_TASK;p&gt;&amp;FIRST_TASK;--p)
+                if(*p)
+                {</code></pre><p>如果设置过任务定时值alarm，并且已经过期(alarm&lt;jiffies)，则在信号位图中置SIGALRM(一个宏定义在include/sys/signal.h)信号，即向任务发送SIGALARM信号，然后清alarm。该信号的默认操作是终止进程,<br>jiffies是从系统开机开始算起的滴答数（10ms/滴答）。定义在sched.h中</p>
+<pre><code>                    if((*p)-&gt;alarm &amp;&amp; (*p)-&gt;alarm&lt; jiffies)
+                    {</code></pre><p>（*p）-&gt;signal是信号位图，每个比特代表一种信号，信号值=位偏移值+1，这就是执行1&lt;&lt;(SIGALRM-1的原因。</p>
+<pre><code>                        (*p)-&gt;signal |= (1&lt;&lt;(SIGALRM-1)); //SIGALRM被定义在signal.h中代表实时定时器报警
+                        (*p)-&gt;alarm =0;
+                    }</code></pre><p>如果信号位图中除被阻塞的信号外还有其他信号，并且任务处于可中断状态，则置任务为就绪<br>状态。其中~(BLOCKABLE &amp; (*p)-&gt;blocked)用于忽略被阻塞的信号，但SIGKILL和SIGSTOP不能被堵塞。<br><br>BLOCKABLE是一个宏，源码在下面<br></p>
+<pre><code>                    if(((*p)-&gt;signal &amp; ~(BLOCKABLE &amp; (*p)-&gt;blocked))&amp;&amp;(*p)-&gt;state==TASK_INTERRUPTIBLE)
+                                                     //(*p)-&gt;blocked是进程信号屏蔽码（对应信号位图）。
+                        (*p)-&gt;state=TASK_RUNNING;    //置为就绪(可执行)状态。
+                }</code></pre><p>这里是调度程序的主要部分</p>
+<pre><code>        while(1)
+        {
+            c = -1;
+            next = 0;
+            i = NR_TASKS;
+            p = &amp;task[NR_TASK];</code></pre><p>这段代码也是从任务数组的最后一个任务开始循环，并跳过不含任务的数组槽。比较每个就绪状态任务的<br>counter （任务运行时间的递减滴答计数）值，哪一个值大，运行的时间还不长。next就指向哪个任务号。</p>
+<pre><code>            while(--i)
+            {
+                if(!*--p)    //没有执行任务进程执行continue
+                    continue;
+                if((*p)-&gt;state == TASK_RUNNING &amp;&amp; (*p)-&gt;counter &gt; c)
+                            c = (*p)-&gt;counter,next =i;
+            }</code></pre><p>如果比较得出有counter值不等于0的结果，或者系统中没有一个可运行的任务存在(此时c仍然为-1<br>，next =0)，则退出上面的while(1)循环，执行循环外的任务切换操作<br><br>否则(所有的任务进程的counter都为0)就根据每个任务的优先权值，更新每个任务的counter值，然后回到while重新比较。<br>counter值的计算方式为counter = counter/2 + priority 注意，这里计算进程不考虑进程的状态</p>
+<pre><code>            if(c) break;
+            for(p = &amp;LAST_TASK; p&gt; &amp;FIRST_TASK; --p)
+                if(*p)
+                    (*p)-&gt;counter = ((*p)-&gt;counter &gt;&gt; 1)+(*p) -&gt;priority;
+        }</code></pre><p>用下面的宏（定义在sched.h中）把当前任务指针current指向任务号next的任务，并切换到该任务中<br>运行。在上面代码中next被初始化为0.因此若系统中没有任何其他任务可运行时，则next始终为0.<br>因此调度函数会在系统空闲的适合取执行任务0，此时任务0仅仅执行pause()系统调用，并又会调用本函数。<br><br>switch_to()函数源码在下面<br></p>
+<pre><code>            switch_to(next); //切换任务号为next的任务，并运行之。
+    }</code></pre><h2 id="BLOCKABLE"><a href="#BLOCKABLE" class="headerlink" title="BLOCKABLE"></a>BLOCKABLE</h2><p>定义在linux/kernel/sched.c中<br><br>SIGKILL和SIGSTOP是宏定义在include/sys/signal.h</p>
+<pre><code>//该宏取信号nr在信号位图中对应位的二进制数值。信号编号1-32.比如信号5的位图数值等于
+//1&lt;&lt;(5-1) =16= 00010000b。
+#define S(nr) (1&lt;&lt;((nr)-1))
+//除了SIGKILL和SIGSTOP信号以外其他信号都是可阻塞的。(....1011,1111,1110,1111,1111b)
+#define BLOCKABLE(~(S(SIGKILL)| S(SIGSTOP)))</code></pre><h2 id="switch-to"><a href="#switch-to" class="headerlink" title="switch_to( )"></a>switch_to( )</h2><p>switch_to被定义在linux/include/linux/sched.h<br></p>
+<p><strong>函数功能：</strong>switch_to(n)将切换当前任务到任务nr，即n，首先检测任务n是不是当前任务<br>如果是则什么也不做退出。如果我们切换到的任务最近（上一次使用过数学协处理器的话），则还需要复位控制寄存器cr0中的TS标志<br><br><strong>这里解释以下ljmp指令，格式是(ljmp cs1,eip1)，是吧cs1和eip1分别装入cs（16位）和eip（16或32位）寄存器。然后跳转过去<br><br>下面的语句是ljmp %0，是用__tmp中的内存数所以也可以近似看为(ljmp __tmp.b，__tmp.a) 刚好和__tmp中的a，b顺序反过来。</strong></p>
+<pre><code>#define switch_to(n){ \
+struct {long a,b;}    __tmp; \
+__asm__(&quot;cmpl %%ecx,current \n\t&quot;\    //首先检测给得的任务n是不是当前任务
+    &quot;je 1f\n\t&quot; \    //如果是则什么也不做退出。
+    &quot;movw %%dx,%1\n\t&quot;\    //取新任务TSS的16位选择符存入__tmp.b中
+    //指令xchgl命令是交换两个寄存器的内容或者寄存器和内存变量的内容，两者都改变。
+    &quot;xchgl %%ecx,current\n\t&quot;\    // current=task[n];ecx = 被切换出的任务。
+    &quot;ljmp %0\n\t&quot; \                //执行长跳转*&amp;__tmp，造成任务切换。
+                                //在任务切换回来后才会继续执行下面的语句。
+    &quot;cmpl %%ecx,last_task_used_math\n\t&quot; \
+    &quot;jne 1f\n\t&quot;\
+    //cr0标志TS每次任务切换时将其置1，任务切换完毕则清0。
+    &quot;clts \n&quot;\    //清除CR0中的任务切换标志TS
+    &quot;1:&quot;\
+    ::&quot;m&quot;(*&amp;__tmp.a),&quot;m&quot;(*&amp;__tmp.b),\
+    &quot;d&quot;(_TSS(n)),&quot;c&quot;((long)task[n]));\
 }</code></pre>
             <hr>
           </div>
@@ -316,7 +310,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "copy_process&nbsp;",
+        "schedule（）&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 80,

@@ -140,7 +140,7 @@
 <pre><code>    new_data_base = new_code_base = nr*0x4000000;    //64MB*其任务号
     p-&gt;start_code=new_code_base;
     set_base(p-&gt;ldt[1],new_code_base);    //设置新进程的ldt表的代码段地址。
-    set_base(p-&gt;ldt[2],new_data_base);    //设置新进程的ldt表的数据段地址。</code></pre><p>接下来设置新进程的页目录表项和页表项<br><br>copy_page_table( )看这篇 <a href="https://lexssama.github.io/2020/01/03/copy-page-table%EF%BC%88%EF%BC%89/" target="_blank" rel="noopener">copy _page _table( )源码分析</a><br><br><br>free_page_table( )看这篇….<br></p>
+    set_base(p-&gt;ldt[2],new_data_base);    //设置新进程的ldt表的数据段地址。</code></pre><p>接下来设置新进程的页目录表项和页表项<br><br>copy_page_table( )看这篇 <a href="https://lexssama.github.io/2020/01/03/copy-page-table%EF%BC%88%EF%BC%89/" target="_blank" rel="noopener">copy _page _table( )源码分析</a><br><br><br>free_page_table( )看这篇<a href="https://lexssama.github.io/2020/01/03/free_page_tables%EF%BC%88%EF%BC%89%E5%92%8Cfree_page%20(%20)/" target="_blank" rel="noopener">free _page _table( )源码分析</a><br></p>
 <pre><code>    if(copy_page_table(old_data_base,new_data_base,data_limit))
     {
         free_page_table(new_data_base,data_limit);
