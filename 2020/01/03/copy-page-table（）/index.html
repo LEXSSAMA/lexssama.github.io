@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/spider.png">
+  <link rel="icon" type="image/png" href="/img/spider.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="description" content="">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>copy_page_table（） ~ lexssama</title>
+  <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
+  <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
+  <link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
+  <link rel="stylesheet" href="/lib/github-markdown/github-markdown.min.css"  >
+  <link rel="stylesheet" href="https://at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+  
+    <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css"  >
+  
+  <link rel="stylesheet" href="/css/main.css"  >
+
+  
+</head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>lexssama</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">Archives</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/categories/">Categories</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">Tags</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">About</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+</nav>
+
+    <div class="view intro-2" id="background"
+         style="background: url('/img/136457.jpg')no-repeat center center;
+           background-size: cover;
+           background-attachment: fixed;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <br>
+              <p class="mt-3">星期五, 一月 3日 2020, 6:06 晚上</p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto">
+          <div class="markdown-body">
+            <h1 id="copy-page-table（）"><a href="#copy-page-table（）" class="headerlink" title="copy_page_table（）"></a>copy_page_table（）</h1><p>copy_page_table 被定义在linux/mm/memory.c<br><br><strong>函数功能：</strong>copy_page_table用于复制指定线性地址和长度（页表个数）对应的页目录项和页表，从而被复制的页目录和页表对应的原物理内存区被共享使用。该函数首先验证指定的源线性地址和目的线性地址是否都在4MB的内存边界上，否则就显示出错信息，并死机；然后由指定线性地址换算出对应的起始页目录项和页表项，复制到新的空闲目录项和页表项中。页目录表只有一个，而新进程的页表需要申请空闲内存页面来存放；此后再将原始和新的页目录和页表项都设置成只读的页面。当有写操作时就利用页异常中断调用，执行写时复制操作，最后对共享物理内存页对应的字节图数组mem_map[]的标志进行增1操作。<br><br>!!注意:当from=0，说明是在为第一次fork（）调用复制内核空间。<br>此时我们就不想复制整个页目录项对应的内存，因为这样做会导致内存严重浪费<br>我们只需要复制开头160个页面-对应640KB，即使复制这些页面也超出我们的需求，但这不会占用更多的内存-<br>在低1MB内存范围内我们不执行写时复制，所有这些页面可以与内核共享。<br></p>
+<p>参数from，to是线性地址，size是需要复制（共享）的内存长度，单位是字节。</p>
+<pre><code>int copy_page_table(unsigned long from,unsigned long to,long size)
+{
+    unsigned long* from_page_table;
+    unsigned long*    to_page_table;
+    unsigned long this_page;
+    unsigned long*from_dir,*to_dir;
+    unsigned long nr;</code></pre><p>首先检测参数给出的源地址from和目的地址to的有效性。源地址和目的地址都需要在4MB<br>内存边界地址上，否则出错死机，做这样的要求是因为一个页表的1024项可管理4Mb内存。<br>源地址from和目的地址to，只有满足这个要求才能保证从一个页表的第一项开始复制页表项,并且新页表的最初所有项都是有效的(如果不满足证明给出来的地址不是页表的第一项)，然后取得源地址和目的地址的起始目的项指针<br>（from_dir和to_dir）。再根据参数给出的长度size计算要复制的内存块占用的页表数（即目录项数）。</p>
+<pre><code>    if((from&amp;0x3fffff)||(to&amp;0x3fffff))    //正确情况下两个and操作应该都得到0，然后0||0
+        panic(&quot;copy_page_table called with wrong alignment&quot;);
+    from_dir = (unsigned long*)((from&gt;&gt;20)&amp;0xffc);    //这里是取源地址页目录项的偏移地址（即线性地址的31-22位）
+    to_dir=(unsigned long*)((to&gt;&gt;20)&amp;0xffc);        //这里是取目的地址页目录项的偏移地址</code></pre><p>为什么要加上0x3ffff?<br><br>因为复制时复制目录项数即（一目录项4MB）<br>当size&lt;=4MB时+0x3fffff再左移22位等于1（即复制一项），但是如果不加0x3fffff就等于0了（即不用复制了）<br>同理当(8MB&gt;size&gt;4MB)时size+0x3fffff再&gt;&gt;22等于2，复制两项。</p>
+<pre><code>    size=((unsigned)(size+0x3fffff))&gt;&gt;22;    //计算需要复制的页目录项数</code></pre><p>在得到了源起始目录项指针from_dir和目的起始目录项指针to_dir以及需要复制的页表个数size后<br>下面开始对每个页目录项依次申请一页内存来保存对应的页表，并且开始页表项的复制操作，如果目的目录<br>项指定的页表已经存在（P=1），则出现死机，如果源目录项无效，即指定的页表不存在（P=0），<br>则继续循环处理下一个页目录项。</p>
+<pre><code>    for(;size--&gt;0;from_dir++,to_dir++)    //页目录项的循环
+    {
+        if(1 &amp; *to_dir)    //检测目的目录项的标志位P。
+            panic(&quot;copy_page_tables:already exist&quot;);
+        if(!(1 &amp; *from_dir))    //检测源目录项的标志位P
+            continue </code></pre><p>在验证了当前源目录项和目的项正常之后，我们取源目录项中页表地址from_page_table。<br>为了保存目的目录项对应的页表，需要在主内存区中申请一页空闲内存页。如果取空闲页面<br>函数get_free_page()返回0，则说明没有申请到空闲内存页面，可能所内存不够，于是返回-1值退出<br><br>get_free_page()函数看篇：<a href="https://lexssama.github.io/2020/01/02/get-free-page%EF%BC%88%EF%BC%89/#mem-map-%E4%BB%8B%E7%BB%8D" target="_blank" rel="noopener">get _free _page()源码分析</a></p>
+<pre><code>        from_page_table=(unsigned long*)(0xfffff000 &amp; *from_dir);    //取源目录项的第from_dir项的值*from_dir
+                                                            //(如果还不懂的话去看看线性地址转换成物理地址那张图)
+        if(!(to_page_table = (unsigned long *) get_free_page()))    //申请一页物理内存，准备复制页表
+            return -1;</code></pre><p>如果找到了空闲页面我们就开始设置目录项信息，把最后3位置位，即当前目录项“或”上7，表示对应页表映射<br>的内存页面时用户级的，并且可读写，存在（usr，R/W，Present）。(如果U/S位是0，则R/W没有作用)。如果U/S位是1，而<br>R/W是0，那么运行在用户层的代码就只能读页面。如果U/S和R/W都置位，则就要读写的权限）。然后针对当前处理的页目录项<br>对应的页表，设置需要复制的页面项数。如果是在内核空间，则仅需复制160页对应的页表项（nr=160），对应于开始640KB物理内存<br>否则需要复制一个页表中的所有1024个页表项（nr=1024），可映射4MB物理内存。</p>
+<pre><code>        *to_dir = ((unsigned long) to_page_table) | 7;
+        nr = (from==0) ?0xA0:1024;    //判断是不是第一次fork（）</code></pre><p>此时对于当前页面，开始循环指定的nr个内存页面表项。先取出源页面内容，如果<br>当前源页面没有使用，则不用复制该表项，继续处理下一项。否则复位页面项R/W标志<br>（位1置0），即让页表项对应的内存页面只读。然后将页表项复制到目的页表中。</p>
+<pre><code>        for(; nr-- &gt;0 ; from_page_table++, to_pape_table++){    //页目录项循环内，页表项的循环。
+            this_page = *from_page_table;
+            if(!(1&amp;this_page))    //检测页表项P位，P=0证明没有使用。
+                continue;
+            this_page &amp;= ~2; //与上取反的2（~2），这里是把R/W标志复位。
+            *to_page_table = this_page;    //令目标页表项只读</code></pre><p>如果该页表所指物理页面的地址在1MB以上，则需要设置内存页面映射数组mem_map[]，<br>于是计算页面号，并以它为索引在页面映射数组相应项增加引用次数，而对于位于1MB<br>以下的页面，说明式内核页面，因此不需要对mem_map[]进行设置，因为mem_map[]仅用于<br>管理主内存区中的页面使用情况，因此对于内核移动到任务0中并用fork()创建任务1时（用于运行init（））<br>由于此时复制的页面还仍然都在内核代码区域，因此以下判断中的语句不会执行，任务0的页面仍然可以随时读写。<br>只有当调用fork（）的父进程代码处于主内存区（页面位置大于1MB）时才会执行，这种情况需要在进程调用<br>execve（）,并装载执行了新程序代码时才会出现。</p>
+<pre><code>        if(this_page &gt; LOW_MEM)
+        {</code></pre><p>下面这行语句时让源页表项页设置为只读，因为现在开始有两个进程共用内存区了，若其中一个进程<br>需要进行写操作，则通过页异常写保护处理为执行写操作的进程分配一页新空闲页面，也即进行写时复制（copy on write）操作。</p>
+<pre><code>            *from_page_table = this_page;  //令源页表项也只读
+            this_page -=LOW_MEM;
+            this_page &gt;&gt;=12;
+            mem_map[this_page]++;
+        }
+        }
+    }</code></pre><p>invalidate（）源码在下面</p>
+<pre><code>    invalidate();    //刷新页变换高速缓冲。
+    return 0;
+}</code></pre><h2 id="invalidate（）源码"><a href="#invalidate（）源码" class="headerlink" title="invalidate（）源码"></a>invalidate（）源码</h2><p>函数被定义在kernel/mm/memory.c中<br>刷新页变换缓冲函数。<br>为了提高地址转换的效率，CPU将最近使用的页表数据存放在芯片高速缓冲中，在修改过页表信息之后<br>就需要刷新该缓冲区。这里使用重新加载页目录基址寄存器cr3的方法来进行刷新。<br>下面eax =0， 是页目录的基址。</p>
+<pre><code>    #define invalidate() \
+__asm__(&quot;movl %%eax,%%cr3&quot;::&quot;a&quot;(0))</code></pre>
+            <hr>
+          </div>
+          <br>
+          <div>
+            
+              <p>
+                <i class="iconfont icon-inbox"></i>
+                
+                  <a class="hover-with-bg" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">操作系统</a>
+                  &nbsp;
+                
+                  <a class="hover-with-bg" href="/categories/Linux-0.11%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90">Linux-0.11源码分析</a>
+                  &nbsp;
+                
+              </p>
+            
+            <p>
+              <i class="iconfont icon-tag"></i>
+              
+                <a class="hover-with-bg" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">操作系统</a>
+              
+                <a class="hover-with-bg" href="/tags/Linux-0.11%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90">Linux-0.11源码分析</a>
+              
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+  </div>
+</div>
+
+    
+  </main>
+
+  
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <b>Fluid</b></a>
+    <br>
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="/lib/jquery/jquery.min.js" ></script>
+<script src="/lib/popper/popper.min.js" ></script>
+<script src="/lib/bootstrap/js/bootstrap.min.js" ></script>
+<script src="/lib/mdbootstrap/js/mdb.min.js" ></script>
+<script src="/js/main.js" ></script>
+
+  <script src="/js/lazyload.js" ></script>
+
+
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
+
+  <script src="/lib/prettify/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+  <script src="/lib/typed/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "copy_page_table（）&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 80,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+  <script src="/lib/anchor/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "false",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script>
+    if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent) || (/Safari/i.test(navigator.userAgent) && !/Chrome/i.test(navigator.userAgent))) {
+      $("#background").css("background-attachment", "scroll");
+    }
+  </script>
+
+</body>
+</html>

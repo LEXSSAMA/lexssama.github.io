@@ -129,6 +129,88 @@
     
     
     <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/01/03/copy-page-table%EF%BC%88%EF%BC%89/">
+        <p class="h4 index-header">copy_page_table（）</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">copy_page_table（）copy_page_table 被定义在linux/mm/memory.c函数功能：copy_page_table用于复制指定线性地址和长度（页表个数）对应的页目录项和页表，从而被复制的页目录和页表对应的原物理内存区被共享使用。该函数首先验证指定的源线性地址和目的线性地址是否都在4MB的内存边界上，否则就显示出错信息，并死机；然后由指定线性地址换算出对应的起始页目录项和页表项，复制到新的空闲目录项和页表项中。页目录表只有一个，而新进程的页表需要申请空闲内存页面来存放；此后再将原始和新的页目录和页表项都设置成只读的页面。当有写操作时就利用页异常中断调用，执行写时复制操作，最后对共享物理内存页对应的字节图数组mem_map[]的标志进行增1操作。!!注意:当from=0，说明是在为第一次fork（）调用复制内核空间。此时我们就不想复制整个页目录项对应的内存，因为这样做会导致内存严重浪费我们只需要复制开头160个页面-对应640KB，即使复制这些页面也超出我们的需求，但这不会占用更多的内存-在低1MB内存范围内我们不执行写时复制，所有这些页面可以与内核共享。</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-01-03&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">操作系统</a>&nbsp;
+          
+            <a href="/categories/Linux-0.11%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90">Linux-0.11源码分析</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">操作系统</a>&nbsp;
+          
+            <a href="/tags/Linux-0.11%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90">Linux-0.11源码分析</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2020/01/02/copy-mem%EF%BC%88%EF%BC%89/">
+        <p class="h4 index-header">copy_mem（）</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">copy_mem( )copy_mem( )被定义在kernel/fork.c中copy_mem( )函数的作用是：复制内存页表（即把父进程的内存页表复制给新进程）参数nr是新任务号；p是新任务数据结构指针。该函数为新任务在线性地址空间中设置代码段和数据段基址，限长，并复制页表。由于Linux系统采用了写时复制（copy on write）技术因此这里仅为新进程设置自己的页目录表项和页表项，而没有实际为新进程分配物理内存页面。此时新进程与其父进程共享所有内存页面，操作成功返回0，否则返回出错号。
+int copy_mem (int nr,struct task_struct *p)
+{
+    unsigned long old_data_base,new_data_base_limit;
+    unsigned long old_code_base,new_code_base_limit;首先取当前进程局部描述符表中代码段描述符和数据段描述符项中的段限长（字节数）。0x0f是代码段选择符；0x17是数据段选择符。然后取当前进程代码段和数据段在线性地址空间中的基地址。由于Linux-</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-01-02&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">操作系统</a>&nbsp;
+          
+            <a href="/categories/Linux-0.11%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90">Linux-0.11源码分析</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">操作系统</a>&nbsp;
+          
+            <a href="/tags/Linux-0.11%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90">Linux-0.11源码分析</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
       <a href="/2020/01/02/get-free-page%EF%BC%88%EF%BC%89/">
         <p class="h4 index-header">get_free_page（）</p>
         
@@ -472,90 +554,6 @@ panic(&quot;Struct sigaction MUST be 16 bytes&quot;);panic定义在kernel/pan</d
           <i class="iconfont icon-tag"></i>
           
             <a href="/tags/Linux-0.11">Linux-0.11</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2019/12/02/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%EF%BC%88fs%EF%BC%89%E6%A6%82%E8%BF%B0/">
-        <p class="h4 index-header">文件系统（fs）概述</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">本博客大部分搬运于《Linux内核完全注释》赵烔编著，小部分增加一些自己阅读源码过程中遇到问题的解答。目的是：希望在自己搬运的过程中，可以加深对Linux-0.11内核的理解和印象。
-文件系统总体功能FS目录中的各程序中函数之间的引用关系，我们可也把它们从功能上分为四个部分加以讨论：第一部分： 是关于高速缓冲区的管理程序，主要实现了对硬盘等块设备进行数据高速存取的函数，该部分内容集中在buffer.c程序中实现。第二部分： 代码描述了文件系统的低层通用函数，说明了文件索引节点的管理，磁盘，数据块的分配和释放以及文件名与i节点的转换算法。第三部分：程序是有关对文件中数据进行读写操作，包括对字符设备，管道，块读写文件中的数据的访问。第四部分： 程序主要涉及文件的系统调用接口的实现，主要涉及文件的打开，关闭，创建以及有关文件目录操作等的系统调用。
-MINIX文件系统在开发Linux-0.11内核文件时，使用的时1.0版本的MINIX文件系统。对于一个360K的软盘，图中整个磁盘被划分为以1KB为单位的磁盘块，因此上图中共有360个磁盘块，每个方格表示一个磁盘块，在MINIX1.0文件系统中，</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2019-12-02&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">操作系统</a>&nbsp;
-          
-            <a href="/categories/Linux-0.11%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90">Linux-0.11源码分析</a>&nbsp;
-          
-            <a href="/categories/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F">文件系统</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/Linux-0.11">Linux-0.11</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-    <div class="col-12 col-md-8 m-auto">
-      <a href="/2019/11/24/head-s%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">
-        <p class="h4 index-header">head.s源码分析</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">感谢：《Linux内核完全注释》作者：赵烔。感谢:“ARM的程序员敲着诗歌的梦”的博客：https://blog.csdn.net/longintchar/article/details/79513086
-head.s程序head.s程序在被编译后，会被连接成system模块的最前面的开始部分，这也就是为什么称其为头部（head）程序的原因。从这里开始，内核完全都是在保护模式下运行了。head.s汇编程序与前面的语法格式不同，它采用的是AT&amp;T的汇编语言格式，并且需要使用GNU的gas和gld进行编译连接，因此需要注意代码的赋值的方向是从左到右。这段程序实际上处于内存绝对地址（物理地址）0处开始的地方，这个程序的功能比较单一。
-
-首先是加载各个数据段寄存器，重新设置中断描述符表idt，共256项，并使各个表项均指向一个只报错误的哑中断程序。
-然后重新设置全局描述符表gdt.
-接着使用物理地址0与1M开始处的内容相比较的方法，检测A20地址线是否真的开启（如果没有开启，访问高于1MB物理内存地址使CPU实际上只会访问（IP MOD 1MB）地址的内容）
-然后程序测试PC机是否含有</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2019-11-24&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">操作系统</a>&nbsp;
-          
-            <a href="/categories/Linux-0.11%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90">Linux-0.11源码分析</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/Linux-0.11%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90">Linux-0.11源码分析</a>&nbsp;
           
         
       </div>

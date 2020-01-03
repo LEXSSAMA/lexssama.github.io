@@ -129,6 +129,78 @@
     
     
     <div class="col-12 col-md-8 m-auto">
+      <a href="/2019/10/29/%E7%9B%AE%E6%A0%87%E6%96%87%E4%BB%B6%E6%A0%BC%E5%BC%8F/">
+        <p class="h4 index-header">目标文件格式</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">ELF目标文件格式目标文件格式有很多种，例如：System V UNIX 的COFF，window 的PE，Linux 的ELF。
+链接视图可重定位目标文件格式 
+(1).ELF头ELF头位于目标文件的起始位置，包括文件结构说明信息。ELF头的数据结构分为32位系统对于结构和64位系统对应结构。(可以使用readelf -h 命令对某个可重定位目标文件的ELF头进行解析。例如：对main.o头文件进行解析：readelf -h main.o）(2).节节是ELF文件的主体信息，包含了链接过程所用的目标代码信息，包括指令，数据，符号表和重定位信息等。.text :目标代码部分.rodata:只读数据节.data:已初始化全局变量.bss:未初始化的全局变量（不占据实际的磁盘空间）.symtab：符号表，程序中定义的函数名和全局静态变量名都属于符号，与这些符号相关的信息也保存在符号表中。.rel.text: .text节相关的可重定位信息。当链接器将某一个目标文件和其他目标文件组合时，.text节中的代码被合并后，一些指令中引用的操作地址信息或跳转目标指令的位置信息等都可以能被修改，通常，</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2019-10-29&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80-%E8%A2%81%E6%98%A5%E9%A3%8E">计算机系统基础-袁春风</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80">计算机系统基础</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2019/10/29/%E7%AC%AC4%E7%AB%A0%E2%80%94%E2%80%94%E7%A8%8B%E5%BA%8F%E7%9A%84%E9%93%BE%E6%8E%A5/">
+        <p class="h4 index-header">第4章—程序的链接</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">第4章 程序的链接-小结《课本214页》1.链接器位于编译器，指令集体系结构和操作系统的交叉点上，涉及指令系统，代码生成，机器语言，程序转换和虚拟存储管理等诸多概念。2.链接处理涉及三种目标文件格式：可重定位目标文件，可执行目标文件和共享库目标文件。3.共享库文件是一中特殊的可定位目标文件。4.ELF目标文件格式有链接视图和执行视图两种，前者是可重定位目标格式，后者是可执行目标格式。链接视图包括：ELF头，各种节，节头表。执行视图包括：ELF头，程序头表，各种节组成的段。5.链接包括两种链接形式：一是：静态链接，二是：动态链接。静态链接：就是将多个可重定位文件中的相同类型的节合并起来以生成完全链接的可执行目标文件，它的所有符号引用都是确定的虚拟地址空间中的最终地址，因而可以直接被加载执行。动态链接：动态链接模式下的可执行目标文件是部分链接的，还有一部分的引用地址没有确定，需要利用共享库中的定义符号进行重定位，因而需要由动态链接器来加载共享库并重定位可执行文件中部分文件的引用。动态链接又有两种形式分别是：一种是可执行目标文件加载时进行共享库的动态链接；另一种时可执行目标文件执行时进行共享</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2019-10-29&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80-%E8%A2%81%E6%98%A5%E9%A3%8E">计算机系统基础-袁春风</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80">计算机系统基础</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
       <a href="/2019/10/27/GCC%E5%86%85%E5%B5%8C%E6%B1%87%E7%BC%96%E4%B8%AD%E5%B8%B8%E8%A7%81%E7%9A%84constraint/">
         <p class="h4 index-header">GCC内嵌汇编中常见的constraint</p>
         

@@ -15,7 +15,7 @@
   <meta name="description" content="">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <title>get_free_page（） ~ lexssama</title>
+  <title>copy_mem（） ~ lexssama</title>
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
   <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
   <link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
@@ -103,7 +103,7 @@
 
             
               <br>
-              <p class="mt-3">星期四, 一月 2日 2020, 6:52 晚上</p>
+              <p class="mt-3">星期四, 一月 2日 2020, 8:32 晚上</p>
             
           </div>
 
@@ -124,37 +124,54 @@
       <div class="py-5 z-depth-3" id="board">
         <div class="post-content mx-auto">
           <div class="markdown-body">
-            <h1 id="get-free-page"><a href="#get-free-page" class="headerlink" title="get_free_page()"></a>get_free_page()</h1><p>get_free_page()定义在kernel/mm/memory.c中<br><br><strong>get_free_page和free_page用来管理主内存区中物理内存的占用和空闲情况，与每个进程的线性地址无关<br></strong><br><strong>get_free_page（）函数的作用：</strong><br><br>get_free_page()函数用于主内存区中申请一页空闲内存页，并返回物理内存页的起始地址。它首先扫描内存页面字节图数组mem_map[]，寻找值是0的字节项（0代表整个页面为空闲页面）。若无则返回0结束，表示物理内存已经使用完，若找到值为0的字节，则将其置1，并换算出对应空闲页面的起始地址。然后对该内存进行清零操作。最后返回该空闲页面的物理内存起始地址。<br></p>
-<h2 id="mem-map-介绍"><a href="#mem-map-介绍" class="headerlink" title="mem_map[]介绍"></a>mem_map[]介绍</h2><p><strong>这里解释一下mem_map[]：</strong><br><br>对于内核代码和数据所占物理内存区域以外的内存（1MB以上的内存），内核使用了一个字节数组mem_map[]来表示物理内存页面的状态，每个字节描述一个物理内存页的占用状态。其中的值表示被占用的次数，0表示对于的物理内存空闲着。当申请一页物理内存时，就将对应字节的值增1。<br><br>在内存管理初始化过程中，系统首先计算出1MB以上内存区域对于的内存页面数(PAGING_PAGES)，并把mem_map[]<br>所有项都置为100（占用），然后把主内存区域中对应的mem_map[]项中的值清零。因此内核所使用的位于1MB地址以上的高速缓冲区以及虚拟磁盘区域（若有的话）都已经被初始化为占用状态。mem_map[]中对应主内存区域的项则在内存使用过程中进行设置或者复位。<br></p>
-<p>mem_map[]定义在kernel/mm/memory.c<br></p>
-<pre><code>#define PAGING_MEMORY (15*1024*1024)    //分页内存15MB。主内存取最多15MB
-#define PAGING_PAGES (PAGING_MEMORY&gt;&gt;12) //分页后的内存页面数(3840)
-//物理内存映射字节图（1字节代表1页内存）。每个页面对应的字节用于标志页当前被引用
-//（占用）次数。它最大可以映射15MB的内存空间。再初始化函数mem_init()中，对于不能用
-//主存页面的位置均都预先设置成USED（100）.
-static unsigned char mem_map[PAGING_PAGES]={0,};</code></pre><h2 id="get-free-page-1"><a href="#get-free-page-1" class="headerlink" title="get_free_page()"></a>get_free_page()</h2><p><strong>下面时get_free_page( )函数源码:</strong><br></p>
-<pre><code>unsigned long get_free_page(void)
-{</code></pre><p>这里定义了一个局部寄存器变量，该变量将被保存在eax寄存器中，以便高效的访问和操作。这种定义变量的方法主要用于内嵌汇编程序中，详细说明参见gcc手册“在指定寄存器中的变量”</p>
-<pre><code>    register unsigned long __res asm(&quot;ax&quot;);</code></pre><p>std置方向位(DF=1),倒着遍历。<br><br>这里分别解释指令 repne和scasb。<br><br>repne（repeat not equal）：表示如果下一条指令的两个操作数不相等则循环，循环次数是ecx，每循环一次ecx减1。<br>scasb表示[%al]-[%di]也就是比较查询寄存器di中是否有al中的字符，每比较一次di自动变化（指向下一个单元还是上一个单元，由方向位DF决定，这里是指向上一个单元）</p>
-<pre><code>    __asm__(&quot;std;repne;scasb\n\t&quot;    
-        &quot;jne 1f\n\t&quot;    //ecx减到0如果没有相等的就跳到后面标志1：处执行。
-        &quot;movb $1,1(%%edi)\n\t&quot; //1-&gt;[1+%edi],将对应页面内存映像比特位置1。
-        // 这里为什么是[1+%edi]而非%edi呢是因为scasb执行后会将di根据方向位加1或者减1。因为scasb执行后减一，所有这里要加回来</code></pre><p>这里开始计算空闲物理页面的起始地址:</p>
-<pre><code>        &quot;sall $12,%%ecx\n\t&quot;    //sall是左移指令，相当于ecx*4K=相对页面起始位置。
-        &quot;addl %2,%%ecx\n\t&quot;        //再加上低端内存地址，得到页面实际物理起始地址。
-        &quot;movl %%ecx,%%edx\n\t&quot;    //将页面实际起始地址-&gt;edx寄存器</code></pre><p>得到空闲物理页面的起始地址后准备开始清零操作。</p>
-<pre><code>        &quot;movl $1024,%%ecx\n\t&quot;    //寄存器ecx置计数值1024
-        &quot;leal 4092(%%edx),%%edi\n\t&quot;    //将4092+edx的位置-&gt;edi（该页面的末端）。
-        &quot;rep ; stosl\n\t&quot;    //将edi所指内存清零（反方向，即将该页面清零）</code></pre><p>清零后返回页面的起始地址。</p>
-<pre><code>        &quot;movl %%edx,%%eax\n&quot;    //将页面的起始地址-&gt;eax(返回值)
-        &quot;1:&quot;
-        :&quot;=a&quot;(__res)    
-        :&quot;0&quot;(0),&quot;i&quot;(LOW_MEM),&quot;c&quot;(PAHING_PAGES),
-        &quot;D&quot;(mem_map+PAGING_PAGES-1)
-        :&quot;di&quot;,&quot;cx&quot;,&quot;dx&quot;
-        );
-    return __res;
-}</code></pre>
+            <h1 id="copy-mem"><a href="#copy-mem" class="headerlink" title="copy_mem( )"></a>copy_mem( )</h1><p>copy_mem( )被定义在kernel/fork.c中<br><br>copy_mem( )函数的作用是：<br><br>复制内存页表（即把父进程的内存页表复制给新进程）<br><br>参数nr是新任务号；p是新任务数据结构指针。<br><br><strong>该函数为新任务在线性地址空间中设置代码段<br>和数据段基址，限长，并复制页表。</strong>由于Linux系统采用了写时复制（copy on write）技术<br>因此这里仅为新进程设置自己的页目录表项和页表项，而没有实际为新进程分配物理内存页面。此时新进程<br>与其父进程共享所有内存页面，操作成功返回0，否则返回出错号。</p>
+<pre><code>int copy_mem (int nr,struct task_struct *p)
+{
+    unsigned long old_data_base,new_data_base_limit;
+    unsigned long old_code_base,new_code_base_limit;</code></pre><p>首先取当前进程局部描述符表中代码段描述符和数据段描述符项中的段限长（字节数）。<br>0x0f是代码段选择符；0x17是数据段选择符。然后取当前进程代码段和数据段在线性地址<br>空间中的基地址。由于Linux-0.11内核还不支持代码和数据段分立的情况，因此这里需要<br>检测代码段和数据段基址和限长是否都分别相同。否则内核显示出错信息，并停止运行。<br>get_limit()和get_base()源码在下面<br></p>
+<pre><code>    code_limit=get_limit(0x0f);
+    data_limit=get_limit(0x17);
+    old_code_base=get_base(current-&gt;ldt[1]);
+    old_data_base=get_base(current-&gt;ldt[2]);
+    if(old_data_base!=old_code_base)
+        panic(&quot;We don&#39;t support separate I&amp;D&quot;);
+    if(data_limit&lt;code_limit)
+        panic(&quot;Bad data_limit&quot;);</code></pre><p>然后设置创建中的新进程在线性地址空间中的基地址等于（64MB*其任务号），并用该值<br>设置新进程局部描述表中段描述符中的基地址，接着设置新进程的页目录表项和页表项，<br>即复制当前进程（父进程）的页目录表和页表项。此时子进程共享父进程的内存页面。<br>正常情况下copy_page_tables()返回0，否则表示出错，则释放刚申请的页表项。<br>set_base的源码在下面<br></p>
+<pre><code>    new_data_base = new_code_base = nr*0x4000000;    //64MB*其任务号
+    p-&gt;start_code=new_code_base;
+    set_base(p-&gt;ldt[1],new_code_base);    //设置新进程的ldt表的代码段地址。
+    set_base(p-&gt;ldt[2],new_data_base);    //设置新进程的ldt表的数据段地址。</code></pre><p>接下来设置新进程的页目录表项和页表项<br><br>copy_page_table( )看这篇 ….<br><br>free_page_table( )看这篇….<br><br>        if(copy_page_table(old_data_base,new_data_base,data_limit))<br>        {<br>            free_page_table(new_data_base,data_limit);<br>            return -ENOMEM;<br>        }<br>        return 0;<br>    }</p>
+<h2 id="get-limit-源码"><a href="#get-limit-源码" class="headerlink" title="get_limit()源码"></a>get_limit()源码</h2><p>get_limit()被定义在include/linux/sched.h<br><br><strong>函数目的是：取段选择符segment指定的描述符的段限长值</strong></p>
+<pre><code>//指令lsl是Load Segment Limit缩写。它从指定段描述符中取出分散的限长比特位拼成完整的
+//段限长值放入指定寄存器中。所得的段限长是实际字节数减1，因此这里还需要加1(incl加1指令)才返回。
+#define get_limit(segment) ({\
+unsigned long __limit;\
+__asm__(&quot;lsll %1，%0\n\t incl %0&quot;:&quot;=r&quot;(__limit):&quot;r&quot;(segment));\
+__limit;})</code></pre><h2 id="get-base-源码"><a href="#get-base-源码" class="headerlink" title="get_base()源码"></a>get_base()源码</h2><p>get_base()被定义在include/linux/sched.h<br><br><strong>函数目的是：取局部描述符表ldt所指段描述符中的基地址</strong></p>
+<pre><code>#define get_base(ldt) _get_base(((char *)&amp;(ldt)))</code></pre><p>_get_base（）</p>
+<pre><code>#define _get_base(addr)({\
+unsigned long __base;\
+__asm__(&quot;movb %3,%%dh\n\t&quot;\        //取[addr+7]处基址高16位的高8位（位31-24）-&gt;dh
+        &quot;movb %2,%%dl\n\t&quot;\        //取[addr+4]处基址高16位的低8位（位23-16）-&gt;dl    
+        &quot;shll $16,%%edx\n\t&quot;\    //基地址高16位移到edx中高16位处
+        &quot;movw %1,%%dx&quot;\            //取[addr+2]处基址低16位（位15-0）-&gt;dx。
+        :&quot;=d&quot;(__base)\            //从而edx中含有32位段基址。
+        :&quot;m&quot;(*((addr)+2))\
+         &quot;m&quot;(*((addr)+4))\
+         &quot;m&quot;(*((addr)+7)))
+__base;})</code></pre><h2 id="set-base"><a href="#set-base" class="headerlink" title="set_base( )"></a>set_base( )</h2><p>set_base( )被定义在include/linux/sched.h<br><br><strong>函数目的是：设置局部描述符表中ldt描述符的基地址字段</strong></p>
+<pre><code>#define set_base(ldt,base) _set_base(((char *)&amp;(ldt)),base)</code></pre><p>_set_base( )源码如下：<br></p>
+<pre><code>//设置位于地址addr处描述符中的各基地址字段（基地址是base）。
+#define _set_base(addr,base)\    
+__asm__(&quot;movw %%dx,%0\n\t&quot;\        //基址base低16位（位15~0）-&gt;[addr+2]
+        &quot;rorl $16,%%edx\n\t&quot;\    //edx中基址高16位（位31-16）-&gt;dx(循环左移)
+        &quot;movb %%dl,%1\n\t&quot;\        //基址高16位中的低8位（位23-16）-&gt;[addr+4]
+        &quot;movb %%dh,%2&quot;\            //基址高16位中的高8位（位31~24）-&gt;[addr+7]
+        ::&quot;m&quot;(*((addr)+2)),\
+          &quot;m&quot;(*((addr)+4)),\
+          &quot;m&quot;(*((addr)+7)),\
+          &quot;d&quot;(base)\
+          :&quot;dx&quot;)</code></pre>
             <hr>
           </div>
           <br>
@@ -280,7 +297,7 @@ static unsigned char mem_map[PAGING_PAGES]={0,};</code></pre><h2 id="get-free-pa
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "get_free_page（）&nbsp;",
+        "copy_mem（）&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 80,
