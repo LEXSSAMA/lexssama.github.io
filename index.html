@@ -129,51 +129,6 @@
     
     
     <div class="col-12 col-md-8 m-auto">
-      <a href="/2020/01/03/free-page-tables%EF%BC%88%EF%BC%89/">
-        <p class="h4 index-header">free_page_tables（）和free_page ( )</p>
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">free_page_tables（）函数被定义在kernel/mm/memory.c中函数作用：free_page_tables( )用于释放指定线性地址和长度（页表个数）对应的物理内存页。首先判断指定的线性地址释放4M的边界上，若不是则显示出错信息，并死机，然后判断指定的地址值是否=0，若是，则显示出错信息“试图释放内核和缓冲区所占用的空间”，并死机；接着计算在页目录表中所占用的目录项数size，也即页表个数，并计算对应的起始目录项号，然后从对应的起始目录项开始，释放所占用的所以size个目录项；同时释放对应目录项所指的所有页表项和相应的物理内存页；最后刷新页变化高速缓冲。
-下面的函数释放页表连续的内存块，“exit（）”需要该函数。与copy_page_tables(),类似，该函数仅处理4MB长度的内存块。
-参数：from -起始线性基地址；size - 释放的字节长度。
-     int free_page_tables(unsigned long from, unsigned long size)
-{
-    unsigned long *pg_table;
-    unsi</div>
-        </div>
-      </a>
-
-      <div>
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-01-03&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">操作系统</a>&nbsp;
-          
-            <a href="/categories/Linux-0.11%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90">Linux-0.11源码分析</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">操作系统</a>&nbsp;
-          
-            <a href="/tags/Linux-0.11%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90">Linux-0.11源码分析</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mb-4 mx-auto">
-    
-    
-    <div class="col-12 col-md-8 m-auto">
       <a href="/2020/01/03/free_page_tables%EF%BC%88%EF%BC%89%E5%92%8Cfree_page%20(%20)/">
         <p class="h4 index-header">free_page_tables（）和free_page ( )</p>
         
@@ -552,6 +507,59 @@ panic(&quot;Struct sigaction MUST be 16 bytes&quot;);panic定义在kernel/pan</d
             <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">操作系统</a>&nbsp;
           
             <a href="/tags/Linux-0.11%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90">Linux-0.11源码分析</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2019/12/16/8253%E5%AE%9A%E6%97%B6%E5%99%A8-%E8%AE%A1%E6%95%B0%E5%99%A8/">
+        <p class="h4 index-header">8253定时器/计数器</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">感谢：《微机原理与接口技术》 主编：陈光军 傅越千和SuPhoebe的博客《可编程定时/计数器 8253/8254》
+8253定时器/计时器微机应用系统常常需要为处理机和外部设备提供实时时钟，以实现延时控制和定时或对外部输入脉冲进行计数，实现这种功能的器件称为定时器/计数器。
+8253的功能与引脚8253的基本功能
+8253的基本功能是对外部输入脉冲进行计数，若外部输入的脉冲式连续而均匀的则利用脉冲个数乘以脉冲周期可以计算出时间，从而实现了定时功能。若外部输入脉冲式不均匀的，不连续的非周期脉冲，则8253起计时作用，8253芯片内具有3个独立的16位减法计数器（或称为计数通道），每个计数器性能如下：（1）.最高计数频率2.6MHZ（2）.可编程设定为二进制计数或BCD码计数，有6种工作方式，可编程确定是哪一种工作方式。8253的内部结构
+数据总线缓存器（Data Bus Buffer）：该缓冲器为8位双向三态，是CPU与8253内部之间的数据传输通道。
+读写逻辑电路（Read/Write Logic）：接收CPU送来的读写，片选及地址信号，对8253内部各部件进行操控。
+控制字寄存器（</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2019-12-16&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">操作系统</a>&nbsp;
+          
+            <a href="/categories/Linux-0.11%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90">Linux-0.11源码分析</a>&nbsp;
+          
+            <a href="/categories/main%EF%BC%88%EF%BC%89%E5%87%BD%E6%95%B0">main（）函数</a>&nbsp;
+          
+            <a href="/categories/sched_init()%E5%87%BD%E6%95%B0">sched_init()函数</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">操作系统</a>&nbsp;
+          
+            <a href="/tags/Linux-0.11%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90">Linux-0.11源码分析</a>&nbsp;
+          
+            <a href="/tags/main%EF%BC%88%EF%BC%89%E5%87%BD%E6%95%B0">main（）函数</a>&nbsp;
+          
+            <a href="/tags/sched_init()%E5%87%BD%E6%95%B0">sched_init()函数</a>&nbsp;
           
         
       </div>
