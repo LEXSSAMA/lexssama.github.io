@@ -136,12 +136,11 @@
           
         
         <div class="index-excerpt" >
-          <div class="index-text mb-1">#schedule( )
-schedule定义在linux/kernel/sched.c中函数功能：schedule()函数负责选择系统中下一个运行的进程。它首先对所有任务（进程）进行检测，唤醒任何一个已经的到信号的任务。具体方法时针对任务数组中每一个任务，检查其报警定时值alarm，如果任务的alarm时间已经过期(alarm&lt;jiffies)，则在它的信号位图中设置SIGALRM，然后清alarm值。jiffies时系统从开机开始算起的滴答数（10ms/滴答）。在sched.h中定义。如果进程的信号位图中除去被阻塞的信号外还有其他信号，并且任务处于可中断睡眠状态（TASK_INTERRUPTIBLE），则置任务为就绪状态（TASK_RUNNING）。
+          <div class="index-text mb-1">schedule( )schedule定义在linux/kernel/sched.c中函数功能：schedule()函数负责选择系统中下一个运行的进程。它首先对所有任务（进程）进行检测，唤醒任何一个已经的到信号的任务。具体方法时针对任务数组中每一个任务，检查其报警定时值alarm，如果任务的alarm时间已经过期(alarm&lt;jiffies)，则在它的信号位图中设置SIGALRM，然后清alarm值。jiffies时系统从开机开始算起的滴答数（10ms/滴答）。在sched.h中定义。如果进程的信号位图中除去被阻塞的信号外还有其他信号，并且任务处于可中断睡眠状态（TASK_INTERRUPTIBLE），则置任务为就绪状态（TASK_RUNNING）。
     void schedule(void)
     {
         int i,next,c;
-        struct task_struct **p;    //任务结构指针的指针    检测alarm（进程的报警定时值），唤醒任何已得到信号的可中断任务从任务数组中最后一个任务开始循环检测alarm。在循环时跳过</div>
+        struct task_struct **p;    //任务结构指针的指针    检测alarm（进程的报警定时值），唤醒任何已得到信号的可中断任务从任务数组中最后一个任务开始循环检测alarm。在循环时跳过空指</div>
         </div>
       </a>
 

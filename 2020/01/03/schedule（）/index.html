@@ -124,8 +124,7 @@
       <div class="py-5 z-depth-3" id="board">
         <div class="post-content mx-auto">
           <div class="markdown-body">
-            <p>#schedule( )</p>
-<p>schedule定义在linux/kernel/sched.c中<br><br><strong>函数功能：</strong>schedule()函数负责选择系统中下一个运行的进程。它首先对所有任务（进程）进行检测，唤醒任何一个已经的到信号的任务。具体方法时针对任务数组中每一个任务，检查其报警定时值alarm，如果任务的alarm时间已经过期(alarm&lt;jiffies)，则在它的信号位图中设置SIGALRM，然后清alarm值。jiffies时系统从开机开始算起的滴答数（10ms/滴答）。在sched.h中定义。如果进程的信号位图中除去被阻塞的信号外还有其他信号，并且任务处于可中断睡眠状态（TASK_INTERRUPTIBLE），则置任务为就绪状态（TASK_RUNNING）。<br></p>
+            <h1 id="schedule"><a href="#schedule" class="headerlink" title="schedule( )"></a>schedule( )</h1><p>schedule定义在linux/kernel/sched.c中<br><br><strong>函数功能：</strong>schedule()函数负责选择系统中下一个运行的进程。它首先对所有任务（进程）进行检测，唤醒任何一个已经的到信号的任务。具体方法时针对任务数组中每一个任务，检查其报警定时值alarm，如果任务的alarm时间已经过期(alarm&lt;jiffies)，则在它的信号位图中设置SIGALRM，然后清alarm值。jiffies时系统从开机开始算起的滴答数（10ms/滴答）。在sched.h中定义。如果进程的信号位图中除去被阻塞的信号外还有其他信号，并且任务处于可中断睡眠状态（TASK_INTERRUPTIBLE），则置任务为就绪状态（TASK_RUNNING）。<br></p>
 <pre><code>    void schedule(void)
     {
         int i,next,c;

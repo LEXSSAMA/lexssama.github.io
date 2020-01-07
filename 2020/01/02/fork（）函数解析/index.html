@@ -206,7 +206,7 @@ sys_setreuid,sys_setregid };</code></pre><p><strong>fn_ptr是int类型指针定�
 reschedule:
     pushl $ret_from_sys_call    //保存system_call中标志ret_from_sys_call的地址
     jmp schedule        //跳到函数schedule处执行
-.align 2</code></pre><p>schedule函数看这篇。。。<br><br><strong>-———————————————————————-</strong></p>
+.align 2</code></pre><p>schedule函数看这篇<a href="https://lexssama.github.io/2020/01/03/schedule%EF%BC%88%EF%BC%89/" target="_blank" rel="noopener">schedule( )源码分析</a><br><br><strong>-———————————————————————-</strong></p>
 <pre><code>#以下这段代码执行从系统调用C函数返回后，对信号进行识别处理。其他中断服务退出时也将跳转到这里进行
 #处理后才退出中断过程，例如后面131行上的处理器出错中断int 16。
 ret_from_sys_call:

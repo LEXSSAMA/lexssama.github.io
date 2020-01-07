@@ -146,7 +146,7 @@ set_ldt_desc(gdt+FIRST_LDT_ENTRY,&amp;(init_task.task.ldt));</code></pre><p><str
 <pre><code>        &quot;pushl %%eax\n\t&quot;\            //将保存的堆栈指针值（esp）入栈
         &quot;pushfl\n\t&quot;\                    //将标志寄存器（eflags）内容入栈。
         &quot;pushl $0x0f\n\t&quot;    \            //将Task0代码段选择符（cs入栈）</code></pre><p><strong>这里CS=0x0f也即（00001111B），RPL=3，TI=1（LDT），偏移地址是0x01（LDT表中的第二项）。</strong></p>
-<pre><code>        &quot;pushl $1f\n\t&quot;\                //将下面标号1的偏移地址（eip）入栈</code></pre><p><strong>！！！注意：这里是$1f而不是$0x1f，$1f表示内联汇编后面的标号1：处的地址。（扩展：参考到本地标签需要后缀f或b，具体取决于您是要向后还是向前 - 即1f引用向后方向上的下一个1:标签。）</strong></p>
+<pre><code>        &quot;pushl $1f\n\t&quot;\                //将下面标号1的偏移地址（eip）入栈</code></pre><p><strong>！！！注意：这里是$1f而不是$0x1f，$1f表示内嵌汇编后面的标号1：处的地址。（扩展：参考到本地标签需要后缀f或b，具体取决于您是要向后还是向前 - 即1f引用向后方向上的下一个1:标签。）</strong></p>
 <pre><code>        &quot;iret\n&quot;\                        //执行中断返回指令，则会跳转到下面标号1处</code></pre><p><strong>iret后进入任务0执行，其任务0的主要寄存器图如下：（与上面那张有些许不同。）<br></strong><br><img src="https://i.imgur.com/m3M33uV.png" srcset="/img/loading.gif" alt></p>
 <pre><code>        &quot;1:\tmovl $0x17,%%eax\n\t&quot;\    //此时开始执行任务0。
         &quot;movw %%ax,%%ds\n\t&quot;\        //初始化段寄存器指向本局部表的数据段
