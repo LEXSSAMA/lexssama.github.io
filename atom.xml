@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>Hexo</title>
+  <title>Lexssama&#39;s Blogs</title>
   
   
   <link href="/atom.xml" rel="self"/>
   
-  <link href="http://yoursite.com/"/>
+  <link href="https://lexssama.github.io/"/>
   <updated>2020-02-15T15:56:02.883Z</updated>
-  <id>http://yoursite.com/</id>
+  <id>https://lexssama.github.io/</id>
   
   <author>
-    <name>John Doe</name>
+    <name>Lexssama</name>
     
   </author>
   
@@ -18,8 +18,8 @@
   
   <entry>
     <title>Hello World</title>
-    <link href="http://yoursite.com/2020/02/15/hello-world/"/>
-    <id>http://yoursite.com/2020/02/15/hello-world/</id>
+    <link href="https://lexssama.github.io/2020/02/15/hello-world/"/>
+    <id>https://lexssama.github.io/2020/02/15/hello-world/</id>
     <published>2020-02-15T15:56:02.883Z</published>
     <updated>2020-02-15T15:56:02.883Z</updated>
     
