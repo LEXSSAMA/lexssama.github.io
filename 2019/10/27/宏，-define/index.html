@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/spider.png">
+  <link rel="icon" type="image/png" href="/img/spider.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="description" content="">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>宏，#define ~ lexssama</title>
+  <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
+  <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
+  <link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
+  <link rel="stylesheet" href="/lib/github-markdown/github-markdown.min.css"  >
+  <link rel="stylesheet" href="https://at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+  
+    <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css"  >
+  
+  <link rel="stylesheet" href="/css/main.css"  >
+
+  
+</head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>lexssama</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">Archives</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/categories/">Categories</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">Tags</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">About</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+</nav>
+
+    <div class="view intro-2" id="background"
+         style="background: url('/img/136457.jpg')no-repeat center center;
+           background-size: cover;
+           background-attachment: fixed;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <br>
+              <p class="mt-3">星期日, 十月 27日 2019, 8:50 晚上</p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto">
+          <div class="markdown-body">
+            <p>转载<br><br>原文链接：<a href="https://blog.csdn.net/Boring_Wednesday/article/details/78756696" target="_blank" rel="noopener">https://blog.csdn.net/Boring_Wednesday/article/details/78756696</a><br></p>
+<div id="content_views" class="markdown_views">
+                    <!-- flowchart 箭头图标 勿删 -->
+                    <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+                        <path stroke-linecap="round" d="M5,0 0,2.5 5,5z" id="raphael-marker-block" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"/>
+                    </svg>
+                                            <h3 id="写在前面"><a name="t0"></a>写在前面：</h3>
+
+
+
+<h3 id="本文所有代码均在linux环境下运行"><a name="t1"></a>本文所有代码均在<strong>Linux</strong>环境下运行</h3>
+
+
+
+<h3 id="linux版本为centos-74"><a name="t2"></a><strong>Linux</strong>版本为CentOS 7.4</h3>
+
+<hr>
+
+
+
+<h3 id="宏定义"><a name="t3"></a>宏定义</h3>
+
+<blockquote>
+  <h4 id="语法">语法</h4>
+
+  <h4 id="define-name-stuff">#define name Stuff</h4>
+</blockquote>
+
+
+
+<pre class="prettyprint" name="code"><code class="language-c hljs  has-numbering" onclick="mdcp.copyCode(event)" style="position: unset;"><span class="hljs-preprocessor">#define PI 3.14</span>
+<span class="hljs-comment">//定义一个M，值为3.14</span>
+<span class="hljs-preprocessor">#define DO_FOREVER for(;;)</span>
+<span class="hljs-comment">//定义一个死循环</span>
+<span class="hljs-preprocessor">#define REG register</span>
+<span class="hljs-comment">//定义REG来作为register的别名</span>
+<span class="hljs-preprocessor">#define CASE break;case</span>
+<span class="hljs-comment">//在switch中用CASE来补上break;</span>
+<span class="hljs-preprocessor">#define DEBUG_PRINT printf("file:%s\tline:%d\tdate:%s\ttime:%s\n",\</span>
+                        __FILE__, __LINE__, __DATE__, __TIME__);
+<span class="hljs-comment">//测试预定义符号</span><div class="hljs-button {2}" data-title="复制"></div></code><ul class="pre-numbering" style><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li><li style="color: rgb(153, 153, 153);">3</li><li style="color: rgb(153, 153, 153);">4</li><li style="color: rgb(153, 153, 153);">5</li><li style="color: rgb(153, 153, 153);">6</li><li style="color: rgb(153, 153, 153);">7</li><li style="color: rgb(153, 153, 153);">8</li><li style="color: rgb(153, 153, 153);">9</li><li style="color: rgb(153, 153, 153);">10</li><li style="color: rgb(153, 153, 153);">11</li></ul></pre>
+
+
+
+<h3 id="1宏的作用范围"><a name="t4"></a>1、<strong>宏</strong>的<strong>作用范围</strong></h3>
+
+
+
+<h4 id="先看下面代码">先看下面代码：</h4>
+
+<p><img src="https://img-blog.csdn.net/20171209164450664?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvQm9yaW5nX1dlZG5lc2RheQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" srcset="/img/loading.gif" alt="欢迎访问jo-qzy的博客" title></p>
+
+
+
+<h4 id="让我们查看上图中代码经过预处理后的样子">让我们查看上图中代码经过预处理后的样子</h4>
+
+<p><img src="https://img-blog.csdn.net/20171209165200867?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvQm9yaW5nX1dlZG5lc2RheQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" srcset="/img/loading.gif" alt="欢迎访问jo-qzy的博客" title></p>
+
+
+
+<h4 id="可以发现宏只对宏定义后的行数起作用且与定义在哪里无关即使函数不被调用也可以使用宏"><strong>可以发现宏只对宏定义后的行数起作用，且与定义在哪里无关，即使函数不被调用，也可以使用宏</strong></h4>
+
+
+
+<h3 id="2宏替换的原则"><a name="t5"></a>2、<strong>宏替换</strong>的<strong>原则</strong></h3>
+
+
+
+<h4 id="在程序中扩展define定义符号和宏时需要涉及几个步骤">在程序中扩展#define定义符号和宏时，需要涉及几个步骤。</h4>
+
+<blockquote>
+  <h4 id="1-在调用宏时首先对参数进行检查看看是否包含任何由define定义的符号如果是它们首先被替换">1. 在调用宏时，首先对参数进行检查，看看是否包含任何由#define定义的符号。如果是，它们首先被替换。</h4>
+
+  <h4 id="2-替换文本随后被插入到程序中原来文本的位置对于宏参数名被他们的值替换">2. 替换文本随后被插入到程序中原来文本的位置。对于宏，参数名被他们的值替换。</h4>
+
+  <h4 id="3-最后再次对结果文件进行扫描看看它是否包含任何由define定义的符号如果是就重复上述处理过程">3. 最后，再次对结果文件进行扫描，看看它是否包含任何由#define定义的符号。如果是，就重复上述处理过程。</h4>
+</blockquote>
+
+
+
+<h4 id="注意"><strong>注意</strong>：</h4>
+
+<blockquote>
+  <h4 id="1宏函数不能出现递归">1、宏函数<strong>不能</strong>出现<strong>递归</strong></h4>
+
+  <h4 id="2宏定义的符号即name部分不会在预处理替换的时候被搜索">2、宏定义的符号，即name部分<strong>不会</strong>在预处理替换的时候被搜索</h4>
+</blockquote>
+
+
+
+<h3 id="3宏定义define后不需要加"><a name="t6"></a>3、宏定义#define后不需要加<code>;</code></h3>
+
+<blockquote>
+  <h4 id="例如">例如：</h4>
+
+  <h4 id="define-m-100">#define M 100;</h4>
+
+  <h4 id="这里在100后面加上了">这里在100后面加上了<code>;</code></h4>
+
+  <h4 id="在句子中有时候就会出现问题">在句子中有时候就会出现问题</h4>
+</blockquote>
+
+
+
+<h4 id="观察下面代码片段">观察下面代码片段：</h4>
+
+
+
+<pre class="prettyprint" name="code"><code class="language-c hljs  has-numbering" onclick="mdcp.copyCode(event)" style="position: unset;"><span class="hljs-preprocessor">#define M 100;</span>
+<span class="hljs-keyword">if</span> (condition)
+    m = M；
+<span class="hljs-keyword">else</span>
+    max = <span class="hljs-number">0</span>；<div class="hljs-button {2}" data-title="复制"></div></code><ul class="pre-numbering" style><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li><li style="color: rgb(153, 153, 153);">3</li><li style="color: rgb(153, 153, 153);">4</li><li style="color: rgb(153, 153, 153);">5</li></ul></pre>
+
+
+
+<h4 id="在该选择语句中会出现语法错误没有与else与之匹配的if语句">在该选择语句中会出现语法错误，没有与else与之匹配的if语句</h4>
+
+
+
+<h3 id="4宏函数申明"><a name="t7"></a>4、<strong>宏函数</strong>申明</h3>
+
+<blockquote>
+  <h4 id="宏函数申明格式"><strong>宏函数申明格式：</strong></h4>
+
+  <h4 id="define-name-parament-list-stuff">#define name ( parament-list ) stuff</h4>
+
+  <h4 id="parament-list为参数表可以包含多个参数他们会在stuff出现">parament-list为参数表，可以包含多个参数，他们会在stuff出现</h4>
+</blockquote>
+
+
+
+<h4 id="例如-1"><strong>例如：</strong></h4>
+
+
+
+<pre class="prettyprint" name="code"><code class="language-c hljs  has-numbering" onclick="mdcp.copyCode(event)" style="position: unset;"><span class="hljs-preprocessor">#define SQARE( X ) X*X</span>
+<span class="hljs-comment">//定义一个计算乘方的宏函数</span><div class="hljs-button {2}" data-title="复制"></div></code><ul class="pre-numbering" style><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li></ul></pre>
+
+
+
+<h4 id="但是这么定义是会出现预料之外的错误的观察下面代码片段">但是这么定义是会出现<strong>预料之外</strong>的错误的，观察下面代码片段</h4>
+
+
+
+<pre class="prettyprint" name="code"><code class="language-c hljs  has-numbering" onclick="mdcp.copyCode(event)" style="position: unset;"><span class="hljs-preprocessor">#define SQUARE(X) X*X</span>
+
+<span class="hljs-keyword">int</span> main()
+{
+    <span class="hljs-keyword">int</span> a = <span class="hljs-number">5</span>;
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">"%d\n"</span>, SQUARE(a+<span class="hljs-number">1</span>));
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}<div class="hljs-button {2}" data-title="复制"></div></code><ul class="pre-numbering" style><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li><li style="color: rgb(153, 153, 153);">3</li><li style="color: rgb(153, 153, 153);">4</li><li style="color: rgb(153, 153, 153);">5</li><li style="color: rgb(153, 153, 153);">6</li><li style="color: rgb(153, 153, 153);">7</li><li style="color: rgb(153, 153, 153);">8</li></ul></pre>
+
+
+
+<h4 id="本来结果应该为62-36">本来结果应该为6^2 = 36</h4>
+
+<p><img src="https://img-blog.csdn.net/20171209161434163?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvQm9yaW5nX1dlZG5lc2RheQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" srcset="/img/loading.gif" alt="欢迎访问jo-qzy的博客" title></p>
+
+
+
+<h4 id="但是实际计算机输出的结果为11">但是实际计算机输出的结果为11</h4>
+
+
+
+<h4 id="我们用gcc观察预处理后的代码片段是怎么样的">我们用gcc观察预处理后的代码片段是怎么样的</h4>
+
+
+
+<h4 id="使用命令-gcc-e-testc-o-testi来查看预处理后的代码">使用命令<code>$ gcc -E test.c -o test.i</code>来查看预处理后的代码</h4>
+
+<p><img src="https://img-blog.csdn.net/20171209162424712?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvQm9yaW5nX1dlZG5lc2RheQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" srcset="/img/loading.gif" alt="欢迎访问jo-qzy的博客" title></p>
+
+
+
+<h4 id="可以看到这里原式被替换成-a-1-a-1-11而这个结果显然不是我们期望的">可以看到这里原式被替换成 a + 1 * a + 1 = 11，而这个结果显然不是我们期望的</h4>
+
+
+
+<h4 id="这里我们提出解决方案将-x-用括号括起来x这样就避免上述代码因符号优先级带来的错误">这里我们提出解决方案，将 X 用括号括起来（X），这样就避免上述代码因符号优先级带来的错误</h4>
+
+
+
+<h4 id="至此上面代码解决了来看下面的宏函数定义">至此，上面代码解决了，来看下面的宏函数定义：</h4>
+
+
+
+<pre class="prettyprint" name="code"><code class="language-c hljs  has-numbering" onclick="mdcp.copyCode(event)" style="position: unset;"><span class="hljs-preprocessor">#define DOUBLE(X) (X) + (X)</span>
+
+<span class="hljs-keyword">int</span> main()
+{
+    <span class="hljs-keyword">int</span> a = <span class="hljs-number">5</span>;
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">"%d\n"</span>, <span class="hljs-number">10</span> * DOUBLE(a));
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}<div class="hljs-button {2}" data-title="复制"></div></code><ul class="pre-numbering" style><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li><li style="color: rgb(153, 153, 153);">3</li><li style="color: rgb(153, 153, 153);">4</li><li style="color: rgb(153, 153, 153);">5</li><li style="color: rgb(153, 153, 153);">6</li><li style="color: rgb(153, 153, 153);">7</li><li style="color: rgb(153, 153, 153);">8</li></ul></pre>
+
+
+
+<h4 id="期望结果为100而看程序执行结果">期望结果为100，而看程序执行结果：</h4>
+
+<p><img src="https://img-blog.csdn.net/20171209163654504?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvQm9yaW5nX1dlZG5lc2RheQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" srcset="/img/loading.gif" alt="欢迎访问jo-qzy的博客" title></p>
+
+
+
+<h4 id="程序再次出现预料之外的结果原因是原式被替换成了">程序再次出现预料之外的结果，原因是原式被替换成了</h4>
+
+
+
+<h4 id="10-5-5-55">10 * 5 + 5 = 55</h4>
+
+
+
+<h4 id="解决方法"><strong>解决方法：</strong></h4>
+
+
+
+<h4 id="在宏函数定义时对stuff中的参数以及结果均用括号来避免因符号运算优先级带来的问题">在宏函数定义时，对Stuff中的参数以及结果均用括号来避免因符号运算优先级带来的问题</h4>
+
+
+
+<h3 id="5宏中的和"><a name="t8"></a>5、宏中的<strong>#</strong>和<strong>##</strong></h3>
+
+
+
+<h4 id="的用法"><strong>#的用法</strong></h4>
+
+
+
+<h4 id="首先要理解一个原则即邻近字符串连接原则">首先要理解一个原则，即<strong>邻近字符串连接原则</strong></h4>
+
+<blockquote>
+  <h4 id="在c语言中">在C语言中</h4>
+
+  <h4 id="printfhello-worldn">printf(“hello”” world!”“\n”);</h4>
+
+  <h4 id="这句话是合法的">这句话是合法的</h4>
+
+  <h4 id="打印结果为">打印结果为：</h4>
+
+  <h4 id="hello-world">hello world!</h4>
+</blockquote>
+
+
+
+<h4 id="按照上述原则我们可以写出下列代码">按照上述原则，我们可以写出下列代码:</h4>
+
+
+
+<pre class="prettyprint" name="code"><code class="language-c hljs  has-numbering" onclick="mdcp.copyCode(event)" style="position: unset;"><span class="hljs-preprocessor">#define PRINT(FORMAT, VALUE) printf("the value of " #VALUE " is "FORMAT"\n", VALUE)</span>
+
+<span class="hljs-keyword">int</span> main()
+{
+    <span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>;
+    PRINT(<span class="hljs-string">"%d"</span>, i + <span class="hljs-number">3</span>);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}<div class="hljs-button {2}" data-title="复制"></div></code><ul class="pre-numbering" style><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li><li style="color: rgb(153, 153, 153);">3</li><li style="color: rgb(153, 153, 153);">4</li><li style="color: rgb(153, 153, 153);">5</li><li style="color: rgb(153, 153, 153);">6</li><li style="color: rgb(153, 153, 153);">7</li><li style="color: rgb(153, 153, 153);">8</li></ul></pre>
+
+
+
+<h4 id="看下gcc编译后的代码程序正常运行">看下gcc编译后的代码，程序正常运行：</h4>
+
+<p><img src="https://img-blog.csdn.net/20171209173118273?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvQm9yaW5nX1dlZG5lc2RheQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" srcset="/img/loading.gif" alt="欢迎访问jo-qzy的博客" title></p>
+
+
+
+<h4 id="我们再通过gcc生成testi文件看下预处理是怎么样的">我们再通过gcc生成test.i文件看下预处理是怎么样的：</h4>
+
+<p><img src="https://img-blog.csdn.net/20171209173520670?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvQm9yaW5nX1dlZG5lc2RheQ==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" srcset="/img/loading.gif" alt="欢迎访问jo-qzy的博客" title></p>
+
+
+
+<h4 id="所以我们可以看出来的作用">所以我们可以看出来<strong>#的作用：</strong></h4>
+
+
+
+<h4 id="将一个宏参数变成一个对应的字符串">将一个<strong>宏参数</strong>变成一个<strong>对应的字符串</strong></h4>
+
+
+
+<h4 id="在上述例子中">在上述例子中：</h4>
+
+<blockquote>
+  <h4 id="value被替换成了i-3"><strong>#VALUE</strong>被替换成了<strong>“i + 3”</strong></h4>
+
+  <h4 id="别忘了被替换的时候i-3两边加上了双引号">别忘了被替换的时候i + 3两边<strong>加上了双引号</strong></h4>
+</blockquote>
+
+
+
+<h4 id="的用法-1"><strong>##的用法</strong></h4>
+
+
+
+<h4 id="看下面的代码片段">看下面的代码片段</h4>
+
+
+
+<pre class="prettyprint" name="code"><code class="language-c hljs  has-numbering" onclick="mdcp.copyCode(event)" style="position: unset;"><span class="hljs-preprocessor">#define ADD_TO_AN(num, value) a##num += value</span>
+
+<span class="hljs-keyword">int</span> main()
+{
+    <span class="hljs-keyword">int</span> a1 = <span class="hljs-number">0</span>;
+    <span class="hljs-keyword">int</span> a2 = <span class="hljs-number">0</span>;
+    ADD_TO_AN(<span class="hljs-number">1</span>, <span class="hljs-number">5</span>);
+    ADD_TO_AN(<span class="hljs-number">2</span>, <span class="hljs-number">6</span>);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}<div class="hljs-button {2}" data-title="复制"></div></code><ul class="pre-numbering" style><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li><li style="color: rgb(153, 153, 153);">3</li><li style="color: rgb(153, 153, 153);">4</li><li style="color: rgb(153, 153, 153);">5</li><li style="color: rgb(153, 153, 153);">6</li><li style="color: rgb(153, 153, 153);">7</li><li style="color: rgb(153, 153, 153);">8</li><li style="color: rgb(153, 153, 153);">9</li><li style="color: rgb(153, 153, 153);">10</li></ul></pre>
+
+<h4 id="解释一下上面这段代码">解释一下上面这段代码</h4>
+
+
+
+<h4 id="假设有一个变量叫a1">假设有一个变量叫a1</h4>
+
+
+
+<h4 id="此时代码片段为addtoan1-5">此时代码片段为ADD_TO_AN(1, 5)</h4>
+
+
+
+<h4 id="即替换为a1-5给a1变量增加5">即替换为a1 += 5，给a1变量增加5</h4>
+
+
+
+<h4 id="同理addtoan2-6则替换成a2-6">同理ADD_TO_AN(2, 6)则替换成a2 += 6</h4>
+
+<blockquote>
+  <h4 id="的作用"><strong>##的作用</strong></h4>
+
+  <h4 id="将两边的字符连在一起作为一个标识符">将##两边的字符连在一起作为一个标识符</h4>
+
+  <h4 id="前提连接后的标识符必须合法否则编译出现标识符未定义">前提连接后的标识符必须合法，否则编译出现标识符未定义</h4>
+</blockquote>
+
+
+
+<h3 id="6宏和函数"><a name="t9"></a>6、<strong>宏</strong>和<strong>函数</strong></h3>
+
+
+
+<h4 id="宏通常被应用于执行简单的运算">宏通常被应用于执行简单的运算</h4>
+
+
+
+<h4 id="和函数相比宏有他的优点">和函数相比，宏有他的优点</h4>
+
+<blockquote>
+  <h4 id="宏的优点"><strong>宏的优点：</strong></h4>
+
+  <h4 id="1-用于调用函数和从函数返回的代码可能比实际执行这个小型计算工作所需要的时间更多所以宏比函数在程序的规模和速度方面更胜一筹">1. 用于调用函数和从函数返回的代码可能比实际执行这个小型计算工作所需要的时间更多。所以<strong>宏比函数在程序的规模和速度方面更胜一筹</strong></h4>
+
+  <h4 id="2-更为重要的是函数的参数必须声明为特定的类型所以函数只能在类型合适的表达式上使用反之这个宏怎可以适用于整形长整型浮点型等可以用于来比较的类型宏的参数与类型无关的">2. 更为重要的是函数的参数必须声明为特定的类型。所以函数只能在类型合适的表达式上使用。反之这个宏怎可以适用于整形、长整型、浮点型等可以用于<code>&gt;</code>来比较的类型。<strong>宏的参数与类型无关的</strong></h4>
+
+  <h4 id="3-宏参数可以使用变量类型而函数不可以例如">3. 宏参数<strong>可以使用变量类型</strong>，而函数不可以，例如：</h4>
+</blockquote>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs cs has-numbering" onclick="mdcp.copyCode(event)" style="position: unset;"><span class="hljs-preprocessor">#<span class="hljs-keyword">define</span> MALLOC(num, type) (type *)malloc(num * sizeof(type))</span>
+
+MALLOC(<span class="hljs-number">10</span>, <span class="hljs-keyword">int</span>);<span class="hljs-comment">//类型作为参数</span>
+<span class="hljs-comment">//预处理器替换之后：</span>
+(<span class="hljs-keyword">int</span> *)malloc(<span class="hljs-number">10</span> * <span class="hljs-keyword">sizeof</span>(<span class="hljs-keyword">int</span>));<div class="hljs-button {2}" data-title="复制"></div></code><ul class="pre-numbering" style><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li><li style="color: rgb(153, 153, 153);">3</li><li style="color: rgb(153, 153, 153);">4</li><li style="color: rgb(153, 153, 153);">5</li></ul></pre>
+
+
+
+<h4 id="但是宏参数与类型无关是一把双刃剑和函数比较也有他的缺点">但是，宏参数与类型无关是一把双刃剑，和函数比较也有他的缺点</h4>
+
+<blockquote>
+  <h4 id="宏的缺点"><strong>宏的缺点：</strong></h4>
+
+  <h4 id="1-每次使用宏的时候一份宏定义的代码将插入到程序中除非宏比较短否则可能大幅度增加程序的长度">1. 每次使用宏的时候，一份宏定义的代码将插入到程序中。除非宏比较短，否则可能<strong>大幅度增加程序的长度</strong></h4>
+
+  <h4 id="2-宏是没法调试的">2. <strong>宏</strong>是<strong>没法调试的</strong></h4>
+
+  <h4 id="3-宏由于类型无关也就不够严谨">3. <strong>宏由于类型无关</strong>，也就<strong>不够严谨</strong></h4>
+
+  <h4 id="4-宏可能会带来运算符优先级的问题导致程序容易出现问题">4. 宏可能会<strong>带来运算符优先级的问题</strong>，导致程序<strong>容易出现问题</strong></h4>
+</blockquote>
+
+
+
+<h4 id="我的建议"><strong>我的建议：</strong></h4>
+
+<blockquote>
+  <h4 id="当有一部分功能既可以用函数实现也可以用宏实现且在调用函数的过程与宏使用过程所消耗的资源相当时优先考虑代码的严谨性使用函数">当有一部分功能既可以用函数实现也可以用宏实现，且在<strong>调用函数的过程</strong>与<strong>宏使用过程</strong>所<strong>消耗的资源相当时</strong>，<strong>优先考虑代码的严谨性</strong>，使用函数</h4>
+</blockquote>
+
+
+
+<h3 id="7宏参数的副作用"><a name="t10"></a>7、<strong>宏参数</strong>的<strong>副作用</strong></h3>
+
+<blockquote>
+  <h4 id="当宏参数在宏的定义中出现超过一次的时候如果参数带有副作用那么你在使用这个宏的时候就可能出现危险导致不可预测的后果副作用就是表达式求值的时候出现的永久性效果">当宏参数在宏的定义中出现超过一次的时候，如果参数带有副作用，那么你在使用这个宏的时候就可能出现危险，导致不可预测的后果。副作用就是表达式求值的时候出现的永久性效果。</h4>
+</blockquote>
+
+
+
+<pre class="prettyprint" name="code"><code class="hljs perl has-numbering" onclick="mdcp.copyCode(event)" style="position: unset;"><span class="hljs-comment">#define MAX(a, b) ( (a) &gt; (b) ? (a) : (b) )</span>
+
+<span class="hljs-keyword">x</span> = <span class="hljs-number">5</span>;
+<span class="hljs-keyword">y</span> = <span class="hljs-number">8</span>;
+z = MAX(<span class="hljs-keyword">x</span>++, <span class="hljs-keyword">y</span>++);
+<span class="hljs-keyword">printf</span>(<span class="hljs-string">"x=<span class="hljs-variable">%d</span> y=<span class="hljs-variable">%d</span> z=<span class="hljs-variable">%d</span>\n"</span>, <span class="hljs-keyword">x</span>, <span class="hljs-keyword">y</span>, z);
+<span class="hljs-regexp">//</span>结果为<span class="hljs-keyword">x</span>=<span class="hljs-number">6</span> <span class="hljs-keyword">y</span>=<span class="hljs-number">10</span> z=<span class="hljs-number">9</span><div class="hljs-button {2}" data-title="复制"></div></code><ul class="pre-numbering" style><li style="color: rgb(153, 153, 153);">1</li><li style="color: rgb(153, 153, 153);">2</li><li style="color: rgb(153, 153, 153);">3</li><li style="color: rgb(153, 153, 153);">4</li><li style="color: rgb(153, 153, 153);">5</li><li style="color: rgb(153, 153, 153);">6</li><li style="color: rgb(153, 153, 153);">7</li></ul></pre>
+
+
+
+<h4 id="可以看到上面代码中y带来了副作用所以在使用宏的时候避免使用运算和-运算">可以看到上面代码中y++带来了副作用，所以在使用宏的时候，避免使用<code>++</code>运算和<code>--</code>运算</h4>
+
+
+
+<h3 id="8宏的命名"><a name="t11"></a>8、宏的<strong>命名</strong></h3>
+
+
+
+<h4 id="宏和函数的使用很类似我们平时的使用习惯是">宏和函数的使用很类似，我们平时的使用习惯是：</h4>
+
+<blockquote>
+  <h4 id="1-宏名全部大写"><strong>1. 宏名全部大写</strong></h4>
+
+  <h4 id="2-函数名不全大写"><strong>2. 函数名不全大写</strong></h4>
+</blockquote>
+
+
+
+<h2 id="最后感谢所有访问我博客的来访者"><a name="t12"></a><strong>最后，感谢所有访问我博客的来访者</strong></h2>                                    </div>
+            <hr>
+          </div>
+          <br>
+          <div>
+            
+              <p>
+                <i class="iconfont icon-inbox"></i>
+                
+                  <a class="hover-with-bg" href="/categories/%E5%93%88%E5%B7%A5%E5%A4%A7-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">哈工大-操作系统</a>
+                  &nbsp;
+                
+              </p>
+            
+            <p>
+              <i class="iconfont icon-tag"></i>
+              
+                <a class="hover-with-bg" href="/tags/%E5%AE%8F">宏</a>
+              
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+  </div>
+</div>
+
+    
+  </main>
+
+  
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <b>Fluid</b></a>
+    <br>
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="/lib/jquery/jquery.min.js" ></script>
+<script src="/lib/popper/popper.min.js" ></script>
+<script src="/lib/bootstrap/js/bootstrap.min.js" ></script>
+<script src="/lib/mdbootstrap/js/mdb.min.js" ></script>
+<script src="/js/main.js" ></script>
+
+  <script src="/js/lazyload.js" ></script>
+
+
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
+
+  <script src="/lib/prettify/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+  <script src="/lib/typed/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "宏，#define&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 80,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+  <script src="/lib/anchor/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "false",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script>
+    if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent) || (/Safari/i.test(navigator.userAgent) && !/Chrome/i.test(navigator.userAgent))) {
+      $("#background").css("background-attachment", "scroll");
+    }
+  </script>
+
+</body>
+</html>

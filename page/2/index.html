@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/spider.png">
+  <link rel="icon" type="image/png" href="/img/spider.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="description" content="">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>lexssama</title>
+  <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
+  <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
+  <link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
+  <link rel="stylesheet" href="/lib/github-markdown/github-markdown.min.css"  >
+  <link rel="stylesheet" href="https://at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+  
+    <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css"  >
+  
+  <link rel="stylesheet" href="/css/main.css"  >
+
+  
+</head>
+
+
+<body>
+  <header style="height: 100vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>lexssama</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">Archives</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/categories/">Categories</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">Tags</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">About</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+</nav>
+
+    <div class="view intro-2" id="background"
+         style="background: url('/img/136443.jpg')no-repeat center center;
+           background-size: cover;
+           background-attachment: fixed;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+          </div>
+
+          
+            <div class="scroll-down-bar">
+              <i class="fa fa-angle-down scroll-down-arrow"></i>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      <div class="container nopadding-md">
+        <div class="py-5 z-depth-3" id="board">
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2019/12/16/8253%E5%AE%9A%E6%97%B6%E5%99%A8-%E8%AE%A1%E6%95%B0%E5%99%A8/">
+        <p class="h4 index-header">8253定时器/计数器</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">感谢：《微机原理与接口技术》 主编：陈光军 傅越千和SuPhoebe的博客《可编程定时/计数器 8253/8254》
+8253定时器/计时器微机应用系统常常需要为处理机和外部设备提供实时时钟，以实现延时控制和定时或对外部输入脉冲进行计数，实现这种功能的器件称为定时器/计数器。
+8253的功能与引脚8253的基本功能
+8253的基本功能是对外部输入脉冲进行计数，若外部输入的脉冲式连续而均匀的则利用脉冲个数乘以脉冲周期可以计算出时间，从而实现了定时功能。若外部输入脉冲式不均匀的，不连续的非周期脉冲，则8253起计时作用，8253芯片内具有3个独立的16位减法计数器（或称为计数通道），每个计数器性能如下：（1）.最高计数频率2.6MHZ（2）.可编程设定为二进制计数或BCD码计数，有6种工作方式，可编程确定是哪一种工作方式。8253的内部结构
+数据总线缓存器（Data Bus Buffer）：该缓冲器为8位双向三态，是CPU与8253内部之间的数据传输通道。
+读写逻辑电路（Read/Write Logic）：接收CPU送来的读写，片选及地址信号，对8253内部各部件进行操控。
+控制字寄存器（</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2019-12-16&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">操作系统</a>&nbsp;
+          
+            <a href="/categories/Linux-0.11%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90">Linux-0.11源码分析</a>&nbsp;
+          
+            <a href="/categories/main%EF%BC%88%EF%BC%89%E5%87%BD%E6%95%B0">main（）函数</a>&nbsp;
+          
+            <a href="/categories/sched_init()%E5%87%BD%E6%95%B0">sched_init()函数</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">操作系统</a>&nbsp;
+          
+            <a href="/tags/Linux-0.11%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90">Linux-0.11源码分析</a>&nbsp;
+          
+            <a href="/tags/main%EF%BC%88%EF%BC%89%E5%87%BD%E6%95%B0">main（）函数</a>&nbsp;
+          
+            <a href="/tags/sched_init()%E5%87%BD%E6%95%B0">sched_init()函数</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2019/12/03/%E6%96%87%E4%BB%B6%E7%B1%BB%E5%9E%8B%EF%BC%8C%E5%B1%9E%E6%80%A7%E5%92%8C%E7%9B%AE%E5%BD%95%E9%A1%B9/">
+        <p class="h4 index-header">文件类型，属性和目录项</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">文件的类型和属性UNIX 类操作系统中的文件通常可分为6类。如果在shell下执行“ls -l”命令我们就可以从所列出的文件状态信息中知道文件的类型。见下图文件类型有“- ，d ，s ，p ，c ，b”六种类型。正规文件“-”：是一类文件系统对其不作解释的文件，包括有任何长度的字节流。例如源文件，二进制执行文件，文档，以及脚本文件。目录（d）：在UNIX文件系统中也是一种文件，但文件系统管理会对其内容进行解释，以使人们可以看到有哪些文件包含在一个目录中，以及它们使如何组织在一起构成一个分层次的文件系统的。符号连接（s）：用于使用一个不同文件名来引用另一个文件。符号连接可以跨越一个文件系统而连接到另一个文件系统中的一个文件上，删除一个符号连接并不影响被连接的文件。另外的还有一种连接方式称为“硬连接” 。它与这里所说的符号连接中的被连接文件的抵为相同，被作为一般文件对待，但是不能跨越文件系统，（一个磁盘上可以有多个文件系统）或设备进行连接，并且会递增文件的连接计数值（下面解释什么是连接计数值）。命名管道（p）： 文件是系统创建有名管道时建立的文件，可以用于无关进程之间的通信。（还不是很懂，</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2019-12-03&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">操作系统</a>&nbsp;
+          
+            <a href="/categories/Linux-0.11%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90">Linux-0.11源码分析</a>&nbsp;
+          
+            <a href="/categories/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F">文件系统</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/Linux-0.11">Linux-0.11</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2019/12/02/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%EF%BC%88fs%EF%BC%89%E6%A6%82%E8%BF%B0/">
+        <p class="h4 index-header">文件系统（fs）概述</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">本博客大部分搬运于《Linux内核完全注释》赵烔编著，小部分增加一些自己阅读源码过程中遇到问题的解答。目的是：希望在自己搬运的过程中，可以加深对Linux-0.11内核的理解和印象。
+文件系统总体功能FS目录中的各程序中函数之间的引用关系，我们可也把它们从功能上分为四个部分加以讨论：第一部分： 是关于高速缓冲区的管理程序，主要实现了对硬盘等块设备进行数据高速存取的函数，该部分内容集中在buffer.c程序中实现。第二部分： 代码描述了文件系统的低层通用函数，说明了文件索引节点的管理，磁盘，数据块的分配和释放以及文件名与i节点的转换算法。第三部分：程序是有关对文件中数据进行读写操作，包括对字符设备，管道，块读写文件中的数据的访问。第四部分： 程序主要涉及文件的系统调用接口的实现，主要涉及文件的打开，关闭，创建以及有关文件目录操作等的系统调用。
+MINIX文件系统在开发Linux-0.11内核文件时，使用的时1.0版本的MINIX文件系统。对于一个360K的软盘，图中整个磁盘被划分为以1KB为单位的磁盘块，因此上图中共有360个磁盘块，每个方格表示一个磁盘块，在MINIX1.0文件系统中，</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2019-12-02&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">操作系统</a>&nbsp;
+          
+            <a href="/categories/Linux-0.11%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90">Linux-0.11源码分析</a>&nbsp;
+          
+            <a href="/categories/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F">文件系统</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/Linux-0.11">Linux-0.11</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2019/11/24/head-s%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">
+        <p class="h4 index-header">head.s源码分析</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">感谢：《Linux内核完全注释》作者：赵烔。感谢:“ARM的程序员敲着诗歌的梦”的博客：https://blog.csdn.net/longintchar/article/details/79513086
+head.s程序head.s程序在被编译后，会被连接成system模块的最前面的开始部分，这也就是为什么称其为头部（head）程序的原因。从这里开始，内核完全都是在保护模式下运行了。head.s汇编程序与前面的语法格式不同，它采用的是AT&amp;T的汇编语言格式，并且需要使用GNU的gas和gld进行编译连接，因此需要注意代码的赋值的方向是从左到右。这段程序实际上处于内存绝对地址（物理地址）0处开始的地方，这个程序的功能比较单一。
+
+首先是加载各个数据段寄存器，重新设置中断描述符表idt，共256项，并使各个表项均指向一个只报错误的哑中断程序。
+然后重新设置全局描述符表gdt.
+接着使用物理地址0与1M开始处的内容相比较的方法，检测A20地址线是否真的开启（如果没有开启，访问高于1MB物理内存地址使CPU实际上只会访问（IP MOD 1MB）地址的内容）
+然后程序测试PC机是否含有</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2019-11-24&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">操作系统</a>&nbsp;
+          
+            <a href="/categories/Linux-0.11%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90">Linux-0.11源码分析</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/Linux-0.11%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90">Linux-0.11源码分析</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2019/11/23/setup-s%E7%A8%8B%E5%BA%8F%E5%88%86%E6%9E%90/">
+        <p class="h4 index-header">setup.s程序分析</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">感谢：《Linux内核完全注释》作者：赵烔。
+Setup.s程序
+Setup.s程序的主要作用是利用ROM BIOS中断读取系统数据，并将这些数据保存在0x90000开始的位置（覆盖掉了bootsect程序所在的地方），所取得的参数和保留的内存位置如下图。这些参数将被内核中相关的程序使用。
+然后setup.s程序将system模块从0x10000-0x8ffff（当时认为内核系统模块system模块的长度不会超过此值：512KB）整块下移到内存绝对地址0x00000处。
+接下来加载中断描述符寄存器（IDTR）和全局描述符表寄存器（GDTR），开启A20地址线，重新设置两个中断控制芯片8259A(主芯片和从芯片)将硬件中断号重新设置为0x20-0x2f。
+最后设置CPU控制器CR0（也称机器状态字），从而进入32位保护模式运行，并跳转到位于system模块最前面部分的head.s程序。
+
+为了能让head.s在32位保护模式下运行，setup.s程序中临时设置了中断描述符表（IDT）和全局描述符表（GDT），并在GDT中设置了当前内核代码段的描述符和数据段描述符，当进去head.s程序中</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2019-11-23&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">操作系统</a>&nbsp;
+          
+            <a href="/categories/Linux-0.11%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90">Linux-0.11源码分析</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/Linux-0.11%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90">Linux-0.11源码分析</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2019/11/20/%E9%94%AE%E7%9B%98%E6%8E%A7%E5%88%B6%E5%99%A8/">
+        <p class="h4 index-header">键盘控制器</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">本博客大部分内容来自博客：关于键盘的方方面面之一（总论8042）作者：道恒无名小部分是记录自己学习时不明白知识点的查阅和分析
+感谢《微型计算机接口技术》作者：邓亚平, 陈昌志
+#键盘总论说到键盘就不得不说“键盘控制器”。只有明确键盘的工作原理和其组成之后，才能进一步开始使用代码的形式用信息控制的方式表达。单片微处理器8042，大多集成在南桥中，控制整个键盘的工作。包括加电自检，键盘扫描码的缓冲以及与主板的通讯，8042分输出缓冲和输入缓冲，数据传输在I/O口的60h端口和64和h端口进行，前者是数据口，后者是命令和状态口。
+从键盘输入道CPU读取，中间要经历很多过程，但具体可以分为两大块：外设+内部组件，外设指的是键盘，键盘有自己的芯片（8048）。内部组件则是8042和CPU，8048和8042是联通内外的桥梁，也就是说CPU是通过8042与键盘沟通的，8048从外界得到信息输入，通过8042告诉CPU，同样CPU也将直接向8042发送命令，8042在给8048传递，8048的主要工作就是检索来自key matrix的外界输入，所产生的扫描码，将其存放于键盘自身的内部缓冲，而扫描码也</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2019-11-20&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">操作系统</a>&nbsp;
+          
+            <a href="/categories/Linux-0.11%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90">Linux-0.11源码分析</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/%E9%94%AE%E7%9B%98">键盘</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2019/11/19/8259A/">
+        <p class="h4 index-header">8259A</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">转载：原作者：ARM的程序员敲着诗歌的梦文章源地址https://blog.csdn.net/longintchar/article/details/79439466，小部分添加了自己阅读时不明白地方的查阅补充
+可编程中断控制器（8259A）维基的定义：In computing, a programmable interrupt controller (PIC) is a device that is used to combine several sources of interrupt onto one or more CPU lines, while allowing priority levels to be assigned to its interrupt outputs. When the device has multiple interrupt outputs to assert, it asserts them in the order of their relative priority. Common modes of a PIC include hard pr</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2019-11-19&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">操作系统</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/8259A">8259A</a>&nbsp;
+          
+            <a href="/tags/Linux-0.11%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB">Linux-0.11源码阅读</a>&nbsp;
+          
+            <a href="/tags/setup.s">setup.s</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2019/11/17/bootsect-s%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90/">
+        <p class="h4 index-header">bootsect.s源码分析</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">本博客大部分搬运于《Linux内核完全注释》赵烔编著，小部分增加一些自己阅读源码过程中遇到问题的解答。目的是：希望在自己搬运的过程中，可以加深对Linux-0.11内核的理解和印象。感谢：https://blog.csdn.net/longintchar/article/details/79323783https://github.com/Wangzhike/HIT-Linux-0.11/blob/master/1-boot/OS-booting.md
+Bootsect.sbootsect.s代码时磁盘引导块程序，驻留在磁盘的第一个扇区中（引导扇区，0磁道（柱面），0磁头，第一个扇区）。在PC机加电ROM BIOS自检后，引导扇区由BIOS加载到内存，0x7C00处，然后将自己移动到内存0x90000处，该程序的主要作用是首先将setup模块（由setup.s编译成），从磁盘加载到内存，紧接在bootsect的后面位（0x90200），然后利用BIOS中断0x13取磁盘参数表中当前启动引导盘的参数，接着在屏幕上显示“Loading system…”字符串，再将system模块从磁盘上加</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2019-11-17&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">操作系统</a>&nbsp;
+          
+            <a href="/categories/Linux-0.11%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90">Linux-0.11源码分析</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/Linux-0.11%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90">Linux-0.11源码分析</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2019/11/16/bootsect-s/">
+        <p class="h4 index-header">bootsect.s</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">阅读bootsect.s源码时遇到的问题记录和解决1.56.  jmpi   go，INITSEGjmpi指令是段内跳转指令，跳转的目的地是INITSEG:go,这句话的意思是跳到INITSEG处偏移地址为go处的指令执行。
+2.bootsect.s中用到的各种中断
+INT 0x10, AH = 1 -- set up the cursor
+INT 0x10, AH = 3 -- cursor position
+INT 0x10, AH = 0xE -- display char
+INT 0x10, AH = 0xF -- get video page and mode
+INT 0x10, AH = 0x11 -- set 8x8 font
+INT 0x10, AH = 0x12 -- detect EGA/VGA
+INT 0x10, AH = 0x13 -- display string
+INT 0x10, AH = 0x1200 -- Alternate print screen
+INT 0x10, AH = 0x1201 -- turn off cursor emulation
+</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2019-11-16&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">操作系统</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/bootsect.s">bootsect.s</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-4 mx-auto">
+    
+    
+    <div class="col-12 col-md-8 m-auto">
+      <a href="/2019/11/11/%E5%BC%82%E5%B8%B8%E6%8E%A7%E5%88%B6%E6%B5%81/">
+        <p class="h4 index-header">异常控制流</p>
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">教材：《计算机系统基础》，本博客主要用来梳理学习思路。（不然会很乱）
+7.1 进程与进程的上下文切换7.1.1 程序与进程的概念程序：程序就是代码与数据的集合，程序的代码是一个机器指令序列，因而程序是一种静态的概念，它作为目标模块存放在磁盘中，或者作为一个存储段存在一个地址空间中。进程：进程就是程序的一次运行过程（进程具有动态的含义），计算机处理的所有任务实际上是由进程完成的。计算机系统中的任务通常是指进程，例如Linux内核中把进程称为任务，每个进程主要通过一个称为进程描述符的结构来描述，其结构类型定义为task_structure，包括了一个进程的所有信息，所有进程通过一个双向循环环链表实现的任务列表（task list）来描述，任务列表中的每个元素是一个进程描述符，IA-32中的任务状态段（TSS），任务门（task gate）等概念中所称的任务，实际上也是指进程。
+进程的引入为应用程序提供了以下两个方面的抽象：一个独立的逻辑控制流和一个私有的虚拟地址空间。每个进程拥有一个独立的逻辑控制流使得程序员以为自己的程序在执行过程中独占使用处理器，每个进程拥有一个私有的虚拟地址空间，使得</div>
+        </div>
+      </a>
+
+      <div>
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2019-11-11&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80-%E8%A2%81%E6%98%A5%E9%A3%8E">计算机系统基础-袁春风</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80-%E8%A2%81%E6%98%A5%E9%A3%8E">计算机系统基础-袁春风</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+
+
+  <nav aria-label="index posts navigation">
+    <ul class="pagination pg-blue justify-content-center mt-5">
+      
+        <li class="page-item">
+          <a class="page-link" href="/#board">上一页</a>
+        </li>
+      
+      
+        <li class="page-item">
+          <a class="page-link" href="/page/3/#board">下一页</a>
+        </li>
+      
+    </ul>
+  </nav>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+  </main>
+
+  
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <b>Fluid</b></a>
+    <br>
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="/lib/jquery/jquery.min.js" ></script>
+<script src="/lib/popper/popper.min.js" ></script>
+<script src="/lib/bootstrap/js/bootstrap.min.js" ></script>
+<script src="/lib/mdbootstrap/js/mdb.min.js" ></script>
+<script src="/js/main.js" ></script>
+
+  <script src="/js/lazyload.js" ></script>
+
+
+
+  <script src="/lib/prettify/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+  <script src="/lib/typed/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "Stay hungry Stay foolish&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 80,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+  <script src="/lib/anchor/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "false",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script>
+    if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent) || (/Safari/i.test(navigator.userAgent) && !/Chrome/i.test(navigator.userAgent))) {
+      $("#background").css("background-attachment", "scroll");
+    }
+  </script>
+
+</body>
+</html>
