@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/spider.png">
+  <link rel="icon" type="image/png" href="/img/spider.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="description" content="">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>文件类型，属性和目录项 ~ lexssama</title>
+  <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
+  <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
+  <link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
+  <link rel="stylesheet" href="/lib/github-markdown/github-markdown.min.css"  >
+  <link rel="stylesheet" href="https://at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+  
+    <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css"  >
+  
+  <link rel="stylesheet" href="/css/main.css"  >
+
+  
+</head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>lexssama</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">Archives</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/categories/">Categories</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">Tags</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">About</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+</nav>
+
+    <div class="view intro-2" id="background"
+         style="background: url('/img/136457.jpg')no-repeat center center;
+           background-size: cover;
+           background-attachment: fixed;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <br>
+              <p class="mt-3">星期二, 十二月 3日 2019, 11:46 中午</p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto">
+          <div class="markdown-body">
+            <h1 id="文件的类型和属性"><a href="#文件的类型和属性" class="headerlink" title="文件的类型和属性"></a>文件的类型和属性</h1><p>UNIX 类操作系统中的文件通常可分为6类。如果在shell下执行“ls -l”命令我们就可以从所列出的文件状态信息中知道文件的类型。见下图<br><br><img src="https://i.imgur.com/PXvmEXz.png" srcset="/img/loading.gif" alt><br><br>文件类型有“- ，d ，s ，p ，c ，b”六种类型。<br><br><strong>正规文件“-”</strong>：是一类文件系统对其不作解释的文件，包括有任何长度的字节流。例如源文件，二进制执行文件，文档，以及脚本文件。<br><br><strong>目录（d）：</strong>在UNIX文件系统中也是一种文件，但文件系统管理会对其内容进行解释，以使人们可以看到有哪些文件包含在一个目录中，以及它们使如何组织在一起构成一个分层次的文件系统的。<br><br><strong>符号连接（s）：</strong>用于使用一个不同文件名来引用另一个文件。符号连接可以跨越一个文件系统而连接到另一个文件系统中的一个文件上，删除一个符号连接并不影响被连接的文件。另外的还有一种连接方式称为<strong>“硬连接”</strong> 。它与这里所说的符号连接中的被连接文件的抵为相同，被作为一般文件对待，但是不能跨越文件系统，（一个磁盘上可以有多个文件系统）或设备进行连接，并且会递增文件的<strong>连接计数值</strong>（下面解释什么是连接计数值）。<br><br><strong>命名管道（p）：</strong> 文件是系统创建有名管道时建立的文件，可以用于无关进程之间的通信。（还不是很懂，懂了回来解释）<br><br><strong>字符设备（c）：</strong>文件用于以操作文件的方式访问字符设备，例如tty终端，内存设备以及网络设备。（也不是很懂，懂了回来补充）<br><br><strong>块设备（b） ：</strong> 文件用于访问像硬盘，软盘等的设备。在UNIX类操作系统中，块设备文件和字符设备文件一般均存放在系统的/dev目录中。<br></p>
+<p><strong>“rwd”分别表示对文件可读，可写和可执行的许可权。</strong><br></p>
+<p>图中的<strong>“链接计数”位表示文件被硬连接引用的次数。当计数减为零时，该文件即被删除。</strong><br><br>用户名表示该文件宿主的名称。<br><br>组名表示该用户所属组的名称。<br></p>
+<h1 id="文件系统目录项结构"><a href="#文件系统目录项结构" class="headerlink" title="文件系统目录项结构"></a>文件系统目录项结构</h1><p>linux-0.11系统采用的是MINIX文件系统1.0版本。它的<strong>目录结构</strong>和<strong>目录项结构</strong>与传统的UNIX文件的目录项结构相同，定义在include/linux/fs.h文件中。<br><br>在文件系统的一个目录中，其中<strong>所有文件名信息对应的目录项</strong> 存储在<strong>该目录文件名文件的数据块</strong>中。<br><br>例如，目录名root/下的所有 <strong>文件名的目录项</strong> 就保存在 <strong>root/目录名文件的数据块</strong> 中，而文件系统根目录下的所有文件名信息则保存在指定i节点（即1号i节点）的数据块中<br></p>
+<p>这里解释一下：<strong>一个文件（目录文件）由目录项，inode和数据块组成</strong>&lt;可以把Linux中的所有文件都看成目录文件&gt;。<br><br><strong>目录项 :</strong>包括文件名和inode节点（下图的Inode Number）（这个inode节点和inode是两个东西，inode节点是用来在inode table中寻找inode）目录项结构如下图：<br><br><img src="https://i.imgur.com/8dBQ6OI.png" srcset="/img/loading.gif" alt><br><br><strong>inode：（inode table 中的每一项就是一个inode）</strong>又称为文件索引节点，包括文件的基础信息，以及数据块的指针。<br><br><strong>数据块：（Data Blocks）</strong> 包括文件的具体内容。<br><br><img src="https://i.imgur.com/FqhA69j.png" srcset="/img/loading.gif" alt><br></p>
+<p>在打开一个文件时，文件系统会根据给定的文件名找到其i节点号，从而通过其对应i节点号信息找到文件所在的磁盘块位置，见下图，例如对于要查找文件名/usr/bin/vi 的i节点号(如下简略图)，文件系统首先会从具有固定i节点号（1）的根目录开始操作，即从i节点号1的数据块中查找到名称为usr的目录项，从而的得到文件/usr的i节点号。根据文件/usr的i节点号文件系统可以顺利地取得目录/usr的数据块，并在其中可以查找到文件名bin的目录项，这样就知道/usr/bin的i节点号，因而我们就知道目录/usr/bin的目录（数据块）所在的位置，并在该目录中查找到vi文件的目录项，就可以得到文件路径是/usr/bin/vi的i节点号，从而可以在磁盘上的到该i节点号对应的inode（i节点）结构结构信息，。<br><br><img src="https://i.imgur.com/h6qgCRu.png" srcset="/img/loading.gif" alt><br></p>
+<p>通过对用户程序指定的文件名，我们可以找到对应的目录项，根据目录项的i节点就看也找到到i节点表中的相应的i节点结构。<br><br><img src="https://i.imgur.com/iZcIpCz.png" srcset="/img/loading.gif" alt><br><br><strong>每个i节点结构都有一个链接计数器字段i_nlinks记录着指向该节点的目录项数，即文件的硬链接计数值</strong>上图中该字段值为2.在执行删除操作文件时，只有i节点链接计数值为零，内核才会真正删除磁盘文件上该文件的数据。<br></p>
+<p>在每个目录中还包括两个特殊的文件目录项，它们的名称分别是“.”和“..”。<br><br><strong>“.”目录项给出当前目录的i节点号，而”..”目录项给出了当前目录父目录的i节点号(根据在Linux终端上的cd .和 cd ..命令细细体会)</strong><br><br><img src="https://i.imgur.com/q3Ls1dK.png" srcset="/img/loading.gif" alt><br><br>图中示出了我们在i节点号为56的目录中建立了一个mydir子目录，该子目录的i节点号是123，在mydir子目录中的”.”目录项指向自己的i节点123，而其”..”目录项则指向其父目录的i节点56.可见，由于一个目录的目录项本身总数会有两个链接，若其中总是会有两个链接（一个自己，一个父亲），若其中再包括子目录（x，y，z…….等等），那么这些子目录的父目录的i节点链接数就等于2+子目录数。<br></p>
+
+            <hr>
+          </div>
+          <br>
+          <div>
+            
+              <p>
+                <i class="iconfont icon-inbox"></i>
+                
+                  <a class="hover-with-bg" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">操作系统</a>
+                  &nbsp;
+                
+                  <a class="hover-with-bg" href="/categories/Linux-0.11%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90">Linux-0.11源码分析</a>
+                  &nbsp;
+                
+                  <a class="hover-with-bg" href="/categories/%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F">文件系统</a>
+                  &nbsp;
+                
+              </p>
+            
+            <p>
+              <i class="iconfont icon-tag"></i>
+              
+                <a class="hover-with-bg" href="/tags/Linux-0.11">Linux-0.11</a>
+              
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+  </div>
+</div>
+
+    
+  </main>
+
+  
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <b>Fluid</b></a>
+    <br>
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="/lib/jquery/jquery.min.js" ></script>
+<script src="/lib/popper/popper.min.js" ></script>
+<script src="/lib/bootstrap/js/bootstrap.min.js" ></script>
+<script src="/lib/mdbootstrap/js/mdb.min.js" ></script>
+<script src="/js/main.js" ></script>
+
+  <script src="/js/lazyload.js" ></script>
+
+
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
+
+  <script src="/lib/prettify/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+  <script src="/lib/typed/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "文件类型，属性和目录项&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 80,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+  <script src="/lib/anchor/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "false",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script>
+    if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent) || (/Safari/i.test(navigator.userAgent) && !/Chrome/i.test(navigator.userAgent))) {
+      $("#background").css("background-attachment", "scroll");
+    }
+  </script>
+
+</body>
+</html>

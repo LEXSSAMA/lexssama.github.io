@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/spider.png">
+  <link rel="icon" type="image/png" href="/img/spider.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="description" content="">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>copy_process ~ lexssama</title>
+  <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
+  <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
+  <link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
+  <link rel="stylesheet" href="/lib/github-markdown/github-markdown.min.css"  >
+  <link rel="stylesheet" href="https://at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+  
+    <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css"  >
+  
+  <link rel="stylesheet" href="/css/main.css"  >
+
+  
+</head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>lexssama</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">Archives</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/categories/">Categories</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">Tags</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">About</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+</nav>
+
+    <div class="view intro-2" id="background"
+         style="background: url('/img/136457.jpg')no-repeat center center;
+           background-size: cover;
+           background-attachment: fixed;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <br>
+              <p class="mt-3">星期四, 一月 2日 2020, 5:09 下午</p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto">
+          <div class="markdown-body">
+            <h1 id="copy-process"><a href="#copy-process" class="headerlink" title="copy_process"></a>copy_process</h1><p>copy_process定义在kernel/fork.c中<br><br>在sys_fork中执行了find_empty_process找到空闲的任务结构后压入一些寄存器就执行copy_process<br><br>它的作用是：复制系统进程信息（task[nr]），并且设置必要的寄存器，它还整个地复制数据段。<br></p>
+<p>sys_fork函数执行到copy_process时其栈内容如下图，正好对应copy_process函数的参数调用。<br><img src="https://i.imgur.com/Nuq10FZ.png" srcset="/img/loading.gif" alt></p>
+<pre><code>int copy_process(int nr,long ebp,long edi,long esi,long gs,long none,
+        long ebx,long ecx,long edx,
+        long fs,long es,long ds,
+        long eip,long cs,long eflags,long esp,long ss)
+{
+    struct task_struct *p;
+    int i;
+    struct file *f;</code></pre><p>首先为新任务数据结构分配内存(get_free_page（）,用来取得空闲的一页物理页面（4KB）)。如果内存分配出错，则返回出错码并退出。不出错则将新任务结构指针放入任务数组的nr中，（其中nr为任务号，由前面find_empty_process()返回。）接着把当前进程任务结构内容复制到刚申请到的内存页面p开始处。<br><a href="https://lexssama.github.io/2020/01/02/get-free-page%EF%BC%88%EF%BC%89/" target="_blank" rel="noopener">get _free _page()源码分析</a></p>
+<pre><code>    p = (struct task_struct *) get_free_page(); //返回空闲物理页面地址（若无空闲页面则返回0）
+    if (!p)
+        return -EAGAIN;
+    task[nr] = p;
+    *p = *current;    //这样做不会复制超级用户堆栈（只复制进程结构）</code></pre><p>随后对复制来的进程结构内容进行一些修改，作为新进程的任务结构。<br>先将新进程的任务状态置为不可中断等待状态（有点像关中断），以防止内核调度其执行<br>然后设置新进程的进程号pid和父进程号father，并初始化进程运行时间片值等于其priority值<br>（一般为15个嘀咕）。接着复位新进程的信号位图，报警定时器，会话（session）领导标志leader，<br>进程及其子进程在内核和用户态运行时间统计值，还设置进程开始运行的系统时间start_time</p>
+<pre><code>    p-&gt;state = TASK_UNINTERRUPTIBLE;    
+    p-&gt;pid = last_pid;    //新进程号。也由find_empty_process()得到
+    p-&gt;father = current-&gt;pid;    //设置父进程号
+    p-&gt;counter = p-&gt;priority;    //运行时间片值
+    p-&gt;signal = 0;    //信号位图置0
+    p-&gt;alarm = 0;    //报警定时值（滴答数）
+    p-&gt;leader = 0;        /* process leadership doesn&#39;t inherit （进程的领导权是不能被继承的*/
+    p-&gt;utime = p-&gt;stime = 0;    //用户态时间和核心态运行时间
+    p-&gt;cutime = p-&gt;cstime = 0;    //子进程用户态和核心态运行时间
+    p-&gt;start_time = jiffies;    //进程开始运行时间（当前时间滴答数）</code></pre><p>在修改任务状态段TSS数据，由于系统给任务结构p分配了一页新内存，所以（PAGE_SIZE+（long）p）让esp0<br>正好指向该页顶端。ss0:esp0用作程序在内核态执行时的栈，每个任务在GDT表中都有两个段描述符，一个是任务的TSS段描述符，一个是LDT表段描述符下面的p-&gt;tss.ldt = _LDT(nr)就是把GDT中本任务LDT段描述符的选择符保存在本任务的TSS段中当CPU执行切换任务时，会自动从TSS中把LDT段描述符的选择符加载到ldtr寄存器中</p>
+<pre><code>    p-&gt;tss.back_link = 0;
+    p-&gt;tss.esp0 = PAGE_SIZE + (long) p;    //任务内核态栈指针=空闲物理页面地址+ PAGE_SIZE。
+    p-&gt;tss.ss0 = 0x10;    //内核态栈的段选择符
+    p-&gt;tss.eip = eip;    //指令代码指针
+    p-&gt;tss.eflags = eflags;    //标志寄存器
+    p-&gt;tss.eax = 0;    //这是当fork（）返回时新进程会返回0的原因所在
+    p-&gt;tss.ecx = ecx;
+    p-&gt;tss.edx = edx;
+    p-&gt;tss.ebx = ebx;
+    p-&gt;tss.esp = esp;
+    p-&gt;tss.ebp = ebp;
+    p-&gt;tss.esi = esi;
+    p-&gt;tss.edi = edi;
+    p-&gt;tss.es = es &amp; 0xffff;    //段寄存器仅16位有效
+    p-&gt;tss.cs = cs &amp; 0xffff;
+    p-&gt;tss.ss = ss &amp; 0xffff;
+    p-&gt;tss.ds = ds &amp; 0xffff;
+    p-&gt;tss.fs = fs &amp; 0xffff;
+    p-&gt;tss.gs = gs &amp; 0xffff;
+    p-&gt;tss.ldt = _LDT(nr);    //任务局部表描述符的选择符
+    p-&gt;tss.trace_bitmap = 0x80000000;    //高16位有效</code></pre><p>如果当前任务使用了协处理器，就需要保存其上下文（即还需要把协处理器的完整状态保存到新进程的tss.i387结构中）。因为要创建新进程就是copy旧进程所以如果current用到协处理器就还需要保存协处理器汇编指令clts用于清除控制寄存器CR0中的任务已交换（TS）标志。每当发生任务切换，CPU都会设置该标志，该标志用于管理数学协处理器如果该标志置位，那么每个ESC指令都会被捕获（异常7）。如果协处理器存在标志MP也同时置位的话，<br>那么WAIT指令也会捕获，因此任务切换发生在一个ESC指令开始执行之后，则协处理器中的内容就可能需要<br>在执行新的ESC指令之前保存起来。捕获处理句柄会保存协处理器的内容并复位TS标志。指令fnsave用于<br>把协处理器的所有状态保存到目的操作数指定的内存区域中（tss.i387）。<br><br>last_task_used_math定义在kernel/sched.c中<br><br>struct task_struct *last_task_used_math=NULL; //使用过协处理器的指针</p>
+<pre><code>    if (last_task_used_math == current)
+        __asm__(&quot;clts ; fnsave %0&quot;::&quot;m&quot; (p-&gt;tss.i387));</code></pre><p>接下来复制进程页表。即线性地址空间中设置新代码段和数据段描述符中的基址和限长，并复制页表，如果出错（返回值不是0），则复位任务数组中相应项并释放为该新任务分配的用于任务结构的内存页。<br>copy_mem()看这篇<a href="https://lexssama.github.io/2020/01/02/copy-mem%EF%BC%88%EF%BC%89/" target="_blank" rel="noopener">copy _mem()源码分析</a><br><br>free_page()看这篇<a href="https://lexssama.github.io/2020/01/03/free_page_tables%EF%BC%88%EF%BC%89%E5%92%8Cfree_page%20(%20)" target="_blank" rel="noopener">free _page()源码分析</a></p>
+<pre><code>    if (copy_mem(nr,p)) {    //返回不为0表示出错
+        task[nr] = NULL;
+        free_page((long) p);    //如果失败就释放申请的页面
+        return -EAGAIN;
+    }</code></pre><p>如果父进程中有文件是打开的，则将对应文件的打开次数增加1.因为这里创建的子进程会与父进程共享这些打开的文件，将当前进程（父进程）的pwd，root和executable引用次数均增加1，与上面同样的道理，子进程也引用了这些i节点。</p>
+<pre><code>    for (i=0; i&lt;NR_OPEN;i++)     //NR_OPEN被定义在fs.h中 （#define NR_OPEN 20）打开文件数。
+        if ((f=p-&gt;filp[i]))
+            f-&gt;f_count++;
+    if (current-&gt;pwd)
+        current-&gt;pwd-&gt;i_count++;
+    if (current-&gt;root)
+        current-&gt;root-&gt;i_count++;
+    if (current-&gt;executable)
+        current-&gt;executable-&gt;i_count++;</code></pre><p>随后在GDT表中设置新任务TSS段和LDT段描述符。这两个段的限长均被设置成104字节<br>程序然后把新进程设置成就绪态，另外在任务切换时，任务寄存器tr由CPU自动加载。<br>最后返回新进程号。<br><br>set_tss_desc()和set_ldt_desc()定义在include/asm/system.h<br></p>
+<pre><code>    set_tss_desc(gdt+(nr&lt;&lt;1)+FIRST_TSS_ENTRY,&amp;(p-&gt;tss));
+    set_ldt_desc(gdt+(nr&lt;&lt;1)+FIRST_LDT_ENTRY,&amp;(p-&gt;ldt));
+    p-&gt;state = TASK_RUNNING;    /* do this last, just in case （最后才将新任务置成就绪态，以防万一）*/
+    return last_pid;
+}</code></pre>
+            <hr>
+          </div>
+          <br>
+          <div>
+            
+              <p>
+                <i class="iconfont icon-inbox"></i>
+                
+                  <a class="hover-with-bg" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">操作系统</a>
+                  &nbsp;
+                
+                  <a class="hover-with-bg" href="/categories/Linux-0.11%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90">Linux-0.11源码分析</a>
+                  &nbsp;
+                
+              </p>
+            
+            <p>
+              <i class="iconfont icon-tag"></i>
+              
+                <a class="hover-with-bg" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">操作系统</a>
+              
+                <a class="hover-with-bg" href="/tags/Linux-0.11%E6%BA%90%E7%A0%81%E5%88%86%E6%9E%90">Linux-0.11源码分析</a>
+              
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+  </div>
+</div>
+
+    
+  </main>
+
+  
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <b>Fluid</b></a>
+    <br>
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="/lib/jquery/jquery.min.js" ></script>
+<script src="/lib/popper/popper.min.js" ></script>
+<script src="/lib/bootstrap/js/bootstrap.min.js" ></script>
+<script src="/lib/mdbootstrap/js/mdb.min.js" ></script>
+<script src="/js/main.js" ></script>
+
+  <script src="/js/lazyload.js" ></script>
+
+
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
+
+  <script src="/lib/prettify/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+  <script src="/lib/typed/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "copy_process&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 80,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+  <script src="/lib/anchor/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "false",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script>
+    if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent) || (/Safari/i.test(navigator.userAgent) && !/Chrome/i.test(navigator.userAgent))) {
+      $("#background").css("background-attachment", "scroll");
+    }
+  </script>
+
+</body>
+</html>

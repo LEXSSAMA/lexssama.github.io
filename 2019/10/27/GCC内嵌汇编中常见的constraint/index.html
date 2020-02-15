@@ -15,7 +15,7 @@
   <meta name="description" content="">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <title>归档 ~ lexssama</title>
+  <title>GCC内嵌汇编中常见的constraint ~ lexssama</title>
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
   <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
   <link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
@@ -31,7 +31,7 @@
 
 
 <body>
-  <header style="height: 80vh;">
+  <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -102,6 +102,9 @@
             </span>
 
             
+              <br>
+              <p class="mt-3">星期日, 十月 27日 2019, 9:33 晚上</p>
+            
           </div>
 
           
@@ -112,77 +115,64 @@
 
   <main>
     
-      <div class="container nopadding-md">
-        <div class="py-5 z-depth-3" id="board">
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
-
-<div class="list-group">
-  <p class="h4">共计 29 篇文章</p>
-  <hr>
-  
-    
       
-      <p class="h5">2020</p>
-    
-    <a href="/2020/01/03/schedule%EF%BC%88%EF%BC%89/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">schedule（）</span>
-      <span style="float: right;">01-03</span>
-    </a>
-  
-    
-    <a href="/2020/01/03/free_page_tables%EF%BC%88%EF%BC%89%E5%92%8Cfree_page%20(%20)/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">free_page_tables（）和free_page ( )</span>
-      <span style="float: right;">01-03</span>
-    </a>
-  
-    
-    <a href="/2020/01/03/copy-page-table%EF%BC%88%EF%BC%89/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">copy_page_table（）</span>
-      <span style="float: right;">01-03</span>
-    </a>
-  
-    
-    <a href="/2020/01/02/copy-mem%EF%BC%88%EF%BC%89/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">copy_mem（）</span>
-      <span style="float: right;">01-02</span>
-    </a>
-  
-    
-    <a href="/2020/01/02/get-free-page%EF%BC%88%EF%BC%89/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">get_free_page（）</span>
-      <span style="float: right;">01-02</span>
-    </a>
-  
-    
-    <a href="/2020/01/02/copy-process/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">copy_process</span>
-      <span style="float: right;">01-02</span>
-    </a>
-  
-    
-    <a href="/2020/01/02/find-empty-process/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">find_empty_process</span>
-      <span style="float: right;">01-02</span>
-    </a>
-  
-    
-    <a href="/2020/01/02/fork%EF%BC%88%EF%BC%89%E5%87%BD%E6%95%B0%E8%A7%A3%E6%9E%90/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">fork（）函数解析</span>
-      <span style="float: right;">01-02</span>
-    </a>
-  
-</div>
 
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto">
+          <div class="markdown-body">
+            <p>1.”a”代表AL/AX/EAX/RAX寄存器<br><br>2.”b”代表BL/BX/EBX/RBX寄存器<br><br>3.”c”代表CL/CX/ECX/RCX寄存器<br><br>4.”d”代表DL/DX/EDX/RDX寄存器<br><br>5”D”代表DI寄存器<br><br>6.”S”代表SI寄存器<br><br>7.”m”代表内存操作数<br><br>8.”r”,”q”代表寄存器操作数（就是随便一个寄存器）<br><br>9.”i”代表立即数操作数<br><br>10.”f”代表浮点寄存器操作数<br><br>11.”F”代表浮点立即数操作数<br><br>12.”o”内存操作数，要求内存地址范围是在同样一个段内<br><br>13.”v”内存操作数，但是不在同一个段内<br><br>14.”n”一个确定值的立即数<br></p>
 
-              </div>
-            </div>
+            <hr>
+          </div>
+          <br>
+          <div>
+            
+              <p>
+                <i class="iconfont icon-inbox"></i>
+                
+                  <a class="hover-with-bg" href="/categories/%E5%86%85%E5%B5%8C%E6%B1%87%E7%BC%96">内嵌汇编</a>
+                  &nbsp;
+                
+              </p>
+            
+            <p>
+              <i class="iconfont icon-tag"></i>
+              
+                <a class="hover-with-bg" href="/tags/%E5%86%85%E5%B5%8C%E6%B1%87%E7%BC%96">内嵌汇编</a>
+              
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
           </div>
         </div>
       </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+  </div>
+</div>
+
     
   </main>
 
@@ -236,6 +226,11 @@
   <script src="/js/lazyload.js" ></script>
 
 
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
 
   <script src="/lib/prettify/prettify.min.js" ></script>
   <script>
@@ -251,7 +246,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "归档&nbsp;",
+        "GCC内嵌汇编中常见的constraint&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 80,

@@ -15,7 +15,7 @@
   <meta name="description" content="">
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
-  <title>归档 ~ lexssama</title>
+  <title>bootsect.s ~ lexssama</title>
   <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
   <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
   <link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
@@ -31,7 +31,7 @@
 
 
 <body>
-  <header style="height: 80vh;">
+  <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -102,6 +102,9 @@
             </span>
 
             
+              <br>
+              <p class="mt-3">星期六, 十一月 16日 2019, 8:36 晚上</p>
+            
           </div>
 
           
@@ -112,77 +115,111 @@
 
   <main>
     
-      <div class="container nopadding-md">
-        <div class="py-5 z-depth-3" id="board">
-          
-          <div class="container">
-            <div class="row">
-              <div class="col-12 col-md-10 m-auto">
-                
-
-<div class="list-group">
-  <p class="h4">共计 29 篇文章</p>
-  <hr>
-  
-    
       
-      <p class="h5">2020</p>
-    
-    <a href="/2020/01/03/schedule%EF%BC%88%EF%BC%89/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">schedule（）</span>
-      <span style="float: right;">01-03</span>
-    </a>
-  
-    
-    <a href="/2020/01/03/free_page_tables%EF%BC%88%EF%BC%89%E5%92%8Cfree_page%20(%20)/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">free_page_tables（）和free_page ( )</span>
-      <span style="float: right;">01-03</span>
-    </a>
-  
-    
-    <a href="/2020/01/03/copy-page-table%EF%BC%88%EF%BC%89/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">copy_page_table（）</span>
-      <span style="float: right;">01-03</span>
-    </a>
-  
-    
-    <a href="/2020/01/02/copy-mem%EF%BC%88%EF%BC%89/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">copy_mem（）</span>
-      <span style="float: right;">01-02</span>
-    </a>
-  
-    
-    <a href="/2020/01/02/get-free-page%EF%BC%88%EF%BC%89/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">get_free_page（）</span>
-      <span style="float: right;">01-02</span>
-    </a>
-  
-    
-    <a href="/2020/01/02/copy-process/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">copy_process</span>
-      <span style="float: right;">01-02</span>
-    </a>
-  
-    
-    <a href="/2020/01/02/find-empty-process/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">find_empty_process</span>
-      <span style="float: right;">01-02</span>
-    </a>
-  
-    
-    <a href="/2020/01/02/fork%EF%BC%88%EF%BC%89%E5%87%BD%E6%95%B0%E8%A7%A3%E6%9E%90/" class="list-group-item list-group-item-action">
-      <span class="archive-post-title">fork（）函数解析</span>
-      <span style="float: right;">01-02</span>
-    </a>
-  
-</div>
 
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto">
+          <div class="markdown-body">
+            <h1 id="阅读bootsect-s源码时遇到的问题记录和解决"><a href="#阅读bootsect-s源码时遇到的问题记录和解决" class="headerlink" title="阅读bootsect.s源码时遇到的问题记录和解决"></a>阅读bootsect.s源码时遇到的问题记录和解决</h1><p>1.<br><code>56.  jmpi   go，INITSEG</code><br><br>jmpi指令是段内跳转指令，跳转的目的地是INITSEG:go,这句话的意思是跳到INITSEG处偏移地址为go处的指令执行。</p>
+<p>2.<br>bootsect.s中用到的各种中断<br></p>
+<pre><code>INT 0x10, AH = 1 -- set up the cursor
+INT 0x10, AH = 3 -- cursor position
+INT 0x10, AH = 0xE -- display char
+INT 0x10, AH = 0xF -- get video page and mode
+INT 0x10, AH = 0x11 -- set 8x8 font
+INT 0x10, AH = 0x12 -- detect EGA/VGA
+INT 0x10, AH = 0x13 -- display string
+INT 0x10, AH = 0x1200 -- Alternate print screen
+INT 0x10, AH = 0x1201 -- turn off cursor emulation
+INT 0x10, AX = 0x4F00 -- video memory size
+INT 0x10, AX = 0x4F01 -- VESA get mode information call
+INT 0x10, AX = 0x4F02 -- select VESA video modes
+INT 0x10, AX = 0x4F0A -- VESA 2.0 protected mode interface
 
-              </div>
-            </div>
+INT 0x11 -- Hardware detection
+(see ATA using BIOS for more detail on these BIOS function calls)
+
+INT 0x13, AH = 0 -- reset floppy/hard disk
+INT 0x13, AH = 2 -- read floppy/hard disk in CHS mode
+INT 0x13, AH = 3 -- write floppy/hard disk in CHS mode
+INT 0x13, AH = 0x15 -- detect second disk
+INT 0x13, AH = 0x41 -- test existence of INT 13 extensions
+INT 0x13, AH = 0x42 -- read hard disk in LBA mode
+INT 0x13, AH = 0x43 -- write hard disk in LBA mode
+
+(see Detecting Memory (x86) for more detail on these BIOS function calls)
+
+INT 0x12 -- get low memory size
+INT 0x15, EAX = 0xE820 -- get complete memory map
+INT 0x15, AX = 0xE801 -- get contiguous memory size
+INT 0x15, AX = 0xE881 -- get contiguous memory size
+INT 0x15, AH = 0x88 -- get contiguous memory size
+
+INT 0x15, AH = 0xC0 -- Detect MCA bus
+INT 0x15, AX = 0x0530 -- Detect APM BIOS
+INT 0x15, AH = 0x5300 -- APM detect
+INT 0x15, AX = 0x5303 -- APM connect using 32 bit
+INT 0x15, AX = 0x5304 -- APM disconnect
+
+INT 0x16, AH = 0 -- read keyboard scancode (blocking)
+INT 0x16, AH = 1 -- read keyboard scancode (non-blocking)
+INT 0x16, AH = 3 -- keyboard repeat rate</code></pre><br>
+![](https://i.imgur.com/USbgQLK.png)<br>
+
+<p>3.<code>87.  seg cs</code> <br><br>seg是段超越指令，某些时候你不想使用默认的段地址寄存器，那么你可以强制指定一个段地址寄存器（这里强制指定段地址寄存器为CS）。<br><br>默认的段寄存器是：<br><br>CS：IP<br><br>DS：SI<br><br>ES：DI <br><br>SS:SP<br><br>而且seg指令能影响的只有下一条指令，也就是说seg只能把下一条指令中的默认段寄存器改为自己指定的段寄存器。<br></p>
+<p>4.<code>147. sread :   .word1+SETUPLEN</code> <br><br>sread 是一个标号，处理到sread时，ASM会把1+SETUPLEN的值按16bit放在此标号中。<br><br>.word就是在这个地方放一个值，相当于在这里定义了一个数据变量，用.word定义的是16bit的数据<br></p>
+
+            <hr>
+          </div>
+          <br>
+          <div>
+            
+              <p>
+                <i class="iconfont icon-inbox"></i>
+                
+                  <a class="hover-with-bg" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">操作系统</a>
+                  &nbsp;
+                
+              </p>
+            
+            <p>
+              <i class="iconfont icon-tag"></i>
+              
+                <a class="hover-with-bg" href="/tags/bootsect.s">bootsect.s</a>
+              
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
           </div>
         </div>
       </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+  </div>
+</div>
+
     
   </main>
 
@@ -236,6 +273,11 @@
   <script src="/js/lazyload.js" ></script>
 
 
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
 
   <script src="/lib/prettify/prettify.min.js" ></script>
   <script>
@@ -251,7 +293,7 @@
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "归档&nbsp;",
+        "bootsect.s&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 80,

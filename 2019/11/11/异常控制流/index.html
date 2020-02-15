@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/spider.png">
+  <link rel="icon" type="image/png" href="/img/spider.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="description" content="">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>异常控制流 ~ lexssama</title>
+  <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
+  <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
+  <link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
+  <link rel="stylesheet" href="/lib/github-markdown/github-markdown.min.css"  >
+  <link rel="stylesheet" href="https://at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+  
+    <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css"  >
+  
+  <link rel="stylesheet" href="/css/main.css"  >
+
+  
+</head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>lexssama</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">Archives</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/categories/">Categories</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">Tags</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">About</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+</nav>
+
+    <div class="view intro-2" id="background"
+         style="background: url('/img/136457.jpg')no-repeat center center;
+           background-size: cover;
+           background-attachment: fixed;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <br>
+              <p class="mt-3">星期一, 十一月 11日 2019, 10:24 晚上</p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto">
+          <div class="markdown-body">
+            <p><strong>教材：《计算机系统基础》，本博客主要用来梳理学习思路。（不然会很乱）</strong></p>
+<h1 id="7-1-进程与进程的上下文切换"><a href="#7-1-进程与进程的上下文切换" class="headerlink" title="7.1 进程与进程的上下文切换"></a>7.1 进程与进程的上下文切换</h1><h2 id="7-1-1-程序与进程的概念"><a href="#7-1-1-程序与进程的概念" class="headerlink" title="7.1.1 程序与进程的概念"></a>7.1.1 程序与进程的概念</h2><p><strong>程序：</strong>程序就是代码与数据的集合，程序的代码是一个机器指令序列，因而程序是一种静态的概念，它作为目标模块存放在磁盘中，或者作为一个存储段存在一个地址空间中。<br><br><strong>进程：</strong>进程就是程序的一次运行过程（进程具有动态的含义），计算机处理的所有任务实际上是由进程完成的。<br><br><strong>计算机系统中的任务通常是指进程，例如Linux内核中把进程称为任务，每个进程主要通过一个称为进程描述符的结构来描述，其结构类型定义为task_structure，包括了一个进程的所有信息，所有进程通过一个双向循环环链表实现的任务列表（task list）来描述，任务列表中的每个元素是一个进程描述符，IA-32中的任务状态段（TSS），任务门（task gate）等概念中所称的任务，实际上也是指进程。<br></strong></p>
+<p><strong>进程的引入为应用程序提供了以下两个方面的抽象：一个独立的逻辑控制流和一个私有的虚拟地址空间。每个进程拥有一个独立的逻辑控制流使得程序员以为自己的程序在执行过程中独占使用处理器，每个进程拥有一个私有的虚拟地址空间，使得程序员以为自己的程序在执行过程中独占存储器。<br></strong></p>
+<h2 id="7-1-2-进程的逻辑控制流"><a href="#7-1-2-进程的逻辑控制流" class="headerlink" title="7.1.2 进程的逻辑控制流"></a>7.1.2 进程的逻辑控制流</h2><p><strong>逻辑控制流：</strong>指令的执行过程中，会形成一个指令执行的地址序列，对于确定的输入数据，其指令执行的地址序列也是确定的，这个确定的指令执行地址序列称为逻辑控制流.（<strong>不知道定义在说些什么直接上图</strong>）<br><img src="https://i.imgur.com/vJTH0zM.png" srcset="/img/loading.gif" alt><br><br><strong>进程p1的逻辑控制流是：A<sub>11</sub><del>A<sub>13</sub>,A<sub>11</sub></del>A<sub>14</sub>,A<sub>15</sub>~A<sub>16</sub>。（其他进程同理）<br></strong><br><strong>并发：</strong>不同进程的逻辑控制流在时间上交错或者重叠的情况称为并发。<br><br><strong>并行：</strong>我们称两个同时执行的进程的逻辑控制流是并行的。<br><br><strong>并行是并发的一个特例。</strong></p>
+<h2 id="7-1-3-进程的上下文切换"><a href="#7-1-3-进程的上下文切换" class="headerlink" title="7.1.3 进程的上下文切换"></a>7.1.3 进程的上下文切换</h2><p><strong>上下文切换：</strong> 操作系统通过处理器让处理器轮流执行多个进程，实现不同进程中指令交替执行的机制称为进程的上下文切换。<br><br><strong>进程的上下文：</strong> 进程的物理实体（代码和数据）和支持进程运行的环境合称进程的上下文。<br><br><strong>进程的上下文包括：用户级上下文和系统级上下文。</strong><br><br><img src="https://i.imgur.com/b9nyp7P.png" srcset="/img/loading.gif" alt><br><br><strong>系统级上下文和用户级上下文包括的内容如上图所示<br><br>进程的控制信息包括各种内核数据结构，例如记录有关进程信息表，页表，打开文件列表等。（具体如下图所示）</strong><br><img src="https://i.imgur.com/kMOm5Jn.png" srcset="/img/loading.gif" alt><br><br><strong>寄存器上下文：</strong>处理器中各个寄存器的内容被称为寄存器上下文。<br></p>
+<p>**上下文切换发生在操作系统调度一个新进程到处理器运行时，需要完成三件事：<br></p>
+<ol>
+<li>将当前处理器的寄存器上下文保存在当前进程的系统上下文的现场信息中；<br></li>
+<li>将新进程系统上下文中的现场信息作为新的就寄存器上下文恢复到处理器的各个寄存器中；</li>
+<li>将控制转移到新进程执行。这里，一个重要的上下文信息是PC的值，当前进程被打断的断点处的PC作为寄存器上下文的一部分被保存在进程现场信息中，这样，下次该进程再次被调度到处理器上执行时，就可以从现场信息中获得断点处的PC，从而能从断点处开始执行。<br>**</li>
+</ol>
+<p><img src="https://i.imgur.com/fIhPaLr.png" srcset="/img/loading.gif" alt><br></p>
+<p>从上图可以看出，<strong>在一个进程的整个生命周期中，可能会有其他不同的进程在处理器中交替运行</strong>，例如上图给出了上述shell命令行执行过程中shell进程与hello进程上下文切换过程，首先运行shell进程，从shell命令行中读入字符串“./hello”到主存；当shell进程读到字符“[Enter]”后，shell进程将通过系统调用从用户态转到内核态执行，由操作系统内核程序进行上下文切换，以保存shell进程的上下文并创建hello进程的上下文，hello进程结束后，再转到操作系统完成控制权从hello进程回到shell进程的切换。<br></p>
+<h2 id="7-1-4进程的存储器映射"><a href="#7-1-4进程的存储器映射" class="headerlink" title="7.1.4进程的存储器映射"></a>7.1.4进程的存储器映射</h2><p>以Linux系统为例，对进程的存储器映射进行介绍，进程的存储器映射，是指将进程的虚拟地址空间的一个区域或者硬盘上的对象建立关联，已初始化一个vm_area_struct结构中的信息，使用mmap（）函数实现存储器的映射并通过缺页中断处理进行读写操作。(<strong>虚拟地址空间和硬盘建立关联后，以后CPU运行程序的时候就是通过虚拟地址来存取指令和数据，CPU给出虚拟地址后由MMU来把虚拟地址变为线性地址（分段方式）,再由线性地址转化为物理地址（分页方式），这就与第六章联系起来</strong>)<br></p>
+<h3 id="lt-1-gt-mmap函数的功能"><a href="#lt-1-gt-mmap函数的功能" class="headerlink" title="&lt;1&gt;.mmap函数的功能"></a>&lt;1&gt;.mmap函数的功能</h3><p><code>void* mmap(void* start ,size\_t length ,int flags, int fd,off_t offset)</code><br><br>若该函数的返回值式-1（MAP_FAILED），则表示出错；否则，返回值为指向映射区域的指针。该函数的功能是，将指向文件fd中偏移量offset开始的长度为length字节的一块信息，映射到虚拟地址空间中起始位置为start，长度为length字节的一块区域。<br></p>
+<p><img src="https://i.imgur.com/eaNZfe8.png" srcset="/img/loading.gif" alt><br><br>参数prot指定该区域页面的访问权限，对应vm_area_struct结构中的vm_prot字段，可能的取值包括以下几种：<br></p>
+<ol>
+<li>PROT_EXE：区域内页面由可执行指令组成<br></li>
+<li>PROT_READ：区域内容可读<br></li>
+<li>PROT_WRITE：区域内容可读可写<br></li>
+<li>PROT_NONE：区域内容不可被访问<br><br>参数flags指定该区域映射对象的类型，对应vm_area_struct结构中的vm_flags字段，可能的取值包括以下两种：<br></li>
+<li>普通文件：最典型的是可执行文件和共享库文件，通常映射到只读代码区域（.init .text .rodata）和已初始化数据区域（.data）的对象再可执行文件中，这些对象都属于私有对象，采用写时拷贝的技术映射到虚拟地址空间，所映射到的区域称为私有区域，对应对象称为私有的写时拷贝对象，此时参数flags设置为MAP_PRIVATE；映射到共享库区域的对象在共享库文件中，这些对象都属于共享对象，所映射的区域称为共享区域，此时flags设置为MAP_SHARED。<br><br>CPU<strong>第一次访问</strong>对应虚拟页面时，内核在主存中找到一个空闲页框（没有则淘汰一个），然后从硬盘上的文件装入所映射的对象信息，如果文件中的对象不是正好为页面大小的整数倍，内核将用零来填充余下的部分。<br></li>
+</ol>
+<p>2.匿名文件：由内核创建，全部由0组成，对应区域中的每个虚拟页面称为<strong>请求零的页面</strong>。参数flags设置为MAP_ANON。通常未初始化数据区（.bss），运行时堆和用户栈等区域中都为私有的，请求零的页，此时flags设置为MAP_PRIVATE | MAP_ANON。<br></p>
+<h3 id="lt-2-gt-共享对象和私有的写时拷贝对象"><a href="#lt-2-gt-共享对象和私有的写时拷贝对象" class="headerlink" title="&lt;2&gt;.共享对象和私有的写时拷贝对象"></a>&lt;2&gt;.共享对象和私有的写时拷贝对象</h3><p><strong>共享库的动态链接具有共享性，其优点是：虽然由很多进程都调用共享库中的代码（例如 printf（）），但是共享库代码段在内存和硬盘中都由一个副本。</strong><br><br>那么问题来了,怎么实现一个共享库副本由多个进程共享呢？答案是：通过存储器映射机制来实现。<br><br><img src="https://i.imgur.com/NMtcu18.png" srcset="/img/loading.gif" alt><br><br><strong>映射过程：</strong><br><br><strong>因为共享对象在硬盘上只有一个副本，也即对应的共享库文件名是唯一的，（如上图）所以内核可以判断出进程1已经在主存给共享对象分配了页框，因而进程2的加载运行过程中，内核只要将进程2对应区域内页表项中的页框号直接填上即可。在多个进程共享同一个共享对象时，在主存中仅保存一个副本，每个进程在访问各自的共享区域时，实际上都在同一个对应页框中存取信息，因此，一个进程共享区域进行写操作结果，对于所有共享一个共享对象的进程都是可见的，而且结果也会反映在硬盘上对应的共享对象中。<br></strong></p>
+<p><strong>私有的写时拷贝对象（A）有点像共享对象（B）（A也是像B一样，相同的代码或者数据共用主存页框不过对应的是私有对象，但是A在需要修改页框内数据时会生成一个私有的写时拷贝页，不会影响其他进程，写回硬盘时也仅仅只会修改对应进程的文件，不会影响其他进程。)<br></strong><br>具体如下说明：<br><br>一个可执行文件被多次加载执行以形成不同的进程，因而系统中多个进程可能由同样的只读代码区域和可读可写数据区域，也即不同进程的区域可能会映射到同一个对象。与共享库文件中的共享文件不同，可执行文件中的对象是私有的，映射到的是进程的私有区域，因此在这种私有区域中写操作结果，对于其他进程是不可见的，也不会反映在对于的硬盘对象中。要实现这种功能，内核可以为不同进程中对于区域的虚拟页主存中分配各自独立的页框。但是这会浪费很多空间。<br></p>
+<p>为了解决这个问题就有了私有对象的写时拷贝技术。</p>
+<p><strong>具体做法是：</strong><br><br>假设可执行文件a.out对应的两个进程在系统中并发执行，先启动的进程1会将a.out中私有对象映射到自己的VM用户空间区域中，<strong>内核将这些区域中的页面标记为私有的写时拷贝页，并将对应页表项中的访问权限标记为只读</strong>，在进程1运行过程中，内核为这个私有对象在主存中分配了若干页框，同样，后启动的进程2也会将a.out中的私有对象映射到自己的VM用户空间区域中，标记对应页面为私有的写时拷贝页和只读访问权限，并使页表项中的页框号与进程1的页框号相同，如下图所示，如果两个进程都没进行写操作，例如只读代码区就不会发生写操作，那么该区域中的虚拟页在主存中就只有一个副本，可以节省主存空间。<br><img src="https://i.imgur.com/3wn4nrh.png" srcset="/img/loading.gif" alt><br></p>
+<p>若进程2对私有的写时拷贝页面（例如，可读可写数据区域所在页面）发生了写操作，那么就与只读访问权限不符合，发生保护异常，内核就会进行页故障处理，在处理过程中，内核判断出保护异常时由于进程试图对私有的写时拷贝页面进行写操作造成的，此时，内核就会在主存中为这个页面分配一个新页框（如下图所示），把页面的内容拷贝到新页框中，并修改进程2中对应的页表项，填入新分配的页框号，将访问权限改成可读可写，页故障处理完后回到发生故障的指令重新执行，此时进程2就可以正常执行写操作了，写时拷贝技术通常延迟拷贝私有对象所在页面，使得主存物理地址得到最充分的使用。<br><br><img src="https://i.imgur.com/LnVFAfz.png" srcset="/img/loading.gif" alt><br></p>
+<h3 id="7-1-5程序的加载和启动"><a href="#7-1-5程序的加载和启动" class="headerlink" title="7.1.5程序的加载和启动"></a>7.1.5程序的加载和启动</h3><p>启动一个可执行目标文件时，首先会通过某种方式调出加载器（loader）的操作系统程序来处理，在Linux/UNIX系统中通过调用execve（）函数来启动加载器。<br><br>execve()函数的功能是在当前进程的上下文加载并运行一个新的程序<br></p>
+<p><code>int execve(char* filename,char *argv[],*envp[])</code><br></p>
+<p>filename是加载并运行的可执行文件名(如./hello)，可带参数列表 argv和环境变量列表envp。若错误（如找不到指定文件filename） ，则返回-1，并将控制权交给调用程序； 若函数执行成功，则不返回 ，而是将PC（EIP）设定指向EIF头中定义的入口点Entry Point(即符号_start处)。符号\start在启动例程crtl.o中定义，每个C程序都一样。<br><br>符号_start处定义的启动代码主要是一系列过程调用，首先依次调用_libe_init_file和_init两个初始化过程；随后通过调用atexit（）对程序正常结束时需要调用的函数进行登记注册，这些函数被称为终止处理函数；然后，再调用可执行目标中的主函数main（）；最后调用_exit（）过程，以结束进程的执行，返回操作系统内核。<br></p>
+<p><strong>因此启动代码的调用过程为_libe_init_file—-&gt;_init—-&gt;atexit（）—–&gt;main（）—-&gt;_exit（）。</strong></p>
+<p>主函数main（）的原型<br><br><code>int main(int argc, char **argv, char **envp);</code><br><br><code>int main(int argc, char *argv[], char *envp[f]);</code><br><br><img src="https://i.imgur.com/CvC1omZ.png" srcset="/img/loading.gif" alt><br><br><img src="https://i.imgur.com/Ovzj3At.png" srcset="/img/loading.gif" alt><br><br><img src="https://i.imgur.com/d8YR9sb.png" srcset="/img/loading.gif" alt><br><br><img src="https://i.imgur.com/199tIah.png" srcset="/img/loading.gif" alt><br><br><strong>最后运行新程序main()函数的用户栈如下图：</strong><br><br><img src="https://i.imgur.com/JCnItEa.png" srcset="/img/loading.gif" alt><br><br>关于main（）函数参数的问题可以看这篇文章<br><a href="https://lexssama.github.io/2019/10/27/C-main%E5%87%BD%E6%95%B0%E4%B8%AD%E5%8F%82%E6%95%B0argc%E5%92%8Cargv%E5%90%AB%E4%B9%89%E4%BB%A5%E5%8F%8A%E7%94%A8%E6%B3%95/" target="_blank" rel="noopener">C++ main函数中参数argc和argv含义以及用法</a><br></p>
+<h1 id="7-2-异常和中断"><a href="#7-2-异常和中断" class="headerlink" title="7.2 异常和中断"></a>7.2 异常和中断</h1><h2 id="7-2-1-基本概念"><a href="#7-2-1-基本概念" class="headerlink" title="7.2.1 基本概念"></a>7.2.1 基本概念</h2><p>从80286开始，Intel统一把“内中断”称为异常，“外中断”称为中断。<br><br>异常和中断的例子：<br><br><strong>异常：</strong><br><br>内部“异常”：再CPU内部发生的意外或者特殊事件：<br><br>按发生原因分为<strong>硬故障中断</strong> 和 <strong>程序性中断</strong>两类<br><br>硬故障中断：电源断电，硬件故障等<br><br>程序性中断：执行某条指令时发生的例外事件：如溢出，缺页，越界，越权，越级，非法指令，除数为0，堆/栈溢出，访问超时，断点设置，单步，系统调用等。<br></p>
+<p>外部“中断”：在CPU外部发生的特殊事件，通过“中断请求”信号向CPU请求处理，如实时钟，控制台，打印机缺纸，采样计时到，DMA传输结束等。<br></p>
+<h2 id="7-2-2-异常的分类"><a href="#7-2-2-异常的分类" class="headerlink" title="7.2.2 异常的分类"></a>7.2.2 异常的分类</h2><p><strong>异常被分为三类：故障（fault），陷阱（Trap），和终止（abort）。</strong><br></p>
+<h3 id="lt-1-gt-故障"><a href="#lt-1-gt-故障" class="headerlink" title="&lt;1&gt;.故障"></a>&lt;1&gt;.故障</h3><p>故障是引起故障的指令在执行过程中CPU检测到一类与指令执行相关的意外事件，这种意外事件有的可以恢复，有的则不能恢复。<br><br><strong>溢出的情况：</strong><br><br>对于像是溢出和非法操作码等这类故障，因为无法通过异常处理程序恢复，所以不能回到中断的程序继续执行，通常异常处理程序程序在屏幕上显示一个对话框告知发生了某种故障，然后调用内核中的abort例程，以终止发生故障的当前进程。<br><br><strong>除数为0的情况：</strong><br><br>根据定点除法指令还是浮点除法指令有不同的处理方式，对于浮点数除0，异常处理程序可以选择将指令执行结果用特殊值（如∞或者NaN）表示，然后返回到用户进程继续执行除法指令后面的一条指令；而对于整数除0，则会发生“整除0”故障，通常调用abort例程来终止当前用户进程。<br><br><strong>页故障的情况：</strong><br><br>“page fault”异常中包括了多种不同情况，需要页故障处理程序根据不同的情况进行进行不同的处理，首先检查是否发生地址越界或者访问越权，如果是的话，则故障不可以恢复；否则是真正的缺页故障，此时，可以通过从硬盘读入页面来恢复故障，Linux中不可以恢复的访存故障（地址越界或者地址越权）都称为“段故障（segmentation fault）”<br><br><img src="https://i.imgur.com/8UHrtiT.png" srcset="/img/loading.gif" alt><br></p>
+<p><strong>故障处理后有三种情况：终止（abort），返回当前指令（再执行一遍故障指令，“缺页”），返回下条指令（例如浮点数除法，除0）。</strong><br></p>
+<h3 id="lt-2-gt-陷阱"><a href="#lt-2-gt-陷阱" class="headerlink" title="&lt;2&gt;.陷阱"></a>&lt;2&gt;.陷阱</h3><p>陷阱也称为“自陷”或“陷入”与“故障”等其他异常事件不同，是预先安排的一种“异常”事件，就像预先设定的“陷阱”一样。当执行到陷阱指令时，CPU就会调出特定的程序进行相应的处理，处理结束后返回到陷阱指令的下一条指令执行。<br><br><img src="https://i.imgur.com/i22SV5W.png" srcset="/img/loading.gif" alt><br><br><strong>执行陷阱指令返回是回到陷阱指令的下一条指令执行。</strong><br></p>
+<p>陷阱的作用：<br></p>
+<ol>
+<li>陷阱的重要作用之一就是再用户程序和内核之间提供一个像过程一样的接口，这个接口叫做<strong>系统调用</strong>，用户程序利用这个接口可以方便地使用操作系统内核提供的一些服务。操作系统给每个服务编一个号，称为<strong>系统调用号</strong> ，每个服务功能通过一个对应的<strong>系统调用服务例程</strong>提供<br></li>
+<li>陷阱机制可以实现程序调试功能，包括设置断点和单步跟踪<br></li>
+</ol>
+<p><strong>单步跟踪：</strong>在IA-32中，当CPU处于单步跟踪状态（TF=1且IF=1）时，每条指令都被设置成陷阱指令，执行每条指令后，都会发生中断类型型号为1的“调试”异常，从而转去特定的“单步跟踪处理程序”。<br><br><strong>单步跟踪处理程序执行具体过程：<br></strong><br><img src="https://i.imgur.com/YAP7Egj.jpg" srcset="/img/loading.gif" alt><br><br>单步跟踪处理前CPU会自动把标志寄存器压栈，然后将TF和IF清0，这样在单步跟踪处理程序执行过程中CPU能以正常方式工作工作，单步处理结束， <strong>返回断点处执行之前（注意是回到断点处执行，而不是回到断点处的下一条指令执行）</strong> ，再从栈中取出标志，以恢复TF和IF的值，是CPU回到单步跟踪状态，这样下一条指令又是陷阱指令，将被跟踪执行。<br></p>
+<p><strong>断点设置：</strong><br><br>在IA-32中，用于程序调试的“断电设置”陷阱指令为int 3 ，对应机器码为CCH，若调试程序在被调试程序某处设置了断点，则调试程序就把该处指令第一字节改为CCH。当CPU执行到该指令是，就会暂停当前被调试程序的运行，并发出一个“EXCEPTION_BREAKPOINT”异常，从而最终调出相应的调试程序来执行，执行结束后再回到设定的断点的调试程序执行。<br></p>
+<h3 id="lt-3-gt-终止"><a href="#lt-3-gt-终止" class="headerlink" title="&lt;3&gt;.终止"></a>&lt;3&gt;.终止</h3><p>如果再执行指令过程中发生了严重错误，例如控制器出现问题，访问DRAM或者SRAM时发生校检错等，则程序将无法继续执行，只好终止发生问题的进程，在有些严重的情况下，甚至要重启系统，显然，这种异常时随机发生的，无法确定发生异常的是哪一条指令，其处理过程如下图：<br><br><img src="https://i.imgur.com/9vE3Wfc.png" srcset="/img/loading.gif" alt><br></p>
+<h2 id="7-2-3-中断的分类"><a href="#7-2-3-中断的分类" class="headerlink" title="7.2.3 中断的分类"></a>7.2.3 中断的分类</h2><p>中断时外部I/O设备请求处理器进行的处理的一种信号，它不是由当前执行的指令引起的。<br></p>
+<p>Intel将外部中断分为可屏蔽中断（maskable interrupt）和不可屏蔽中断（nonmaskable interrupt，NMI）<br></p>
+<ol>
+<li><p>可屏蔽中断（maskable interrupt）<br>可屏蔽中断时指通过可屏蔽中断请求线（INTR）向CPU进行请求的中断，主要来自I/O设备的中断请求。CPU可以通过在中断控制器中设置相应的屏蔽字来屏蔽它或者不屏蔽它，若一个I/O设备的中断请求被屏蔽，则它的中断请求信号不会被送到CPU<br></p>
+</li>
+<li><p>不可屏蔽中断<br><br>不可屏蔽中断时非常紧急的硬件故障（电源断点，硬件线路故障），通过专门的不可以屏蔽中断请求线NMI向CPU发出中断请求。这类中断请求信号一旦产生，任何情况下都不可被屏蔽，因此一定会被送到CPU，以便CPU快速处理这类紧急事件，通常这种情况下，中断服务程序会尽快保存系统重要信息，然后再屏幕上显示相应的消息或者直接重启系统。<br></p>
+</li>
+</ol>
+<p><img src="https://i.imgur.com/vTJ4Oes.png" srcset="/img/loading.gif" alt></p>
+<h2 id="7-2-4-异常和中断的响应具体过程"><a href="#7-2-4-异常和中断的响应具体过程" class="headerlink" title="7.2.4 异常和中断的响应具体过程"></a>7.2.4 异常和中断的响应具体过程</h2><p>CPU对异常和中断的响应过程可以分为以下三个步骤：保护断点和程序状态，关中断，识别异常和中断事件并转到相应处理程序执行。</p>
+<h3 id="1-保护断点和程序状态"><a href="#1-保护断点和程序状态" class="headerlink" title="1.保护断点和程序状态"></a>1.保护断点和程序状态</h3><p><strong>保护断点：</strong><br><br>对于不同的异常事件，其返回地址不同（即断点不同），例如“缺页故障”异常的断点时发生页故障的当前指令的地址；为了能在异常处理后正确返回到原被中断的程序继续执行，数据通路必须能正确计算断点处的地址。<strong>保护断点时只要将计算出的断点地址送到栈中或者特定的寄存器中即可。</strong><br><br>IA-32处理器的断点保存在栈中<br><br>MIPS处理器用EPC寄存器专门存放断点<br><br><strong>保护程序状态：</strong><br><br>因为异常处理后可能还要回到原被中断的程序中继续执行，所以被中断时源程序的状态（如产生的各自标志信息，允许自陷标志等）都必须保存起来，通常每个正在运行的程序的状态信息存放在一个专门的寄存器中，这些专门的寄存器统称为<strong>程序状态字寄存器（PSWR）—&gt;如IA-32中的EFLAGS寄存器就是PSWR</strong>，存放在PSWR的信息称为<strong>程序状态字（PSW）</strong>，与断点一样PSWR中的PSW也要保存在栈或者特定的寄存器中。<br></p>
+<h3 id="2-关中断"><a href="#2-关中断" class="headerlink" title="2.关中断"></a>2.关中断</h3><p><strong>如果中断处理程序在保存原被打断程序现场的过程中又发生了新的中断，那么就会因为要处理新的中断，而把原被打断程序的现场以及已保存的断点和程序状态等破坏掉。因此因该有一种机制来禁止在处理中断时在响应新的中断</strong><br><br>通常通过设定“中断允许位”（“中断允许”触发器）来实现，若中断允许位为1，则为开中断，表示允许响应中断；若中断允许位清0，表示不允许响应中断 则为关中断。例如 IA-32中的“中断允许位”就是EFLAGS的寄存器中的中断标志位IF。<br><br>在IA-32中通过执行指令sti或者cli，将标志寄存器EFLAGS中的位 （置1或清0），以使CPU处在开中断或者关中断状态。<br></p>
+<h3 id="3-识别异常和中断事件并转相应的处理程序执行"><a href="#3-识别异常和中断事件并转相应的处理程序执行" class="headerlink" title="3.识别异常和中断事件并转相应的处理程序执行"></a>3.识别异常和中断事件并转相应的处理程序执行</h3><p>在调出异常和中断处理从程序之前，必须知道发生了什么异常或哪个I/O设备发出了中断请求，一般来说，内部异常事件和外部中断源的识别方式不同，大多数处理器会将两者分开来。<br><br><strong>内部异常事件的识别：</strong><br><br>内部异常事件识别比较简单，只要把CPU在执行指令时把检测到的事件对于的异常类型号或标识异常类型的信息记录到特定的内部寄存器即可。<br><br><strong>外部中断源的识别：</strong><br><br>外部中断源的识别比较复杂。由于外部中断的发生与CPU正在执行的指令没有必然联系，相对于指令来说，外部中断时不可预测的，与当前指令无关，所以并不能根据指令执行过程中的某些现象判断是否发生了中断请求，必须时每条指令执行完之后，在加载下一条指令之前CPU通过采样对应的中断请求引脚（INTR，NMI）来进行查询，如果发现中断请求引脚有效，则说明有中断请求，但是到底时哪个I/O设备发出的请求还需要进一步识别，通常是由CPU外部的中断控制器根据IO设备的中断请求和中断屏蔽情况，结合中断响应优先级，来识别当前的中断类型号，并通过数据总线将中断类型号送到CPU。<br></p>
+<p>异常和中断源的识别可以采用<strong>软件识别</strong>和<strong>硬件识别</strong>两种方式<br></p>
+<p><img src="https://i.imgur.com/fh0f94U.png" srcset="/img/loading.gif" alt><br></p>
+<h1 id="7-3-IA-32-Linux中的异常和中断"><a href="#7-3-IA-32-Linux中的异常和中断" class="headerlink" title="7.3 IA-32+Linux中的异常和中断"></a>7.3 IA-32+Linux中的异常和中断</h1><h2 id="7-3-1-IA-32的中断向量"><a href="#7-3-1-IA-32的中断向量" class="headerlink" title="7.3.1 IA-32的中断向量"></a>7.3.1 IA-32的中断向量</h2><p>IA-32采用向量中断方式，可以处理256种不同类型的异常和中断，每个异常或者中断都有唯一的编号，称之为中断类型号（也称向量号），并且还有与其对应的异常处理程序或者中断服务程序，其入口地址放在一个专门的中断向量表种。<br><br>256个中断类型前32个（0~31）保留给处理器用，剩余的可以由用户自行定义功能，这里的用户是操作系统。<br></p>
+<h2 id="7-3-2-IA-32的中断描述符表"><a href="#7-3-2-IA-32的中断描述符表" class="headerlink" title="7.3.2 IA-32的中断描述符表"></a>7.3.2 IA-32的中断描述符表</h2><p><img src="https://i.imgur.com/vPTsaGo.jpg" srcset="/img/loading.gif" alt><br><img src="https://i.imgur.com/ALWm2Oz.jpg" srcset="/img/loading.gif" alt><br><br>保护模式下，借助中断描述符表来获得异常处理程序或中断服务程序的入口地址，中断描述符表，（interrupt Descriptor Table，IDT）是操作系统内核种的一个表，共有256个表项，每个表项是一个中断门描述符，陷阱门描述符或任务门描述符（用TYPE区分，如下图，中断门TYPE=1110B，陷阱门TYPE=1111B,任务门TYPE=0101B）。<br><br>P=1时表示段存在，P=0表示段不存在，Linux总是把P置成1，因为它从来不会把一个段交换到磁盘上，而是以页面为单位交换。<br><br>DPL给出访问本段要求的最低特权等级<br></p>
+<p><img src="https://i.imgur.com/TyHMAP6.png" srcset="/img/loading.gif" alt><br><strong>任务门描述符：</strong><br><br>任务门描述符中不包括偏移地址，只包括TSS段选择符，这个段选择符指向GDT中的一个TSS段描述符，CPU根据TSS段中的相关信息装载EIP和ESP等寄存器，从而执行相应的异常处理程序。<br></p>
+<h2 id="7-3-2-IA-32中异常和中断的处理"><a href="#7-3-2-IA-32中异常和中断的处理" class="headerlink" title="7.3.2 IA-32中异常和中断的处理"></a>7.3.2 IA-32中异常和中断的处理</h2><p>在每条指令的执行过程中会根据执行情况判定是否发生了某种内部异常事件，在每条指令执行结束时判定是否发生了外部中断，因此在CPU根据CS和EIP去取下条指令之前，会根据检测的结果判断是否进入异常和中断响应阶段。<br><br>若由异常和中断发生:<br></p>
+<ol>
+<li>确定检测到的异常中断号i，从IDTR指向的IDT中取出第i个表项<br></li>
+<li>根据IDTi中的段选择符，从GDTR指向的GDT中取出相应的段描述符，得到对应异常处理程序和中断服务程序所在段的DPL，基地址等信息。<br></li>
+<li>将当前特权级CPL与段描述符中的DPL比较。若CPL小于DPL，则产生13号异常，内核代码段DPL总是等于0，因此不管怎样都不会发生CPL小于DPL的情况，这个检查主要是为了防止而已应用程序通过INT n 指令模拟非法异常和中断进入内核态执行非法性破坏。<br></li>
+<li>检查是否发生了特权级变化，即判断CPL是否与相应的段描述符中的DPL不同，如果是的话，就需要从用户态切换到内核态，以使用内核对应的栈。Linux中若CPL=DPL，则发生异常或中断指令也在内核态执行；（即在一个内核态中执行的过程中又遇到了异常或者中断），若CPL&gt;DPL，则从用户态转到内核态执行，因此，因从用户态切换到内核态执行，因此应从用户栈切换到内核栈。<br></li>
+</ol>
+<p><strong>用户栈切换到内核栈步骤：</strong><br><br>读TR寄存器，以访问正在运行的TSS段，将TSS段中保存的内核栈的段选择符和栈指针分别装入寄存器SS和ESP,然后再内核栈中保存原来的用户栈的SS和ESP。<br><br>5. 如果发生的事故障，则将发生故障的指令的逻辑地址写入CS和EIP，以保证故障处理后能回到发生故障的指令执行。<br><br>6. 在当前栈中保存EFLAGS，CS和EIP寄存器的内容（内核栈）。若是中断门，则将EFLAGS寄存器中的IF清0(关中断)。<br><br>7. 将IDTi中的段选择符装入CS，IDTi中的偏移地址装入EIP，它们事异常处理程序或中断服务程序第一条指令的逻辑地址<br><br>8. 这样从下一个时钟周期开始，就执行异常处理程序和中断服务程序的第一条指令，在异常处理程序中或中断服务程序中，处理完异常或者中断程序后，通过执行最后一条指令IRET回到原被中断的进程继续执行<br></p>
+<p>CPU在执行IRET指令的过程中完成以下工作：<br></p>
+<ol>
+<li>从内核栈中弹出EIP，CS和EFLAGS，恢复断点和程序状态。<br></li>
+<li>检查当前异常或中断处理程序的CPL是否等于CS中的低两位，若是，则说明异常或中断响应前后都属于一个特权级，IRET指令完成操作；否则再进行下一步工作。<br></li>
+<li>从内核栈中弹出SS和ESP(弹出来的是用户栈的SS和ESP)，以恢复到异常或中断响应前的特权级进程所使用的栈。</li>
+<li>检查DS，ES，FS和GS寄存器的内容，若其中又某个寄存器的段选择符指向的一个段描述符且器DPL小于CPL则将段寄存器的内容清0，这是为了防止恶意应用程序（CPL=3）利用内核以前使用过的段寄存器（DPL=0）,来访问内核地址空间<br><br>执行完IRET指令后，CPU自然回到原来发生异常或中断的进程继续执行。<br></li>
+</ol>
+<p><img src="https://i.imgur.com/Cx9kqLD.png" srcset="/img/loading.gif" alt><br></p>
+
+            <hr>
+          </div>
+          <br>
+          <div>
+            
+              <p>
+                <i class="iconfont icon-inbox"></i>
+                
+                  <a class="hover-with-bg" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80-%E8%A2%81%E6%98%A5%E9%A3%8E">计算机系统基础-袁春风</a>
+                  &nbsp;
+                
+              </p>
+            
+            <p>
+              <i class="iconfont icon-tag"></i>
+              
+                <a class="hover-with-bg" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80-%E8%A2%81%E6%98%A5%E9%A3%8E">计算机系统基础-袁春风</a>
+              
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+  </div>
+</div>
+
+    
+  </main>
+
+  
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <b>Fluid</b></a>
+    <br>
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="/lib/jquery/jquery.min.js" ></script>
+<script src="/lib/popper/popper.min.js" ></script>
+<script src="/lib/bootstrap/js/bootstrap.min.js" ></script>
+<script src="/lib/mdbootstrap/js/mdb.min.js" ></script>
+<script src="/js/main.js" ></script>
+
+  <script src="/js/lazyload.js" ></script>
+
+
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
+
+  <script src="/lib/prettify/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+  <script src="/lib/typed/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "异常控制流&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 80,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+  <script src="/lib/anchor/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "false",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script>
+    if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent) || (/Safari/i.test(navigator.userAgent) && !/Chrome/i.test(navigator.userAgent))) {
+      $("#background").css("background-attachment", "scroll");
+    }
+  </script>
+
+</body>
+</html>

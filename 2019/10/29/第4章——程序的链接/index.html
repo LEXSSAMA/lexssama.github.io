@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/spider.png">
+  <link rel="icon" type="image/png" href="/img/spider.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="description" content="">
+  <meta name="author" content="John Doe">
+  <meta name="keywords" content="">
+  <title>第4章—程序的链接 ~ lexssama</title>
+  <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
+  <link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
+  <link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
+  <link rel="stylesheet" href="/lib/github-markdown/github-markdown.min.css"  >
+  <link rel="stylesheet" href="https://at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+  
+    <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css"  >
+  
+  <link rel="stylesheet" href="/css/main.css"  >
+
+  
+</head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>lexssama</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">Home</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">Archives</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/categories/">Categories</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">Tags</a>
+          </li>
+        
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">About</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+
+</nav>
+
+    <div class="view intro-2" id="background"
+         style="background: url('/img/136457.jpg')no-repeat center center;
+           background-size: cover;
+           background-attachment: fixed;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <br>
+              <p class="mt-3">星期二, 十月 29日 2019, 3:35 下午</p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto">
+          <div class="markdown-body">
+            <h1 id="第4章-程序的链接-小结《课本214页》"><a href="#第4章-程序的链接-小结《课本214页》" class="headerlink" title="第4章 程序的链接-小结《课本214页》"></a>第4章 程序的链接-小结《课本214页》</h1><p><strong>1.</strong>链接器位于编译器，指令集体系结构和操作系统的交叉点上，涉及指令系统，代码生成，机器语言，程序转换和虚拟存储管理等诸多概念。<br><br><strong>2.</strong>链接处理涉及三种目标文件格式：可重定位目标文件，可执行目标文件和共享库目标文件。<br><br><strong>3.</strong>共享库文件是一中特殊的可定位目标文件。<br><br><strong>4.</strong>ELF目标文件格式有链接视图和执行视图两种，前者是可重定位目标格式，后者是可执行目标格式。<br><br>链接视图包括：ELF头，各种节，节头表。<br><br>执行视图包括：ELF头，程序头表，各种节组成的段。<br><br><strong>5.</strong>链接包括两种链接形式：一是：静态链接，二是：动态链接。<br><br>静态链接：就是将多个可重定位文件中的相同类型的节合并起来以生成完全链接的可执行目标文件，它的所有符号引用都是确定的虚拟地址空间中的最终地址，因而可以直接被加载执行。<br><br>动态链接：动态链接模式下的可执行目标文件是部分链接的，还有一部分的引用地址没有确定，需要利用共享库中的定义符号进行重定位，因而需要由动态链接器来加载共享库并重定位可执行文件中部分文件的引用。<br><br>动态链接又有两种形式分别是：一种是可执行目标文件加载时进行共享库的动态链接；另一种时可执行目标文件执行时进行共享库的动态链接。<br><br><strong>6.</strong>在不同模块可能会定义相同的符号 <strong>（这里说的符号指的是被写入.data节.bss节中的符号，不包括执行时栈中的符号）</strong>，因为相同的多个符号只能分配一个地址，所以链接器以哪个符号为准？编译器通过对定义符号标识是强符号还是弱符号，由链接器根据一套规则来确定多重定义符号中哪个为唯一的定义符号。<br><br><strong>7.</strong>加载器在加载可执行目标文件时，实际上只是把可执行目标文件中的只读代码段和可读写数据段通过页表映射到了虚拟地址空间中的确定位置，并没有真正的把代码和数据从磁盘装入主存。<br></p>
+<h1 id="过程梳理："><a href="#过程梳理：" class="headerlink" title="过程梳理："></a>过程梳理：</h1><p><strong>预处理–&gt;编译–&gt;汇编–&gt;链接</strong><br></p>
+<h2 id="1-预处理"><a href="#1-预处理" class="headerlink" title="(1.)预处理"></a>(1.)预处理</h2><p>对预处理文件命令进行处理，包括对头文件的包含，对宏的扩展，条件编译的选择等，例如：#include&lt;xxxx.h&gt;把xxxx.h文件的内容插入源程序文件中。<br><br>gcc命令：“gcc - E main.c -o main.i”和“ cpp main.c -o main.i”<br></p>
+<h2 id="2-编译"><a href="#2-编译" class="headerlink" title="(2.)编译"></a>(2.)编译</h2><p>编译器把代码进行优化（也可以不进行优化）和存储分配，最终把C语言源程序翻译成汇编语言程序。<br><br>gcc命令：“gcc -S main.i -o main .s”和 “ccl main.i -o main.s”<br></p>
+<h2 id="3-汇编"><a href="#3-汇编" class="headerlink" title="(3.)汇编"></a>(3.)汇编</h2><p>把汇编语言代码转化为机器语言代码生成可重定位目标文件(.o文件）。<br><br>gcc命令：“gcc -c main.s -o main.o” 和 “as main.s -o main.o”<br></p>
+<h2 id="4-链接"><a href="#4-链接" class="headerlink" title="(4.)链接"></a>(4.)链接</h2><p>将所以有关联的可重定位目标文件组合起来，以生成一个可执行文件。（好处：模块化，效率高）<br></p>
+<p>链接包括两步：<br></p>
+<h3 id="1-符号解析"><a href="#1-符号解析" class="headerlink" title="1.符号解析"></a>1.符号解析</h3><p>将每一个符号引用与一个确定的符号定义建立关联。<br><br>符号包括:全局静态变量名和函数名，而非静态局部变量名则不是符号。编译器将所有的符号存放在可重定位目标文件的符号表中。<br></p>
+<h3 id="2-重定位"><a href="#2-重定位" class="headerlink" title="2.重定位"></a>2.重定位</h3><p>可重定位目标文件中的代码区和数据区都是从地址0开始的，链接器需要将不同模块中相同的节合并起来生成一个新的单独的节，并将合并后的代码区和数据区按照ABI规范确定虚拟地址空间划分（也称存储器映像）来重新确定位置。<br><br>例如，对于32位Linux系统存储器映像，其只读代码总是从地址0x8048000开始，而可读可写数据段总是在代码段后面（从下到上）第一个4KB对齐的地址处开始，因而链接器余姚重新确定每条指令的每个数据的地址，并且在指令中需要明确给定的引用符号的地址，这种重新定义代码和数据地址并更新指令中引用地址符号的地址的工作叫做重定位。<br></p>
+
+            <hr>
+          </div>
+          <br>
+          <div>
+            
+              <p>
+                <i class="iconfont icon-inbox"></i>
+                
+                  <a class="hover-with-bg" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80-%E8%A2%81%E6%98%A5%E9%A3%8E">计算机系统基础-袁春风</a>
+                  &nbsp;
+                
+              </p>
+            
+            <p>
+              <i class="iconfont icon-tag"></i>
+              
+                <a class="hover-with-bg" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%B3%BB%E7%BB%9F%E5%9F%BA%E7%A1%80">计算机系统基础</a>
+              
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+  </div>
+</div>
+
+    
+  </main>
+
+  
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <b>Fluid</b></a>
+    <br>
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="/lib/jquery/jquery.min.js" ></script>
+<script src="/lib/popper/popper.min.js" ></script>
+<script src="/lib/bootstrap/js/bootstrap.min.js" ></script>
+<script src="/lib/mdbootstrap/js/mdb.min.js" ></script>
+<script src="/js/main.js" ></script>
+
+  <script src="/js/lazyload.js" ></script>
+
+
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
+
+  <script src="/lib/prettify/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+  <script src="/lib/typed/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "第4章—程序的链接&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 80,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+  <script src="/lib/anchor/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "false",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script>
+    if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent) || (/Safari/i.test(navigator.userAgent) && !/Chrome/i.test(navigator.userAgent))) {
+      $("#background").css("background-attachment", "scroll");
+    }
+  </script>
+
+</body>
+</html>
