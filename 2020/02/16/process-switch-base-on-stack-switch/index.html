@@ -426,7 +426,7 @@ mov %cx,%fs
 <p>Why we have to add two code <code>movl $0x17,%ecx</code> <code>mov %cx,%fs</code> behind that code of switch LDT.</p>
 <p>because we need to change the segment base address and segment length limit in the hidden register about fs.</p>
 <p>Examlpe with CS. The hidden register for increase CPU processing speed.</p>
-<p><img src="/2020/02/16/process-switch-base-on-stack-switch/wm (1" srcset="/img/loading.gif" alt>.png)</p>
+<p><img src="/2020/02/16/process-switch-base-on-stack-switch/wm1.png" srcset="/img/loading.gif" alt></p>
 <p><strong>switch PC （switch to next process）</strong></p>
 <pre><code class="lang-assembly">1:    popl %eax
     popl %ebx
