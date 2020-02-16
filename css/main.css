@@ -22,6 +22,11 @@ body a:hover {
 .hover-with-bg:hover {
   background-color: #f8f9fa !important;
 }
+.visitors {
+  font-size: 0.8em;
+  padding: 0.45rem;
+  float: right;
+}
 #board {
   position: relative;
   margin-top: -3rem;
@@ -51,6 +56,9 @@ body a:hover {
 .markdown-body hr {
   height: 0.2em;
   margin: 2rem 0;
+}
+.markdown-body strong {
+  font-weight: bold;
 }
 .list-group-item {
   border: 0;
@@ -86,6 +94,24 @@ body a:hover {
     font-size: 1rem;
     line-height: 2.5rem;
   }
+}
+.pagination a,
+.pagination .current {
+  outline: 0;
+  border: 0;
+  background-color: transparent;
+  font-size: 0.9rem;
+  padding: 0.5rem 0.75rem;
+  line-height: 1.25;
+  -webkit-border-radius: 0.125rem;
+  border-radius: 0.125rem;
+  -webkit-transition: all 0.3s linear;
+  -o-transition: all 0.3s linear;
+  transition: all 0.3s linear;
+}
+.pagination a:hover,
+.pagination .current {
+  background-color: #eee;
 }
 .scroll-down-bar {
   position: absolute;
@@ -214,6 +240,67 @@ body a:hover {
   -o-transform: rotate(-135deg);
   transform: rotate(-135deg);
 }
+.wechat {
+  cursor: pointer;
+  position: relative;
+}
+.wechat:hover .wechat-qrcode {
+  display: block;
+}
+.wechat-qrcode {
+  width: 200px;
+  height: 300px;
+  background: url("") no-repeat;
+  background-size: 100%;
+  position: absolute;
+  right: -100px;
+  z-index: 99;
+  display: none;
+}
+a.police-beian {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+a.police-beian img {
+  margin: 0 3px;
+  width: 18px;
+  height: 18px;
+}
+@media (max-width: 320px) {
+  a.police-beian span.police-beian-sep {
+    display: none;
+  }
+}
+@media (max-width: 768px) {
+  .links {
+    margin-left: 0.5em;
+    margin-right: 0.5em;
+  }
+}
+.link-card {
+  box-shadow: none;
+}
+.link-card:hover {
+  transition: all 0.3s;
+  background-color: #ebedef;
+  z-index: 1;
+}
+.link-card-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.link-card-text {
+  height: 3em;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
 @-moz-keyframes scroll-down {
   0% {
     opacity: 0.8;
@@ -326,19 +413,27 @@ body a:hover {
     transform: translateY(0);
   }
 }
+.index-card {
+  margin-bottom: 2rem;
+}
+.index-img {
+  box-shadow: 0 5px 11px 0 rgba(0,0,0,0.18), 0 4px 15px 0 rgba(0,0,0,0.15);
+}
+.index-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
 .index-header {
   font-weight: 700;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  margin-top: 0.5rem;
+  margin-bottom: 0;
 }
-@media (max-width: 768px) {
-  .index-header {
-    font-size: 1.25rem;
-    white-space: normal;
-    overflow: hidden;
-    margin-top: 1.25rem;
-  }
+.index-btm {
+  margin-bottom: 0.5rem;
 }
 .index-thumbnails {
   display: block;
@@ -349,8 +444,8 @@ body a:hover {
 .index-excerpt {
   margin: 0.5rem 0 0.5rem 0;
   height: auto;
-  max-height: 5rem;
-  line-height: 1.25rem;
+  max-height: calc(1.4rem * 3);
+  line-height: 1.4rem;
   overflow: hidden;
 }
 .index-excerpt .index-text {
@@ -358,12 +453,19 @@ body a:hover {
   margin-left: -0.25rem;
   width: 100%;
   word-break: break-word;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
 }
-.index-excerpt::before {
-  float: left;
-  width: 0.25rem;
-  content: '';
-  height: 2rem;
+@media (max-width: 768px) {
+  .index-info {
+    padding-top: 0.5rem;
+  }
+  .index-header {
+    font-size: 1.25rem;
+    white-space: normal;
+    overflow: hidden;
+  }
 }
 .post-content {
   box-sizing: border-box;
@@ -404,14 +506,27 @@ h6::before {
 }
 #toc {
   padding: 3rem 0 0 0;
+  height: 80%;
+}
+#tocbot {
+  max-height: 100%;
+  overflow-y: auto;
+  overflow: -moz-scrollbars-none;
+  -ms-overflow-style: none;
 }
 #tocbot ol {
   list-style: none;
   padding-inline-start: 1rem;
 }
+#tocbot::-webkit-scrollbar {
+  display: none;
+}
 .tocbot-list ol {
   list-style: none;
   padding-left: 1rem;
+}
+.tocbot-list a {
+  font-size: 15px;
 }
 .tocbot-link {
   color: #3c4858;
@@ -451,6 +566,9 @@ h6::before {
   .comments {
     max-width: 64rem;
   }
+}
+.katex-block {
+  overflow-x: auto;
 }
 .about-avatar {
   position: relative;
