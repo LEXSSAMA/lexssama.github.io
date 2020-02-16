@@ -5,15 +5,24 @@
   
 
   
-  <title>Lexssama&#39;s Blogs</title>
+  <title>process switch base on stack switch | Lexssama&#39;s Blogs</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Lexssama&#39;s Blogs">
-<meta property="og:url" content="https://lexssama.github.io/index.html">
+  <meta name="description" content="基于内核栈切换的进程切换实验目的 深入理解进程和进程切换的概念； 综合应用进程、CPU 管理、PCB、LDT、内核栈、内核态等知识解决实际问题； 开始建立系统认识。  实验内容现在的 Linux 0.11 采用 TSS（后面会有详细论述）和一条指令就能完成任务切换，虽然简单，但这指令的执行时间却很长，在实现任务切换时大概需要 200 多个时钟周期。 而通过堆栈实现任务切换可能要更快，而且采用堆栈的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="process switch base on stack switch">
+<meta property="og:url" content="https://lexssama.github.io/2020/02/16/process-switch-base-on-stack-switch/index.html">
 <meta property="og:site_name" content="Lexssama&#39;s Blogs">
+<meta property="og:description" content="基于内核栈切换的进程切换实验目的 深入理解进程和进程切换的概念； 综合应用进程、CPU 管理、PCB、LDT、内核栈、内核态等知识解决实际问题； 开始建立系统认识。  实验内容现在的 Linux 0.11 采用 TSS（后面会有详细论述）和一条指令就能完成任务切换，虽然简单，但这指令的执行时间却很长，在实现任务切换时大概需要 200 多个时钟周期。 而通过堆栈实现任务切换可能要更快，而且采用堆栈的">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://doc.shiyanlou.com/userid19614labid571time1424053399458/wm">
+<meta property="og:image" content="https://doc.shiyanlou.com/userid19614labid571time1424053856897/wm">
+<meta property="og:image" content="https://img-blog.csdnimg.cn/20190819230403925.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc2MTQ3OA==,size_16,color_FFFFFF,t_70">
+<meta property="og:image" content="https://doc.shiyanlou.com/userid19614labid571time1424053880667/wm">
+<meta property="article:published_time" content="2020-02-16T07:01:02.000Z">
+<meta property="article:modified_time" content="2020-02-16T07:46:38.404Z">
 <meta property="article:author" content="Lexssama">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://doc.shiyanlou.com/userid19614labid571time1424053399458/wm">
   
     <link rel="alternate" href="/atom.xml" title="Lexssama&#39;s Blogs" type="application/atom+xml">
   
@@ -62,9 +71,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-process-switch-base-on-stack-switch" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-process-switch-base-on-stack-switch" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2020/02/16/process-switch-base-on-stack-switch/" class="article-date">
   <time datetime="2020-02-16T07:01:02.000Z" itemprop="datePublished">2020-02-16</time>
@@ -77,8 +84,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/02/16/process-switch-base-on-stack-switch/">process switch base on stack switch</a>
+    <h1 class="article-title" itemprop="name">
+      process switch base on stack switch
     </h1>
   
 
@@ -271,48 +278,19 @@
     </footer>
   </div>
   
-</article>
-
-
+    
+<nav id="article-nav">
   
-    <article id="post-blog" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2020/02/16/blog/" class="article-date">
-  <time datetime="2020-02-16T06:58:27.000Z" itemprop="datePublished">2020-02-16</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/02/16/blog/">blog</a>
-    </h1>
+    <a href="/2020/02/16/blog/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">blog</div>
+    </a>
   
+</nav>
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>seadasdsad</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://lexssama.github.io/2020/02/16/blog/" data-id="ck6ooigox0000p54ih3c7d26a" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
   
 </article>
-
-
-  
-
 
 </section>
         
