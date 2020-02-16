@@ -426,7 +426,7 @@ mov %cx,%fs
 <p>Why we have to add two code <code>movl $0x17,%ecx</code> <code>mov %cx,%fs</code> behind that code of switch LDT.</p>
 <p>because we need to change the segment base address and segment length limit in the hidden register about fs.</p>
 <p>Examlpe with CS. The hidden register for increase CPU processing speed.</p>
-<p><img src="/2020/02/16/process-switch-base-on-stack-switch/lexssama/blog/source/_posts/process-switch-base-on-stack-switch/wm (1" srcset="/img/loading.gif" alt>.png)</p>
+<p><img src="/2020/02/16/process-switch-base-on-stack-switch/wm (1" srcset="/img/loading.gif" alt>.png)</p>
 <p><strong>switch PC （switch to next process）</strong></p>
 <pre><code class="lang-assembly">1:    popl %eax
     popl %ebx
@@ -441,7 +441,7 @@ ret
 <p><strong>Because, we need to simulate the parent process’s kernel stack for the newly created child process. </strong></p>
 <p>Now, we need to modify the fork() function. it is to associate the process’s user stack, user program to its kernel stack with SS: ESP, CS: IP, which is pushed in the kernel stack.</p>
 <p>In addition, since fork() function-core is let the child process to use code, data, and stack of the parent process . the fork core has not changed, although we use the stack switching.</p>
-<p><img src="/2020/02/16/process-switch-base-on-stack-switch/lexssama/blog/source/_posts/process-switch-base-on-stack-switch/wm2.png" srcset="/img/loading.gif" alt></p>
+<p><img src="/2020/02/16/process-switch-base-on-stack-switch/wm2.png" srcset="/img/loading.gif" alt></p>
 <p>Don’t hard to imagine. modify fork which  mean  initialize child process’s kernel stack. In <code>copy_process ()</code>as the core code of <code>fork ()</code>, it used to apply a page of memory as process PCB. The kernel stack address position equal pointer p position add the one page of memory size.  so the code <code>krnstack = (*long)(PAGE_SIZE + (long)p)</code> can find the child process kernel stack position. next step is to initialize the content of krnstack pointer .</p>
 <pre><code class="lang-C">long *krnstack;
 p = (struct task_struct *) get_free_page();
