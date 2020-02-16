@@ -277,8 +277,7 @@ __asm__(&quot;cmpl %%ecx,current\n\t&quot; \
 
 #define TSS(n) (((unsigned long) n) &lt;&lt; 4) + (FIRST_TSS_ENTRY &lt;&lt; 3))
 </code></pre>
-<pre><code>![图片描述信息](https://doc.shiyanlou.com/userid19614labid571time1424053507670/wm)
-</code></pre><p>Each process is divided into two part which correspond to TSS and LDT, respectively. </p>
+<p>Each process is divided into two part which correspond to TSS and LDT, respectively. </p>
 <p>TSS and LDT are both 64-bit(8 bytes).</p>
 <p>so  _TSS(n) = n <em> 16 + 4 </em> 8 (bytes).</p>
 <p><strong>ljmp instruction can be used in two ways, which are “ljmp $ segment selector, $ offset” and “ljmp <em> mem48” respectively. In here “ljmp </em>% 0” used the second way, “ljmp <em> mem48” mean jump to Logical address (48 bits) of the mem48 contain (mem48 also is an address), the hight 16 bits of 48 bits correspond to segment_selector, the low 32 bits of 48 bits correspond to offset. So ,the core of switch_to is ljmp 0 , n\</em>16+4*8  </strong></p>
