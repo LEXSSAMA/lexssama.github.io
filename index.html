@@ -67,7 +67,7 @@
     <article id="post-process-switch-base-on-stack-switch" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2020/02/16/process-switch-base-on-stack-switch/" class="article-date">
-  <time datetime="2020-02-16T07:01:02.000Z" itemprop="datePublished">2020-02-16</time>
+  <time datetime="2020-02-16T07:57:03.000Z" itemprop="datePublished">2020-02-16</time>
 </a>
     
   </div>
@@ -78,7 +78,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2020/02/16/process-switch-base-on-stack-switch/">process switch base on stack switch</a>
+      <a class="article-title" href="/2020/02/16/process-switch-base-on-stack-switch/">process-switch-base-on-stack-switch</a>
     </h1>
   
 
@@ -152,7 +152,7 @@
 <p>At the same time a target TSS is found ,that is the TSS corresponding to the next process to be switched to, and the register image of TSS structure of next process  stored in CPU.</p>
 <p>In here  the execution site switching  is completed.</p>
 <p>as shown in the figure  blow:</p>
-<p><img src="https://doc.shiyanlou.com/userid19614labid571time1424053399458/wm" alt="img"></p>
+<p><img src="/home/lexssama/blog/source/_posts/process-switch-base-on-stack-switch/wm.png" alt=""></p>
 <p>Inter architecture provides the command ljmp to achieve the process switch .</p>
 <p>The specific working process is:</p>
 <ul>
@@ -228,14 +228,14 @@
 <p>task_struct:</p>
 <figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在 include/linux/sched.h 中</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">task_struct</span> &#123;</span></span><br><span class="line">    <span class="keyword">long</span> state;</span><br><span class="line">    <span class="keyword">long</span> counter;</span><br><span class="line">    <span class="keyword">long</span> priority;</span><br><span class="line">    <span class="keyword">long</span> kernelstack;</span><br><span class="line"><span class="comment">//......</span></span><br></pre></td></tr></table></figure>
 
-<p>because we modify the PCB structure,  we also need to modify initialization code of 0 process PCB structure .Modify <code>#define INIT_TASK { 0,15,15, 0,{ { }, },0,...</code>  to <code>#define INIT_TASK { 0,15,15,PAGE_SIZE+(long)&amp;init_task, 0,{ { }, },0,...</code></p>
+<p>because we modify the PCB structure,  we also need to modify initialization code of 0 process PCB structure .Modify <code>#define INIT_TASK { 0,15,15, 0,{ { },},0,...</code>  to <code>#define INIT_TASK { 0,15,15,PAGE_SIZE+(long)&amp;init_task, 0,{ { },},0,...</code></p>
 <p><strong>switch LDT</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">movl 12(%ebp),%ecx</span><br><span class="line">lldt %cx</span><br><span class="line">!上面使改LDT代码</span><br><span class="line">movl $0x17,%ecx</span><br><span class="line">mov %cx,%fs</span><br></pre></td></tr></table></figure>
 
 <p>Why we have to add two code <code>movl $0x17,%ecx</code> <code>mov %cx,%fs</code> behind that code of switch LDT.</p>
 <p>because we need to change the segment base address and segment length limit in the hidden register about fs.</p>
 <p>Examlpe with CS. The hidden register for increase CPU processing speed.</p>
-<p><img src="https://doc.shiyanlou.com/userid19614labid571time1424053856897/wm" alt="img"></p>
+<p>![](/home/lexssama/blog/source/_posts/process-switch-base-on-stack-switch/wm (1).png)</p>
 <p><strong>switch PC （switch to next process）</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1:    popl %eax</span><br><span class="line">    popl %ebx</span><br><span class="line">    popl %ecx</span><br><span class="line">    popl %ebp</span><br><span class="line">ret</span><br></pre></td></tr></table></figure>
 
@@ -268,6 +268,8 @@
       <a data-url="https://lexssama.github.io/2020/02/16/process-switch-base-on-stack-switch/" data-id="ck6oooq250000114icr1h7i6o" class="article-share-link">Share</a>
       
       
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="tag">-操作系统</a></li></ul>
+
     </footer>
   </div>
   
@@ -285,9 +287,23 @@
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" rel="tag">-操作系统</a></li></ul>
+    </div>
+  </div>
+
 
   
     
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" style="font-size: 10px;">-操作系统</a>
+    </div>
+  </div>
+
   
     
   <div class="widget-wrap">
@@ -306,7 +322,7 @@
       <ul>
         
           <li>
-            <a href="/2020/02/16/process-switch-base-on-stack-switch/">process switch base on stack switch</a>
+            <a href="/2020/02/16/process-switch-base-on-stack-switch/">process-switch-base-on-stack-switch</a>
           </li>
         
       </ul>
