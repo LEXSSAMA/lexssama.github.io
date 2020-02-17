@@ -1,4 +1,9 @@
+---
+title: process-switch-base-on-stack-switch
+date: 2020-02-16 15:57:03
+tags: -操作系统
 
+---
 
 # 基于内核栈切换的进程切换
 
@@ -120,11 +125,7 @@ In here  the execution site switching  is completed.
 
 as shown in the figure  blow:
 
-
-
-![img](https://doc.shiyanlou.com/userid19614labid571time1424053399458/wm)
-
-
+![](process-switch-base-on-stack-switch/wm.png)
 
 Inter architecture provides the command ljmp to achieve the process switch .
 
@@ -163,8 +164,6 @@ __asm__("cmpl %%ecx,current\n\t" \
 #define TSS(n) (((unsigned long) n) << 4) + (FIRST_TSS_ENTRY << 3))
 ```
 
-​	![图片描述信息](https://doc.shiyanlou.com/userid19614labid571time1424053507670/wm)
-
 Each process is divided into two part which correspond to TSS and LDT, respectively. 
 
 TSS and LDT are both 64-bit(8 bytes).
@@ -193,7 +192,7 @@ To achieve a process switch base on kernel , we need do three things :
 
 1. Rewrite "switch_to"
 2. Connect the rewritten "switch_to" and schedule() functions together.
-3.  Modify the current fork().
+3. Modify the current fork().
 
 ## schedule 与 switch_to
 
@@ -228,7 +227,7 @@ if ((*p)->state == TASK_RUNNING && (*p)->counter > c)
 
 //.......
 
-switch_to(pnext, LDT(next)); 
+switch_to(pnext, _LDT(next)); 
 ```
 
 ### Rewrite switch_to()
@@ -366,7 +365,7 @@ struct task_struct {
 //......
 ```
 
-because we modify the PCB structure,  we also need to modify initialization code of 0 process PCB structure .Modify ```#define INIT_TASK { 0,15,15, 0,{{},},0,...```  to ``` #define INIT_TASK { 0,15,15,PAGE_SIZE+(long)&init_task, 0,{{},},0,...```
+because we modify the PCB structure,  we also need to modify initialization code of 0 process PCB structure .Modify ```#define INIT_TASK { 0,15,15, 0,{ { },},0,...```  to ``` #define INIT_TASK { 0,15,15,PAGE_SIZE+(long)&init_task, 0,{ { },},0,...```
 
 **switch LDT**
 
@@ -384,7 +383,7 @@ because we need to change the segment base address and segment length limit in t
 
 Examlpe with CS. The hidden register for increase CPU processing speed.
 
-![img](https://doc.shiyanlou.com/userid19614labid571time1424053856897/wm)
+![](process-switch-base-on-stack-switch/wm1.png)
 
 **switch PC （switch to next process）**
 
@@ -400,7 +399,7 @@ ret
 
 ![](https://img-blog.csdnimg.cn/20190819230403925.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc2MTQ3OA==,size_16,color_FFFFFF,t_70)
 
-Execute those codes to turn to the next process. Because we have been changed the kernel stack before. we ```pop  (eax ,ebx,ecx,ebp) ``` is register of next process.   ret instruction equal to ```pop IP```.So we execute ```ret``` turn to schedule() function tail of next process. Now ! we completed stack switch perfectly.
+Execute those codes to turn to the next process,if it isn't come here through code ```je 1f```. Because we have been changed the kernel stack before. we ```pop  (eax ,ebx,ecx,ebp) ``` is register of next process.   ret instruction equal to ```pop IP```.So we execute ```ret``` turn to schedule() function tail of next process. Now ! we completed the stack switch perfectly.
 
 ## modify fork()
 
@@ -412,7 +411,7 @@ Now, we need to modify the fork() function. it is to associate the process's use
 
 In addition, since fork() function-core is let the child process to use code, data, and stack of the parent process . the fork core has not changed, although we use the stack switching.
 
-![图片描述信息](https://doc.shiyanlou.com/userid19614labid571time1424053880667/wm)
+![](process-switch-base-on-stack-switch/wm2.png)
 
 Don't hard to imagine. modify fork which  mean  initialize child process's kernel stack. In ```copy_process () ```as the core code of ```fork ()```, it used to apply a page of memory as process PCB. The kernel stack address position equal pointer p position add the one page of memory size.  so the code ```krnstack = (*long)(PAGE_SIZE + (long)p)``` can find the child process kernel stack position. next step is to initialize the content of krnstack pointer .
 
