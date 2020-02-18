@@ -131,7 +131,7 @@
                   
                   &nbsp;<i class="far fa-chart-bar"></i>
                   <span class="post-count">
-                    3.3k 字
+                    4.3k 字
                   </span>&nbsp;
                 
 
@@ -139,7 +139,7 @@
                   
                   &nbsp;<i class="far fa-clock"></i>
                   <span class="post-count">
-                      17 分钟
+                      23 分钟
                   </span>&nbsp;
                 
 
@@ -443,7 +443,8 @@ ret
 <p>In addition, since fork() function-core is let the child process to use code, data, and stack of the parent process . the fork core has not changed, although we use the stack switching.</p>
 <p><img src="/2020/02/16/process-switch-base-on-stack-switch/wm2.png" srcset="/img/loading.gif" alt></p>
 <p>Don’t hard to imagine. modify fork which  mean  initialize child process’s kernel stack. In <code>copy_process ()</code>as the core code of <code>fork ()</code>, it used to apply a page of memory as process PCB. The kernel stack address position equal pointer p position add the one page of memory size.  so the code <code>krnstack = (*long)(PAGE_SIZE + (long)p)</code> can find the child process kernel stack position. next step is to initialize the content of krnstack pointer .</p>
-<pre><code class="lang-C">long *krnstack;
+<pre><code class="lang-C">/*modify in fork()*/
+long *krnstack;
 p = (struct task_struct *) get_free_page();
 krnstack = (long)(PAGE_SIZE +(long)p);
  *(--krnstack) = ss &amp; 0xffff;
@@ -472,7 +473,10 @@ krnstack = (long)(PAGE_SIZE +(long)p);
 *(--krnstack) = 0;
 </code></pre>
 <p>We need to code a first_return_from_kernel as a mark! If we return to address first_return_from_kernel. We need to execute those code following.</p>
-<pre><code class="lang-assembly">popl %edx
+<pre><code class="lang-assembly">/*modify in system_call.s*/
+.align 2
+first_return_from_kernel:
+popl %edx
 popl %edi
 popl %esi
 pop %gs
@@ -489,6 +493,235 @@ pop esp
 pop ss
 </code></pre>
 <p> instruction <code>*(--krnstack) = 0;</code>  Means eax =0 for distinguish parent process and child process.</p>
+<p><strong>In the end , don’t forget add the two code following to corresponding .c file </strong></p>
+<pre><code class="lang-C">extern void first_return_kernel(void); // in the fork()
+extern long switch_to(struct task_struct *p , unsigned long _ldt); // in the sched.c
+</code></pre>
+<h2 id="Modify-step"><a href="#Modify-step" class="headerlink" title="Modify step"></a>Modify step</h2><p><strong>Modify in system_call.s</strong></p>
+<p>Write the switch_to、first_return_from_kernel、etc in the system_call.s**</p>
+<pre><code class="lang-assembly"># Don&#39;t forget to change the hardcode.
+# Because I forget to change the hardcode , I stayed here so long time.
+state    = 0        # these are offsets into the task-struct.
+counter    = 4
+priority = 8
+KERNEL_STACK = 12
+signal    = 16
+sigaction = 20        # MUST be 16 (=len of sigaction)
+blocked = (33*16+4)
+
+# Define as a global variable，can be used in other file with the keyword extern declaration.
+.globl first_return_from_kernel, switch_to 
+.align 2
+switch_to:
+    pushl %ebp
+    movl %esp, %ebp
+    pushl %ecx
+    pushl %ebx
+    pushl %eax 
+    movl 8(%ebp), %ebx 
+    cmpl %ebx, current 
+    je 1f
+    movl %ebx, %eax
+    xchgl %eax, current # eax=old_current, so current=pnext
+    movl tss, %ecx        # ecx = tss of pnext, it also the new current
+    addl $4096, %ebx    # ebx=the top of current kernel stack(pnext)
+    movl %ebx, 4(%ecx)
+    movl %esp, KERNEL_STACK(%eax)
+    movl 8(%ebp), %ebx 
+    movl KERNEL_STACK(%ebx), %esp
+    movl 12(%ebp), %ecx
+    lldt %cx
+    movl $0x17, %ecx
+    mov %cx, %fs
+    cmpl %eax, last_task_used_math    
+    jne 1f
+    clts
+1:  popl %eax
+    popl %ebx
+    popl %ecx
+    popl %ebp
+    ret
+.align 2
+first_return_from_kernel:
+    popl %edx
+    popl %edi
+    popl %esi
+    pop %gs
+    pop %fs
+    pop %es
+    pop %ds
+    iret
+</code></pre>
+<p><strong>Modify sched.h </strong></p>
+<pre><code class="lang-C">struct task_struct {
+/* these are hardcoded - don&#39;t touch */
+    long state;    /* -1 unrunnable, 0 runnable, &gt;0 stopped */
+    long counter;
+    long priority;
+    long kernelstack;
+    long signal;
+    struct sigaction sigaction[32];
+    long blocked;    /* bitmap of masked signals */
+    ......
+}
+#define INIT_TASK \
+/* state etc */    { 0,15,15,PAGE_SIZE+(long)&amp;init_task, \
+/* signals */    0,{{},},0, \
+.................................
+
+ /*注释掉
+#define switch_to(n) {\
+struct {long a,b;} __tmp; \
+__asm__(&quot;cmpl %%ecx,current\n\t&quot; \
+    &quot;je 1f\n\t&quot; \
+    &quot;movw %%dx,%1\n\t&quot; \
+    &quot;xchgl %%ecx,current\n\t&quot; \
+    &quot;ljmp *%0\n\t&quot; \
+    &quot;cmpl %%ecx,last_task_used_math\n\t&quot; \
+    &quot;jne 1f\n\t&quot; \
+    &quot;clts\n&quot; \
+    &quot;1:&quot; \
+    ::&quot;m&quot; (*&amp;__tmp.a),&quot;m&quot; (*&amp;__tmp.b), \
+    &quot;d&quot; (_TSS(n)),&quot;c&quot; ((long) task[n])); \
+}
+*/
+</code></pre>
+<p><strong>Modify sched.c</strong></p>
+<pre><code class="lang-C">extern long switch_to(struct task_struct *p , unsigned long _ldt);
+struct tss_struct * tss = &amp;(init_task.task.tss);
+void schedule(void)
+{
+    int i,next,c;
+    struct task_struct ** p;
+    struct task_struct *pnext = &amp;(init_task.task);
+
+/* check alarm, wake up any interruptible tasks that have got a signal */
+
+    for(p = &amp;LAST_TASK ; p &gt; &amp;FIRST_TASK ; --p)
+        if (*p) {
+            if ((*p)-&gt;alarm &amp;&amp; (*p)-&gt;alarm &lt; jiffies) {
+                    (*p)-&gt;signal |= (1&lt;&lt;(SIGALRM-1));
+                    (*p)-&gt;alarm = 0;
+                }
+            if (((*p)-&gt;signal &amp; ~(_BLOCKABLE &amp; (*p)-&gt;blocked)) &amp;&amp;
+            (*p)-&gt;state==TASK_INTERRUPTIBLE)
+                (*p)-&gt;state=TASK_RUNNING;
+        }
+
+/* this is the scheduler proper: */
+
+    while (1) {
+        c = -1;
+        next = 0;
+        i = NR_TASKS;
+        p = &amp;task[NR_TASKS];
+        while (--i) {
+            if (!*--p)
+                continue;
+            if ((*p)-&gt;state == TASK_RUNNING &amp;&amp; (*p)-&gt;counter &gt; c){
+                c = (*p)-&gt;counter, next = i;
+                pnext = *p;
+            }
+        }
+        if (c) break;
+        for(p = &amp;LAST_TASK ; p &gt; &amp;FIRST_TASK ; --p)
+            if (*p)
+                (*p)-&gt;counter = ((*p)-&gt;counter &gt;&gt; 1) +
+                        (*p)-&gt;priority;
+    }
+    switch_to(pnext,_LDT(next));
+}
+</code></pre>
+<p><strong>Modify fork()</strong></p>
+<pre><code class="lang-C">extern void first_return_kernel(void);  
+
+int copy_process(int nr,long ebp,long edi,long esi,long gs,long none,
+        long ebx,long ecx,long edx,
+        long fs,long es,long ds,
+        long eip,long cs,long eflags,long esp,long ss)
+{
+    struct task_struct *p;
+    int i;
+    struct file *f;
+
+    p = (struct task_struct *) get_free_page();
+    if (!p)
+        return -EAGAIN;
+    task[nr] = p;
+    *p = *current;    /* NOTE! this doesn&#39;t copy the supervisor stack */
+    p-&gt;state = TASK_UNINTERRUPTIBLE;
+    p-&gt;pid = last_pid;
+    p-&gt;father = current-&gt;pid;
+    p-&gt;counter = p-&gt;priority;
+    long * krnstack ;
+    krnstack = (long *) (PAGE_SIZE + (long) p);
+    *(--krnstack) = ss &amp; 0xffff;
+    *(--krnstack) = esp;
+    *(--krnstack) = eflags;
+    *(--krnstack) = cs &amp; 0xffff;
+    *(--krnstack) = eip;
+ *(--krnstack) = ds &amp; 0xffff; 
+   *(--krnstack) = es &amp; 0xffff; 
+   *(--krnstack) = fs &amp; 0xffff; 
+ *(--krnstack) = gs &amp; 0xffff;
+  *(--krnstack) = esi; 
+ *(--krnstack) = edi; 
+    *(--krnstack) = edx;
+    *(--krnstack) =(long) first_return_kernel;
+    *(--krnstack) = ebp;
+    *(--krnstack) = ecx;
+    *(--krnstack) = ebx;
+    *(--krnstack) = 0;
+    p-&gt;kernelstack = krnstack;
+    p-&gt;signal = 0;
+    p-&gt;alarm = 0;
+    p-&gt;leader = 0;        /* process leadership doesn&#39;t inherit */
+    p-&gt;utime = p-&gt;stime = 0;
+    p-&gt;cutime = p-&gt;cstime = 0;
+    p-&gt;start_time = jiffies;
+    p-&gt;tss.back_link = 0;
+    p-&gt;tss.esp0 = PAGE_SIZE + (long) p;
+    p-&gt;tss.ss0 = 0x10;
+    p-&gt;tss.eip = eip;
+    p-&gt;tss.eflags = eflags;
+    p-&gt;tss.eax = 0;
+    p-&gt;tss.ecx = ecx;
+    p-&gt;tss.edx = edx;
+    p-&gt;tss.ebx = ebx;
+    p-&gt;tss.esp = esp;
+    p-&gt;tss.ebp = ebp;
+    p-&gt;tss.esi = esi;
+    p-&gt;tss.edi = edi;
+    p-&gt;tss.es = es &amp; 0xffff;
+    p-&gt;tss.cs = cs &amp; 0xffff;
+    p-&gt;tss.ss = ss &amp; 0xffff;
+    p-&gt;tss.ds = ds &amp; 0xffff;
+    p-&gt;tss.fs = fs &amp; 0xffff;
+    p-&gt;tss.gs = gs &amp; 0xffff;
+    p-&gt;tss.ldt = _LDT(nr);
+    p-&gt;tss.trace_bitmap = 0x80000000;
+    if (last_task_used_math == current)
+        __asm__(&quot;clts ; fnsave %0&quot;::&quot;m&quot; (p-&gt;tss.i387));
+    if (copy_mem(nr,p)) {
+        task[nr] = NULL;
+        free_page((long) p);
+        return -EAGAIN;
+    }
+    for (i=0; i&lt;NR_OPEN;i++)
+        if ((f=p-&gt;filp[i]))
+            f-&gt;f_count++;
+    if (current-&gt;pwd)
+        current-&gt;pwd-&gt;i_count++;
+    if (current-&gt;root)
+        current-&gt;root-&gt;i_count++;
+    if (current-&gt;executable)
+        current-&gt;executable-&gt;i_count++;
+    set_tss_desc(gdt+(nr&lt;&lt;1)+FIRST_TSS_ENTRY,&amp;(p-&gt;tss));
+    set_ldt_desc(gdt+(nr&lt;&lt;1)+FIRST_LDT_ENTRY,&amp;(p-&gt;ldt));
+    p-&gt;state = TASK_RUNNING;    /* do this last, just in case */
+    return last_pid;
+}
+</code></pre>
 
             <hr>
           </div>
