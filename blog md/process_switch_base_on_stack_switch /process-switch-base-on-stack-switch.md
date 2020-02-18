@@ -5,7 +5,7 @@ tags: -操作系统
 
 ---
 
-# 基于内核栈切换的进程切换
+# 基于内核栈切换的进程切换 
 
 ## 实验目的
 
@@ -416,6 +416,7 @@ In addition, since fork() function-core is let the child process to use code, da
 Don't hard to imagine. modify fork which  mean  initialize child process's kernel stack. In ```copy_process () ```as the core code of ```fork ()```, it used to apply a page of memory as process PCB. The kernel stack address position equal pointer p position add the one page of memory size.  so the code ```krnstack = (*long)(PAGE_SIZE + (long)p)``` can find the child process kernel stack position. next step is to initialize the content of krnstack pointer .
 
 ```C
+/*modify in fork()*/
 long *krnstack;
 p = (struct task_struct *) get_free_page();
 krnstack = (long)(PAGE_SIZE +(long)p);
@@ -453,6 +454,9 @@ Make a attention !
 We need to code a first_return_from_kernel as a mark! If we return to address first_return_from_kernel. We need to execute those code following.
 
 ```assembly
+/*modify in system_call.s*/
+.align 2
+first_return_from_kernel:
 popl %edx
 popl %edi
 popl %esi
@@ -474,3 +478,252 @@ pop ss
 ```
 
  instruction ```*(--krnstack) = 0;```  Means eax =0 for distinguish parent process and child process.
+
+**In the end , don't forget add the two code following to corresponding .c file **
+
+```C
+extern void first_return_kernel(void); // in the fork()
+extern long switch_to(struct task_struct *p , unsigned long _ldt); // in the sched.c
+```
+
+## Modify step
+
+**Modify in system_call.s**
+
+Write the switch_to、first_return_from_kernel、etc in the system_call.s**
+
+```assembly
+# Don't forget to change the hardcode.
+# Because I forget to change the hardcode , I stayed here so long time.
+state	= 0		# these are offsets into the task-struct.
+counter	= 4
+priority = 8
+KERNEL_STACK = 12
+signal	= 16
+sigaction = 20		# MUST be 16 (=len of sigaction)
+blocked = (33*16+4)
+
+# Define as a global variable，can be used in other file with the keyword extern declaration.
+.globl first_return_from_kernel, switch_to 
+.align 2
+switch_to:
+	pushl %ebp
+	movl %esp, %ebp
+	pushl %ecx
+	pushl %ebx
+	pushl %eax 
+	movl 8(%ebp), %ebx 
+	cmpl %ebx, current 
+	je 1f
+	movl %ebx, %eax
+	xchgl %eax, current # eax=old_current, so current=pnext
+	movl tss, %ecx		# ecx = tss of pnext, it also the new current
+	addl $4096, %ebx	# ebx=the top of current kernel stack(pnext)
+	movl %ebx, 4(%ecx)
+	movl %esp, KERNEL_STACK(%eax)
+	movl 8(%ebp), %ebx 
+	movl KERNEL_STACK(%ebx), %esp
+	movl 12(%ebp), %ecx
+	lldt %cx
+	movl $0x17, %ecx
+	mov %cx, %fs
+	cmpl %eax, last_task_used_math	
+	jne 1f
+	clts
+1:  popl %eax
+	popl %ebx
+	popl %ecx
+	popl %ebp
+	ret
+.align 2
+first_return_from_kernel:
+	popl %edx
+	popl %edi
+	popl %esi
+	pop %gs
+	pop %fs
+	pop %es
+	pop %ds
+	iret
+```
+
+**Modify sched.h **
+
+```C
+struct task_struct {
+/* these are hardcoded - don't touch */
+	long state;	/* -1 unrunnable, 0 runnable, >0 stopped */
+	long counter;
+	long priority;
+	long kernelstack;
+	long signal;
+	struct sigaction sigaction[32];
+	long blocked;	/* bitmap of masked signals */
+    ......
+}
+#define INIT_TASK \
+/* state etc */	{ 0,15,15,PAGE_SIZE+(long)&init_task, \
+/* signals */	0,{{},},0, \
+.................................
+
+ /*注释掉
+#define switch_to(n) {\
+struct {long a,b;} __tmp; \
+__asm__("cmpl %%ecx,current\n\t" \
+	"je 1f\n\t" \
+	"movw %%dx,%1\n\t" \
+	"xchgl %%ecx,current\n\t" \
+	"ljmp *%0\n\t" \
+	"cmpl %%ecx,last_task_used_math\n\t" \
+	"jne 1f\n\t" \
+	"clts\n" \
+	"1:" \
+	::"m" (*&__tmp.a),"m" (*&__tmp.b), \
+	"d" (_TSS(n)),"c" ((long) task[n])); \
+}
+*/
+  
+```
+
+**Modify sched.c**
+
+```C
+extern long switch_to(struct task_struct *p , unsigned long _ldt);
+struct tss_struct * tss = &(init_task.task.tss);
+void schedule(void)
+{
+	int i,next,c;
+	struct task_struct ** p;
+	struct task_struct *pnext = &(init_task.task);
+
+/* check alarm, wake up any interruptible tasks that have got a signal */
+
+	for(p = &LAST_TASK ; p > &FIRST_TASK ; --p)
+		if (*p) {
+			if ((*p)->alarm && (*p)->alarm < jiffies) {
+					(*p)->signal |= (1<<(SIGALRM-1));
+					(*p)->alarm = 0;
+				}
+			if (((*p)->signal & ~(_BLOCKABLE & (*p)->blocked)) &&
+			(*p)->state==TASK_INTERRUPTIBLE)
+				(*p)->state=TASK_RUNNING;
+		}
+
+/* this is the scheduler proper: */
+
+	while (1) {
+		c = -1;
+		next = 0;
+		i = NR_TASKS;
+		p = &task[NR_TASKS];
+		while (--i) {
+			if (!*--p)
+				continue;
+			if ((*p)->state == TASK_RUNNING && (*p)->counter > c){
+				c = (*p)->counter, next = i;
+				pnext = *p;
+			}
+		}
+		if (c) break;
+		for(p = &LAST_TASK ; p > &FIRST_TASK ; --p)
+			if (*p)
+				(*p)->counter = ((*p)->counter >> 1) +
+						(*p)->priority;
+	}
+	switch_to(pnext,_LDT(next));
+}
+```
+
+**Modify fork()**
+
+```C
+extern void first_return_kernel(void);  
+
+int copy_process(int nr,long ebp,long edi,long esi,long gs,long none,
+		long ebx,long ecx,long edx,
+		long fs,long es,long ds,
+		long eip,long cs,long eflags,long esp,long ss)
+{
+	struct task_struct *p;
+	int i;
+	struct file *f;
+
+	p = (struct task_struct *) get_free_page();
+	if (!p)
+		return -EAGAIN;
+	task[nr] = p;
+	*p = *current;	/* NOTE! this doesn't copy the supervisor stack */
+	p->state = TASK_UNINTERRUPTIBLE;
+	p->pid = last_pid;
+	p->father = current->pid;
+	p->counter = p->priority;
+	long * krnstack ;
+	krnstack = (long *) (PAGE_SIZE + (long) p);
+    *(--krnstack) = ss & 0xffff;
+    *(--krnstack) = esp;
+    *(--krnstack) = eflags;
+    *(--krnstack) = cs & 0xffff;
+    *(--krnstack) = eip;
+ *(--krnstack) = ds & 0xffff; 
+   *(--krnstack) = es & 0xffff; 
+   *(--krnstack) = fs & 0xffff; 
+ *(--krnstack) = gs & 0xffff;
+  *(--krnstack) = esi; 
+ *(--krnstack) = edi; 
+    *(--krnstack) = edx;
+	*(--krnstack) =(long) first_return_kernel;
+    *(--krnstack) = ebp;
+    *(--krnstack) = ecx;
+    *(--krnstack) = ebx;
+    *(--krnstack) = 0;
+	p->kernelstack = krnstack;
+	p->signal = 0;
+	p->alarm = 0;
+	p->leader = 0;		/* process leadership doesn't inherit */
+	p->utime = p->stime = 0;
+	p->cutime = p->cstime = 0;
+	p->start_time = jiffies;
+	p->tss.back_link = 0;
+	p->tss.esp0 = PAGE_SIZE + (long) p;
+	p->tss.ss0 = 0x10;
+	p->tss.eip = eip;
+	p->tss.eflags = eflags;
+	p->tss.eax = 0;
+	p->tss.ecx = ecx;
+	p->tss.edx = edx;
+	p->tss.ebx = ebx;
+	p->tss.esp = esp;
+	p->tss.ebp = ebp;
+	p->tss.esi = esi;
+	p->tss.edi = edi;
+	p->tss.es = es & 0xffff;
+	p->tss.cs = cs & 0xffff;
+	p->tss.ss = ss & 0xffff;
+	p->tss.ds = ds & 0xffff;
+	p->tss.fs = fs & 0xffff;
+	p->tss.gs = gs & 0xffff;
+	p->tss.ldt = _LDT(nr);
+	p->tss.trace_bitmap = 0x80000000;
+	if (last_task_used_math == current)
+		__asm__("clts ; fnsave %0"::"m" (p->tss.i387));
+	if (copy_mem(nr,p)) {
+		task[nr] = NULL;
+		free_page((long) p);
+		return -EAGAIN;
+	}
+	for (i=0; i<NR_OPEN;i++)
+		if ((f=p->filp[i]))
+			f->f_count++;
+	if (current->pwd)
+		current->pwd->i_count++;
+	if (current->root)
+		current->root->i_count++;
+	if (current->executable)
+		current->executable->i_count++;
+	set_tss_desc(gdt+(nr<<1)+FIRST_TSS_ENTRY,&(p->tss));
+	set_ldt_desc(gdt+(nr<<1)+FIRST_LDT_ENTRY,&(p->ldt));
+	p->state = TASK_RUNNING;	/* do this last, just in case */
+	return last_pid;
+}
+```
+
