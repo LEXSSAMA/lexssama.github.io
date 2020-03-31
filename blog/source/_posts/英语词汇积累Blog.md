@@ -1,0 +1,171 @@
+---
+title: 英语词汇积累Blog
+date: 2020-02-22 11:49:32
+tags: -英语学习 
+---
+
+# The Economist February 1st 2020
+
+- Mean
+  - V(A2): To express or represent something such as an idea, thought, or fact.
+  - V(B1): To have a particular result.
+  - Adj(B2): Not willing to give or share things ,especially money.
+  - Adj(B2): Unkind or Unpleasant.
+- Obsession
+  - Noun(B2): Something or someone that you think about all the time.
+- Obsessive
+  - Adj(C2): Thinking about something or someone or doing something, too much or all the time.
+
+- Hustle
+  - V: To make someone move quickly by pushing or pulling them along.
+  - V: to try to persuade someone, especially to buy something, often illegally.
+  - Noun : energetic action
+  - a dishonest way of making money. 
+- Dejected
+  - Adj: unhappy, disappointed, or without hope.
+- League
+  - Noun : a group of teams playing a sport who take part in competitions between each other.
+- Straight
+  - Adj(A2) : continuing in one direction without bending or curving.
+- Bend
+  - Adj(B2): to (cause to) curve.
+- Curve
+  - a line that bends continuously and has no straight parts.
+- Suburb
+  - Noun: an area on the edge of a large town or city where people who work in the town or city often live.
+- Suburban
+  - Adj: relating to a suburb.
+  - Adj: used to suggest that something is boring and has no excitement.
+- Odd 
+  - Adj(B2): strange or unexpected
+- Burn
+  - V(B2): to be hurt , damaged, or destroyed by fire or extreme heat, or to cause this to happen.
+  - V: to cause emotional pain or damage to someone.
+  - V: to produce light.
+  - V: to want to do something very much.
+- Extreme
+  - the largest possible amount or degree of something.
+- Self-belief
+  - Noun: trust in your own abilities.
+- Assassin
+  - Noun : someone who kill a famous or important person, usually for political reasons or in exchange for money.
+- Ruthless
+  - Adj(C2): not thinking or worrying about any pain caused to others, cruel.
+- Cruel
+  - Adj(B1): extremely unkind and unpleasant and causing pain to people or animals intentionally.
+- Intend
+  - V(B1): to have as a plan or purpose.
+- Intentional
+  - Adj: planned or intended.
+- Intentionally
+  - Adv: in a planned or intended way.
+- Strike
+  - V(B2): to refuse to continue working because of an argument with an employer about working conditions, pay levels,or job losses.
+  - V(C2): to cause a person or place to suffer severely from the effects of something very unpleasant that happens suddenly.
+  - V(B2):to hit or attack someone or something forcefully or violently.
+- Violently
+  - Adv(B2): in a forceful way that causes people to be hurt.
+  - Adv: strongly or extremely.
+- Threw (Pass tense of Throw)
+  - V(A2): to send something through the air with force, especially by a sudden movement of the arm.
+
+- Misery
+  - Noun(Unhappy feeling) : great unhappiness .
+  - Noun(Unhappy person): someone who is often very unhappy and is always complaining about things.
+- Vow 
+  - V(C2): to make a determined decision or promise to do something.
+  - Noun(C2): a serious promise or decision.
+
+- Revenge
+  - V: to harm someone as a punishment for harm that they have done to you.
+
+- Lithe
+  - Adj: young ,healthy,attractive , and able to move and bend smoothly.
+- Smoothly
+  - Adj: easily and without interruption or difficulty.
+- Attractive
+  - very pleasing in appearance or sound.
+- Nimble
+  - quick and exact either in movement or thoughts.
+- Hit back
+  - Ph: to attack or criticize someone who has attacked or criticized you.
+- Glory
+  - Noun: praise and thanks, especially as given to God.
+  - Noun: great admiration,honour,and praise that you earn by doing something successfully.
+  - Noun: great beauty,or something special or extremely beautiful,that gives great pleasure.
+- Play-offs
+  - Noun: an extra game or period of play in a competition played between team or competitors who both have the same number of points, in order to decide who win the competition.
+- Purple
+  - Adj: 紫红色
+- Draw
+  - V: to make a picture of something or someone with a pencil or pen.
+  - V: to attract attention or interest.
+  - V: to make or show a comparison between things.
+- Fabulous
+  - Adj: very good; excellent
+  - Adj: imaginary, not existing in real life.
+- Floater
+  - Noun: someone who does a lot of different job in an organization.
+- Trajectory
+  - Noun: The curved path that an object follows after it has been thrown or shot into the air.
+- Affair
+  - Noun: a situation or subject that is being dealt with or considered.
+  - Noun: a matter or situation that causes strong public feeling, usually of moral disapproval.
+- Moral
+  - Adj: relating to the standards of good or bad behaviour ,fairness,honesty,etc. that each person believes in, rather than to law.
+- Era
+  - Noun: a period of time of which particular event or stages of development are typical.
+- Event
+  - Noun: anything that happens, especially something important or unusual.
+  - Noun: one of a set of races or competitions.
+- Buddha
+  - Noun: the holy man(563-483 BC) on whose life and teachings Buddhism is based.
+  - Noun: an image of statue (=large model) of Buddha.
+- Charming
+  - Adj: pleasant and attractive
+  - Adj: used to describe people who  use their attractiveness to influence people or to make other people like them.
+  - Adj: used to show that you do no approve of what someone has said or done.
+- Approve
+  - V: to have a positive opinion of someone or something.
+- Infuriate
+  - V to make someone extremely angry.
+- Staggering
+  - Adj: very shocking and surprising.
+- Ankle
+  - Noun: 踝关节，踝.
+- Knee
+  - Noun: 膝盖，膝.
+- Sore
+  - Adj: painful and uncomfortable because of injury,infection or too much use.
+- Infection
+  - Noun: a disease in a part of your body that is caused by bacteria or a virus.
+- Disease
+  - Noun: (an) illness of people ,animals,plants,etc. casued by infection or a failure of health rather than by an accident.
+- Bacterium
+  - Noun: a type of very small organism that live in air,earth,water,plants,and animals,often one that causes disease.
+- Claim
+  - V: to say that something is true or is a fact ,although you cannot prove it and other people might not believe it.
+  - V: to ask for something of value because you think it belongs to you or because you think you have a right to it.
+- Multimeida
+  - Adj: using a combination of moving and still pictures, sound,music,and word,especially in computers or entertainment.
+- Entertainment
+  - Noun: shows,films,television,or other performances or activities that entertain people,or a performance of the type.
+- Award
+  - V: to give money or prize following an official decision.
+- Motivate
+  - V: to make someone want to do something well.
+- Impatience
+  - Noun: the feeling of being annoyed by someone's mistakes or because you have to wait.
+  - Noun: the feeling of wanting something to happen as soon as possible.
+- Get to and from
+  - Ph: 往返。
+- Increase
+  - V: to(make something) become larger in amount or size.
+- Motto
+  - Noun: a short sentence or phrase that expresses a belief or purpose.
+- Purpose
+  - Noun: why you do something or why something exists.
+  - on purpose: if you do something on purpose, you do it intentionally, not by accident.
+  - Noun: determination or a feeling of having a reason for what you do.
+- Time wait for no man.
+  - Ph:时间不等人。

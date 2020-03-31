@@ -1,0 +1,3 @@
+#!/bin/bash
+	cd ~/Trojan/test/usr1/src/trojan-cli
+	./trojan&
