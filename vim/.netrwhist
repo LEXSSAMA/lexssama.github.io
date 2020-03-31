@@ -1,0 +1,4 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhist_cnt =2
+let g:netrw_dirhist_1='/home/lexssama/blog/source/_posts/KMP算法'
+let g:netrw_dirhist_2='/home/lexssama/文档/tinyhttpd-0.1.0/htdocs'
