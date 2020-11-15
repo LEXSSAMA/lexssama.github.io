@@ -1,6 +1,6 @@
 ---
 title: 关于汇编中EFLAGS寄存器中CF和OF标志位
-index_img: /Picture/wallhaven-q6q2e5.jpg
+index_img: /Picture/EFLAGS.jpg
 date: 2020-11-15 10:10:31
 tags:
 - 计算机组成原理
