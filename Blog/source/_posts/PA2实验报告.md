@@ -12,7 +12,7 @@ banner_img:
 	程序在nexus-am中被交叉编译成二进制指令被装入NEMU的内存中，NEMU通过一系列函数来取指令，解码指令，执行指令<br>
 函数调用历程如图:<br>
 
-```
+```mermaid
 graph LR;
 	A[cpu_exec]
 	B[exec_once]
@@ -44,17 +44,20 @@ graph LR;
 -	1. 去掉inline:<br>
 
 static 和 static inline 其实没有很大的不同,只是函数的调用方式改变了,但是我试图编译时出现了这个错误:
+
 ```c
 ./include/rtl/rtl.h:138:14: error: ‘rtl_sext’ defined but not used [-Werror=unused-function]
  static  void rtl_sext(rtlreg_t* dest, const rtlreg_t* src1, int width) {
               ^~~~~~~~
 ```
+
 原因是我们在gcc中加入了-Werror把所有的警告都当成error来处理,把-Werror去掉就可以了<br>
 -	2. 去掉static:<br>
 因为有inline关键字的存在所以，程序就像define一样会在调用处展开所以定义在头文件中的无static有inline的函数不会出现多次定义,只要把makefile文件中的-Werror去掉就可以编译链接成功<br>
 
 -	3.去掉static inline:<br>
 因为头文件会被许多文件引用所以如果去掉static inline,这个函数就会被多次定义，在链接的时候会报一下错误:<br>
+
 ```c
 + LD build/x86-nemu
 build/obj-x86/isa/x86/decode/decode.o: In function `rtl_setrelopi':
@@ -72,6 +75,7 @@ build/obj-x86/isa/x86/decode/decode.o: In function `rtl_setrelopi':
 1. 答案是74个，在build/obj中利用`grep  -r -c  'dummy' ./* | grep '\.o:[1-9]'| wc -l`命令得出.
 2. 答案仍然是74个.
 3. 两个初始化后会出现多次定义的错误:<br>
+ 
 ```c
 ./include/common.h:2:21: note: previous definition of ‘dummy’ was here
  volatile static int dummy=0;
@@ -80,6 +84,7 @@ In file included from ./include/device/map.h:4:0,
                  from src/memory/memory.c:2:
 ./include/common.h:2:21: error: redefinition of ‘dummy’
 ```
+
 原因是强弱定义的问题，当两个dummy都没有初始化的时候dummy是一个弱符号,编译器不会报错,编译器会选择占用内存最大的那个弱符号，当把两个dummy都初始化后，两个dummy就变成强符号了，链接器不允许强符号被多次定义，如果一个是强符号一个是弱符号，那么弱符号会被强符号覆盖(当然这个弱符号的占用内存大小不能大于强符号，否则会报错).<br>
 
 **4. 了解Makefile 请描述你在nemu/目录下敲入make 后, make程序如何组织.c和.h文件, 最终生成可执行文件nemu/build/$ISA-nemu. (这个问题包括两个方面:Makefile的工作方式和编译链接的过程.) 关于Makefile工作方式的提示:**<br>
