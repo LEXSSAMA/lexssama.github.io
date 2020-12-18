@@ -1,6 +1,6 @@
 ---
 title: PA2实验报告
-index_img: /Picture/wallhaven-q6q2e5.jpg
+index_img: /Picture/PA.png
 date: 2020-12-18 15:42:37
 tags:
 - PA
