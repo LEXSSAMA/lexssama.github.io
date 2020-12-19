@@ -14,19 +14,19 @@ banner_img:
 
 ```mermaid
 graph LR;
-	A[cpu_exec]
-	B[exec_once]
-	C[isa_exec]
-	D[update_pc]
-	E[instr_fetch]	
-	F[set_width]
-	G[idex]
-	A-->B 
-	B-->C
-	B-->D
-	C-->E
-	C-->F
-	C-->G
+	A[cpu_exec];
+	B[exec_once];
+	C[isa_exec];
+	D[update_pc];
+	E[instr_fetch];
+	F[set_width];
+	G[idex];
+	A-->B;
+	B-->C;
+	B-->D;
+	C-->E;
+	C-->F;
+	C-->G;
 ```
 
 以指令0x00为例cpu执行模拟函数cpu_exec一路执行到instr_fetch在内存中取出指令0x00然后查询*NEMU模拟器中存储的符合x指令集规范的表opcode_table(需要我们手动实现)*得到对应的0x00这一条指令的执行宽度,opcode_table[0x00].width,调用宽度设置函数set_width设置宽度,然后进入idex函数运行对应的内置解码程序opcode_table[0x00].decode,和指令对于的内置执行程序opcode_table[0x00].execute,最后调用update_pc函数，更新pc寄存器.<br>
