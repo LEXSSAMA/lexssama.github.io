@@ -1,0 +1,480 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;light&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/wallhaven-4xjllo.jpg">
+  <link rel="icon" type="image/png" href="/img/wallhaven-4xjllo.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="Lexssama">
+  <meta name="keywords" content="">
+  <title>Manjaro-System-configuran - Lexssama&#39;s Blogs</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"lexssama.github.io","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Lexssama's Blogs" type="application/atom+xml">
+</head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Lexssama's Blogs</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/wallhaven-j5l9gw.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Manjaro-System-configuran">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-04-03 12:43" pubdate>
+        2020年4月3日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      954 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      13
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Manjaro-System-configuran</h1>
+            
+            <div class="markdown-body">
+              <h1 id="Manjaro-System-finish-picture"><a href="#Manjaro-System-finish-picture" class="headerlink" title="Manjaro System finish picture"></a>Manjaro System finish picture</h1><p><img src="manjaro_System_finish.png" alt="Manjaro"></p>
+<p>一下配置文件都在 <a href="https://github.com/LEXSSAMA/Configure-file-of-Manjaro-System" target="_blank" rel="noopener">https://github.com/LEXSSAMA/Configure-file-of-Manjaro-System</a></p>
+<h1 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h1><h2 id="1-首先下载镜像安装"><a href="#1-首先下载镜像安装" class="headerlink" title="1.首先下载镜像安装"></a>1.首先下载镜像安装</h2><h2 id="２．换源"><a href="#２．换源" class="headerlink" title="２．换源"></a>２．换源</h2><figure class="highlight ebnf"><table><tr><td class="gutter hljs hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs ebnf"><span class="hljs-attribute">sudo pacman-mirrors -i -c China -m rank</span><br></code></pre></div></td></tr></table></figure>
+<p>选择一个好用的就可以，我选择的是<br><a href="https://mirrors.sjtug.sjtu.edu.cn/manjaro/" target="_blank" rel="noopener">https://mirrors.sjtug.sjtu.edu.cn/manjaro/</a></p>
+<h2 id="３．更新系统"><a href="#３．更新系统" class="headerlink" title="３．更新系统"></a>３．更新系统</h2><figure class="highlight nginx"><table><tr><td class="gutter hljs hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs nginx"><span class="hljs-attribute">sudo</span> pacman -Syy 	<span class="hljs-comment">#更新缓存</span><br>sudo Pacman -Syyu	<span class="hljs-comment">#更新系统</span><br></code></pre></div></td></tr></table></figure>
+<h2 id="４．配置VIM"><a href="#４．配置VIM" class="headerlink" title="４．配置VIM"></a>４．配置VIM</h2><figure class="highlight ebnf"><table><tr><td class="gutter hljs hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs ebnf"><span class="hljs-attribute">sudo pacman -S vim</span><br></code></pre></div></td></tr></table></figure>
+<p>然后编辑$HOME下的.vim/vimrc文件即可<br><br>我的也是刚刚开始使用vim所以配置的内容并不丰富<br><figure class="highlight gams"><table><tr><td class="gutter hljs hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs gams">syntax on<br><span class="hljs-keyword">set</span> number<br><span class="hljs-keyword">set</span> <span class="hljs-comment">relativenumber</span><br><span class="hljs-keyword">set</span> <span class="hljs-comment">hlsearch</span><br><span class="hljs-keyword">set</span> <span class="hljs-comment">smartcase</span><br><span class="hljs-keyword">set</span> <span class="hljs-comment">cursorline</span><br><span class="hljs-keyword">set</span> <span class="hljs-comment">cursorcolumn</span> <br>hi <span class="hljs-comment">CursorColumn term=reverse ctermbg=white guibg=grey40</span><br>hi <span class="hljs-comment">CursorColumn ctermbg=238 guibg=grey40</span><br>hi <span class="hljs-comment">CursorLine term=underline cterm=underline guibg=grey40</span><br><span class="hljs-keyword">set</span> <span class="hljs-comment">ignorecase</span><br><span class="hljs-keyword">set</span> <span class="hljs-comment">cursorline</span><br><span class="hljs-keyword">set</span> <span class="hljs-comment">wrap</span><br><span class="hljs-keyword">set</span> <span class="hljs-comment">incsearch</span><br><span class="hljs-keyword">set</span> <span class="hljs-comment">showcmd</span><br><span class="hljs-keyword">set</span> <span class="hljs-comment">wildmenu</span><br>map <span class="hljs-comment">s &lt;nop&gt;</span><br>map <span class="hljs-comment">S :w&lt;CR&gt;</span><br>map <span class="hljs-comment">Q :q&lt;CR&gt;</span><br>map <span class="hljs-comment">R :source $MYVIMRC&lt;CR&gt;</span><br>noremap <span class="hljs-comment">U 5k</span><br>noremap <span class="hljs-comment">D 5j</span><br>call <span class="hljs-comment">plug#begin(</span><span class="hljs-comment">'~/.vim/plugged'</span><span class="hljs-comment">)</span><br>Plug <span class="hljs-comment">'vim-airline/vim-airline'</span><br>Plug <span class="hljs-comment">'rakr/vim-one'</span><br>Plug <span class="hljs-comment">'preservim/nerdtree'</span><br>Plug <span class="hljs-comment">'ybian/smartim'</span><br>Plug <span class="hljs-comment">'arcticicestudio/nord-vim'</span><span class="hljs-comment"> Plug</span> <span class="hljs-comment">'connorholyday/vim-snazzy'</span><br>Plug <span class="hljs-comment">'Valloric/YouCompleteMe'</span><br>Plug <span class="hljs-comment">'iamcco/markdown-preview.nvim'</span><span class="hljs-comment">, &#123;</span> <span class="hljs-comment">'do'</span><span class="hljs-comment">:</span> <span class="hljs-comment">'cd app &amp; yarn install'</span><span class="hljs-comment">  &#125;</span><br>Plug <span class="hljs-comment">'dhruvasagar/vim-table-mode'</span><span class="hljs-comment">, &#123;</span> <span class="hljs-comment">'on'</span><span class="hljs-comment">:</span> <span class="hljs-comment">'TableModeToggle'</span><span class="hljs-comment"> &#125;</span><br>Plug <span class="hljs-comment">'vimwiki/vimwiki'</span><br><br>call <span class="hljs-comment">plug#end()</span>	<br><br>let <span class="hljs-comment">g:lightline = &#123;</span><br>\ <span class="hljs-string">'colorscheme'</span>: <span class="hljs-string">'snazzy'</span>,<br>\ &#125;<br></code></pre></div></td></tr></table></figure></p>
+<h2 id="5-安装i3wm"><a href="#5-安装i3wm" class="headerlink" title="5.安装i3wm"></a>5.安装i3wm</h2><figure class="highlight llvm"><table><tr><td class="gutter hljs hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs llvm">sudo pacman -S <span class="hljs-keyword">i3</span><br></code></pre></div></td></tr></table></figure>
+<p>配置i3只需要配置~/.config/i3/config文件即可<br><br>安装完i3可能会有分辨率的问题可以修改$HOME下的.Xresources文件<br>添加一下语句：<br><br><figure class="highlight ini"><table><tr><td class="gutter hljs hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs ini"><span class="hljs-attr">Xft.dpi</span> = <span class="hljs-number">200</span> 	<span class="hljs-comment">#数字可以随便改</span><br></code></pre></div></td></tr></table></figure></p>
+<h2 id="6-安装fcitx中文输入法"><a href="#6-安装fcitx中文输入法" class="headerlink" title="6.安装fcitx中文输入法"></a>6.安装fcitx中文输入法</h2><figure class="highlight elixir"><table><tr><td class="gutter hljs hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs elixir"><span class="hljs-variable">$ </span>sudo pacman -S fcitx-sogoupinyin<br><span class="hljs-variable">$ </span>sudo pacman -S fcitx-im     <span class="hljs-comment"># 全部安装</span><br><span class="hljs-variable">$ </span>sudo pacman -S fcitx-configtool     <span class="hljs-comment"># 图形化配置工具</span><br></code></pre></div></td></tr></table></figure>
+<p>将fcitx添加到环境变量中去<br><figure class="highlight jboss-cli"><table><tr><td class="gutter hljs hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs jboss-cli">sudo vim ~<span class="hljs-string">/.xprofile</span><br></code></pre></div></td></tr></table></figure><br>然后在里面添加：<br><figure class="highlight routeros"><table><tr><td class="gutter hljs hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs routeros"><span class="hljs-builtin-name">export</span> <span class="hljs-attribute">GTK_IM_MODULE</span>=fcitx<br><span class="hljs-builtin-name">export</span> <span class="hljs-attribute">QT_IM_MODULE</span>=fcitx<br><span class="hljs-builtin-name">export</span> <span class="hljs-attribute">XMODIFIERS</span>=”@im=fcitx”<br></code></pre></div></td></tr></table></figure><br>最后在~/.config/i3/config文件中添加<br><figure class="highlight ebnf"><table><tr><td class="gutter hljs hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs ebnf"><span class="hljs-attribute">exec_always fcitx</span><br></code></pre></div></td></tr></table></figure><br>这样开机就会直接启动fcitx了</p>
+<h2 id="7-安装alacritty"><a href="#7-安装alacritty" class="headerlink" title="7.安装alacritty"></a>7.安装alacritty</h2><figure class="highlight ebnf"><table><tr><td class="gutter hljs hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs ebnf"><span class="hljs-attribute">sudo pacman -S alacritty</span><br></code></pre></div></td></tr></table></figure>
+<p>在i3中修改alacritty的快捷键为mod+回车键<br><figure class="highlight bash"><table><tr><td class="gutter hljs hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash">bindsym <span class="hljs-variable">$mod</span>+<span class="hljs-built_in">return</span> <span class="hljs-built_in">exec</span> alacritty<br></code></pre></div></td></tr></table></figure><br>配置alacritty只需要修改~/.config/alacritty/alacritty.yml文件即可<br></p>
+<p><strong>如果~/.config/文件中没有alacritty/alacritty.yml文件就自己创建一个，或者上github上面复制一个就可以了</strong><br><br>如果要alacritty的透明的话要安装picom，这个软件就是以前的compton<br><figure class="highlight ebnf"><table><tr><td class="gutter hljs hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs ebnf"><span class="hljs-attribute">sudo pacman -S picom</span><br></code></pre></div></td></tr></table></figure><br>执行picom,然后修改~/.config/alacritty/alacritty.yml<br><br><figure class="highlight yaml"><table><tr><td class="gutter hljs hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs yaml"><span class="hljs-attr">background_opacity:</span> <span class="hljs-number">0.75</span><br></code></pre></div></td></tr></table></figure><br>也可以修改成其他的值，我比较喜欢0.75的透明度<br><br>最后把picom加入i3的开机启动中</p>
+<h2 id="8-安装SSR"><a href="#8-安装SSR" class="headerlink" title="8.安装SSR"></a>8.安装SSR</h2><p><strong>无图像界面的SSR client</strong><br><figure class="highlight groovy"><table><tr><td class="gutter hljs hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs groovy">wget <span class="hljs-string">http:</span><span class="hljs-comment">//www.texfox.com/ssr</span><br>sudo mv ssr <span class="hljs-regexp">/usr/</span>local/bin<br>sudo chmod +x <span class="hljs-regexp">/usr/</span>local<span class="hljs-regexp">/bin/</span>ssr<br>ssr install<br></code></pre></div></td></tr></table></figure><br>安装完成后配置SSR<br><figure class="highlight arduino"><table><tr><td class="gutter hljs hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs arduino">ssr <span class="hljs-built_in">config</span><br></code></pre></div></td></tr></table></figure><br>把机场的SSR信息填入<br><figure class="highlight crmsh"><table><tr><td class="gutter hljs hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs crmsh">ssr <span class="hljs-literal">start</span><br></code></pre></div></td></tr></table></figure><br>就连接上了，有不明白的命令可以执行<br><figure class="highlight bash"><table><tr><td class="gutter hljs hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash">ssr <span class="hljs-built_in">help</span><br></code></pre></div></td></tr></table></figure><br><strong>有图像界面的SSR client可以用electron-ssr</strong><br><br>链接：<br><a href="https://github.com/qingshuisiyuan/electron-ssr-backup" target="_blank" rel="noopener">https://github.com/qingshuisiyuan/electron-ssr-backup</a></p>
+<h2 id="9-安装google-chrome-谷歌浏览器"><a href="#9-安装google-chrome-谷歌浏览器" class="headerlink" title="9.安装google-chrome_(谷歌浏览器)"></a>9.安装google-chrome_(谷歌浏览器)</h2><figure class="highlight ebnf"><table><tr><td class="gutter hljs hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs ebnf"><span class="hljs-attribute">sudo pacman -S google-chrome</span><br></code></pre></div></td></tr></table></figure>
+<p>因为很经常用到google所以我把它设置成i3的快捷键，即在~/.config/i3/config中添加下面语句<br><figure class="highlight bash"><table><tr><td class="gutter hljs hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs bash">bindsym <span class="hljs-variable">$mod</span>+c <span class="hljs-built_in">exec</span> google-chrome-stable<br></code></pre></div></td></tr></table></figure></p>
+<h2 id="10-安装Albert"><a href="#10-安装Albert" class="headerlink" title="10.安装Albert"></a>10.安装Albert</h2><p>因为i3默认的$mod+d的菜单快捷键太丑了，所以安装Albert<br><img src="albert.png" alt="albert"><br><br><figure class="highlight ebnf"><table><tr><td class="gutter hljs hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs ebnf"><span class="hljs-attribute">sudo pacman -S albert</span><br></code></pre></div></td></tr></table></figure><br>在i3中设置albert开机启动<br><br><figure class="highlight ebnf"><table><tr><td class="gutter hljs hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs ebnf"><span class="hljs-attribute">exec_always albert</span><br></code></pre></div></td></tr></table></figure><br>然后修改albert的热键在终端第一次执行albert时会提醒修改热键，下图是我的配置．<br></p>
+<p><img src="albert1.png" alt="albert1"><br><br><img src="albert2.png" alt="albert2"><br><br>因为我设置的热键ALT+d与i3的热键冲突（我的$mod键是ALT键）,所以我干脆取消了i3中的热键</p>
+<h2 id="11-安装ranger"><a href="#11-安装ranger" class="headerlink" title="11. 安装ranger"></a>11. 安装ranger</h2><figure class="highlight ebnf"><table><tr><td class="gutter hljs hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs ebnf"><span class="hljs-attribute">sudo pacman -S ranger</span><br></code></pre></div></td></tr></table></figure>
+<p>配置ranger依旧是修改~/.config/ranger/rc.conf文件<br><br><strong>如果没有这些文件可以自己创建，详细看官方</strong></p>
+<h2 id="12-安装网易云音乐"><a href="#12-安装网易云音乐" class="headerlink" title="12. 安装网易云音乐"></a>12. 安装网易云音乐</h2><figure class="highlight ebnf"><table><tr><td class="gutter hljs hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs ebnf"><span class="hljs-attribute">sudo pacman -S netease-cloud-music</span><br></code></pre></div></td></tr></table></figure>
+<h2 id="13-安装QQ-TIM"><a href="#13-安装QQ-TIM" class="headerlink" title="13.安装QQ/TIM"></a>13.安装QQ/TIM</h2><figure class="highlight css"><table><tr><td class="gutter hljs hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs css"><span class="hljs-selector-tag">sudo</span> <span class="hljs-selector-tag">pacman</span> <span class="hljs-selector-tag">-S</span> <span class="hljs-selector-tag">deepin</span><span class="hljs-selector-class">.qq</span><span class="hljs-selector-class">.com</span><span class="hljs-selector-class">.office</span><br><span class="hljs-selector-tag">sudo</span> <span class="hljs-selector-tag">pacman</span> <span class="hljs-selector-tag">-S</span> <span class="hljs-selector-tag">deepin</span><span class="hljs-selector-class">.qq</span><span class="hljs-selector-class">.com</span><span class="hljs-selector-class">.im</span><br></code></pre></div></td></tr></table></figure>
+<p>由于在i3的环境下，一打开QQ就会闪退，解决方法是<br><br><figure class="highlight ebnf"><table><tr><td class="gutter hljs hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs ebnf"><span class="hljs-attribute">yaourt -S gnome-setting-daemon</span><br></code></pre></div></td></tr></table></figure><br>然后运行/usr/lib/gsd-xsettings(最好在i3配置中设置开机启动)，然后就可以运行ＱＱ了</p>
+<h2 id="14-安装light"><a href="#14-安装light" class="headerlink" title="14. 安装light"></a>14. 安装light</h2><p>因为i3装上之后亮度调节是个问题所以装一个light<br><figure class="highlight ebnf"><table><tr><td class="gutter hljs hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs ebnf"><span class="hljs-attribute">sudo pacman -S light</span><br></code></pre></div></td></tr></table></figure><br>要设置亮度的时候只要在命令行输入<br><figure class="highlight nginx"><table><tr><td class="gutter hljs hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs nginx"><span class="hljs-attribute">sudo</span> light -S <span class="hljs-number">20</span> 	<span class="hljs-comment">#数值可改，我一般用２０</span><br></code></pre></div></td></tr></table></figure></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">操作系统</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/04/09/Shell%E5%85%A5%E9%97%A8%E5%AD%A6%E4%B9%A0/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Shell入门学习</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/03/31/chapter2-Homework-problems-and-Questions/">
+                        <span class="hidden-mobile">chapter2 :Homework problems and Questions</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/mermaid@8.8.3/dist/mermaid.min.js" ></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({"theme":"default"});
+    }
+  </script>
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

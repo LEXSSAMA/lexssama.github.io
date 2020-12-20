@@ -1,0 +1,697 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;light&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/wallhaven-4xjllo.jpg">
+  <link rel="icon" type="image/png" href="/img/wallhaven-4xjllo.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="Lexssama">
+  <meta name="keywords" content="">
+  <title>Chapter 2: Application Layer - Lexssama&#39;s Blogs</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"lexssama.github.io","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Lexssama's Blogs" type="application/atom+xml">
+</head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Lexssama's Blogs</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/wallhaven-j5l9gw.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Chapter 2: Application Layer">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-03-28 23:51" pubdate>
+        2020年3月28日 晚上
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.8k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      56
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Chapter 2: Application Layer</h1>
+            
+            <div class="markdown-body">
+              <p><strong>The questions is provided below,we can find the answer in the Computer Network A Top-down Approach</strong></p>
+<h1 id="HTTP"><a href="#HTTP" class="headerlink" title="HTTP"></a>HTTP</h1><ul>
+<li>HTTP is said to be a stateless protocol<h2 id="no-persistent-connections-and-persistent-connections"><a href="#no-persistent-connections-and-persistent-connections" class="headerlink" title="no-persistent-connections and persistent-connections"></a>no-persistent-connections and persistent-connections</h2>no-persistent-connections:Client obtains the 10 JPEGs over 10 serial TCP connections or whether JEPGs are obtained over parallel TCP connections?<br></li>
+</ul>
+<p>Advantage of persistent-connections(or disadvantage of no-persistent-connections):NO-persistent-connection has some shortcoming.First, a brand-new connection must be established and maintained for each requires objects. For earn TCP connections, TCP buffer must be allocated and TCP variable keeps between client and servers, This is a significant burden on the web servers. But persistent-connections don’t need to establish so many connections, just establish once connections can work.<br></p>
+<h2 id="HTTP-Require-and-Response"><a href="#HTTP-Require-and-Response" class="headerlink" title="HTTP Require and Response"></a>HTTP Require and Response</h2><p><strong>HTTP-Require</strong><br><img src="HTTP_requires.png" alt="HTTP-Require"></p>
+<p><strong>HTTP-Response</strong><br><img src="HTTP_respont.png" alt="HTTP-Response"></p>
+<h2 id="Cookie"><a href="#Cookie" class="headerlink" title="Cookie"></a>Cookie</h2><p>Cookie allow web site to keep track of users.<br><br>Cookie technology has four components: <br></p>
+<ul>
+<li>a cookie header line in the HTTP response message.</li>
+<li>a cookie header line in the HTTP require message.</li>
+<li>a cookie file kept on user’s end system and managed by user’s browser</li>
+<li>a cookie back-end database at the web site.</li>
+</ul>
+<p><img src="Cookie-process.png" alt="HTTP-Cookie"></p>
+<h2 id="Web-cache"><a href="#Web-cache" class="headerlink" title="Web cache"></a>Web cache</h2><p>Web cache also called proxy servers,Web cache can increasing response speed and reduce the cost of throughput.</p>
+<p><img src="Web-cache.png" alt="HTTP-Web cache"></p>
+<h2 id="The-condition-GET"><a href="#The-condition-GET" class="headerlink" title="The condition GET"></a>The condition GET</h2><p>At explore above ,We already have cache ,We now face a problem is that if the informations  of requirements have been modified but the cache still stored the old information ,How to solve this problem?<br><br>The answer is <strong>The condition GET</strong> ,. We can see details at the Computer network a Top-Down Approach<br></p>
+<h1 id="File-Transfer-Protocol-FTP"><a href="#File-Transfer-Protocol-FTP" class="headerlink" title="File Transfer Protocol (FTP)"></a>File Transfer Protocol (FTP)</h1><h2 id="control-connection-and-data-connection"><a href="#control-connection-and-data-connection" class="headerlink" title="control connection and data connection"></a>control connection and data connection<br></h2><p><strong>Control connection</strong> is used for sending control informations between two host, such as identification, password, commands<br><br><strong>Data connection</strong> is used for actually send a file .<br></p>
+<p>FTP use port 21 as Control connection and use port 20 as Data connection<br><br><img src="FTP-TCP-connections.png" alt="FTP-TCP"><br>As you see,FTP is established two TCP connections<br></p>
+<p>In the typically FTP sessions, Users initial access remote hosts, namely establish TCP control connection used port 21, then provide identifications and passwords through port 21. After providing this authorization information. Users can transfer files from localhost to remote host vice versa.</p>
+<p><img src="FTP-transfer-file.png" alt="FTP-transfer-file"><br>If user wanna to transfer another files during the same sessions,FTP will opens the another <strong>data connections</strong>(The data connections is no-persistent)<br><br>Throughout a sessions,the FTP servers must maintain state about the user. In particularly, The servers must be associate the <strong>control connections</strong> with a specific user and must keep track of user’s current directory as user’s wanders about the remote directory tree.<br></p>
+<h2 id="FTP-Commands-and-Replies"><a href="#FTP-Commands-and-Replies" class="headerlink" title="FTP Commands and Replies"></a>FTP Commands and Replies</h2><p>The FTP Commands and Replies sent across the control connection in 7-bits ASCLL format.<br><br>We can see details at computer-network-a-top-down-approach.</p>
+<h1 id="SMTP-Simple-Mail-Transfer-Protocol"><a href="#SMTP-Simple-Mail-Transfer-Protocol" class="headerlink" title="SMTP(Simple Mail Transfer Protocol)"></a>SMTP(Simple Mail Transfer Protocol)</h1><p>SMTP is a principal application layer protocol for electronic mail. As most application layer protocol, SMTP base on TCP provides reliable data transfer service and SMTP also has two side , client side which executes on the sender’s mail server, servers side which executes on recipient’s mail servers. When the mail server send mail to other mail servers , it act as a SMTP client, when the mail server receive mail from other mail server, it act as SMTP server.<br><img src="SMTP-transfer.png" alt="SMTP-transfer"></p>
+<ol>
+<li>Alice provides Bob’s email-address and composes a message then instruct Alice’s agent  send the message to Bob.<br></li>
+<li>Alice’s send the message to Alice’s mail servers,where it is placeing in message queue.<br></li>
+<li>Alice’s mail server established TCP connections to port 25 at Bob’s mail server. <br></li>
+<li>After initail SMTP handshaking, the SMTP client (Alice’s mail server) send the message to Bob’s server through TCP connection.<br></li>
+<li>The recipient side receives the message and places the message in Bob mailbox.<br></li>
+<li>Bob invoke his user agent to read the message at his convenience.<br></li>
+</ol>
+<p><em>In particular , if Bob’s mail server is down . The message can’t send to Bob’s mail server, the message will remain in Alice’s mail server and wait for a new attempt — the message do not get place in any other intermediate mail server, Reattempt done for every 30 minutes , if<br>resend  not success after several day , Alice’s mail server remove the message and notice Alice with e-mail message</em><br> <strong>More details of SMTP handshake or SMTP commands please see the Computer Network A Top-Down Approach</strong> <br></p>
+<h2 id="Comparison-with-HTTP"><a href="#Comparison-with-HTTP" class="headerlink" title="Comparison with HTTP"></a>Comparison with HTTP</h2><ol>
+<li>HTTP and SMTP both use persistent connections</li>
+<li>HTTP is mainly a pull protocol — Some one load information with browser on web servers or use HTTP to pull some information from the server at their convenience. SMTP is mainly a push protocol — The sending mail server push file to other receiving mail server . <br> </li>
+<li>SMTP requires each message include body of each message that must be encode be 7-bit-ASCLL , so that The SMTP is a bit of pain to send the large attachment ,video, image, audio. But HTTP data does not impose this restriction. <br></li>
+<li>HTTP encapsulate each object in it own HTTP response message , SMTP place all message’s object into one message. <h2 id="Mail-Access-Protocol"><a href="#Mail-Access-Protocol" class="headerlink" title="Mail Access Protocol"></a>Mail Access Protocol</h2>Bob can’t obtain the message through SMTP from the Bob’s mail server. Because SMTP is push protocol,obtain message is pull operation. To solve this problem by introducing a special mail access protocol that transfer messages from Bob’s mail server to Bob’s host .There are currently a number of mail access protocol including <strong>Post Office Protocol - version 3 (POP3),Internet Mail Access Protocol (IMAP) and HTTP</strong><br><img src="SMTP-access-mail.png" alt="SMTP-access-mail"></li>
+</ol>
+<h3 id="POP3-Post-Office-Protocol-Version-3"><a href="#POP3-Post-Office-Protocol-Version-3" class="headerlink" title="POP3 (Post Office Protocol -Version 3)"></a>POP3 (Post Office Protocol -Version 3)</h3><p>POP3 Bob’s agent use port 110 establish TCP connection with Bob’s mail servers , With the TCP connections established , POP3 through three phase: <strong>authorization</strong>, <strong>transaction</strong>, <strong>Update</strong>.<br></p>
+<ol>
+<li><strong>authorization</strong>: Bob’s agent send the username and password to authenticate the user 2. <strong>transaction</strong>: During this phase , user agent can mark retrieves the message also can mark message for deletion (or remove the mask) ,and obtain mail statistic .  3. <strong>Update</strong>: Update occurs after user agent issued the <em>quit</em> command ending this POP3 session ,at this time, mail server will delete messages that were marked for deletion.<br></li>
+</ol>
+<p><em>more details about POP3 commands or process can see in the textbook</em><br></p>
+<p><strong>During the POP3 sessions, the user agent and mail server maintain some state information. For example, maintain mark information for deletion during this POP3 session. However, POP3 doesn’t carry state information across POP3 sessions. (As I think, that’s mean POP3 maintain state information only occurs at POP3 sessions phase ,the state information will be deleted,if user agent ending the session)</strong></p>
+<h3 id="IMAP-Internet-Mail-Access-Protocol"><a href="#IMAP-Internet-Mail-Access-Protocol" class="headerlink" title="IMAP (Internet Mail Access Protocol)"></a>IMAP (Internet Mail Access Protocol)</h3><p>The IMAP is significantly complex than POP3,and more feature than POP3<br><br><strong>The most significantly difference is IMAP can carry the state informations across IMAP sessions, but POP3 can’t</strong><br></p>
+<h3 id="Web-base-Email-use-HTTP"><a href="#Web-base-Email-use-HTTP" class="headerlink" title="Web-base Email (use HTTP)"></a>Web-base Email (use HTTP)</h3><p>Web-base Email also famous today, for example gmail . Web browser and user communicates with its mailbox via HTTP.</p>
+<h1 id="DNS-domain-name-system"><a href="#DNS-domain-name-system" class="headerlink" title="DNS (domain name system)"></a>DNS (domain name system)</h1><p><strong>The DNS protocols run over UDP and uses port 53.</strong> <br></p>
+<p>The DNS is commonly employed by other application-layer protocol —including HTTP,SMTP, and FTP —to translate the user-supplied hostnames to IP address.<br></p>
+<p>We see example above the DNS adds an additional delay, but ,fortunately the DNS cache will help reduce this delay. <br></p>
+<p>DNS provide features: <strong>Host aliasing</strong> , <strong>Mail server aliasing</strong> , <strong>Load distribution</strong></p>
+<ul>
+<li>host aliasing and mail server aliasing make hostnames more mnemonic.<br></li>
+<li>load distribution : For replicated web server , a numbers set of IP address associated with one canonical hostname . It can make server easier to handle the large access .<br><h2 id="overview-of-how-DNS-work"><a href="#overview-of-how-DNS-work" class="headerlink" title="overview of how DNS work"></a>overview of how DNS work</h2><strong>Let’s take closer to look at these three classes of DNS servers</strong> <br></li>
+<li>Root DNS servers.</li>
+<li>Top-level domain(TLD) server.</li>
+<li>Authoritative DNS server.</li>
+</ul>
+<p>Take a look a simple example : <strong>www.amazon.com.</strong> (Don’t forget we have a . at the end) <br></p>
+<ul>
+<li>The <strong>.</strong> is Root DNS servers.</li>
+<li>The <strong>com.</strong> is Top-lever domain (TLD) server</li>
+<li>The <strong>amazon.com.</strong> is Authoritative DNS server.</li>
+<li>The <strong>www</strong> is hostname<br><img src="DNS-hierarchy.png" alt="DNS-hierarchy"><br>We also have a another critically important DNS servers is <strong>Local DNS server</strong> that does not strictly belong to the hierarchy of DNS server.<br><br>When the host make a DNS query, the query is send to Local DNS server which act as proxy forwarding the query into the DNS hierarchy server.<br><h2 id="Two-way-for-send-DNS-queries"><a href="#Two-way-for-send-DNS-queries" class="headerlink" title="Two way for send DNS queries"></a>Two way for send DNS queries</h2></li>
+<li><strong>iterative queries</strong><br><img src="DNS-server-iterative-queries.png" alt="DNS-iterative-queries"></li>
+<li><strong>recursive queries</strong><br><img src="DNS-server-recursive-queries.png" alt="DNS-recursive-queries"><h2 id="DNS-caching"><a href="#DNS-caching" class="headerlink" title="DNS caching"></a>DNS caching</h2>We reduce the delay of DNS server by DNS cache technology.<br></li>
+</ul>
+<p><strong>The DNS server receives a DNS reply (for example the mapping of IP address and hostname) it can cache the mapping into the local memory(also can cache the mapping of TLD servers). For example , the local DNS server can cache the mapping of each host queries,When the user’s host send a query to local DNS server frequently at the short period of time . The local DNS server can send the reply to user’s host instantly</strong>.<br></p>
+<p><em>The DNS servers discard the cache information after a period time (Often set to one or two day)</em><br></p>
+<h2 id="DNS-Records-and-Messages"><a href="#DNS-Records-and-Messages" class="headerlink" title="DNS Records and Messages"></a>DNS Records and Messages</h2><h3 id="DNS-Records"><a href="#DNS-Records" class="headerlink" title="DNS Records"></a>DNS Records</h3><p>The DNS distributed database store <strong>resource records (RRs)</strong><br><br>The RRs provide Hostname-to-IP address mappings.Each DNS reply carries one or more RRs .<br></p>
+<h4 id="DNS-Records-Format"><a href="#DNS-Records-Format" class="headerlink" title="DNS Records Format"></a>DNS Records Format</h4><p>The DNS Record have four fields that provide following below.<br></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Name</th>
+<th style="text-align:left">Value</th>
+<th style="text-align:left">Type</th>
+<th style="text-align:left">TTL</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The TTL is live time of Records in the RRs . The meaning of Name and Value is depend on Type. <br></p>
+<p>In following example we will ignore the TTL filed.<br></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Type</th>
+<th style="text-align:center">Name</th>
+<th style="text-align:center">Value</th>
+<th style="text-align:center">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">A</td>
+<td style="text-align:center">Hostname</td>
+<td style="text-align:center">IP address</td>
+<td style="text-align:center">Address record</td>
+</tr>
+<tr>
+<td style="text-align:center">NS</td>
+<td style="text-align:center">Domain</td>
+<td style="text-align:center">Hostname of authoritative</td>
+<td style="text-align:center">Name server record</td>
+</tr>
+<tr>
+<td style="text-align:center">CNAME</td>
+<td style="text-align:center">Alisa hostname</td>
+<td style="text-align:center">Canonical name</td>
+<td style="text-align:center">Canonical name record</td>
+</tr>
+<tr>
+<td style="text-align:center">MX</td>
+<td style="text-align:center">Alisa hostname of mail server</td>
+<td style="text-align:center">Canonical name of mail server</td>
+<td style="text-align:center">Mail exchange record</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>If a DNS server is authoritative for particular hostname ,then the DNS server will contain type A record for the hostname.</strong><br></p>
+<p><strong>If a DNS server is not authoritative for a hostname ,then it will contain a type NS record for domain that include hostname, it also contain a type A record that provide IP address of DNS server in the value field of the NS record.</strong><br></p>
+<ul>
+<li>For example in the TLD server<br></li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Type</th>
+<th style="text-align:center">Name</th>
+<th style="text-align:center">Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">NS</td>
+<td style="text-align:center">umass.edu</td>
+<td style="text-align:center">dns.umass.edu</td>
+</tr>
+<tr>
+<td style="text-align:center">A</td>
+<td style="text-align:center">dns.umass.edu</td>
+<td style="text-align:center">128.119.40.111</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="DNS-Messages"><a href="#DNS-Messages" class="headerlink" title="DNS Messages"></a>DNS Messages</h2><p>The DNS query and DNS reply have same Messages format as shown in Figure below .<br></p>
+<ul>
+<li><p><strong>DNS-Messages-Format</strong><br><img src="DNS-Messages.png" alt="DNS-Messages"></p>
+</li>
+<li><p><strong>We can use dig command to see DNS reply messages</strong></p>
+</li>
+</ul>
+<p><img src="DNS-Messagas-dig.png" alt="DNS-Messages-dig"><br>ID:30379 is 16-bit number that identifies the query corresponding <strong>identification</strong> of figure above .This identifies is copied into the reply messages allowing the client match receive messages with sent queries. <br><br><strong>Let’s see more detail about header flags format</strong><br></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Flag field</th>
+<th style="text-align:center">Description</th>
+<th style="text-align:center">Length(bits)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">OR</td>
+<td style="text-align:center">indicate message is reply(1) or query(0)</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center">OPCODE</td>
+<td style="text-align:center">The type can be QUERY(standard query ,0),IQUERY(inverse query,1) or STATUS(server status request,2)</td>
+<td style="text-align:center">4</td>
+</tr>
+<tr>
+<td style="text-align:center">AA</td>
+<td style="text-align:center">Authoritative Answer, in the response,indicates if the DNS server is authoritative for queried hostname</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center">TC</td>
+<td style="text-align:center">Truncation, indicates that this messages was truncated due excessive length</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center">RD</td>
+<td style="text-align:center">Recursion desired indicate if client means a recursion query.</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center">RA</td>
+<td style="text-align:center">Recursion Available indicate if reply messages supports recursion</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center">Z</td>
+<td style="text-align:center">zero ,reserved for future use</td>
+<td style="text-align:center">3</td>
+</tr>
+<tr>
+<td style="text-align:center">RCODE</td>
+<td style="text-align:center">Response code, can be NOERROR(0),FORMERR(format error,1),SERVFAIL(2),NXDOMAIN(nonexistent domain 3),etc</td>
+<td style="text-align:center">4</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 id="Peer-to-Peer-Applications"><a href="#Peer-to-Peer-Applications" class="headerlink" title="Peer-to-Peer Applications"></a>Peer-to-Peer Applications</h1><h2 id="BitTorrent"><a href="#BitTorrent" class="headerlink" title="BitTorrent"></a>BitTorrent</h2><p>BitTorrent is popular P2P protocol for file distribution.<br></p>
+<p>In BItTorrent lingo, the collection of all peer in the distribution is called torrent.<br></p>
+<p>Each torrent has a infrastructure called tracker.When a peer join in a torrent, it must register itself with tracker and periodically informs the tracker that it is still in the torrent. In this manner the tracker can keep the track of the peers that participating in the torrent. <br> </p>
+<p><strong>Let we see a example to know more detail about how does p2p work.</strong><br><br>When a new peer Alice  want to join in torrent,what does it need to do.</p>
+<ol>
+<li>Alice must register herself with tracker.</li>
+<li>The tracker will randomly select a subset of peers from a set of participating peers and send the all IP address of subset peers to Alice</li>
+<li>Alice attempts concurrent establish TCP connection with subset peers. The succeed establish TCP connection peer is called <strong>“neighboring peers”</strong>. The neighboring peer probably leave at any time .</li>
+<li>Periodically Alice will ask (over the TCP connection)neighboring peer for list of chucks they have. If Alice have L neighboring peers ,Alice will obtain L list of chuck that neighboring peers have, with this knowledge, Alice can issue(over the TCP connection) require for chucks she current doesn’t have .</li>
+<li>Along with time pass .Alice have a set of chuck and know which chuck her neighboring peers have . At this instant of time .<strong>Alice will issue require for chucks her doesn’t have and rarest among her neighboring peers</strong> and <strong>Use clever trading algorithm determine which require her need to response namely which neighboring peer she need send the chuck(about the clever trading algorithm we discuss below)</strong> <br><h3 id="Incentive-mechanism-Clever-trading-algorithm"><a href="#Incentive-mechanism-Clever-trading-algorithm" class="headerlink" title="Incentive mechanism: Clever trading algorithm"></a>Incentive mechanism: Clever trading algorithm</h3>To determine which require  need to response , BitTorrent use clever trading algorithm.<br></li>
+</ol>
+<p>Specifically. For each of her neighboring peers , Alice will continuity measures the rate at which she receive bits and determine the four peer that feed her bit at the highest rate. Alice will reciprocates by send the chucks to these same four peers.<br></p>
+<p>In the BitTorrent lingo , the four peers is said to be <strong>unchoked</strong>.<br>Every 10 seconds , Alice will recalculates the rate and possibly modifies the set of four peers.<br> </p>
+<p>In specially, every 30 seconds , Alice will select a addition neighboring peer at random and send it chuck, The peer is said to be <strong>optimistically unchocked</strong> , The optimistically unchocked may become one of Alice’s top four peer , if it rate which send chuck to Alice is high enough.<br><br>The optimistically unchocked allow new peer to get chuck so that they can have something to trade. All the other neighboring peers beside the five peers (one optimistically unchoked and four unchoked) can’t received any chucks from Alice.</p>
+<h1 id="distributed-Hash-Table-DHTs"><a href="#distributed-Hash-Table-DHTs" class="headerlink" title="distributed Hash Table (DHTs)"></a>distributed Hash Table (DHTs)</h1><p>Distributed Hash Table is referred to a distributed P2P version database.<br></p>
+<h2 id="Circular-DHT"><a href="#Circular-DHT" class="headerlink" title="Circular DHT"></a>Circular DHT</h2><p>Each peer only award two peers ,immediate successor and predecessor<br></p>
+<p>We use a hash function map each key to a integer in the ranger [0-2^n-1]. For example suppose n = 4 ,we get the ranger is [0-15]. Further suppose that these are eight peer in the system 1,3,4,5,8,10,12,15. Suppose we want to stored a pair (format:key value) (11,johnny wu) to one of peers in the system. Using out closest conventions ,since peer 12 is closest successor for key 11. We therefore store the pair into peer 12.<br><br><strong>Let’s see more detail about the example that we mentioned above.</strong><br></p>
+<p>If the peer 3 (in figure below) want to know “who is responsible for key 11”, it only send the messages to clockwise around the circle , namely pass the message to peer 4 , if peer 4 don’t responsible key 11, it just passes the message to peer 5 , This process continues until the message arrives at the peer 12 , peer 12 receive the message will send response back to peer 3.</p>
+<p><img src="Circle-DHT.png" alt="circle"><br></p>
+<p>This circular arrangement of the peers is a special case of an overlay network. In an overlay network, the peers form an abstract logical network which resides above the “underlay” computer network consisting of physical links, routers,and hosts. The links in an overlay network are not physical links, but are simply vir-tual liaisons between pairs of peers. In the overlay in Figure(a) above, there are eightpeers and eight overlay links; in the overlay in Figure (b) there are eight peersand 16 overlay links. A single overlay link typically uses many physical links and physical routers in the underlay network.<br></p>
+<p>The circular DHT provide a elegant way to build the database , but all N peer in the system , we have to forward the message around the circle , N/2 message are send average.<br></p>
+<p>Fortunately we can refine the circular DHT, we can add a number of <strong>shortcut</strong> to each peer in the system . So that the each peer not only keep track of successor and predecessor but also keep track of a small number of shortcut like figure(b) above.<br></p>
+<p>Thus,when the peer 4 receives message passes from peer 3 asking about key 11, it can determine the closer peer to key is its shortcut peer 10,then forward message directly to peer 10. Clearly the shortcut can significantly reduce the number of messages used to query<br></p>
+<p>The next native question is “How many shortcut should the peer have and which peer should be these neighboring shortcut. “<br><br>The answer doesn’t referred in the textbook (computer-network-a-top-down-approach),we can only search with network use google.<br></p>
+<h2 id="peer-churn"><a href="#peer-churn" class="headerlink" title="peer churn"></a>peer churn</h2><p>About peer churn we can learn in textbook page 155.</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Computer-Network-A-Top-Down-Approach/">Computer Network A Top-Down Approach</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Computer-Network-A-Top-Down-Approach/">Computer Network A Top-Down Approach</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/03/31/chapter2-Homework-problems-and-Questions/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">chapter2 :Homework problems and Questions</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/03/22/VIM%E6%8C%87%E4%BB%A4%E5%AD%A6%E4%B9%A0/">
+                        <span class="hidden-mobile">VIM指令学习</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/mermaid@8.8.3/dist/mermaid.min.js" ></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({"theme":"default"});
+    }
+  </script>
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>

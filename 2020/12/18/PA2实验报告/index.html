@@ -1,0 +1,537 @@
+
+
+<!DOCTYPE html>
+<html lang="zh-CN" data-default-color-scheme=&#34;light&#34;>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/wallhaven-4xjllo.jpg">
+  <link rel="icon" type="image/png" href="/img/wallhaven-4xjllo.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="">
+  <meta name="author" content="Lexssama">
+  <meta name="keywords" content="">
+  <title>PA2实验报告 - Lexssama&#39;s Blogs</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
+
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"lexssama.github.io","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Lexssama's Blogs" type="application/atom+xml">
+</head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Lexssama's Blogs</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/wallhaven-j5l9gw.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="PA2实验报告">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-12-18 15:42" pubdate>
+        2020年12月18日 下午
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      2.2k 字
+    </span>
+  
+
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      29
+       分钟
+    </span>
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">PA2实验报告</h1>
+            
+            <div class="markdown-body">
+              <p><strong>1.RTFSC 请整理一条指令在NEMU中的执行过程. (我们其实已经在PA2.1阶段提到过这道题了)</strong><br><br>    程序在nexus-am中被交叉编译成二进制指令被装入NEMU的内存中，NEMU通过一系列函数来取指令，解码指令，执行指令<br><br>函数调用历程如图:<br></p>
+<pre><code class=" mermaid">graph LR;
+	A[cpu_exec];
+	B[exec_once];
+	C[isa_exec];
+	D[update_pc];
+	E[instr_fetch];
+	F[set_width];
+	G[idex];
+	A--&gt;B;
+	B--&gt;C;
+	B--&gt;D;
+	C--&gt;E;
+	C--&gt;F;
+	C--&gt;G;
+</code></pre>
+<p>以指令0x00为例cpu执行模拟函数cpu_exec一路执行到instr_fetch在内存中取出指令0x00然后查询<em>NEMU模拟器中存储的符合x指令集规范的表opcode_table(需要我们手动实现)</em>得到对应的0x00这一条指令的执行宽度,opcode_table[0x00].width,调用宽度设置函数set_width设置宽度,然后进入idex函数运行对应的内置解码程序opcode_table[0x00].decode,和指令对于的内置执行程序opcode_table[0x00].execute,最后调用update_pc函数，更新pc寄存器.<br></p>
+<p><strong>2.编译与链接 在nemu/include/rtl/rtl.h中, 你会看到由static inline开头定义的各种RTL指令函数. 选择其中一个函数, 分别尝试去掉static, 去掉inline或去掉两者, 然后重新进行编译, 你可能会看到发生错误. 请分别解释为什么这些错误会发生/不发生? 你有办法证明你的想法吗?</strong><br></p>
+<p><strong>static:</strong>&lt;解释来自stackoverflow&gt;<br></p>
+<ul>
+<li><ol>
+<li>Static defined <strong>local</strong> variables do not lose their value between function calls. In other words they are global variables, but scoped to the local function they are defined in.&lt;函数内定义的变量用static关键字修饰就会被编译器放入静态存储区，应该是被放在.data表内，其实就相当于一个另类的全局变量了.&gt;</li>
+</ol>
+</li>
+<li><ol>
+<li>A static <strong>global</strong> variable or a function is “seen” only in the file it’s declared in.&lt;字面意思&gt;</li>
+</ol>
+</li>
+</ul>
+<p><strong>inline:</strong><br><br>每次函数调用都要执行押入参数，保存返回地址，保存寄存器等工作会让函数调用变慢,inline的作用有点像define,可以将代码直接展开到调用处直接执行就可以让函数调用变快，但是缺点是这个操作可能让可执行文件变得更大或者更小无法预测<br></p>
+<p>有了这些基础现在开始回答问题:<br></p>
+<ul>
+<li><ol>
+<li>去掉inline:<br></li>
+</ol>
+</li>
+</ul>
+<p>static 和 static inline 其实没有很大的不同,只是函数的调用方式改变了,但是我试图编译时出现了这个错误:</p>
+<figure class="highlight c"><table><tr><td class="gutter hljs hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c">./include/rtl/rtl.h:<span class="hljs-number">138</span>:<span class="hljs-number">14</span>: error: ‘rtl_sext’ defined but <span class="hljs-keyword">not</span> used [-Werror=unused-function]<br> <span class="hljs-keyword">static</span>  <span class="hljs-keyword">void</span> rtl_sext(<span class="hljs-keyword">rtlreg_t</span>* dest, <span class="hljs-keyword">const</span> <span class="hljs-keyword">rtlreg_t</span>* src1, <span class="hljs-keyword">int</span> <span class="hljs-built_in">width</span>) &#123;<br>              ^~~~~~~~<br></code></pre></div></td></tr></table></figure>
+<p>原因是我们在gcc中加入了-Werror把所有的警告都当成error来处理,把-Werror去掉就可以了<br></p>
+<ul>
+<li><ol>
+<li>去掉static:<br><br>因为有inline关键字的存在所以，程序就像define一样会在调用处展开所以定义在头文件中的无static有inline的函数不会出现多次定义,只要把makefile文件中的-Werror去掉就可以编译链接成功<br></li>
+</ol>
+</li>
+<li><p>3.去掉static inline:<br><br>因为头文件会被许多文件引用所以如果去掉static inline,这个函数就会被多次定义，在链接的时候会报一下错误:<br></p>
+</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter hljs hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c">+ LD build/x86-nemu<br>build/obj-x86/isa/x86/decode/decode.o: In function `rtl_setrelopi<span class="hljs-number">'</span>:<br>/<span class="hljs-built_in">home</span>/oeoe/Documents/ICS-PA<span class="hljs-number">-2019</span>/nemu/./include/rtl/rtl.h:<span class="hljs-number">145</span>: multiple definition of `rtl_setrelopi<span class="hljs-number">'</span><br></code></pre></div></td></tr></table></figure>
+<p><strong>3.编译与链接</strong></p>
+<ul>
+<li><ol>
+<li>在nemu/include/common.h中添加一行volatile static int dummy; 然后重新编译NEMU. 请问重新编译后的NEMU含有多少个dummy变量的实体? 你是如何得到这个结果的?**</li>
+</ol>
+</li>
+<li><ol>
+<li>添加上题中的代码后, 再在nemu/include/debug.h中添加一行volatile static int dummy; 然后重新编译NEMU. 请问此时的NEMU含有多少个dummy变量的实体? 与上题中dummy变量实体数目进行比较, 并解释本题的结果.**</li>
+</ol>
+</li>
+<li><ol>
+<li>修改添加的代码, 为两处dummy变量进行初始化:volatile static int dummy = 0; 然后重新编译NEMU. 你发现了什么问题? 为什么之前没有出现这样的问题? (回答完本题后可以删除添加的代码.)**</li>
+</ol>
+</li>
+</ul>
+<p><strong>Volatile tells the compiler not to optimize anything that has to do with the volatile variable. &lt;来自stackoverflow&gt;<br></strong></p>
+<ol>
+<li>答案是74个，在build/obj中利用<code>grep  -r -c  &#39;dummy&#39; ./* | grep &#39;\.o:[1-9]&#39;| wc -l</code>命令得出.</li>
+<li>答案仍然是74个.</li>
+<li>两个初始化后会出现多次定义的错误:<br></li>
+</ol>
+<figure class="highlight c"><table><tr><td class="gutter hljs hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c">./include/common.h:<span class="hljs-number">2</span>:<span class="hljs-number">21</span>: note: previous definition of ‘dummy’ was here<br> <span class="hljs-keyword">volatile</span> <span class="hljs-keyword">static</span> <span class="hljs-keyword">int</span> dummy=<span class="hljs-number">0</span>;<br>                     ^~~~~<br>In file included from ./include/device/<span class="hljs-built_in">map</span>.h:<span class="hljs-number">4</span>:<span class="hljs-number">0</span>,<br>                 from src/memory/memory.c:<span class="hljs-number">2</span>:<br>./include/common.h:<span class="hljs-number">2</span>:<span class="hljs-number">21</span>: error: redefinition of ‘dummy’<br></code></pre></div></td></tr></table></figure>
+<p>原因是强弱定义的问题，当两个dummy都没有初始化的时候dummy是一个弱符号,编译器不会报错,编译器会选择占用内存最大的那个弱符号，当把两个dummy都初始化后，两个dummy就变成强符号了，链接器不允许强符号被多次定义，如果一个是强符号一个是弱符号，那么弱符号会被强符号覆盖(当然这个弱符号的占用内存大小不能大于强符号，否则会报错).<br></p>
+<p><strong>4. 了解Makefile 请描述你在nemu/目录下敲入make 后, make程序如何组织.c和.h文件, 最终生成可执行文件nemu/build/$ISA-nemu. (这个问题包括两个方面:Makefile的工作方式和编译链接的过程.) 关于Makefile工作方式的提示:</strong><br></p>
+<ul>
+<li><ol>
+<li>Makefile中使用了变量, 包含文件等特性</li>
+</ol>
+</li>
+<li><ol>
+<li>Makefile运用并重写了一些implicit rules</li>
+</ol>
+</li>
+<li><ol>
+<li>在man make中搜索-n选项, 也许会对你有帮助</li>
+</ol>
+</li>
+</ul>
+<figure class="highlight makefile"><table><tr><td class="gutter hljs hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs makefile">NAME = nemu<br><span class="hljs-comment">#如果$(MAKECMDGOALS)和clean）不相等则执行ifneq ...endif内的语句</span><br><span class="hljs-comment">#$MAKECMDGOALS是一个特殊参数:这个参数存放你在命令行指定的目标列表,如果什么都没指定则为空</span><br><span class="hljs-keyword">ifneq</span> (<span class="hljs-variable">$(MAKECMDGOALS)</span>,clean) <span class="hljs-comment"># ignore check for make clean</span><br><span class="hljs-comment"># ?=用来设置变量，当没有设置ISA值或者没有ISA这个变量的时候</span><br>ISA ?= x86<br><span class="hljs-comment">#相当于执行一条shell命令</span><br>ISAS = <span class="hljs-variable">$(<span class="hljs-built_in">shell</span> ls src/isa/)</span><br><span class="hljs-comment">#打印信息到标准输出</span><br><span class="hljs-variable">$(info Building <span class="hljs-variable">$(ISA)</span>-<span class="hljs-variable">$(NAME)</span>)</span><br><span class="hljs-comment">#$(filter pattern…,text):</span><br><span class="hljs-comment">#Returns all whitespace-separated words in text that</span><br><span class="hljs-comment">#do match any of the pattern words, removing any words that do not match. </span><br><span class="hljs-keyword">ifeq</span> (<span class="hljs-variable">$(<span class="hljs-built_in">filter</span> <span class="hljs-variable">$(ISAS)</span>, <span class="hljs-variable">$(ISA)</span>)</span>, ) <span class="hljs-comment"># ISA must be valid</span><br><span class="hljs-comment">#产生致命错误，并提示Invalid ISA. Supported: $(ISAS)给用户</span><br><span class="hljs-variable">$(<span class="hljs-built_in">error</span> Invalid ISA. Supported: <span class="hljs-variable">$(ISAS)</span>)</span><br><span class="hljs-keyword">endif</span><br><span class="hljs-keyword">endif</span><br><br>INC_DIR += ./<span class="hljs-keyword">include</span> ./src/isa/<span class="hljs-variable">$(ISA)</span>/<span class="hljs-keyword">include</span><br>BUILD_DIR ?= ./build<br><br><span class="hljs-comment">#如果SHARE的值不为空就为true</span><br><span class="hljs-keyword">ifdef</span> SHARE<br>SO = -so<br><span class="hljs-comment"># -D_SHARE:-Dmacro=defn  相当于 C 语言中的 #define macro=defn</span><br><span class="hljs-comment"># -fPIC:生成位置无关代码</span><br>SO_CFLAGS = -fPIC -D_SHARE=1<br>SO_LDLAGS = -shared -fPIC<br><span class="hljs-keyword">endif</span><br><br>OBJ_DIR ?= <span class="hljs-variable">$(BUILD_DIR)</span>/obj-<span class="hljs-variable">$(ISA)</span><span class="hljs-variable">$(SO)</span><br>BINARY ?= <span class="hljs-variable">$(BUILD_DIR)</span>/<span class="hljs-variable">$(ISA)</span>-<span class="hljs-variable">$(NAME)</span><span class="hljs-variable">$(SO)</span><br><br><span class="hljs-comment">#类似C中的#include</span><br><span class="hljs-keyword">include</span> Makefile.git<br><span class="hljs-comment">#设置默认目标，如果没有在命令行指定目标则使用默认目标</span><br>.DEFAULT_GOAL = app<br><br><span class="hljs-comment"># Compilation flags</span><br>CC = gcc<br>LD = gcc<br><span class="hljs-comment">#$(addprefix,prefix,names...):The value of prefix is prepended to the front of </span><br><span class="hljs-comment"># each individual name and the resulting larger names are concatenated with single</span><br><span class="hljs-comment"># spaces between them </span><br>INCLUDES  = <span class="hljs-variable">$(<span class="hljs-built_in">addprefix</span> -I, <span class="hljs-variable">$(INC_DIR)</span>)</span><br><span class="hljs-comment"># -O2:允许编译器对代码进行优化,级别为2</span><br><span class="hljs-comment"># -MMD:生成文件关联信息但是忽略由#include&lt;file&gt;造成的依赖关系并且写入filename.d文件中，可以去看看-M</span><br><span class="hljs-comment"># -Wall:开启所有警告信息</span><br><span class="hljs-comment"># -Werror: every warning is treated as an error</span><br><span class="hljs-comment"># -ggdb3:(搞不懂是什么意思)produces extra debugging information, for example: including macro definitions.</span><br><span class="hljs-comment"># -D__ISA__:-Dmacro=defn  相当于 C 语言中的 #define macro=defn</span><br><span class="hljs-comment"># -fomit-frame-pointer :(这个参数有关于栈指针)看这篇文章:https://stackoverflow.com/questions/14666665/trying-to-understand-gcc-option-fomit-frame-pointer</span><br>CFLAGS   += -O2 -MMD -Wall -Werror -ggdb3 <span class="hljs-variable">$(INCLUDES)</span> -D__ISA__=<span class="hljs-variable">$(ISA)</span> -fomit-frame-pointer<br><br>QEMU_DIFF_PATH = <span class="hljs-variable">$(NEMU_HOME)</span>/tools/qemu-diff<br>QEMU_SO = <span class="hljs-variable">$(QEMU_DIFF_PATH)</span>/build/<span class="hljs-variable">$(ISA)</span>-qemu-so<br><br><span class="hljs-comment">#执行make指令$(MAkE)是特殊变量 -C用来指定目录</span><br><span class="hljs-variable">$(QEMU_SO)</span>:<br>	<span class="hljs-variable">$(MAKE)</span> -C <span class="hljs-variable">$(QEMU_DIFF_PATH)</span><br><br><span class="hljs-comment"># Files to be compiled</span><br><span class="hljs-comment"># -v 表示不匹配“isa"</span><br>SRCS = <span class="hljs-variable">$(<span class="hljs-built_in">shell</span> find src/ -name "*.c" | grep -v "isa")</span><br>SRCS += <span class="hljs-variable">$(<span class="hljs-built_in">shell</span> find src/isa/<span class="hljs-variable">$(ISA)</span> -name "*.c")</span><br><span class="hljs-comment">#$(var:a=b)，是将 var 变量中每一个单词后面的 a 替换为 b</span><br>OBJS = $(SRCS:src/%.c=<span class="hljs-variable">$(OBJ_DIR)</span>/%.o)<br><br><span class="hljs-comment"># Compilation patterns</span><br><span class="hljs-comment">#@表示不显示执行的指令</span><br><span class="hljs-comment">#$&lt;代表第一个依赖项</span><br><span class="hljs-comment">#$(dir NAMES...):取出每个文件名的目录部分</span><br><span class="hljs-variable">$(OBJ_DIR)</span>/%.o: src/%.c<br>	@echo + CC <span class="hljs-variable">$&lt;</span><br>	@mkdir -p <span class="hljs-variable">$(<span class="hljs-built_in">dir</span> <span class="hljs-variable">$@</span>)</span><br>	@<span class="hljs-variable">$(CC)</span> <span class="hljs-variable">$(CFLAGS)</span> <span class="hljs-variable">$(SO_CFLAGS)</span> -c -o <span class="hljs-variable">$@</span> <span class="hljs-variable">$&lt;</span><br><br><br><span class="hljs-comment">#看这篇文章https://blog.csdn.net/xiaozhi_su/article/details/4202779</span><br><span class="hljs-comment"># Depencies</span><br><span class="hljs-comment">#将OBJS中的文件后缀为.o的文件然后把后缀改为.d</span><br><span class="hljs-keyword">-include</span> $(OBJS:.o=.d)<br><br><span class="hljs-comment"># Some convenient rules</span><br><br><span class="hljs-meta"><span class="hljs-meta-keyword">.PHONY</span>: app run gdb clean run-env $(QEMU_SO)</span><br><span class="hljs-section">app: <span class="hljs-variable">$(BINARY)</span></span><br><br><span class="hljs-keyword">override</span> ARGS ?= -l <span class="hljs-variable">$(BUILD_DIR)</span>/nemu-log.txt<br><span class="hljs-keyword">override</span> ARGS += -d <span class="hljs-variable">$(QEMU_SO)</span><br><br><span class="hljs-comment"># Command to execute NEMU</span><br>IMG :=<br>NEMU_EXEC := <span class="hljs-variable">$(BINARY)</span> <span class="hljs-variable">$(ARGS)</span> <span class="hljs-variable">$(IMG)</span><br><br><span class="hljs-variable">$(BINARY)</span>: <span class="hljs-variable">$(OBJS)</span><br>	<span class="hljs-variable">$(<span class="hljs-built_in">call</span> git_commit, "compile")</span><br>	@echo + LD <span class="hljs-variable">$@</span><br>	@<span class="hljs-variable">$(LD)</span> -O2 -rdynamic <span class="hljs-variable">$(SO_LDLAGS)</span> -o <span class="hljs-variable">$@</span> <span class="hljs-variable">$^</span> -lSDL2 -lreadline -ldl<br><br><span class="hljs-section">run-env: <span class="hljs-variable">$(BINARY)</span> <span class="hljs-variable">$(QEMU_SO)</span></span><br><br><span class="hljs-section">run: run-env</span><br>	<span class="hljs-variable">$(<span class="hljs-built_in">call</span> git_commit, "run")</span><br>	<span class="hljs-variable">$(NEMU_EXEC)</span><br><br><span class="hljs-section">gdb: run-env</span><br>	<span class="hljs-variable">$(<span class="hljs-built_in">call</span> git_commit, "gdb")</span><br>	gdb -s <span class="hljs-variable">$(BINARY)</span> --args <span class="hljs-variable">$(NEMU_EXEC)</span><br><br><span class="hljs-section">clean:</span><br>	-rm -rf <span class="hljs-variable">$(BUILD_DIR)</span><br>	<span class="hljs-variable">$(MAKE)</span> -C tools/gen-expr clean<br>	<span class="hljs-variable">$(MAKE)</span> -C tools/qemu-diff clean<br><span class="hljs-section">count:</span><br>	@echo  <span class="hljs-string">"\e[1;32m"</span><br>	@echo <span class="hljs-string">"The .c and .h file total number of row equal to :"</span><br>	@find ./ -name <span class="hljs-string">"*.[ch]"</span> | xargs wc -l | awk 'END&#123;printf <span class="hljs-string">"%s\n"</span>,$$1&#125;'<br>	@echo <span class="hljs-string">"The .c and .h file (without blank line) total number of row equal to :"</span><br>	@find ./ -name <span class="hljs-string">"*.[ch]"</span> | xargs cat | grep -v '^\s*$$'| wc -l<br>	@echo <span class="hljs-string">"\e[0m"</span><br></code></pre></div></td></tr></table></figure>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/PA/">PA</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/PA/">PA</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" target="_blank" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2020/11/28/%E6%9C%89%E7%AC%A6%E5%8F%B7%E6%95%B0%E5%8F%B3%E7%A7%BB32%E4%BD%8D/">
+                        <span class="hidden-mobile">有符号数右移32位</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
+  </div>
+  
+
+  
+
+  
+</footer>
+
+<!-- SCRIPTS -->
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  
+    <script  src="/js/lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+      typing(title)
+      
+    })(window, document);
+  </script>
+
+
+
+  <script  src="/js/local-search.js" ></script>
+  <script>
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
+      }
+    })()
+  </script>
+
+
+
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/mermaid@8.8.3/dist/mermaid.min.js" ></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({"theme":"default"});
+    }
+  </script>
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+
+</body>
+</html>
