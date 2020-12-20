@@ -1,7 +1,7 @@
+
+
 <!DOCTYPE html>
-<html lang="zh-CN">
-
-
+<html lang="zh-CN" data-default-color-scheme=&#34;light&#34;>
 
 
 
@@ -13,34 +13,57 @@
         content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   
+  <meta name="theme-color" content="#2f4154">
   <meta name="description" content="">
   <meta name="author" content="Lexssama">
   <meta name="keywords" content="">
-  <title>process-switch-base-on-stack-switch ~ Lexssama&#39;s Blogs</title>
+  <title>process-switch-base-on-stack-switch - Lexssama&#39;s Blogs</title>
 
-  <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
-<link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
-<link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
-<link rel="stylesheet" href="/lib/github-markdown/github-markdown.min.css"  >
-
-<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" />
 
 
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4.0.0/github-markdown.min.css" />
+  <link  rel="stylesheet" href="/lib/hint/hint.min.css" />
 
-  <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css"  >
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10.4.0/styles/github-gist.min.css" />
+    
+  
 
-<link rel="stylesheet" href="/css/main.css"  >
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
+  
 
 
-  <link rel="stylesheet" href="/lib/fancybox/jquery.fancybox.min.css"  >
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
 
 
-<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="Lexssama's Blogs" type="application/atom+xml">
-</head>
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_kmeydafke9r.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"lexssama.github.io","root":"/","version":"1.8.6","typing":{"enable":true,"typeSpeed":70,"cursorChar":"_","loop":false},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"copy_btn":true,"image_zoom":{"enable":true},"lazyload":{"enable":true,"onlypost":false},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null}}};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 5.3.0"></head>
 
 
 <body>
-  <header style="height: 100vh;">
+  <header style="height: 70vh;">
     <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
   <div class="container">
     <a class="navbar-brand"
@@ -60,46 +83,72 @@
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/">首页</a>
-          </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                首页
+              </a>
+            </li>
+          
         
           
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/archives/">归档</a>
-          </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                归档
+              </a>
+            </li>
+          
         
           
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/categories/">分类</a>
-          </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                分类
+              </a>
+            </li>
+          
         
           
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/tags/">标签</a>
-          </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                标签
+              </a>
+            </li>
+          
         
           
           
           
           
-          <li class="nav-item">
-            <a class="nav-link" href="/about/">关于</a>
-          </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                关于
+              </a>
+            </li>
+          
         
         
           <li class="nav-item" id="search-btn">
-            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
-                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;</a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" href="javascript:">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
           </li>
         
       </ul>
@@ -107,58 +156,56 @@
   </div>
 </nav>
 
-    <div class="view intro-2" id="background" false
-         style="background: url('/img/wallhaven-g8lq5d.png')no-repeat center center;
+    <div class="banner intro-2" id="background" parallax=true
+         style="background: url('/img/wallhaven-j5l9gw.jpg') no-repeat center center;
            background-size: cover;">
       <div class="full-bg-img">
-        <div class="mask rgba-black-light flex-center">
-          <div class="container text-center white-text fadeInUp">
-            <span class="h2" id="subtitle">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="process-switch-base-on-stack-switch">
               
             </span>
 
             
-              <br>
-              
-                <p class="mt-3">
-                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
-                  星期日, 二月 16日 2020, 3:57 下午
-                </p>
-              
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2020-02-16 15:57" pubdate>
+        2020年2月16日 下午
+      </time>
+    </span>
+  
+</div>
 
-              <p>
-                
-                  
-                  &nbsp;<i class="far fa-chart-bar"></i>
-                  <span class="post-count">
-                    3.3k 字
-                  </span>&nbsp;
-                
+<div class="mt-1">
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-chart"></i>
+      4.3k 字
+    </span>
+  
 
-                
-                  
-                  &nbsp;<i class="far fa-clock"></i>
-                  <span class="post-count">
-                      17 分钟
-                  </span>&nbsp;
-                
+  
+    
+    <span class="post-meta mr-2">
+      <i class="iconfont icon-clock-fill"></i>
+      
+      
+      76
+       分钟
+    </span>
+  
 
-                
-                  <!-- 不蒜子统计文章PV -->
-                  
-                  &nbsp;<i class="far fa-eye" aria-hidden="true"></i>&nbsp;
-                  <span id="busuanzi_container_page_pv">
-                    <span id="busuanzi_value_page_pv"></span> 次
-                  </span>&nbsp;
-                
-              </p>
+  
+  
+</div>
+
             
           </div>
 
-          
-            <div class="scroll-down-bar">
-              <i class="fas fa-angle-down scroll-down-arrow"></i>
-            </div>
           
         </div>
       </div>
@@ -173,10 +220,14 @@
   <div class="row">
     <div class="d-none d-lg-block col-lg-2"></div>
     <div class="col-lg-8 nopadding-md">
-      <div class="py-5 z-depth-3" id="board">
-        <div class="post-content mx-auto" id="post">
-          <div class="markdown-body">
-            <h1 id="基于内核栈切换的进程切换"><a href="#基于内核栈切换的进程切换" class="headerlink" title="基于内核栈切换的进程切换"></a>基于内核栈切换的进程切换</h1><h2 id="实验目的"><a href="#实验目的" class="headerlink" title="实验目的"></a>实验目的</h2><ul>
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">process-switch-base-on-stack-switch</h1>
+            
+            <div class="markdown-body">
+              <h1 id="基于内核栈切换的进程切换"><a href="#基于内核栈切换的进程切换" class="headerlink" title="基于内核栈切换的进程切换"></a>基于内核栈切换的进程切换</h1><h2 id="实验目的"><a href="#实验目的" class="headerlink" title="实验目的"></a>实验目的</h2><ul>
 <li>深入理解进程和进程切换的概念；</li>
 <li>综合应用进程、CPU 管理、PCB、LDT、内核栈、内核态等知识解决实际问题；</li>
 <li>开始建立系统认识。</li>
@@ -196,8 +247,7 @@
 </ul>
 <h2 id="实验报告"><a href="#实验报告" class="headerlink" title="实验报告"></a>实验报告</h2><p>回答下面三个题：</p>
 <h4 id="问题-1"><a href="#问题-1" class="headerlink" title="问题 1"></a>问题 1</h4><p>针对下面的代码片段：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">movl tss,%ecx</span><br><span class="line">addl $4096,%ebx</span><br><span class="line">movl %ebx,ESP0(%ecx)</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight mel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs mel">movl tss,%ecx<br>addl $4096,%ebx<br>movl %ebx,ESP0(%ecx)<br></code></pre></td></tr></table></figure>
 <p>回答问题：</p>
 <ul>
 <li><p>（1）为什么要加 4096；</p>
@@ -208,12 +258,11 @@
 </li>
 </ul>
 <h4 id="问题-2"><a href="#问题-2" class="headerlink" title="问题 2"></a>问题 2</h4><p>针对代码片段：</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">*(--krnstack) = ebp;</span><br><span class="line">*(--krnstack) = ecx;</span><br><span class="line">*(--krnstack) = ebx;</span><br><span class="line">*(--krnstack) = <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs c">*(--krnstack) = ebp;<br>*(--krnstack) = ecx;<br>*(--krnstack) = ebx;<br>*(--krnstack) = <span class="hljs-number">0</span>;<br></code></pre></td></tr></table></figure>
 <p>回答问题：</p>
 <ul>
 <li><p>（1）子进程第一次执行时，eax=？为什么要等于这个数？哪里的工作让 eax 等于这样一个数？</p>
-<p>答：子进程第一次执行是eax =0;，为了让代码<code>if (!fork()) {....}</code>区分子进程和父进程。</p>
+<p>答：子进程第一次执行是eax =0;，为了让代码<code>if (!fork()) &#123;....&#125;</code>区分子进程和父进程。</p>
 </li>
 <li><p>（2）这段代码中的 ebx 和 ecx 来自哪里，是什么含义，为什么要通过这些代码将其写到子进程的内核栈中？</p>
 <p>答：这段代码中的ebx和ecx是栈切换执行switch_to时压入的值，我觉得是为了切换进程时保护现场而压入的，在fork创建新进程（子进程）时添加这些代码进新进程内核栈是为了模拟父进程的内核栈。</p>
@@ -242,7 +291,7 @@
 <p>At the same time a target TSS is found ,that is the TSS corresponding to the next process to be switched to, and the register image of TSS structure of next process  stored in CPU.</p>
 <p>In here  the execution site switching  is completed.</p>
 <p>as shown in the figure  blow:</p>
-<p><img src="/home/lexssama/blog/source/_posts/process-switch-base-on-stack-switch/wm.png" srcset="/img/loading.gif" alt=""></p>
+<p><img src="process-switch-base-on-stack-switch/wm.png" srcset="/img/loading.gif" alt=""></p>
 <p>Inter architecture provides the command ljmp to achieve the process switch .</p>
 <p>The specific working process is:</p>
 <ul>
@@ -254,12 +303,11 @@
 </ul>
 <p>all explain above  through one sentence execute  (ljmp segment selector : intra-segment offset).</p>
 <p>So switch_to (a instruction) base on TSS for process and thread switching is actually a ljmp instruction：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">#define switch_to(n) &#123;\</span><br><span class="line">struct &#123;long a,b;&#125; __tmp; \</span><br><span class="line">__asm__(&quot;cmpl %%ecx,current\n\t&quot; \	 </span><br><span class="line">	&quot;je 1f\n\t&quot; \</span><br><span class="line">	&quot;movw %%dx,%1\n\t&quot; \</span><br><span class="line">	&quot;xchgl %%ecx,current\n\t&quot; \</span><br><span class="line">	&quot;ljmp *%0\n\t&quot; \</span><br><span class="line">	&quot;cmpl %%ecx,last_task_used_math\n\t&quot; \</span><br><span class="line">	&quot;jne 1f\n\t&quot; \</span><br><span class="line">	&quot;clts\n&quot; \</span><br><span class="line">	&quot;1:&quot; \</span><br><span class="line">	::&quot;m&quot; (*&amp;__tmp.a),&quot;m&quot; (*&amp;__tmp.b), \</span><br><span class="line">	&quot;d&quot; (_TSS(n)),&quot;c&quot; ((long) task[n])); \</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">#define FIRST_TSS_ENTRY 4</span><br><span class="line"></span><br><span class="line">#define TSS(n) (((unsigned long) n) &lt;&lt; 4) + (FIRST_TSS_ENTRY &lt;&lt; 3))</span><br></pre></td></tr></table></figure>
-
-<pre><code>![图片描述信息](https://doc.shiyanlou.com/userid19614labid571time1424053507670/wm)</code></pre><p>Each process is divided into two part which correspond to TSS and LDT, respectively. </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs assembly">#define switch_to(n) &#123;\<br>struct &#123;long a,b;&#125; __tmp; \<br>__asm__(&quot;cmpl %%ecx,current\n\t&quot; \	 <br>	&quot;je 1f\n\t&quot; \<br>	&quot;movw %%dx,%1\n\t&quot; \<br>	&quot;xchgl %%ecx,current\n\t&quot; \<br>	&quot;ljmp *%0\n\t&quot; \<br>	&quot;cmpl %%ecx,last_task_used_math\n\t&quot; \<br>	&quot;jne 1f\n\t&quot; \<br>	&quot;clts\n&quot; \<br>	&quot;1:&quot; \<br>	::&quot;m&quot; (*&amp;__tmp.a),&quot;m&quot; (*&amp;__tmp.b), \<br>	&quot;d&quot; (_TSS(n)),&quot;c&quot; ((long) task[n])); \<br>&#125;<br><br>#define FIRST_TSS_ENTRY 4<br><br>#define TSS(n) (((unsigned long) n) &lt;&lt; 4) + (FIRST_TSS_ENTRY &lt;&lt; 3))<br></code></pre></td></tr></table></figure>
+<p>Each process is divided into two part which correspond to TSS and LDT, respectively. </p>
 <p>TSS and LDT are both 64-bit(8 bytes).</p>
-<p>so  _TSS(n) = n * 16 + 4 * 8 (bytes).</p>
-<p>*<em>ljmp instruction can be used in two ways, which are “ljmp $ segment selector, $ offset” and “ljmp * mem48” respectively. In here “ljmp *% 0” used the second way, “ljmp * mem48” mean jump to Logical address (48 bits) of the mem48 contain (mem48 also is an address), the hight 16 bits of 48 bits correspond to segment_selector, the low 32 bits of 48 bits correspond to offset. So ,the core of switch_to is ljmp 0 , n\</em>16+4*8  **</p>
+<p>so  _TSS(n) = n <em> 16 + 4 </em> 8 (bytes).</p>
+<p><strong>ljmp instruction can be used in two ways, which are “ljmp $ segment selector, $ offset” and “ljmp <em> mem48” respectively. In here “ljmp </em>% 0” used the second way, “ljmp <em> mem48” mean jump to Logical address (48 bits) of the mem48 contain (mem48 also is an address), the hight 16 bits of 48 bits correspond to segment_selector, the low 32 bits of 48 bits correspond to offset. So ,the core of switch_to is ljmp 0 , n\</em>16+4*8  </strong></p>
 <p><strong>!! it is worth out attention:</strong></p>
 <p>The ‘*‘ of the “ljmp <em>mem48” is different from ‘\</em>‘ of C language . The ‘*‘ of the “ljmp *mem48”  is mean indirect jump.</p>
 <h2 id="本次实验的内容"><a href="#本次实验的内容" class="headerlink" title="本次实验的内容"></a>本次实验的内容</h2><p>Although ，the task switching can be completed with one instruction, the execution time of the instruction is very long . It take almost 200 time cycles to complete the task switch using the ljmp instruction. if we want to increase the switching speed ,we can use the heap_stack switch instead of ljmp instruction.</p>
@@ -277,11 +325,9 @@
 <p> The kernel stack of the Linux 0.11 process and the PCB of process are stored on the same page of memory (a 4kB size page of memory).The PCB is located at the low address of this page of memory ,and the stack is located at the high address of this page of memory.</p>
 <p>In addition, since the PCB of the current process is pointed with a global variable “current”, we  need to tell new switch_to () function a pointer to the target process PCB and we need to tell new switch_to function LDT(next) instead of TSS (next). Just mean ,we don’t need TSS in each process now（we can delete code about TSS），but  also need LDT of  process.</p>
 <p>In summary ,the current schedule() function (in kernel/sched.c) needs to be slightly modified, that is the following code:</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ((*p)-&gt;state == TASK_RUNNING &amp;&amp; (*p)-&gt;counter &gt; c) </span><br><span class="line">    c = (*p)-&gt;counter, next = i; </span><br><span class="line"></span><br><span class="line"><span class="comment">//......</span></span><br><span class="line"></span><br><span class="line">switch_to(next);</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs C"><span class="hljs-keyword">if</span> ((*p)-&gt;state == TASK_RUNNING &amp;&amp; (*p)-&gt;counter &gt; c) <br>    c = (*p)-&gt;counter, next = i; <br><br><span class="hljs-comment">//......</span><br><br>switch_to(next);<br></code></pre></td></tr></table></figure>
 <p>modify:</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ((*p)-&gt;state == TASK_RUNNING &amp;&amp; (*p)-&gt;counter &gt; c) </span><br><span class="line">    c = (*p)-&gt;counter, next = i, pnext = *p;</span><br><span class="line"></span><br><span class="line"><span class="comment">//.......</span></span><br><span class="line"></span><br><span class="line">switch_to(pnext, LDT(next));</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs C"><span class="hljs-keyword">if</span> ((*p)-&gt;state == TASK_RUNNING &amp;&amp; (*p)-&gt;counter &gt; c) <br>    c = (*p)-&gt;counter, next = i, pnext = *p;<br><br><span class="hljs-comment">//.......</span><br><br>switch_to(pnext, _LDT(next)); <br></code></pre></td></tr></table></figure>
 <h3 id="Rewrite-switch-to"><a href="#Rewrite-switch-to" class="headerlink" title="Rewrite switch_to()"></a>Rewrite switch_to()</h3><p>Rewrite switch_to() function is the most important step in this experiment.</p>
 <p>This function, in turn, completes the following functions:</p>
 <ul>
@@ -289,128 +335,134 @@
 <li>second, we need to compare the parameter of stack about the next process’s PCB with the current process.</li>
 <li>third, we need in turn to complete PCB switch, rewrite kernel stack pointer of TSS, switch kernel stack, switch LDT and switch PC pointer (CS:EIP).</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">switch_to:</span><br><span class="line">    pushl %ebp</span><br><span class="line">    movl %esp,%ebp</span><br><span class="line">    pushl %ecx</span><br><span class="line">    pushl %ebx</span><br><span class="line">    pushl %eax</span><br><span class="line">    movl 8(%ebp),%ebx</span><br><span class="line">    cmpl %ebx,current</span><br><span class="line">    je 1f</span><br><span class="line">! 切换PCB</span><br><span class="line">    ! ...</span><br><span class="line">! TSS中的内核栈指针的重写</span><br><span class="line">    ! ...</span><br><span class="line">! 切换内核栈</span><br><span class="line">    ! ...</span><br><span class="line">! 切换LDT</span><br><span class="line">    ! ...</span><br><span class="line">    movl $0x17,%ecx</span><br><span class="line">    mov %cx,%fs</span><br><span class="line">! 和后面的 clts 配合来处理协处理器，由于和主题关系不大，此处不做论述</span><br><span class="line">    cmpl %eax,last_task_used_math </span><br><span class="line">    jne 1f</span><br><span class="line">    clts</span><br><span class="line"></span><br><span class="line">1:    popl %eax</span><br><span class="line">    popl %ebx</span><br><span class="line">    popl %ecx</span><br><span class="line">    popl %ebp</span><br><span class="line">ret</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><code class="hljs assembly">switch_to:<br>    pushl %ebp<br>    movl %esp,%ebp<br>    pushl %ecx<br>    pushl %ebx<br>    pushl %eax<br>    movl 8(%ebp),%ebx<br>    cmpl %ebx,current<br>    je 1f<br>! 切换PCB<br>    ! ...<br>! TSS中的内核栈指针的重写<br>    ! ...<br>! 切换内核栈<br>    ! ...<br>! 切换LDT<br>    ! ...<br>    movl $0x17,%ecx<br>    mov %cx,%fs<br>! 和后面的 clts 配合来处理协处理器，由于和主题关系不大，此处不做论述<br>    cmpl %eax,last_task_used_math <br>    jne 1f<br>    clts<br><br>1:    popl %eax<br>    popl %ebx<br>    popl %ecx<br>    popl %ebp<br>ret<br></code></pre></td></tr></table></figure>
 <p><strong>Switch PCB pointer</strong></p>
 <p>ebx register is next process’s PCB pointer.</p>
 <p>The function of xchgl instruction  is to exchange contents between  two register.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">movl %ebx,%eax</span><br><span class="line">xchgl %eax,current</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs assembly">movl %ebx,%eax<br>xchgl %eax,current	<br></code></pre></td></tr></table></figure>
 <p><strong>Rewrite pointer of kernel stack stored in  TSS</strong></p>
 <p>The current TSS is different from TSS before. Before TSS is a global array but current TSS is a global variable. We need to redefine TSS pointer through two sentences.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">#define ESP0 &#x3D;4</span><br><span class="line">struct tss_struct *tss &#x3D; (init_task.task.tss);</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs cpp"><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> ESP0 =4</span><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">tss_struct</span> *<span class="hljs-title">tss</span> =</span> (init_task.task.tss);<br></code></pre></td></tr></table></figure>
 <p>current TSS pointer <code>tss</code> similar current process pointer <code>current</code>.</p>
 <p>This has already discussed in detail before. In the system interrupt ,we need to find and determine the location of the kernel stack. and push the five register SS : ESP, CS: EIP and EFLAGS in user mode onto kernel stack. This is the key bridge between the user mode (user stack) and kernel mode (kernel stack). The key of find kernel stack position is use the TR register point to current TSS.</p>
 <p>Although we don’t need to use TSS for switch process in now.  We still stay the intel interrupt system. So we still need it that is we define global variable <code>tss</code>. All processes share that variable.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">movl tss,%ecx</span><br><span class="line">addl $4096,%ebx</span><br><span class="line">movl %ebx,ESP0(%ecx)</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs assembly">movl tss,%ecx<br>addl $4096,%ebx<br>movl %ebx,ESP0(%ecx)<br></code></pre></td></tr></table></figure>
 <p>ESP0 = 4 ,the ecx + ESP0 equal to position of kernel stack pointer in TSS (esp0).</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">tss_struct</span> &#123;</span></span><br><span class="line">	<span class="keyword">long</span>	back_link;	<span class="comment">/* 16 high bits zero */</span></span><br><span class="line">	<span class="keyword">long</span>	esp0;</span><br><span class="line">	<span class="keyword">long</span>	ss0;		<span class="comment">/* 16 high bits zero */</span></span><br><span class="line">	<span class="keyword">long</span>	esp1;</span><br><span class="line">	<span class="keyword">long</span>	ss1;		<span class="comment">/* 16 high bits zero */</span></span><br><span class="line">	<span class="keyword">long</span>	esp2;</span><br><span class="line">	<span class="keyword">long</span>	ss2;		<span class="comment">/* 16 high bits zero */</span></span><br><span class="line">	<span class="keyword">long</span>	cr3;</span><br><span class="line">	<span class="keyword">long</span>	eip;</span><br><span class="line">	<span class="keyword">long</span>	eflags;</span><br><span class="line">	<span class="keyword">long</span>	eax,ecx,edx,ebx;</span><br><span class="line">	<span class="keyword">long</span>	esp;</span><br><span class="line">	<span class="keyword">long</span>	ebp;</span><br><span class="line">	<span class="keyword">long</span>	esi;</span><br><span class="line">	<span class="keyword">long</span>	edi;</span><br><span class="line">	<span class="keyword">long</span>	es;		<span class="comment">/* 16 high bits zero */</span></span><br><span class="line">	<span class="keyword">long</span>	cs;		<span class="comment">/* 16 high bits zero */</span></span><br><span class="line">	<span class="keyword">long</span>	ss;		<span class="comment">/* 16 high bits zero */</span></span><br><span class="line">	<span class="keyword">long</span>	ds;		<span class="comment">/* 16 high bits zero */</span></span><br><span class="line">	<span class="keyword">long</span>	fs;		<span class="comment">/* 16 high bits zero */</span></span><br><span class="line">	<span class="keyword">long</span>	gs;		<span class="comment">/* 16 high bits zero */</span></span><br><span class="line">	<span class="keyword">long</span>	ldt;		<span class="comment">/* 16 high bits zero */</span></span><br><span class="line">	<span class="keyword">long</span>	trace_bitmap;	<span class="comment">/* bits: trace 0, bitmap 16-31 */</span></span><br><span class="line">	<span class="class"><span class="keyword">struct</span> <span class="title">i387_struct</span> <span class="title">i387</span>;</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs C"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">tss_struct</span> &#123;</span><br>	<span class="hljs-keyword">long</span>	back_link;	<span class="hljs-comment">/* 16 high bits zero */</span><br>	<span class="hljs-keyword">long</span>	esp0;<br>	<span class="hljs-keyword">long</span>	ss0;		<span class="hljs-comment">/* 16 high bits zero */</span><br>	<span class="hljs-keyword">long</span>	esp1;<br>	<span class="hljs-keyword">long</span>	ss1;		<span class="hljs-comment">/* 16 high bits zero */</span><br>	<span class="hljs-keyword">long</span>	esp2;<br>	<span class="hljs-keyword">long</span>	ss2;		<span class="hljs-comment">/* 16 high bits zero */</span><br>	<span class="hljs-keyword">long</span>	cr3;<br>	<span class="hljs-keyword">long</span>	eip;<br>	<span class="hljs-keyword">long</span>	eflags;<br>	<span class="hljs-keyword">long</span>	eax,ecx,edx,ebx;<br>	<span class="hljs-keyword">long</span>	esp;<br>	<span class="hljs-keyword">long</span>	ebp;<br>	<span class="hljs-keyword">long</span>	esi;<br>	<span class="hljs-keyword">long</span>	edi;<br>	<span class="hljs-keyword">long</span>	es;		<span class="hljs-comment">/* 16 high bits zero */</span><br>	<span class="hljs-keyword">long</span>	cs;		<span class="hljs-comment">/* 16 high bits zero */</span><br>	<span class="hljs-keyword">long</span>	ss;		<span class="hljs-comment">/* 16 high bits zero */</span><br>	<span class="hljs-keyword">long</span>	ds;		<span class="hljs-comment">/* 16 high bits zero */</span><br>	<span class="hljs-keyword">long</span>	fs;		<span class="hljs-comment">/* 16 high bits zero */</span><br>	<span class="hljs-keyword">long</span>	gs;		<span class="hljs-comment">/* 16 high bits zero */</span><br>	<span class="hljs-keyword">long</span>	ldt;		<span class="hljs-comment">/* 16 high bits zero */</span><br>	<span class="hljs-keyword">long</span>	trace_bitmap;	<span class="hljs-comment">/* bits: trace 0, bitmap 16-31 */</span><br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">i387_struct</span> <span class="hljs-title">i387</span>;</span><br>&#125;;<br></code></pre></td></tr></table></figure>
 <p><strong>switch kernel stack :</strong></p>
 <p>It’s also simple to complete the kernel stack switch. we just need to store value of esp register of the current process  onto the current PCB , and take corresponding esp value of next PCB out and put it into esp register.</p>
 <p>since Linux -0.11  didn’t define the variable of kernel stack pointer in PCB(task_struct). so we need to add a variable <code>kernelstack</code> to Linux-0.11 PCB, we still need define another variable <code>KERNEL_STACK = 12</code>  for determine variable of  <code>kernelstack</code> position in PCB.</p>
 <p><strong>Why KERNEL_STACK equal to 12 ?</strong></p>
 <p>because the kernel code have many  assembly hardcodes about manipulating this structure, so,if we add the variable <code>kernelstack</code> in other position, we need to modify kernel code in many difference place. </p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">KERNEL_STACK = <span class="number">12</span></span><br><span class="line">movl %esp,KERNEL_STACK(%eax)	! 保存上一个进程的栈顶指针</span><br><span class="line">! 再取一下 ebx，因为前面修改过 ebx 的值,此时eax的值等于上一个进程的PCB指针</span><br><span class="line">movl <span class="number">8</span>(%ebp),%ebx	</span><br><span class="line">movl KERNEL_STACK(%ebx),%esp	！取下个进程的栈顶指针放入esp</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs C">KERNEL_STACK = <span class="hljs-number">12</span><br>movl %esp,KERNEL_STACK(%eax)	! 保存上一个进程的栈顶指针<br>! 再取一下 ebx，因为前面修改过 ebx 的值,此时eax的值等于上一个进程的PCB指针<br>movl <span class="hljs-number">8</span>(%ebp),%ebx	<br>movl KERNEL_STACK(%ebx),%esp	！取下个进程的栈顶指针放入esp<br></code></pre></td></tr></table></figure>
 <p>task_struct:</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在 include/linux/sched.h 中</span></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">task_struct</span> &#123;</span></span><br><span class="line">    <span class="keyword">long</span> state;</span><br><span class="line">    <span class="keyword">long</span> counter;</span><br><span class="line">    <span class="keyword">long</span> priority;</span><br><span class="line">    <span class="keyword">long</span> kernelstack;</span><br><span class="line"><span class="comment">//......</span></span><br></pre></td></tr></table></figure>
-
-<p>because we modify the PCB structure,  we also need to modify initialization code of 0 process PCB structure .Modify <code>#define INIT_TASK { 0,15,15, 0,{ { },},0,...</code>  to <code>#define INIT_TASK { 0,15,15,PAGE_SIZE+(long)&amp;init_task, 0,{ { },},0,...</code></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs C"><span class="hljs-comment">// 在 include/linux/sched.h 中</span><br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">task_struct</span> &#123;</span><br>    <span class="hljs-keyword">long</span> state;<br>    <span class="hljs-keyword">long</span> counter;<br>    <span class="hljs-keyword">long</span> priority;<br>    <span class="hljs-keyword">long</span> kernelstack;<br><span class="hljs-comment">//......</span><br></code></pre></td></tr></table></figure>
+<p>because we modify the PCB structure,  we also need to modify initialization code of 0 process PCB structure .Modify <code>#define INIT_TASK &#123; 0,15,15, 0,&#123; &#123; &#125;,&#125;,0,...</code>  to <code>#define INIT_TASK &#123; 0,15,15,PAGE_SIZE+(long)&amp;init_task, 0,&#123; &#123; &#125;,&#125;,0,...</code></p>
 <p><strong>switch LDT</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">movl 12(%ebp),%ecx</span><br><span class="line">lldt %cx</span><br><span class="line">!上面使改LDT代码</span><br><span class="line">movl $0x17,%ecx</span><br><span class="line">mov %cx,%fs</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs assembly">movl 12(%ebp),%ecx<br>lldt %cx<br>!上面使改LDT代码<br>movl $0x17,%ecx<br>mov %cx,%fs<br></code></pre></td></tr></table></figure>
 <p>Why we have to add two code <code>movl $0x17,%ecx</code> <code>mov %cx,%fs</code> behind that code of switch LDT.</p>
 <p>because we need to change the segment base address and segment length limit in the hidden register about fs.</p>
 <p>Examlpe with CS. The hidden register for increase CPU processing speed.</p>
-<p>![](/home/lexssama/blog/source/_posts/process-switch-base-on-stack-switch/wm (1).png)</p>
+<p><img src="process-switch-base-on-stack-switch/wm1.png" srcset="/img/loading.gif" alt=""></p>
 <p><strong>switch PC （switch to next process）</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">1:    popl %eax</span><br><span class="line">    popl %ebx</span><br><span class="line">    popl %ecx</span><br><span class="line">    popl %ebp</span><br><span class="line">ret</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs assembly">1:    popl %eax<br>    popl %ebx<br>    popl %ecx<br>    popl %ebp<br>ret<br></code></pre></td></tr></table></figure>
 <p><strong>kernel stack  now</strong></p>
 <p><img src="https://img-blog.csdnimg.cn/20190819230403925.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80MTc2MTQ3OA==,size_16,color_FFFFFF,t_70" srcset="/img/loading.gif" alt=""></p>
-<p>Execute those codes to turn to the next process. Because we have been changed the kernel stack before. we <code>pop  (eax ,ebx,ecx,ebp)</code> is register of next process.   ret instruction equal to <code>pop IP</code>.So we execute <code>ret</code> turn to schedule() function tail of next process. Now ! we completed stack switch perfectly.</p>
+<p>Execute those codes to turn to the next process,if it isn’t come here through code <code>je 1f</code>. Because we have been changed the kernel stack before. we <code>pop  (eax ,ebx,ecx,ebp)</code> is register of next process.   ret instruction equal to <code>pop IP</code>.So we execute <code>ret</code> turn to schedule() function tail of next process. Now ! we completed the stack switch perfectly.</p>
 <h2 id="modify-fork"><a href="#modify-fork" class="headerlink" title="modify fork()"></a>modify fork()</h2><p><strong>Why we need to modify fork() function ?</strong></p>
-<p>*<em>Because, we need to simulate the parent process’s kernel stack for the newly created child process. *</em></p>
+<p><strong>Because, we need to simulate the parent process’s kernel stack for the newly created child process. </strong></p>
 <p>Now, we need to modify the fork() function. it is to associate the process’s user stack, user program to its kernel stack with SS: ESP, CS: IP, which is pushed in the kernel stack.</p>
 <p>In addition, since fork() function-core is let the child process to use code, data, and stack of the parent process . the fork core has not changed, although we use the stack switching.</p>
-<p><img src="https://doc.shiyanlou.com/userid19614labid571time1424053880667/wm" srcset="/img/loading.gif" alt="图片描述信息"></p>
+<p><img src="process-switch-base-on-stack-switch/wm2.png" srcset="/img/loading.gif" alt=""></p>
 <p>Don’t hard to imagine. modify fork which  mean  initialize child process’s kernel stack. In <code>copy_process ()</code>as the core code of <code>fork ()</code>, it used to apply a page of memory as process PCB. The kernel stack address position equal pointer p position add the one page of memory size.  so the code <code>krnstack = (*long)(PAGE_SIZE + (long)p)</code> can find the child process kernel stack position. next step is to initialize the content of krnstack pointer .</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">long</span> *krnstack;</span><br><span class="line">p = (struct task_struct *) get_free_page();</span><br><span class="line">krnstack = (<span class="keyword">long</span>)(PAGE_SIZE +(<span class="keyword">long</span>)p);</span><br><span class="line"> *(--krnstack) = ss &amp; <span class="number">0xffff</span>;</span><br><span class="line"> *(--krnstack) = esp;</span><br><span class="line"> *(--krnstack) = eflags;</span><br><span class="line"> *(--krnstack) = cs &amp; <span class="number">0xffff</span>;</span><br><span class="line"> *(--krnstack) = eip;</span><br><span class="line"> *(--krnstack) = ds &amp; <span class="number">0xffff</span>;</span><br><span class="line"> *(--krnstack) = es &amp; <span class="number">0xffff</span>;</span><br><span class="line"> *(--krnstack) = fs &amp; <span class="number">0xffff</span>;</span><br><span class="line"> *(--krnstack) = gs &amp; <span class="number">0xffff</span>;</span><br><span class="line"> *(--krnstack) = esi;</span><br><span class="line"> *(--krnstack) = edi;</span><br><span class="line"> *(--krnstack) = edx;</span><br><span class="line"> *(--krnstack) = (<span class="keyword">long</span>)first_return_from_kernel;</span><br><span class="line"> *(--krnstack) = ebp;</span><br><span class="line"> *(--krnstack) = ecx;</span><br><span class="line"> *(--krnstack) = ebx;</span><br><span class="line"> *(--krnstack) = <span class="number">0</span>;</span><br><span class="line"> p-&gt;kernelstack = krnstack;</span><br><span class="line"> ......</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><code class="hljs C"><span class="hljs-comment">/*modify in fork()*/</span><br><span class="hljs-keyword">long</span> *krnstack;<br>p = (struct task_struct *) get_free_page();<br>krnstack = (<span class="hljs-keyword">long</span>)(PAGE_SIZE +(<span class="hljs-keyword">long</span>)p);<br> *(--krnstack) = ss &amp; <span class="hljs-number">0xffff</span>;<br> *(--krnstack) = esp;<br> *(--krnstack) = eflags;<br> *(--krnstack) = cs &amp; <span class="hljs-number">0xffff</span>;<br> *(--krnstack) = eip;<br> *(--krnstack) = ds &amp; <span class="hljs-number">0xffff</span>;<br> *(--krnstack) = es &amp; <span class="hljs-number">0xffff</span>;<br> *(--krnstack) = fs &amp; <span class="hljs-number">0xffff</span>;<br> *(--krnstack) = gs &amp; <span class="hljs-number">0xffff</span>;<br> *(--krnstack) = esi;<br> *(--krnstack) = edi;<br> *(--krnstack) = edx;<br> *(--krnstack) = (<span class="hljs-keyword">long</span>)first_return_from_kernel;<br> *(--krnstack) = ebp;<br> *(--krnstack) = ecx;<br> *(--krnstack) = ebx;<br> *(--krnstack) = <span class="hljs-number">0</span>;<br> p-&gt;kernelstack = krnstack;<br> ......<br><br></code></pre></td></tr></table></figure>
 <p>Those code for simulate parent kernel stack for child process! </p>
 <p>Make a attention !</p>
-<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">*(--krnstack) = (<span class="keyword">long</span>)first_return_from_kernel;</span><br><span class="line">*(--krnstack) = <span class="number">0</span>;</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs c">*(--krnstack) = (<span class="hljs-keyword">long</span>)first_return_from_kernel;<br>*(--krnstack) = <span class="hljs-number">0</span>;<br></code></pre></td></tr></table></figure>
 <p>We need to code a first_return_from_kernel as a mark! If we return to address first_return_from_kernel. We need to execute those code following.</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">popl %edx</span><br><span class="line">popl %edi</span><br><span class="line">popl %esi</span><br><span class="line">pop %gs</span><br><span class="line">pop %fs</span><br><span class="line">pop %es</span><br><span class="line">pop %ds</span><br><span class="line">iret</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><code class="hljs assembly">&#x2F;*modify in system_call.s*&#x2F;<br>.align 2<br>first_return_from_kernel:<br>popl %edx<br>popl %edi<br>popl %esi<br>pop %gs<br>pop %fs<br>pop %es<br>pop %ds<br>iret<br></code></pre></td></tr></table></figure>
 <p>instruction <code>iret</code> equal to </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">pop eip</span><br><span class="line">pop cs</span><br><span class="line">pop eflags</span><br><span class="line">pop esp</span><br><span class="line">pop ss</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs assembly">pop eip<br>pop cs<br>pop eflags<br>pop esp<br>pop ss<br></code></pre></td></tr></table></figure>
 <p> instruction <code>*(--krnstack) = 0;</code>  Means eax =0 for distinguish parent process and child process.</p>
+<p><strong>In the end , don’t forget add the two code following to corresponding .c file </strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs C"><span class="hljs-function"><span class="hljs-keyword">extern</span> <span class="hljs-keyword">void</span> <span class="hljs-title">first_return_kernel</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span>; <span class="hljs-comment">// in the fork()</span><br><span class="hljs-function"><span class="hljs-keyword">extern</span> <span class="hljs-keyword">long</span> <span class="hljs-title">switch_to</span><span class="hljs-params">(struct task_struct *p , <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> _ldt)</span></span>; <span class="hljs-comment">// in the sched.c</span><br></code></pre></td></tr></table></figure>
+<h2 id="Modify-step"><a href="#Modify-step" class="headerlink" title="Modify step"></a>Modify step</h2><p><strong>Modify in system_call.s</strong></p>
+<p>Write the switch_to、first_return_from_kernel、etc in the system_call.s**</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><code class="hljs assembly"># Don&#39;t forget to change the hardcode.<br># Because I forget to change the hardcode , I stayed here so long time.<br>state	&#x3D; 0		# these are offsets into the task-struct.<br>counter	&#x3D; 4<br>priority &#x3D; 8<br>KERNEL_STACK &#x3D; 12<br>signal	&#x3D; 16<br>sigaction &#x3D; 20		# MUST be 16 (&#x3D;len of sigaction)<br>blocked &#x3D; (33*16+4)<br><br># Define as a global variable，can be used in other file with the keyword extern declaration.<br>.globl first_return_from_kernel, switch_to <br>.align 2<br>switch_to:<br>	pushl %ebp<br>	movl %esp, %ebp<br>	pushl %ecx<br>	pushl %ebx<br>	pushl %eax <br>	movl 8(%ebp), %ebx <br>	cmpl %ebx, current <br>	je 1f<br>	movl %ebx, %eax<br>	xchgl %eax, current # eax&#x3D;old_current, so current&#x3D;pnext<br>	movl tss, %ecx		# ecx &#x3D; tss of pnext, it also the new current<br>	addl $4096, %ebx	# ebx&#x3D;the top of current kernel stack(pnext)<br>	movl %ebx, 4(%ecx)<br>	movl %esp, KERNEL_STACK(%eax)<br>	movl 8(%ebp), %ebx <br>	movl KERNEL_STACK(%ebx), %esp<br>	movl 12(%ebp), %ecx<br>	lldt %cx<br>	movl $0x17, %ecx<br>	mov %cx, %fs<br>	cmpl %eax, last_task_used_math	<br>	jne 1f<br>	clts<br>1:  popl %eax<br>	popl %ebx<br>	popl %ecx<br>	popl %ebp<br>	ret<br>.align 2<br>first_return_from_kernel:<br>	popl %edx<br>	popl %edi<br>	popl %esi<br>	pop %gs<br>	pop %fs<br>	pop %es<br>	pop %ds<br>	iret<br></code></pre></td></tr></table></figure>
+<p><strong>Modify sched.h </strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><code class="hljs C"><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">task_struct</span> &#123;</span><br><span class="hljs-comment">/* these are hardcoded - don&#x27;t touch */</span><br>	<span class="hljs-keyword">long</span> state;	<span class="hljs-comment">/* -1 unrunnable, 0 runnable, &gt;0 stopped */</span><br>	<span class="hljs-keyword">long</span> counter;<br>	<span class="hljs-keyword">long</span> priority;<br>	<span class="hljs-keyword">long</span> kernelstack;<br>	<span class="hljs-keyword">long</span> signal;<br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">sigaction</span> <span class="hljs-title">sigaction</span>[32];</span><br>	<span class="hljs-keyword">long</span> blocked;	<span class="hljs-comment">/* bitmap of masked signals */</span><br>    ......<br>&#125;<br><span class="hljs-meta">#<span class="hljs-meta-keyword">define</span> INIT_TASK \</span><br><span class="hljs-comment">/* state etc */</span>	&#123; <span class="hljs-number">0</span>,<span class="hljs-number">15</span>,<span class="hljs-number">15</span>,PAGE_SIZE+(<span class="hljs-keyword">long</span>)&amp;init_task, \<br><span class="hljs-comment">/* signals */</span>	<span class="hljs-number">0</span>,&#123;&#123;&#125;,&#125;,<span class="hljs-number">0</span>, \<br>.................................<br><br> <span class="hljs-comment">/*注释掉</span><br><span class="hljs-comment">#define switch_to(n) &#123;\</span><br><span class="hljs-comment">struct &#123;long a,b;&#125; __tmp; \</span><br><span class="hljs-comment">__asm__(&quot;cmpl %%ecx,current\n\t&quot; \</span><br><span class="hljs-comment">	&quot;je 1f\n\t&quot; \</span><br><span class="hljs-comment">	&quot;movw %%dx,%1\n\t&quot; \</span><br><span class="hljs-comment">	&quot;xchgl %%ecx,current\n\t&quot; \</span><br><span class="hljs-comment">	&quot;ljmp *%0\n\t&quot; \</span><br><span class="hljs-comment">	&quot;cmpl %%ecx,last_task_used_math\n\t&quot; \</span><br><span class="hljs-comment">	&quot;jne 1f\n\t&quot; \</span><br><span class="hljs-comment">	&quot;clts\n&quot; \</span><br><span class="hljs-comment">	&quot;1:&quot; \</span><br><span class="hljs-comment">	::&quot;m&quot; (*&amp;__tmp.a),&quot;m&quot; (*&amp;__tmp.b), \</span><br><span class="hljs-comment">	&quot;d&quot; (_TSS(n)),&quot;c&quot; ((long) task[n])); \</span><br><span class="hljs-comment">&#125;</span><br><span class="hljs-comment">*/</span><br>  <br></code></pre></td></tr></table></figure>
+<p><strong>Modify sched.c</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><code class="hljs C"><span class="hljs-function"><span class="hljs-keyword">extern</span> <span class="hljs-keyword">long</span> <span class="hljs-title">switch_to</span><span class="hljs-params">(struct task_struct *p , <span class="hljs-keyword">unsigned</span> <span class="hljs-keyword">long</span> _ldt)</span></span>;<br><span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">tss_struct</span> * <span class="hljs-title">tss</span> =</span> &amp;(init_task.task.tss);<br><span class="hljs-function"><span class="hljs-keyword">void</span> <span class="hljs-title">schedule</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-keyword">int</span> i,next,c;<br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">task_struct</span> ** <span class="hljs-title">p</span>;</span><br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">task_struct</span> *<span class="hljs-title">pnext</span> =</span> &amp;(init_task.task);<br><br><span class="hljs-comment">/* check alarm, wake up any interruptible tasks that have got a signal */</span><br><br>	<span class="hljs-keyword">for</span>(p = &amp;LAST_TASK ; p &gt; &amp;FIRST_TASK ; --p)<br>		<span class="hljs-keyword">if</span> (*p) &#123;<br>			<span class="hljs-keyword">if</span> ((*p)-&gt;alarm &amp;&amp; (*p)-&gt;alarm &lt; jiffies) &#123;<br>					(*p)-&gt;signal |= (<span class="hljs-number">1</span>&lt;&lt;(SIGALRM<span class="hljs-number">-1</span>));<br>					(*p)-&gt;alarm = <span class="hljs-number">0</span>;<br>				&#125;<br>			<span class="hljs-keyword">if</span> (((*p)-&gt;signal &amp; ~(_BLOCKABLE &amp; (*p)-&gt;blocked)) &amp;&amp;<br>			(*p)-&gt;state==TASK_INTERRUPTIBLE)<br>				(*p)-&gt;state=TASK_RUNNING;<br>		&#125;<br><br><span class="hljs-comment">/* this is the scheduler proper: */</span><br><br>	<span class="hljs-keyword">while</span> (<span class="hljs-number">1</span>) &#123;<br>		c = <span class="hljs-number">-1</span>;<br>		next = <span class="hljs-number">0</span>;<br>		i = NR_TASKS;<br>		p = &amp;task[NR_TASKS];<br>		<span class="hljs-keyword">while</span> (--i) &#123;<br>			<span class="hljs-keyword">if</span> (!*--p)<br>				<span class="hljs-keyword">continue</span>;<br>			<span class="hljs-keyword">if</span> ((*p)-&gt;state == TASK_RUNNING &amp;&amp; (*p)-&gt;counter &gt; c)&#123;<br>				c = (*p)-&gt;counter, next = i;<br>				pnext = *p;<br>			&#125;<br>		&#125;<br>		<span class="hljs-keyword">if</span> (c) <span class="hljs-keyword">break</span>;<br>		<span class="hljs-keyword">for</span>(p = &amp;LAST_TASK ; p &gt; &amp;FIRST_TASK ; --p)<br>			<span class="hljs-keyword">if</span> (*p)<br>				(*p)-&gt;counter = ((*p)-&gt;counter &gt;&gt; <span class="hljs-number">1</span>) +<br>						(*p)-&gt;priority;<br>	&#125;<br>	switch_to(pnext,_LDT(next));<br>&#125;<br></code></pre></td></tr></table></figure>
+<p><strong>Modify fork()</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><code class="hljs C"><span class="hljs-function"><span class="hljs-keyword">extern</span> <span class="hljs-keyword">void</span> <span class="hljs-title">first_return_kernel</span><span class="hljs-params">(<span class="hljs-keyword">void</span>)</span></span>;  <br><br><span class="hljs-function"><span class="hljs-keyword">int</span> <span class="hljs-title">copy_process</span><span class="hljs-params">(<span class="hljs-keyword">int</span> nr,<span class="hljs-keyword">long</span> ebp,<span class="hljs-keyword">long</span> edi,<span class="hljs-keyword">long</span> esi,<span class="hljs-keyword">long</span> gs,<span class="hljs-keyword">long</span> none,</span></span><br><span class="hljs-function"><span class="hljs-params">		<span class="hljs-keyword">long</span> ebx,<span class="hljs-keyword">long</span> ecx,<span class="hljs-keyword">long</span> edx,</span></span><br><span class="hljs-function"><span class="hljs-params">		<span class="hljs-keyword">long</span> fs,<span class="hljs-keyword">long</span> es,<span class="hljs-keyword">long</span> ds,</span></span><br><span class="hljs-function"><span class="hljs-params">		<span class="hljs-keyword">long</span> eip,<span class="hljs-keyword">long</span> cs,<span class="hljs-keyword">long</span> eflags,<span class="hljs-keyword">long</span> esp,<span class="hljs-keyword">long</span> ss)</span></span><br><span class="hljs-function"></span>&#123;<br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">task_struct</span> *<span class="hljs-title">p</span>;</span><br>	<span class="hljs-keyword">int</span> i;<br>	<span class="hljs-class"><span class="hljs-keyword">struct</span> <span class="hljs-title">file</span> *<span class="hljs-title">f</span>;</span><br><br>	p = (struct task_struct *) get_free_page();<br>	<span class="hljs-keyword">if</span> (!p)<br>		<span class="hljs-keyword">return</span> -EAGAIN;<br>	task[nr] = p;<br>	*p = *current;	<span class="hljs-comment">/* NOTE! this doesn&#x27;t copy the supervisor stack */</span><br>	p-&gt;state = TASK_UNINTERRUPTIBLE;<br>	p-&gt;pid = last_pid;<br>	p-&gt;father = current-&gt;pid;<br>	p-&gt;counter = p-&gt;priority;<br>	<span class="hljs-keyword">long</span> * krnstack ;<br>	krnstack = (<span class="hljs-keyword">long</span> *) (PAGE_SIZE + (<span class="hljs-keyword">long</span>) p);<br>    *(--krnstack) = ss &amp; <span class="hljs-number">0xffff</span>;<br>    *(--krnstack) = esp;<br>    *(--krnstack) = eflags;<br>    *(--krnstack) = cs &amp; <span class="hljs-number">0xffff</span>;<br>    *(--krnstack) = eip;<br> *(--krnstack) = ds &amp; <span class="hljs-number">0xffff</span>; <br>   *(--krnstack) = es &amp; <span class="hljs-number">0xffff</span>; <br>   *(--krnstack) = fs &amp; <span class="hljs-number">0xffff</span>; <br> *(--krnstack) = gs &amp; <span class="hljs-number">0xffff</span>;<br>  *(--krnstack) = esi; <br> *(--krnstack) = edi; <br>    *(--krnstack) = edx;<br>	*(--krnstack) =(<span class="hljs-keyword">long</span>) first_return_kernel;<br>    *(--krnstack) = ebp;<br>    *(--krnstack) = ecx;<br>    *(--krnstack) = ebx;<br>    *(--krnstack) = <span class="hljs-number">0</span>;<br>	p-&gt;kernelstack = krnstack;<br>	p-&gt;signal = <span class="hljs-number">0</span>;<br>	p-&gt;alarm = <span class="hljs-number">0</span>;<br>	p-&gt;leader = <span class="hljs-number">0</span>;		<span class="hljs-comment">/* process leadership doesn&#x27;t inherit */</span><br>	p-&gt;utime = p-&gt;stime = <span class="hljs-number">0</span>;<br>	p-&gt;cutime = p-&gt;cstime = <span class="hljs-number">0</span>;<br>	p-&gt;start_time = jiffies;<br>	p-&gt;tss.back_link = <span class="hljs-number">0</span>;<br>	p-&gt;tss.esp0 = PAGE_SIZE + (<span class="hljs-keyword">long</span>) p;<br>	p-&gt;tss.ss0 = <span class="hljs-number">0x10</span>;<br>	p-&gt;tss.eip = eip;<br>	p-&gt;tss.eflags = eflags;<br>	p-&gt;tss.eax = <span class="hljs-number">0</span>;<br>	p-&gt;tss.ecx = ecx;<br>	p-&gt;tss.edx = edx;<br>	p-&gt;tss.ebx = ebx;<br>	p-&gt;tss.esp = esp;<br>	p-&gt;tss.ebp = ebp;<br>	p-&gt;tss.esi = esi;<br>	p-&gt;tss.edi = edi;<br>	p-&gt;tss.es = es &amp; <span class="hljs-number">0xffff</span>;<br>	p-&gt;tss.cs = cs &amp; <span class="hljs-number">0xffff</span>;<br>	p-&gt;tss.ss = ss &amp; <span class="hljs-number">0xffff</span>;<br>	p-&gt;tss.ds = ds &amp; <span class="hljs-number">0xffff</span>;<br>	p-&gt;tss.fs = fs &amp; <span class="hljs-number">0xffff</span>;<br>	p-&gt;tss.gs = gs &amp; <span class="hljs-number">0xffff</span>;<br>	p-&gt;tss.ldt = _LDT(nr);<br>	p-&gt;tss.trace_bitmap = <span class="hljs-number">0x80000000</span>;<br>	<span class="hljs-keyword">if</span> (last_task_used_math == current)<br>		__asm__(<span class="hljs-string">&quot;clts ; fnsave %0&quot;</span>::<span class="hljs-string">&quot;m&quot;</span> (p-&gt;tss.i387));<br>	<span class="hljs-keyword">if</span> (copy_mem(nr,p)) &#123;<br>		task[nr] = <span class="hljs-literal">NULL</span>;<br>		free_page((<span class="hljs-keyword">long</span>) p);<br>		<span class="hljs-keyword">return</span> -EAGAIN;<br>	&#125;<br>	<span class="hljs-keyword">for</span> (i=<span class="hljs-number">0</span>; i&lt;NR_OPEN;i++)<br>		<span class="hljs-keyword">if</span> ((f=p-&gt;filp[i]))<br>			f-&gt;f_count++;<br>	<span class="hljs-keyword">if</span> (current-&gt;pwd)<br>		current-&gt;pwd-&gt;i_count++;<br>	<span class="hljs-keyword">if</span> (current-&gt;root)<br>		current-&gt;root-&gt;i_count++;<br>	<span class="hljs-keyword">if</span> (current-&gt;executable)<br>		current-&gt;executable-&gt;i_count++;<br>	set_tss_desc(gdt+(nr&lt;&lt;<span class="hljs-number">1</span>)+FIRST_TSS_ENTRY,&amp;(p-&gt;tss));<br>	set_ldt_desc(gdt+(nr&lt;&lt;<span class="hljs-number">1</span>)+FIRST_LDT_ENTRY,&amp;(p-&gt;ldt));<br>	p-&gt;state = TASK_RUNNING;	<span class="hljs-comment">/* do this last, just in case */</span><br>	<span class="hljs-keyword">return</span> last_pid;<br>&#125;<br></code></pre></td></tr></table></figure>
 
+            </div>
             <hr>
-          </div>
-          <br>
-          <div>
-            <p>
-            
-            
-              <span>
-                <i class="iconfont icon-tag"></i>
+            <div>
+              <div class="post-metas mb-3">
                 
-                  <a class="hover-with-bg" href="/tags/-%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">-操作系统</a>
                 
-              </span>
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">-操作系统</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0 协议</a> ，转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2020/02/27/The%20Network%20Edge/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">The Network Edge</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                  </article>
+                </div>
+              
+            </div>
+
             
-            </p>
-            
-              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
-            
-          </div>
+          </article>
         </div>
       </div>
     </div>
-    <div class="d-none d-lg-block col-lg-2 toc-container">
-      
-  <div id="toc">
-    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
-    <div id="tocbot"></div>
-  </div>
-
-    </div>
-  </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;目录</p>
+  <div class="toc-body" id="toc-body"></div>
 </div>
 
-<!-- custom -->
-
-
-<!-- Comments -->
-<div class="col-lg-7 mx-auto nopadding-md">
-  <div class="container comments mx-auto" id="comments">
-    
-      <br><br>
-      
-      
-
+      </div>
     
   </div>
 </div>
 
+<!-- Custom -->
+
+
     
-  </main>
 
-  
-    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
-      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
-    </a>
-  
+    
+      <a id="scroll-top-button" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
 
-  
-    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
      aria-hidden="true">
   <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
     <div class="modal-content">
@@ -431,152 +483,100 @@
     </div>
   </div>
 </div>
-  
-
-  <footer class="mt-5">
-  <div class="text-center py-3">
-    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
-    <i class="iconfont icon-love"></i>
-    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <b>Fluid</b></a>
-    <br>
-
-    
-  
-    <!-- 不蒜子统计PV -->
-    
-    &nbsp;<span id="busuanzi_container_site_pv"></span>总访问量 
-          <span id="busuanzi_value_site_pv"></span> 次&nbsp;
-  
-  
-    <!-- 不蒜子统计UV -->
-    
-    &nbsp;<span id="busuanzi_container_site_uv"></span>总访客数 
-            <span id="busuanzi_value_site_uv"></span> 人&nbsp;
-  
-  <br>
-
-
-
     
 
-
-    <!-- cnzz Analytics icon -->
     
+  </main>
 
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+     <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a> <i class="iconfont icon-love"></i> <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"><span>Fluid</span></a> 
   </div>
+  
+
+  
+
+  
 </footer>
 
 <!-- SCRIPTS -->
-<script src="/lib/jquery/jquery.min.js" ></script>
-<script src="/lib/popper/popper.min.js" ></script>
-<script src="/lib/bootstrap/js/bootstrap.min.js" ></script>
-<script src="/lib/mdbootstrap/js/mdb.min.js" ></script>
-<script src="/js/main.js" ></script>
+
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0.2.0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":200})
+    NProgress.start()
+    document.addEventListener('DOMContentLoaded', function() {
+      window.NProgress && window.NProgress.inc();
+    })
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
 
 
-  <script src="/js/lazyload.js" ></script>
-
-
-
-  
-    <script src="/lib/tocbot/tocbot.min.js" ></script>
-  
-  <script src="/js/post.js" ></script>
-
-
-
-  <script src="/lib/smoothscroll/SmoothScroll.min.js" ></script>
-
-
-
-  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
-
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/debouncer.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
 
 <!-- Plugins -->
 
 
   
-
-  
-
-  
-
-  
-
-  <!-- cnzz Analytics -->
+    <script  src="/js/lazyload.js" ></script>
   
 
 
 
-  <script src="/lib/prettify/prettify.min.js" ></script>
+  
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/tocbot@4.12.0/dist/tocbot.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js" ></script>
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4.3.0/anchor.min.js" ></script>
+
+
+
+  <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2.0.6/dist/clipboard.min.js" ></script>
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2.0.11/lib/typed.min.js" ></script>
   <script>
-    $(document).ready(function () {
-      $('pre').addClass('prettyprint  linenums');
-      prettyPrint();
-    })
-  </script>
-
-
-
-  <script src="/lib/typed/typed.min.js" ></script>
-  <script>
-    var typed = new Typed('#subtitle', {
-      strings: [
-        '  ',
-        "process-switch-base-on-stack-switch&nbsp;",
-      ],
-      cursorChar: "_",
-      typeSpeed: 70,
-      loop: false,
-    });
-    typed.stop();
-    $(document).ready(function () {
-      $(".typed-cursor").addClass("h2");
-      typed.start();
-    });
-  </script>
-
-
-
-  <script src="/lib/anchor/anchor.min.js" ></script>
-  <script>
-    anchors.options = {
-      placement: "right",
-      visible: "false",
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
       
-    };
-    var el = "h1,h2,h3,h4,h5,h6".split(",");
-    var res = [];
-    for (item of el) {
-      res.push(".markdown-body > " + item)
-    }
-    anchors.add(res.join(", "))
+      typing(title)
+      
+    })(window, document);
   </script>
 
 
 
-  <script src="/js/local-search.js" ></script>
+  <script  src="/js/local-search.js" ></script>
   <script>
-    var path = "/local-search.xml";
-    var inputArea = document.querySelector("#local-search-input");
-    inputArea.onclick = function () {
-      getSearchFile(path);
-      this.onclick = null
-    }
-  </script>
-
-
-
-  <script src="/lib/fancybox/jquery.fancybox.min.js" ></script>
-  <script>
-    $("#post img:not(.no-zoom img, img[no-zoom])").each(
-      function () {
-        var element = document.createElement("a");
-        $(element).attr("data-fancybox", "images");
-        $(element).attr("href", $(this).attr("src"));
-        $(this).wrap(element);
+    (function () {
+      var path = "/local-search.xml";
+      var inputArea = document.querySelector("#local-search-input");
+      inputArea.onclick = function () {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+        this.onclick = null
       }
-    );
+    })()
   </script>
 
 
@@ -587,6 +587,21 @@
 
 
 
+  <script  src="https://cdn.jsdelivr.net/npm/mermaid@8.8.3/dist/mermaid.min.js" ></script>
+  <script>
+    if (window.mermaid) {
+      mermaid.initialize({"theme":"default"});
+    }
+  </script>
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
 
 
 
