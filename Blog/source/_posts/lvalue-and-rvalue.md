@@ -12,7 +12,7 @@ banner_img:
 ---
 如果有小伙伴看到我的文章的话，建议优先去看下面的这些文章,因为我写的质量不及下面文章的十分之一(哭脸)<br>
 - [Rvalue References: C++0x Features in VC10, Part 2](https://devblogs.microsoft.com/cppblog/rvalue-references-c0x-features-in-vc10-part-2/)<br>
-- [What is move semantics?](https://stackoverflow.com/questions/3106110/what-is-move-semantics/11540204#11540204)<br>
+- [What is move semantics?](https://stackoverflow.com/questions/3106110/what-is-move-semantics)<br>
 - [What is the copy-and-swap idiom?](https://stackoverflow.com/questions/3279543/what-is-the-copy-and-swap-idiom)
 - [lvalue VS rvalue, rvalue Reference, and Move Semantics in C++](https://leimao.github.io/blog/CPP-lvalue-rvalue-Reference/)
 - [C++笔记 · 右值引用，移动语义，移动构造函数和移动赋值运算符](https://zhuanlan.zhihu.com/p/55229582)
@@ -159,3 +159,14 @@ Destoryed!
     }
 ```
 可以看到`Move Constructor`没有调用`new`和`memcpy`而只是将`rvalue Reference`中的`that.data`指向的地址**偷来**给自己用，再将`that.data`指向`nullptr`,因为`rvalue`是暂时的，不持久的参数，`student a("LiQiBin")`执行结束后生成的临时`String`类就会调用析构函数将得到的资源收回，所以将`that.data`指向`nullptr`就避免了,临时`String`类收回资源时将指向`LiQiBin`位置收回，**就相当于`Move Constructor`将`rvalue Reference`中的资源偷来**,成功只用一次`new`和`memcpy`就构建出了`student`类。<br>
+
+**输出如下:**<br>
+```C++
+Command Constructor!
+Move Constructor!
+Destoryed!
+LiQiBin
+Destoryed!
+```
+
+
