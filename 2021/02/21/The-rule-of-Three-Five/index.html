@@ -185,7 +185,7 @@
     
     <span class="post-meta mr-2">
       <i class="iconfont icon-chart"></i>
-      289 字
+      597 字
     </span>
   
 
@@ -195,7 +195,7 @@
       <i class="iconfont icon-clock-fill"></i>
       
       
-      3
+      7
        分钟
     </span>
   
@@ -238,7 +238,15 @@
 <p>三法则规定:如果类中定义了以下三个特殊的成员函数的其中一个，则这个应该显式的定义所有的三个特殊的成员函数。<br><br>因为默认生成的三个函数通常不能满足我们的使用要求。<br></p>
 <p>默认生成的<code>Copy Constructor</code>和<code>Copy assignment operator</code>执行的是浅拷贝(<a href="https://en.wikipedia.org/wiki/Object_copying#Shallow_copy" target="_blank" rel="noopener">Shallow Copy</a>)。而我们的类中如果存在指针这类的成员变量,使用默认生成的这两个函数，可能会引起内存泄漏及一系列无法定义的行为。<br></p>
 <p>下面分别介绍这三个特殊的成员函数。<br></p>
-<h2 id="The-Desturctor"><a href="#The-Desturctor" class="headerlink" title="The Desturctor"></a>The Desturctor</h2><p>当类结束它的生命周期的时候，类会自动调用析构函数去销毁这个类。<br><br><img src="png1.png" alt="png1"><br><br>如上图，当<code>String</code>类</p>
+<h2 id="The-Desturctor"><a href="#The-Desturctor" class="headerlink" title="The Desturctor"></a>The Desturctor</h2><p>当类结束它的生命周期的时候，类会自动调用析构函数去销毁这个类。<br><br><img src="png1.png" alt="String class"><br><br>如上图，当<code>String</code>类运行到<code>main</code>块的末尾的时候结束其生命周期，这个时候类会自动调用析构函数去销毁这个类。<br></p>
+<p><strong>输出如下:</strong><br><br><figure class="highlight c++"><table><tr><td class="gutter hljs hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c++">Done!<br></code></pre></div></td></tr></table></figure></p>
+<h2 id="The-assignment-operator"><a href="#The-assignment-operator" class="headerlink" title="The assignment operator"></a>The assignment operator</h2><p><img src="png2.png" alt="defalut assignment"><br><br>使用默认的拷贝赋值符得到的效果就如上图，问题有二个:<br></p>
+<ul>
+<li>1 . 当执行<code>tmp = s</code>的时候原<code>tmp</code>指向的那块内存，就永远不会被<code>delete[]</code>，这造成了内存泄漏。</li>
+<li>2 . 当<code>func()</code>执行结束的时候对象<code>tmp</code>的生命周期结束，将会调用<code>String</code>类的析构函数去销毁其申请的资源，这样就把指向<code>LiQiBin</code>处的内存<code>delete[]</code>了，当<code>main</code>函数执行完后,对象<code>a</code>也要销毁其持有的资源，这样就会<code>delete</code>已经<code>delete</code>过的资源，系统报错！</li>
+</ul>
+<p>怎么解决这个问题呢? 答案是：使用自己定义的可执行<strong>深拷贝</strong>的<code>copy assignment operator</code>。<br></p>
+<p><strong>修改代码如下:</strong><br><figure class="highlight c++"><table><tr><td class="gutter hljs hljs hljs"><div class="hljs code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></div></td><td class="code"><div class="hljs code-wrapper"><pre><code class="hljs c++"><span class="hljs-comment">/*修改String类即可*/</span><br><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">String</span></span><br><span class="hljs-class">&#123;</span><br>    <span class="hljs-keyword">char</span>* data;<br><span class="hljs-keyword">public</span>:<br><br>    <span class="hljs-keyword">String</span>(<span class="hljs-keyword">const</span> <span class="hljs-keyword">char</span>* p) &#123;<br>        <span class="hljs-keyword">size_t</span> <span class="hljs-built_in">size</span> = <span class="hljs-built_in">std</span>::<span class="hljs-built_in">strlen</span>(p) + <span class="hljs-number">1</span>;<br>        data = <span class="hljs-keyword">new</span> <span class="hljs-keyword">char</span>[<span class="hljs-built_in">size</span>];<br>        <span class="hljs-built_in">std</span>::<span class="hljs-built_in">memcpy</span>(data, p, <span class="hljs-built_in">size</span>);<br>    &#125;<br>	<br>   ~<span class="hljs-keyword">String</span>() &#123; <br>	<span class="hljs-built_in">printf</span>(<span class="hljs-string">"Done!\n"</span>);<br>        <span class="hljs-keyword">delete</span>[] data;<br>    &#125;<br>	<br>    <span class="hljs-keyword">String</span>&amp; <span class="hljs-keyword">operator</span>=(<span class="hljs-keyword">const</span> <span class="hljs-keyword">String</span>&amp; that) &#123;<br>        <span class="hljs-keyword">size_t</span> <span class="hljs-built_in">size</span> = <span class="hljs-built_in">std</span>::<span class="hljs-built_in">strlen</span>(that.data) + <span class="hljs-number">1</span>;<br>	<span class="hljs-keyword">delete</span>[] data:<br>        data = <span class="hljs-keyword">new</span> <span class="hljs-keyword">char</span>[<span class="hljs-built_in">size</span>];<br>        <span class="hljs-built_in">std</span>::<span class="hljs-built_in">memcpy</span>(data, that.data, <span class="hljs-built_in">size</span>);<br>	<span class="hljs-keyword">return</span> *<span class="hljs-keyword">this</span>;<br>    &#125;<br>&#125;;<br></code></pre></div></td></tr></table></figure><br>修改代码后的结果如下图:<br><br><img src="png3.png" alt="user-defined assignment"><br></p>
 
             </div>
             <hr>
