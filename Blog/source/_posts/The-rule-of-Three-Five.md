@@ -6,6 +6,10 @@ tags:
 categories:
 banner_img:
 ---
+**引用**:
+- [Rule of three (C++ programming)](https://en.wikipedia.org/wiki/Rule_of_three_(C%2B%2B_programming))
+- [C++11: The Rule of the Big Five](https://www.feabhas.com/sites/default/files/2016-06/Rule%20of%20the%20Big%20Five.pdf)
+
 # Introduction
 The Rule of Three/Five （三法则/五法则）是为了编写异常安全代码([Exception-safe code](https://en.wikipedia.org/wiki/Exception_safety))和为了资源管理而提出的经验法则。<br>
 # The Rule of Three
