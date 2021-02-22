@@ -1,6 +1,6 @@
 ---
 title: The rule of Three/Five
-index_img: /Picture/the-rule-of-three-five.jpg
+index_img: /Picture/the-rule-of-three-five.png
 date: 2021-02-21 19:48:11
 tags:
 categories:
