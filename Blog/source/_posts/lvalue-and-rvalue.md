@@ -153,7 +153,7 @@ Destoryed!
 	/*Move Constructor*/
     String(String&& that)   // string&& is an rvalue reference to a string
     {
-	printf("Move Constructor!\n");
+		printf("Move Constructor!\n");
         data = that.data;
         that.data = nullptr;
     }
