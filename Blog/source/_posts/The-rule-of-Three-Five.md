@@ -1,6 +1,6 @@
 ---
 title: The rule of Three/Five
-index_img: /Picture/wallhaven-q6q2e5.jpg
+index_img: /Picture/the-rule-of-three-five.jpg
 date: 2021-02-21 19:48:11
 tags:
 categories:
