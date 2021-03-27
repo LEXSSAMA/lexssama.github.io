@@ -3,6 +3,7 @@ title: 'chapter2 :Homework problems and Questions'
 date: 2020-03-31 06:23:55
 index_img: /Picture/Question-Mark.jpg
 categories:
+- 计算机网络
 - Computer Network A Top-Down Approach
 tags:
 - Computer Network A Top-Down Approach
