@@ -3,11 +3,11 @@ title: lvalue and rvalue
 index_img: /Picture/lrvalue.png
 date: 2021-02-18 21:34:56
 tags:
-- C++
+- C/C++
 - Reference
 - lvalue rvalue
 categories:
-- C++
+- C/C++
 banner_img:
 ---
 如果有小伙伴看到我的文章的话，建议优先去看下面的这些文章,因为我写的质量不及下面文章的十分之一(哭脸)<br>
