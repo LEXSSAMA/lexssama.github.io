@@ -1,6 +1,6 @@
 ---
 title: CS144-lab1
-index_img: /Picture/CS144.png
+index_img: /Picture/CS144.jpg
 date: 2021-03-30 21:36:26
 tags:
 - CS144
