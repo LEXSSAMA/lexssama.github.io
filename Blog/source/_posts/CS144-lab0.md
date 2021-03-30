@@ -61,5 +61,5 @@ void get_URL(const string &host, const string &path) {
 
 ## 坑点2
 
-一开始我并没有使用`std:;deque`，而是用一个`char* Stream`在构造函数中使用`new`得到空间，存储数据,但是给出的byteStream类中没有析构函数，所以为了不将byteStream类改变太大，我决定使用`std:;deque`。
+一开始我并没有使用`std::deque`，而是用一个`char* Stream`在构造函数中使用`new`得到空间，存储数据,但是给出的byteStream类中没有析构函数，所以为了不将byteStream类改变太大，我决定使用`std:;deque`。
 
