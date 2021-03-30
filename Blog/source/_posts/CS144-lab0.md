@@ -1,6 +1,6 @@
 ---
 title: CS144-lab0
-index_img: /Picture/wallhaven-q6q2e5.jpg
+index_img: /Picture/CS144.png
 date: 2021-03-27 16:32:07
 tags:
 - CS144 
