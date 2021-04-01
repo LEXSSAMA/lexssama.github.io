@@ -3,8 +3,10 @@ title: PA2实验报告
 index_img: /Picture/PA.png
 date: 2020-12-18 15:42:37
 tags:
+- 计算机组成原理
 - PA
 categories:
+- 计算机组成原理
 - PA
 banner_img:
 ---
