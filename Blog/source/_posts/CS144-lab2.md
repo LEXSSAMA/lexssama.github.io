@@ -74,6 +74,7 @@ tcp_receiver.cc中<br>
 ```C++
 #include "tcp_receiver.hh"
 #include <cstdlib>
+using namespace std;
 
 void TCPReceiver::segment_received(const TCPSegment &seg) {
     /*只接受第一次的syn所以要满足!init_seq_peer.has_value()*/
