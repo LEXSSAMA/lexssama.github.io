@@ -166,7 +166,7 @@ void TCPSender::fill_window() {
     size_t window_size = _window_size == 0 ? 1 : _window_size;
     size_t remain = 0;
 //! 这里window_size 一定是大于 (_next_seqno - _ackno),不用担心溢出问题。文章后面解释
-while ((remain = window_size - (_next_seqno - _ackno))) {
+	while ((remain = window_size - (_next_seqno - _ackno))) {
         TCPSegment seg;
 size_t len = TCPConfig::MAX_PAYLOAD_SIZE > remain ? remain : TCPConfig::MAX_PAYLOAD_SIZE;
         /*Status: SYN_ACKED -> stream ongoing*/
@@ -255,4 +255,4 @@ void TCPSender::send_empty_segment() {
 **注意:**
 不是sender发送segment给receiver,receiver就立刻将segement放入buffer中了,而是当segments连续了才会被放入buffer中<br>
 
-这里我假设上次发送时的窗口大小为window_size_pre,同时上次**发送的首个segments就没有被receiver接收到**，而其他的都被接收到了,*这个时候receiver不会把这批segments放入buffer中*，所以发回来的ACK中装的window_size是等于window_size_pre的，所以window_size 不会大于(_next_seqno - _ackno);
+这里我假设上次发送时的窗口大小为window_size_pre,同时上次 **发送的首个segments就没有被receiver接收到** ,而其他的都被接收到了, **这个时候receiver不会把这批segments放入buffer中** ，所以发回来的ACK中装的window_size是等于window_size_pre的，所以window_size 不会大于(_next_seqno - _ackno);
