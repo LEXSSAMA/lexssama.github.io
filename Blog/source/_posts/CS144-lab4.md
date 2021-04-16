@@ -16,13 +16,14 @@ banner_img:
 **实现TCPConnection我修改了TCPReceiver和TCPSender一些接口的返回值例如将返回void修改成返回bool**<br>
 ![TCP Finite State Machine ](tcpfsm.png)<br>
 
-**详细的FSM可以看这个网页:(TCP Finite State Machine)[http://tcpipguide.com/free/t_TCPOperationalOverviewandtheTCPFiniteStateMachineF-2.htm]**
+**详细的FSM可以看这个网页:** [TCP Finite State Machine](http://tcpipguide.com/free/t_TCPOperationalOverviewandtheTCPFiniteStateMachineF-2.htm)
 
 其次就是研究透彻`tcp_state.cc`,这个文件中描述了`TCPConnection`处于某个状态的时候，`TCPSender`和`TCPReceiver`应该处于什么状态，例如:当`TCPConnection`处于`LISTEN`状态的时候，TCPSender和TCPReceiver应该分别处于`CLOSED`和`LISTEN`状态,(TCPSender和TCPReceiver)的状态在lab2和lab3中有描述。
 
 **TCPConnection.hh**<br>
 ```C++
-...//为实现TCPConnection添加的代码
+...
+//为实现TCPConnection而增添的代码
     bool _active{true};
     bool _established{false};
     bool _rst{false};
