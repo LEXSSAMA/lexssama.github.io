@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/wallhaven-4xjllo.jpg">
+  <link rel="icon" type="image/png" href="/img/wallhaven-4xjllo.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="description" content="">
+  <meta name="author" content="Lexssama">
+  <meta name="keywords" content="">
+  <title>CS144-lab3 ~ Lexssama&#39;s Blogs</title>
+
+  <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
+<link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
+<link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
+<link rel="stylesheet" href="/lib/github-markdown/github-markdown.min.css"  >
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+
+
+
+  <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css"  >
+
+<link rel="stylesheet" href="/css/main.css"  >
+
+
+  <link rel="stylesheet" href="/lib/fancybox/jquery.fancybox.min.css"  >
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<body>
+  <header style="height: 100vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Lexssama's Blogs</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">首页</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">归档</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/categories/">分类</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">标签</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">关于</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" false
+         style="background: url('/img/wallhaven-j5l9gw.jpg')no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <br>
+              
+                <p class="mt-3">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
+                  星期四, 四月 8日 2021, 3:29 下午
+                </p>
+              
+
+              <p>
+                
+                  
+                  &nbsp;<i class="far fa-chart-bar"></i>
+                  <span class="post-count">
+                    1.2k 字
+                  </span>&nbsp;
+                
+
+                
+                  
+                  &nbsp;<i class="far fa-clock"></i>
+                  <span class="post-count">
+                      5 分钟
+                  </span>&nbsp;
+                
+
+                
+                  <!-- 不蒜子统计文章PV -->
+                  
+                  &nbsp;<i class="far fa-eye" aria-hidden="true"></i>&nbsp;
+                  <span id="busuanzi_container_page_pv">
+                    <span id="busuanzi_value_page_pv"></span> 次
+                  </span>&nbsp;
+                
+              </p>
+            
+          </div>
+
+          
+            <div class="scroll-down-bar">
+              <i class="fas fa-angle-down scroll-down-arrow"></i>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto" id="post">
+          <div class="markdown-body">
+            <h1 id="实现TCPSender"><a href="#实现TCPSender" class="headerlink" title="实现TCPSender"></a>实现TCPSender</h1><p>这个lab有几个难点,分别是:<br></p>
+<ol>
+<li><p>TCP中会维护好几种状态:</p>
+<ul>
+<li>CLOSE: SYN还没有被发送</li>
+<li>SYN_SENT: SYN被发送了但是没有收到对应的ACK</li>
+<li>SYN_ACKED: 正常状态，可以利用sender来通信了</li>
+<li>SYN_ACKED_ASLO: sender已经发送完所以的字节流了，但是还没有发生FIN。</li>
+<li>FIN_SENT: FIN已经被发送，但是还没有收到对应的ACK</li>
+<li>FIN_ACKED: sender已经完成所以的任务。</li>
+</ul>
+</li>
+<li><p>TCPSender使用的是<code>累计确认</code>的协议，也就是说如果收到<code>合法的ACK</code>,那么ACK之前的所有已经发送segments已经被成功接受。(如果收到的ACK大于我还未发送的Sequence Number那就是非法的ACK)</p>
+</li>
+<li><p>timer的开启，重启，关闭的时机。<br><br>在做这个是lab之前我一直以为是给每一个发出的segments安装一个timer，当segments超时的时候重发，但是看了<code>huangrt01</code>大佬的代码后，发现在这个lab中timer,timer记录的是在RTO时间内有没有收到<code>合法的ACK</code>,如果没有收到<code>合法的ACK</code>，那么就需要重传。<br><br><strong>下面简单的概括一下timer使用的时机:</strong><br></p>
+<ul>
+<li>当发送一个新的segment的时候，如果timer没有开启，那么需要开启timer。</li>
+<li>当在RTO内收到一个<code>合法的ACK</code>,有两种情况: <ol>
+<li>如果sender没发完segments那么需要<code>重启timer</code>,重启的意思是timer从0开始计时。</li>
+<li>如果sender已经发完所有的segments了那么需要<code>关闭timer</code></li>
+</ol>
+</li>
+<li>当超时的情况发生,也是两种情况:<br><ol>
+<li>window_size = 0 : <code>重启timer</code>,<code>重传segments</code>。</li>
+<li>window_size != 0 : <code>double RTO</code>, <code>重启timer</code>,<code>重传segments</code>。</li>
+</ol>
+</li>
+</ul>
+</li>
+</ol>
+<p><strong>timer实现更加规范看<a href="https://datatracker.ietf.org/doc/rfc6298/?include_text=1" target="_blank" rel="noopener">RFC 6298</a>第五小节</strong></p>
+<h1 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h1><p><strong>tcp_sender.hh</strong><br></p>
+<pre><code class="lang-c++">//! \make by myself
+class TCPTimer &#123;
+  private:
+    //! true : timer start , false : timer not start
+    bool _start;
+    unsigned int init_time;
+    //! Transmission time
+    unsigned int transmission_time;
+    //! retransmission timeout
+    unsigned int RTO;
+
+  public:
+    //! Number of consecutive retransmissions
+    unsigned int num_of_retransmission;
+
+    TCPTimer(unsigned int time)
+        : _start(false)
+        , init_time(time)
+        , transmission_time(0)
+        , RTO(init_time)
+        , num_of_retransmission(0) &#123;&#125;
+
+    bool running() &#123; return _start; &#125;
+
+    void close() &#123;
+        _start = false;
+        num_of_retransmission = 0;
+    &#125;
+    void start() &#123;
+        _start = true;
+        RTO = init_time;
+        transmission_time = 0;
+        num_of_retransmission = 0;
+    &#125;
+//! if window == 0 then keep RTO , otherwise double RTO
+    void doubleOrkeep_RTO_and_restart(const size_t window) &#123;
+        if (!running())
+            return;
+
+        if (window != 0)
+            RTO *= 2;
+
+        transmission_time = 0;
+        num_of_retransmission++;
+    &#125;
+
+    bool timeout(const size_t ms_since_last_tick) &#123;
+        if (!running())
+            return false;
+
+        if (ms_since_last_tick + transmission_time &gt;= RTO)
+            return true;
+
+        transmission_time += ms_since_last_tick;
+        return false;
+    &#125;
+&#125;;
+
+class TCPSender &#123;
+  private:
+   .............
+    //! make by myself
+    uint64_t _ackno;
+    size_t _window_size;
+    uint64_t _bytes_in_flight;
+    TCPTimer timer;
+
+    std::queue&lt;TCPSegment&gt; _segments_track&#123;&#125;;
+
+    void send_no_empty_segments(TCPSegment &amp;seg);
+
+    .............
+&#125;
+</code></pre>
+<p><strong>tcp_sender.cc</strong><br></p>
+<pre><code class="lang-C++">#include &quot;tcp_sender.hh&quot;
+
+#include &quot;tcp_config.hh&quot;
+
+#include &lt;random&gt;
+
+template &lt;typename... Targs&gt;
+void DUMMY_CODE(Targs &amp;&amp;... /* unused */) &#123;&#125;
+
+using namespace std;
+
+TCPSender::TCPSender(const size_t capacity, const uint16_t retx_timeout
+            ,const std::optional&lt;WrappingInt32&gt; fixed_isn)
+    : _isn(fixed_isn.value_or(WrappingInt32&#123;random_device()()&#125;))
+    , _initial_retransmission_timeout&#123;retx_timeout&#125;
+    , _stream(capacity)
+    , _ackno(0)
+    , _window_size(1)
+    , _bytes_in_flight(0)
+    , timer(retx_timeout) &#123;&#125;
+
+uint64_t TCPSender::bytes_in_flight() const &#123; return _bytes_in_flight; &#125;
+
+void TCPSender::send_no_empty_segments(TCPSegment &amp;seg) &#123;
+    seg.header().seqno = wrap(_next_seqno, _isn);
+    _next_seqno += seg.length_in_sequence_space();
+    _bytes_in_flight += seg.length_in_sequence_space();
+    _segments_out.push(seg);
+    _segments_track.push(seg);
+    if (!timer.running()) &#123;
+        timer.start();
+    &#125;
+&#125;
+
+void TCPSender::fill_window() &#123;
+    /*Status: CLOSED -&gt; stream waiting to begin*/
+    if (_next_seqno == 0) &#123;
+        TCPSegment seg;
+        seg.header().syn = true;
+        seg.header().seqno = next_seqno();
+        send_no_empty_segments(seg);
+    &#125;
+    /*Status: SYN_SENT -&gt; stream start but nothing acknowledged*/
+    else if (_next_seqno == _bytes_in_flight) &#123;
+        return;
+    &#125;
+
+    size_t window_size = _window_size == 0 ? 1 : _window_size;
+    size_t remain = 0;
+//! 这里window_size 一定是大于 (_next_seqno - _ackno),不用担心溢出问题。文章后面解释
+    while ((remain = window_size - (_next_seqno - _ackno))) &#123;
+        TCPSegment seg;
+size_t len = TCPConfig::MAX_PAYLOAD_SIZE &gt; remain ? remain : TCPConfig::MAX_PAYLOAD_SIZE;
+        /*Status: SYN_ACKED -&gt; stream ongoing*/
+        if (!_stream.eof()) &#123;
+            seg.payload() = Buffer(_stream.read(len));
+            if (_stream.eof() &amp;&amp; remain - seg.length_in_sequence_space() &gt; 0)
+                seg.header().fin = true;
+            if (seg.length_in_sequence_space() == 0)
+                return;
+            send_no_empty_segments(seg);
+        &#125;
+/*Status: SYN_ACKED -&gt; stream ongoing (stream has reached EOF but FIN hasn&#39;t been send yet)*/
+        else if (_stream.eof()) &#123;
+            if (_next_seqno &lt; _stream.bytes_written() + 2) &#123;
+                seg.header().fin = true;
+                send_no_empty_segments(seg);
+            &#125;
+         /*Status: FIN_SENT and FIN_ACKED both do nothing Just return */
+            else
+                return;
+        &#125;
+    &#125;
+&#125;
+
+void TCPSender::ack_received(const WrappingInt32 ackno, const uint16_t window_size) &#123;
+    uint64_t abs_ackno = unwrap(ackno, _isn, _ackno);
+
+    //! 超出范围 _next_seqno还没发呢，哪来的abs_ackno &gt; _next_seqno
+    if (abs_ackno &gt; _next_seqno) &#123;
+        return;
+    &#125;
+
+    _window_size = static_cast&lt;size_t&gt;(window_size);
+
+    //! 比abs_ackno大的先来了
+    if (abs_ackno &lt;= _ackno) &#123;
+        return;
+    &#125;
+
+    _ackno = abs_ackno;
+
+    //! 成功接受到新的ackno
+    timer.start();
+
+    while (!_segments_track.empty()) &#123;
+        TCPSegment seg = _segments_track.front();
+        if (ackno.raw_value() &lt; seg.header().seqno.raw_value() 
+        + static_cast&lt;uint32_t&gt;(seg.length_in_sequence_space()))
+            break;
+        _bytes_in_flight -= seg.length_in_sequence_space();
+        _segments_track.pop();
+    &#125;
+
+    fill_window();
+
+    if (_segments_track.empty()) &#123;
+        timer.close();
+    &#125;
+&#125;
+
+void TCPSender::tick(const size_t ms_since_last_tick) &#123;
+    if (!timer.running() || !timer.timeout(ms_since_last_tick))
+        return;
+    if (_segments_track.empty()) &#123;
+        timer.close();
+        return;
+    &#125;
+    timer.doubleOrkeep_RTO_and_restart(_window_size);
+    _segments_out.push(_segments_track.front());
+&#125;
+
+unsigned int TCPSender::consecutive_retransmissions() const &#123; 
+    return timer.num_of_retransmission; 
+&#125;
+
+void TCPSender::send_empty_segment() &#123;
+    TCPSegment seg;
+    seg.header().seqno = wrap(_next_seqno, _isn);
+    _segments_out.push(seg);
+&#125;
+</code></pre>
+<p><strong>解释remain = window_size - (_next_seqno - _ackno))不会溢出</strong><br><br>要解释这里就要联系一下lab2中实现的TCPReceiver<br><br>这里的window_size指的是receiver中buffer剩余的空间,当receiver往buffer中放入字节流的时候window_size变小，当上层应用读取buffer中的字节流的时候，window_size变大。<br><br><strong>注意:</strong><br>不是sender发送segment给receiver,receiver就立刻将segement放入buffer中了,而是当segments连续了才会被放入buffer中<br></p>
+<p>这里我假设上次发送时的窗口大小为window_size_pre,同时上次 <strong>发送的首个segments就没有被receiver接收到</strong> ,而其他的都被接收到了, <strong>这个时候receiver不会把这批segments放入buffer中</strong> ，所以发回来的ACK中装的window_size是等于window_size_pre的，所以window_size 不会大于(_next_seqno - _ackno);</p>
+
+            <hr>
+          </div>
+          <br>
+          <div>
+            <p>
+            
+              <span>
+                <i class="iconfont icon-inbox"></i>
+                
+                  <a class="hover-with-bg" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">计算机网络</a>
+                  &nbsp;
+                
+                  <a class="hover-with-bg" href="/categories/CS144">CS144</a>
+                  &nbsp;
+                
+              </span>&nbsp;&nbsp;
+            
+            
+              <span>
+                <i class="iconfont icon-tag"></i>
+                
+                  <a class="hover-with-bg" href="/tags/CS144">CS144</a>
+                
+                  <a class="hover-with-bg" href="/tags/lab3">lab3</a>
+                
+              </span>
+            
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+      <br><br>
+      
+      
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = 'https://lexssama.github.io/2021/04/08/CS144-lab3/';
+        this.page.identifier = '/2021/04/08/CS144-lab3/';
+      };
+      var oldLoad = window.onload;
+      window.onload = function () {
+        var d = document, s = d.createElement('script');
+        s.type = 'text/javascript';
+        s.src = '//' + 'Lexssama' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      };
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" target="_blank" rel="nofollow noopener noopener">comments
+        powered by Disqus.</a></noscript>
+  </div>
+
+
+    
+  </div>
+</div>
+
+    
+  </main>
+
+  
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <b>Fluid</b></a>
+    <br>
+
+    
+  
+    <!-- 不蒜子统计PV -->
+    
+    &nbsp;<span id="busuanzi_container_site_pv"></span>总访问量 
+          <span id="busuanzi_value_site_pv"></span> 次&nbsp;
+  
+  
+    <!-- 不蒜子统计UV -->
+    
+    &nbsp;<span id="busuanzi_container_site_uv"></span>总访客数 
+            <span id="busuanzi_value_site_uv"></span> 人&nbsp;
+  
+  <br>
+
+
+
+    
+
+
+    <!-- cnzz Analytics icon -->
+    
+
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="/lib/jquery/jquery.min.js" ></script>
+<script src="/lib/popper/popper.min.js" ></script>
+<script src="/lib/bootstrap/js/bootstrap.min.js" ></script>
+<script src="/lib/mdbootstrap/js/mdb.min.js" ></script>
+<script src="/js/main.js" ></script>
+
+
+  <script src="/js/lazyload.js" ></script>
+
+
+
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
+
+
+  <script src="/lib/smoothscroll/SmoothScroll.min.js" ></script>
+
+
+
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+<!-- Plugins -->
+
+
+  
+
+  
+
+  
+
+  
+
+  <!-- cnzz Analytics -->
+  
+
+
+
+  <script src="/lib/prettify/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint  linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+
+  <script src="/lib/typed/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "CS144-lab3&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script src="/lib/anchor/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "false",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script src="/lib/fancybox/jquery.fancybox.min.js" ></script>
+  <script>
+    $("#post img:not(.no-zoom img, img[no-zoom])").each(
+      function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "images");
+        $(element).attr("href", $(this).attr("src"));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+          tex2jax: {
+              inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+              processEscapes: true,
+              skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          }
+      });
+
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+
+    </script>
+
+    <script src="https://cdn.staticfile.org/mathjax/2.7.6/MathJax.js?config=TeX-MML-AM_CHTML" ></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

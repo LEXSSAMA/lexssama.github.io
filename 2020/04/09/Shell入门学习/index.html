@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/wallhaven-4xjllo.jpg">
+  <link rel="icon" type="image/png" href="/img/wallhaven-4xjllo.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="description" content="">
+  <meta name="author" content="Lexssama">
+  <meta name="keywords" content="">
+  <title>Shell入门学习 ~ Lexssama&#39;s Blogs</title>
+
+  <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
+<link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
+<link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
+<link rel="stylesheet" href="/lib/github-markdown/github-markdown.min.css"  >
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+
+
+
+  <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css"  >
+
+<link rel="stylesheet" href="/css/main.css"  >
+
+
+  <link rel="stylesheet" href="/lib/fancybox/jquery.fancybox.min.css"  >
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<body>
+  <header style="height: 100vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Lexssama's Blogs</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">首页</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">归档</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/categories/">分类</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">标签</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">关于</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" false
+         style="background: url('/img/wallhaven-j5l9gw.jpg')no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <br>
+              
+                <p class="mt-3">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
+                  星期四, 四月 9日 2020, 8:42 晚上
+                </p>
+              
+
+              <p>
+                
+                  
+                  &nbsp;<i class="far fa-chart-bar"></i>
+                  <span class="post-count">
+                    1.2k 字
+                  </span>&nbsp;
+                
+
+                
+                  
+                  &nbsp;<i class="far fa-clock"></i>
+                  <span class="post-count">
+                      5 分钟
+                  </span>&nbsp;
+                
+
+                
+                  <!-- 不蒜子统计文章PV -->
+                  
+                  &nbsp;<i class="far fa-eye" aria-hidden="true"></i>&nbsp;
+                  <span id="busuanzi_container_page_pv">
+                    <span id="busuanzi_value_page_pv"></span> 次
+                  </span>&nbsp;
+                
+              </p>
+            
+          </div>
+
+          
+            <div class="scroll-down-bar">
+              <i class="fas fa-angle-down scroll-down-arrow"></i>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto" id="post">
+          <div class="markdown-body">
+            <pre><code>#!/bin/bash
+echo -e &quot;hello, world\n&quot;
+# 1.变量的定义使用
+my_name=lexssama
+echo &quot;1.$my_name&quot;
+# 2. 另一种定义方式
+course=&quot;linux start&quot;
+echo 2. $&#123;course&#125;
+# 3. 只读变量
+readonly course
+course=&quot;linux kernel&quot; #readonly 不能写入(改变)
+echo &quot;3. $&#123;course&#125;&quot; # 输出的还是linux start
+# 4.删除变量
+unset my_name 
+echo &quot;4.$&#123;my_name&#125;&quot;
+# 5.export 导出一个环境变量
+export MY_NAME=&quot;lexssama&quot;
+# 6. 查找自定义的环境变量
+env | grep MY_NAME
+# 7. 特殊变量
+echo &quot;文件名称: $0&quot; # 特殊变量$0表示脚本文件的名称
+echo &quot;参数１: $1&quot; #特殊变量$1表示传入第一个参数
+echo &quot;参数２: $2&quot; #特殊变量$2表示传入第二个参数
+echo &quot;参数３: $3&quot; #特殊变量$3表示传入第三个参数
+echo &quot;全部参数: $@&quot; #特殊参数$@表示传入的所有参数
+echo &quot;参数个数: $#&quot; #特殊参数$#表示传入参数的个数
+# 8. 基本运算
+# 8.1 算术运算 (加减乘除取余，+-*/%)
+a=16
+b=17
+# 加法expr 用加法举例子
+var0=`expr $a+$b`
+echo &quot;$a+$b=$var0&quot;
+# 另一种运算方式
+var1=$[$a+$b] 
+echo &quot;$a+$b=$var1&quot;
+
+#8.2 关系运算
+# -eq(相等) -ne(不相等) -gt(大于) -ge(大于等于) -lt(小于) -le(小于等于)
+if [ $a -eq $b ] #注意格式是[空格$a.....$b空格]
+then
+    echo &quot;$a -eq $b : a 等于 b&quot;
+else
+    echo &quot;$a -eq $b : a 不等于 b&quot;
+fi
+# 8.3 布尔与逻辑运算
+# ! 非运算
+# -o 或运算
+# -a 与运算
+# &amp;&amp; 逻辑与 (逻辑与和与运算是不一样的，一个逻辑判断true,false 一个是二进制运算
+# || 逻辑或
+# == 相等(仅仅限于数字比较)
+# != 不相等(仅仅限于数字比较)
+if [[ $a -gt 0 &amp;&amp; $b -gt 0 ]] #注意格式是[[空格$a.....$b空格]],并且逻辑判断是[[
+then 
+    echo &quot;a,b都大于0&quot;
+fi
+# 8.4文件测试运算
+# -d 是否为目录
+# -f 是否为普通文件
+# -r -w -x 是否可读，可写，可执行
+# -s 文件是否为空
+# -e 文件是否存在
+file=$0
+if [ -f $file ]
+then 
+    echo &quot;为普通文件&quot;
+fi
+if [ -e $file ]
+then 
+    echo &quot;文件存在&quot;
+else
+    echo &quot;文件不存在&quot;
+fi
+if [ -r $file ]
+then 
+    echo &quot;文件可读&quot;
+else
+    echo &quot;文件不可读&quot;
+fi 
+if [ -w $file ]
+then 
+    echo &quot;文件可写&quot;
+else
+    echo &quot;文件不可写&quot;
+fi
+if [ -x $file ]
+then 
+    echo &quot;文件可执行&quot;
+else
+    echo &quot;文件不可执行&quot;
+fi
+# 9.字符串
+# 单引号：原样输出，变量无效
+# 双引号：可以包含变量
+course1=&quot;Linux-shell入门学习&quot;
+# 单引号
+questions=&#39;Linux-shell入门学习：$course!&#39;
+echo &quot;$questions&quot;
+# 双引号
+answer=&quot;请学习&lt;&lt;$course1&gt;&gt;课程!&quot;
+echo &quot;$answer&quot;
+
+# 字符串拼接
+echo -e &quot;拼接后一起输出:\n&quot;$questions &quot;\n&quot; $answer
+#字符串长度(命令: $&#123;#str&#125;)
+str=&quot;hello,world&quot;
+echo &quot;字符串&quot;$str&quot;的长度为:&quot;$&#123;#str&#125;
+#获取子串，从第一个字符开始截取三个(命令: $&#123;str:1:3&#125;)
+echo &quot;字符串&quot;$str&quot;子串:&quot;$&#123;str:1:3&#125;
+#查找子串(命令: `expr index &quot;$str&quot; wo`)
+matched=`expr index &quot;$str&quot; wo`
+echo &quot;字符串&quot;$str&quot;查找wo的位置在&quot;$matched
+# 9.1 字符串运算符号
+# = 字符串是否相等　[ $a = $b ]
+# != 字符串是否不相等　[ $a != $b ]
+# -z 字符串长度是否为0 [ -z $a ]
+# -n 字符串长度是否不为0 [ -n &quot;$a&quot; ]
+# $　字符串是否为空　[ $a ]
+
+
+# 10. 数组
+# 10.1 数组的定义
+arr=(&quot;aa&quot; &quot;bb&quot; &quot;cc&quot; &quot;hello world&quot;)
+# 10.2 设置　元素
+arr[2]=&quot;222&quot;
+# 10.3 读取　元素
+echo &quot;下标为2的元素:&quot;$&#123;arr[2]&#125;
+# 10.4 读取　所有元素
+echo &quot;所有元素: &quot;$&#123;arr[@]&#125;
+# 10.5 获取数组的长度
+len=$&#123;#arr[@]&#125;
+echo &quot;数组长度: $len&quot;
+echo &quot;数组长度: &quot;$&#123;#arr[@]&#125;
+
+# 11.分支 (if else , case)
+# 11.1 if else 
+
+age=20
+if [ $age -le 10 ] # &lt;=10
+then
+    echo &quot;少年&quot;
+elif [ $age -le 20 ]  # &lt;=20 注意是elif
+then
+    echo &quot;青年&quot;
+elif [ $age -le 50 ]  # &lt;=50
+then
+    echo &quot;中年&quot;
+else # &gt;50
+    echo &quot;老年&quot;
+fi
+
+# 11.2 case 
+status=1
+case $status in
+    0) echo &quot;todo&quot; ;;
+    1) echo &quot;doing&quot; ;;
+    2) echo &quot;done&quot; ;;
+esac
+
+# 12.循环
+# for...in..do...done
+# while...do...done
+# util...do...done
+# break
+for item in $&#123;arr[@]&#125;
+do
+    echo &quot;$item&quot;
+done
+
+# 13. 函数
+# function关键字可加可不加 
+# 函数后面的()可加可不加
+function myfun()
+&#123;
+    echo &quot;这是shell函数!&quot;
+&#125;
+myfun
+# 函数传参和返回值
+function add()
+&#123;
+    local ret=$(($1+$2))
+    return $ret
+&#125;
+add 5 8
+echo $?
+</code></pre>
+            <hr>
+          </div>
+          <br>
+          <div>
+            <p>
+            
+              <span>
+                <i class="iconfont icon-inbox"></i>
+                
+                  <a class="hover-with-bg" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">操作系统</a>
+                  &nbsp;
+                
+                  <a class="hover-with-bg" href="/categories/Shell">Shell</a>
+                  &nbsp;
+                
+              </span>&nbsp;&nbsp;
+            
+            
+              <span>
+                <i class="iconfont icon-tag"></i>
+                
+                  <a class="hover-with-bg" href="/tags/Shell">Shell</a>
+                
+              </span>
+            
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+      <br><br>
+      
+      
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = 'https://lexssama.github.io/2020/04/09/Shell入门学习/';
+        this.page.identifier = '/2020/04/09/Shell入门学习/';
+      };
+      var oldLoad = window.onload;
+      window.onload = function () {
+        var d = document, s = d.createElement('script');
+        s.type = 'text/javascript';
+        s.src = '//' + 'Lexssama' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      };
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" target="_blank" rel="nofollow noopener noopener">comments
+        powered by Disqus.</a></noscript>
+  </div>
+
+
+    
+  </div>
+</div>
+
+    
+  </main>
+
+  
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <b>Fluid</b></a>
+    <br>
+
+    
+  
+    <!-- 不蒜子统计PV -->
+    
+    &nbsp;<span id="busuanzi_container_site_pv"></span>总访问量 
+          <span id="busuanzi_value_site_pv"></span> 次&nbsp;
+  
+  
+    <!-- 不蒜子统计UV -->
+    
+    &nbsp;<span id="busuanzi_container_site_uv"></span>总访客数 
+            <span id="busuanzi_value_site_uv"></span> 人&nbsp;
+  
+  <br>
+
+
+
+    
+
+
+    <!-- cnzz Analytics icon -->
+    
+
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="/lib/jquery/jquery.min.js" ></script>
+<script src="/lib/popper/popper.min.js" ></script>
+<script src="/lib/bootstrap/js/bootstrap.min.js" ></script>
+<script src="/lib/mdbootstrap/js/mdb.min.js" ></script>
+<script src="/js/main.js" ></script>
+
+
+  <script src="/js/lazyload.js" ></script>
+
+
+
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
+
+
+  <script src="/lib/smoothscroll/SmoothScroll.min.js" ></script>
+
+
+
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+<!-- Plugins -->
+
+
+  
+
+  
+
+  
+
+  
+
+  <!-- cnzz Analytics -->
+  
+
+
+
+  <script src="/lib/prettify/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint  linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+
+  <script src="/lib/typed/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "Shell入门学习&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script src="/lib/anchor/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "false",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script src="/lib/fancybox/jquery.fancybox.min.js" ></script>
+  <script>
+    $("#post img:not(.no-zoom img, img[no-zoom])").each(
+      function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "images");
+        $(element).attr("href", $(this).attr("src"));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+          tex2jax: {
+              inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+              processEscapes: true,
+              skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          }
+      });
+
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+
+    </script>
+
+    <script src="https://cdn.staticfile.org/mathjax/2.7.6/MathJax.js?config=TeX-MML-AM_CHTML" ></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

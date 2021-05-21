@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/wallhaven-4xjllo.jpg">
+  <link rel="icon" type="image/png" href="/img/wallhaven-4xjllo.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="description" content="">
+  <meta name="author" content="Lexssama">
+  <meta name="keywords" content="">
+  <title>计算机网络自顶向下有意思的单词 ~ Lexssama&#39;s Blogs</title>
+
+  <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
+<link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
+<link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
+<link rel="stylesheet" href="/lib/github-markdown/github-markdown.min.css"  >
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+
+
+
+  <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css"  >
+
+<link rel="stylesheet" href="/css/main.css"  >
+
+
+  <link rel="stylesheet" href="/lib/fancybox/jquery.fancybox.min.css"  >
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<body>
+  <header style="height: 100vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Lexssama's Blogs</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">首页</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">归档</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/categories/">分类</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">标签</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">关于</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" false
+         style="background: url('/img/wallhaven-j5l9gw.jpg')no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <br>
+              
+                <p class="mt-3">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
+                  星期二, 三月 3日 2020, 5:47 下午
+                </p>
+              
+
+              <p>
+                
+                  
+                  &nbsp;<i class="far fa-chart-bar"></i>
+                  <span class="post-count">
+                    2.9k 字
+                  </span>&nbsp;
+                
+
+                
+                  
+                  &nbsp;<i class="far fa-clock"></i>
+                  <span class="post-count">
+                      11 分钟
+                  </span>&nbsp;
+                
+
+                
+                  <!-- 不蒜子统计文章PV -->
+                  
+                  &nbsp;<i class="far fa-eye" aria-hidden="true"></i>&nbsp;
+                  <span id="busuanzi_container_page_pv">
+                    <span id="busuanzi_value_page_pv"></span> 次
+                  </span>&nbsp;
+                
+              </p>
+            
+          </div>
+
+          
+            <div class="scroll-down-bar">
+              <i class="fas fa-angle-down scroll-down-arrow"></i>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto" id="post">
+          <div class="markdown-body">
+            <h1 id="Computer-Networking-A-Top-Down-Approach"><a href="#Computer-Networking-A-Top-Down-Approach" class="headerlink" title="Computer Networking A Top-Down Approach"></a>Computer Networking A Top-Down Approach</h1><ul>
+<li>desirable to : 希望</li>
+<li>To gain further insight into … :获得进一步深入的….</li>
+<li>scenario:情景</li>
+<li>In this ideal scenario : (idea n:点子，ideal adj: 理想的）</li>
+<li>Clearly : 明显的</li>
+<li>among ：在…中 （among  + 时间）</li>
+<li>no longer ： 不再</li>
+<li>nonetheless : 尽管如此，然而</li>
+<li>In particular ： 尤其是，特别是</li>
+<li>It is a apparent that ….: 这是清晰可见的 …..</li>
+<li>deplane: 下飞机</li>
+<li>turn out attention to: …</li>
+<li>responsible for : 负责….</li>
+<li>referred to as : 被称为是….</li>
+<li>impact …. : 影响…</li>
+<li>additional: 额外的</li>
+<li>so-called ： 所谓的，被叫做…的</li>
+<li>via ： 通过…</li>
+<li>wreak havoc : 肆虐，造成严重破坏；</li>
+<li>upcoming： 即将来临，即将发生的</li>
+<li>In essence: 在本质上</li>
+<li>the strengths and weaknesses : 长处和短处</li>
+<li>throughout : 遍及，从始至终， 贯彻</li>
+<li>namely ： 即 ，也就是说</li>
+<li>hence: 因此</li>
+<li>diving into: 跳进，潜进</li>
+<li>draw on : 利用，借鉴</li>
+<li>drawback : 缺点，弱点</li>
+<li>is analogous to : 类似于…</li>
+<li>It is also referrd to as : 这个也被称为．．．</li>
+<li>we can think of as : 我们可以认为是….</li>
+<li>This imformation is needed : 这个消息是必需的….</li>
+<li>in general : 一般来说，通常…</li>
+<li>acceptable : 可以接受的</li>
+<li>lead to : 导致了．．．．</li>
+<li>result in : 造成，导致．．．</li>
+<li>albeit : 尽管</li>
+<li>straightforward : 直接了当的</li>
+<li>essentially : 实际上，本质上．．</li>
+<li>on the scene : 在当时．</li>
+<li>caught(catch的过去式)general public’s eye :抓住了公众的眼睛，引起公众的注意．</li>
+<li>perhap :也许</li>
+<li>general idea :总体思路，总体大意．．．</li>
+<li>somewhat : 有些，稍微有点</li>
+<li>in which case : 在这种情况下　．．</li>
+<li>elapses: V:（随着时间的）流逝．</li>
+<li>shortcoming : 缺点．．</li>
+<li>moreover : 而且，加之，此外，再者．</li>
+<li>back-to-back :背靠背，连续，一个接着一个．．</li>
+<li>taking a close look :仔细看看．．</li>
+<li>first of all : 首先</li>
+<li>otherwise : 除此之外，否则．</li>
+<li>leave out : 省略，忽略．．</li>
+<li>indicate : 表明，表示，显示</li>
+<li>associated : 有关联的，相关的．．</li>
+<li>highly recommended : 强烈建议．．</li>
+<li>thereby : 从而．．</li>
+<li>substantially : 实质上．．</li>
+<li>the rest of : 其余的．．</li>
+<li>neglect : 忽略｀</li>
+<li>clearly something must be done : 显然．．一定要去做一些事情．．</li>
+<li>up to date : 现代的，最新的</li>
+<li>significantly : 显著的．</li>
+<li>coordinate with sb/sth : 与．．．配合，配合．．．</li>
+<li>launch : 启动．．发射．．</li>
+<li>authenticate : 认证</li>
+<li>principal : 最重要的</li>
+<li>restriction :限制</li>
+<li>retrieves :　取回，拉回</li>
+<li>mean :有手段的意思</li>
+<li>invoke :引用</li>
+<li>key aspects :关键的方面</li>
+<li>vast : 巨大的</li>
+<li>take place :发生　</li>
+<li>alternatively: 或者，两者中选一个 </li>
+<li>alternative : 另类的，替代的</li>
+<li>primary,secondary :主要的，次要的</li>
+<li>backup :后备</li>
+<li>desire :欲望，渴望</li>
+<li>desirable : 想要拥有的，期望的</li>
+<li>overview :　概述，概观</li>
+<li>brief: 简要的</li>
+<li>authoritative : 命令式的，权威的</li>
+<li>alias :别名</li>
+<li>a number of … : 一些．．．</li>
+<li>display :　显示</li>
+<li>in the frist place ：首先</li>
+<li>content :内容,满足的，知足的</li>
+<li>contention : 论点，竞争，争夺</li>
+<li>context :背景，语境，上下文</li>
+<li>startup :新启动，新成立的</li>
+<li>monopoly：垄断</li>
+<li>accredit :　认证</li>
+<li>make sure : 确定，保证</li>
+<li>legitemate :合法的</li>
+<li>scale,large-scale: 规模，大规模 </li>
+<li>bypass :　绕过</li>
+<li>bogus : 虚假，假冒的</li>
+<li>trick :欺骗，欺诈</li>
+<li>intercept : 拦截</li>
+<li>exploit : 利用，漏洞利用</li>
+<li>appropriate：适当的，恰当的</li>
+<li>just as : 就像．．．</li>
+<li>justify :证明…</li>
+<li>aid　：　帮助</li>
+<li>assist ：助攻</li>
+<li>somewhat :有些，有些许，有少许</li>
+<li>as time evolves: 随着时间的流逝</li>
+<li>with this … :　有了．．．，根据．．．（不要用Have this ..了．）</li>
+<li>equalize : 均衡｀</li>
+<li>reciprocate :互换，报答，酬答</li>
+<li>lingo :　行话</li>
+<li>satisfied : 满意</li>
+<li>earn other : 彼此</li>
+<li>chunks : 块</li>
+<li>tit-for-tat :以牙还牙，针锋相对</li>
+<li>locate :定位</li>
+<li>more specifically :更进一步..</li>
+<li>naive :天真的</li>
+<li>requires … to :　要求..要…</li>
+<li>elegant : 高雅的,优雅的</li>
+<li>likelihood : 可能性</li>
+<li>Henceforth :因此</li>
+<li>scheme: 方案</li>
+<li>conventions :约定</li>
+<li>convert : 转换</li>
+<li>convenience :方便</li>
+<li>circle :圈,圆｀</li>
+<li>clockwise :顺时针</li>
+<li>successor :继承者，接班人</li>
+<li>aware :意识到的,明白的</li>
+<li>be aware of  :意识到</li>
+<li>refine :提炼，精炼</li>
+<li>acceptable :　可接受的</li>
+<li>shortcuts : 捷径</li>
+<li>expedite :加快</li>
+<li>accomplished :完成</li>
+<li>verify : 检验，证明</li>
+<li>periodically :定期的</li>
+<li>abruptly : 突然</li>
+<li>depart ：离开</li>
+<li>replace :取代　（replace..with..）</li>
+<li>explicitly : 明确的</li>
+<li>churn : 流失</li>
+<li>phase : 阶段，时期</li>
+<li>frightened : 害怕的，受惊的(feel fear or worry)</li>
+<li>reference : 参考资料</li>
+<li>identifier : 识别码</li>
+<li>As you might expect :如你所料</li>
+<li>uppercase : 大写</li>
+<li>emphasize :注重</li>
+<li>intentionally :故意</li>
+<li>invisible : 无形的</li>
+<li>dedicate : 专用</li>
+<li>demonstrate : 展示</li>
+<li>vice versa : 反之毅然</li>
+<li>accumulate : 累计，积累</li>
+<li>as far as i know :据我所知</li>
+<li>in term of :　就..而言</li>
+<li>merely :仅仅</li>
+<li>column : 栏，柱</li>
+<li>concidence: 巧合</li>
+<li>confront : 面对(V)</li>
+<li>embody: 体现在(V)</li>
+<li>numerous : 许多的</li>
+<li>effort: 努力</li>
+<li>best-effor : 最大努力</li>
+<li>foremost: 最重要的</li>
+<li>mitigate: 使缓和，减轻</li>
+<li>inform: 告知</li>
+<li>suited: 适合</li>
+<li>regard: 注重，把．．看作，考虑</li>
+<li>regardless: 不注重，不考虑</li>
+<li>preliminary: 初步的,起始的</li>
+<li>precisely :精准地，准确地</li>
+<li>conferenc: 会议</li>
+<li>controversial: 有争议的,引起争议的</li>
+<li>induce: 诱发，诱导 </li>
+<li>dramatically: 显著地</li>
+<li>lack: 缺乏</li>
+<li>trivial: 微不足道的</li>
+<li>nontrivial: 不平凡的</li>
+<li>impose: 强加</li>
+<li>subject: 主题，科目(n) , 受支配的(adj),委托，使唤(v)</li>
+<li>constraint: 约束，限制(n)</li>
+<li>occupy: 占用</li>
+<li>redundant: 多余的</li>
+<li>fundamentally: 根本上的,重大性的</li>
+<li>framework: 框架</li>
+<li>corrupt: 腐化的，损坏的,毁坏的</li>
+<li>abstraction: 抽象，抽象化</li>
+<li>beneath: 在．．．下方</li>
+<li>incrementally: 递增的</li>
+<li>tedious: 冗长的，罗嗦的</li>
+<li>flaw: 缺陷</li>
+<li>flawless: 完美无暇</li>
+<li>finite: 有限的</li>
+<li>infinite: 无限的</li>
+<li>separate: 单独的，间隔的</li>
+<li>transition: 过渡，转变</li>
+<li>feedback: 反馈</li>
+<li>dictate: 听写</li>
+<li>correct:　正确的，准确无误的(adj), 纠正,修正,改正(v)</li>
+<li>leftmost: 最左边</li>
+<li>notation: 符号系统，数学符号</li>
+<li>fatal: 致命的，灾难性的</li>
+<li>oversight: 失察，疏忽</li>
+<li>clearly, we’re heading down a difficult path.: 明显的，我们真正走在一条艰难的路上</li>
+<li>garbled:　混乱不清的，含糊不清的</li>
+<li>argument: 参数</li>
+<li>estimate:　估计</li>
+<li>though, even though: 尽管</li>
+<li>pipelined: 流水线</li>
+<li>pipeline: 管道</li>
+<li>emerging:　新兴的，出现</li>
+<li>utilization: 利用率</li>
+<li>dismal: 惨淡,悲伤绝望的</li>
+<li>fortune: 大量财产，一大笔钱</li>
+<li>triple: 三倍</li>
+<li>presumably: 据推测,可能</li>
+<li>synchronization: 同步化</li>
+<li>silly: 愚蠢</li>
+<li>it is worth noting :值得注意</li>
+<li>encounter: 遭遇</li>
+<li>incorporate: 合并</li>
+<li>reiterated: 重申，重复的,反复的</li>
+<li>itemize: 逐个记载，逐个列出</li>
+<li>consecutively: 连续的</li>
+<li>coincide: 重合</li>
+<li>figurative: 比喻的，形象的</li>
+<li>curtain: 窗帘</li>
+<li>Companion: 同伴，伴侣</li>
+<li>conclude: 以．．．结束(讲话，会议，文章),推断，最后决定</li>
+<li>manifestation: 显示，表示，表明</li>
+<li>manifest: 显示，表示（V）</li>
+<li>preliminary: 初步的，起始的</li>
+<li>many of: 许多</li>
+<li>oblivious: (对周围的事情)毫不在意的，毫无知觉的</li>
+<li>suffice: 足够，满足要求</li>
+<li>payload: 有效载重量,净载重量</li>
+<li>entrenched: 根深蒂固的</li>
+<li>teardown: 带拆房屋，拆卸</li>
+<li>urgent: 紧急</li>
+<li>vulnerable:　易受影响的，易受伤的，脆弱的，</li>
+<li>evaesdrop: 偷听，窃听</li>
+<li>character: 写入，刻入</li>
+<li>estimated: 估计的</li>
+<li>statistic: 统计数据，统计资料</li>
+<li>decay: 衰变</li>
+<li>deviate: 脱离，偏离</li>
+<li>margin: 边缘，差额，余地，界限</li>
+<li>filp: 翻转</li>
+<li>considerable: 相当大的，相当重要的</li>
+<li>present: 礼物，目前(名词),显示，介绍(动词)</li>
+<li>expiry: 到期，期满</li>
+<li>subtlety: 微妙;巧妙</li>
+<li>depict: 描绘</li>
+<li>likely: 很可能的，可能要发生的</li>
+<li>most likely: 最有可能发生的</li>
+<li>convince: 说服</li>
+<li>interchangeably: 可互换</li>
+<li>savvy: 了解，实际知识(n), 懂得，领悟(v),有见识的，通情达理的(adj)</li>
+<li>see the forest for the tree :透过一棵树看森林</li>
+<li>dynamic: 动态的，思维活跃的，活泼的</li>
+<li>assured: 确定的，自信的，有把握的</li>
+<li>minor: 较不重要的，次要的</li>
+<li>advertising: 广告</li>
+<li>advertise : 广告</li>
+<li>perceive: 察觉，领悟，看出</li>
+<li>ascent: 上升，攀登</li>
+<li>deallocated: 释放</li>
+<li>reclaim: 回收，取回，拿回</li>
+<li>deluge: 暴雨，洪水</li>
+<li>exhausted: 筋疲力尽的，疲惫不堪的</li>
+<li>exhaust : 用尽</li>
+<li>deny: 否认，拒绝</li>
+<li>denied: 被否认，被拒绝</li>
+<li>craft:手工艺品,精心制作的东西</li>
+<li>manifest: 体现，显露，表现</li>
+<li>in the first place : 首先，最初，第一</li>
+<li>upper limit: 上限</li>
+<li>consequence: 后果</li>
+<li>steady: 稳定的，持续的</li>
+<li>available: 可用的</li>
+<li>aggregate: 合计</li>
+<li>ideal: 理想的</li>
+<li>far from ideal : 离理想很远，远远不够</li>
+<li>virtually: 实际上，实质上</li>
+<li>evident: 显而易见的;明白的</li>
+<li>embody: 体现，包含，使形象化</li>
+<li>assistance: 帮助，协助</li>
+<li>explicit: 显性的</li>
+<li>sophisticated: 见多识广的，复杂的</li>
+<li>in a general context: 在通常情况</li>
+<li>latter: 后者</li>
+<li>symptom : 症状</li>
+<li>operate: 操作，运行</li>
+<li>infer: 推断,推论</li>
+<li>proposal : 提案</li>
+<li>choke: 窒息，阻塞</li>
+<li>stress : 强调,压力</li>
+<li>intersperse: 点缀，散布</li>
+<li>convey: 表达，运送，传送</li>
+<li>tunable: 可调的，可调试的，可调试组件</li>
+<li>perceive : 感知,认识到，知觉</li>
+<li>trigger: 触发</li>
+<li>that is : 放在两个句子中间的时候可以翻译为＂也就是说＂</li>
+<li>coordinated: 协调一致的</li>
+<li>mandatory : 强制的;法定的;义务的</li>
+<li>roughly: 大概，大致，差不多</li>
+<li>mitigate : 减轻</li>
+<li>conservative: 保守的，守旧的</li>
+<li>identical: 相同的，完全一样的</li>
+<li>inextricably :　密不可分</li>
+<li>retrospetive: 回顾性</li>
+<li>factor : 因子，因素</li>
+<li>probing :　探测，探寻，探讨</li>
+<li>variation :变化,变动</li>
+<li>imminent: 即将发生的，临近的</li>
+<li>flavor: 风味,气味</li>
+<li>tremendous: 巨大的，惊人的，可怕的</li>
+<li>macroscopic : 宏观的，肉眼可见的</li>
+<li>saw-toothed :　锯齿状</li>
+<li>fairness: 公平，公正</li>
+<li>cooperate: 合作, 配合</li>
+<li>blissfully : 惬意的，幸福的</li>
+<li>gridlocked: 僵局,水泄不通</li>
+<li>anew: 重新</li>
+<li>just around the corner : 就在拐角处，意思是很接近了，指日可待</li>
+<li>adopt: 采用</li>
+<li>conservative: 保守的</li>
+<li>Hint : 暗示</li>
+<li>have nothing to do with … : 与…无关</li>
+<li>utilize : 利用</li>
+<li>fragmentation :碎片，分裂，分片</li>
+<li>prevalent : 流行的，盛行的，普遍的</li>
+<li>deceptive : 欺骗性的，骗人的，造成假象的</li>
+<li>centralize: 使集中，集中的，中央集权的</li>
+<li>delve : 探索，深入查找，搜寻</li>
+<li>successive: 连续的，连接的</li>
+<li>confidentiality :秘密的，机密的</li>
+<li>integrity : 完整性，诚信，正直</li>
+<li>eventual :最终的，最后的</li>
+<li>satisfy : 满足</li>
+<li>scope: 范围</li>
+<li>aim : 目标</li>
+<li>substantial : 实质的，牢固的，大量的</li>
+<li>oblivious : 遗忘的，忘却的，健忘的</li>
+<li>look up : 查阅，查找</li>
+<li>brute : 畜生，禽兽，残忍的</li>
+<li>evolution : 演化，进化，发展，渐进</li>
+<li>notion : 概念</li>
+<li>chips: 芯片,晶片</li>
+<li>roundabout: 圆环的，拐弯抹角的，不直接的</li>
+<li>blazingly: 极度的</li>
+<li>attendant: 服务员，侍者</li>
+<li>concreteness : 具体化，具体性</li>
+<li>ensure : 随后的</li>
+<li>adopter :(新技术的）的接受者，收养人</li>
+<li>headquarters :总部，司令部</li>
+<li>revenue: (政府的)税收，(公司的)收入</li>
+<li>venture : 冒险者</li>
+<li>embed : 嵌入式，嵌入的</li>
+<li>arguably : 大概，可能</li>
+<li>criteria : 准则，条件，标准</li>
+<li>intervention : 干预，调停，介入</li>
+<li>Nonetheless: 尽管如此</li>
+<li>overcome : 克服，压倒，征服</li>
+<li>vertical : 垂直，垂直方向</li>
+<li>intersect : 交叉，横断</li>
+<li>extent : 程度，范围</li>
+<li>extensive : 广泛的，大面积的</li>
+<li>negligible : 微不足道的，可以忽略的</li>
+<li>destined : 命中注定的，注定的</li>
+<li>in the time : 在这个时候</li>
+<li>in which case : 在这种情况下</li>
+<li>fluctuation : 波动，起起伏伏</li>
+<li>absorb : 吸收</li>
+<li>theoretical : 理论上的，纯理论的</li>
+<li>standpoint : 立场,观点</li>
+<li>threshold : 阀值，临界值</li>
+<li>as long as : 只要</li>
+<li>phenomenon : 奇迹，珍品，事件</li>
+<li>foray : 偷袭，进军，涉足</li>
+<li>syntax : 句法，语法</li>
+<li>semantics : 语义，语意</li>
+<li>interpret : 解释，翻译</li>
+<li>remainder : 剩余部分，其余部分</li>
+<li>glue : 胶水</li>
+<li>overhead : 开销，间接费用</li>
+<li>whereas : 然而，而</li>
+<li>squeeze : 挤压，压榨，紧缩</li>
+<li>fragment : 断片，片段，碎块</li>
+<li>reassembly : 重新组装</li>
+<li>proper : 适当的，恰当的，正确的</li>
+<li>does away with sth : 摆脱，摒弃，废除</li>
+<li>contiguous : 相近的，邻近的</li>
+<li>nonprofit :非盈利的，非盈利组织</li>
+<li>attractive : 诱人的，有魅力的</li>
+<li>dormitory : (寄宿学校的)宿舍</li>
+<li>enviable : 令人羡慕的，引人妒忌的</li>
+<li>lease : 租凭，租契，租期</li>
+<li>expertise : 专业知识（专长），专业技能</li>
+<li>patch : 补丁，打补丁</li>
+<li>external : 外部的，外表的</li>
+<li>nemesis : 克星(主要敌人)，报应</li>
+<li>savior : 救主，救星</li>
+<li>seldom : 很少，极少，几乎不</li>
+<li>inspect : 检查，进行检查</li>
+<li>malicious : 恶意的</li>
+<li>intrusion : 侵入，入侵</li>
+<li>approved :  核对的，已认可的</li>
+<li>alert : 警报，警告，机灵的</li>
+<li>shield : 盾牌，屏障，护盾</li>
+<li>breathtaking : 极其刺激的，美的惊人的</li>
+<li>augment : 提高，增强，增大</li>
+<li>excellent : 优秀的</li>
+<li>grain : 古粒，粒</li>
+<li>sand : 沙，沙粒</li>
+<li>streamline : 简化的，精简的，流线型的</li>
+<li>counterpart : 副本，配对物</li>
+<li>tunnel : 隧道,坑道</li>
+<li>portable : 手提式的，可携带的</li>
+<li>mutually : 相互的，互相的</li>
+<li>mutually-trusted : 相互信任的</li>
+<li>possess : 拥有，具有</li>
+<li>consult : 商量，商议</li>
+<li>boil down to sth : (形式与问题)主要原因在于，归结为</li>
+<li>short-haul : 短层，短途路线</li>
+<li>precise : 精确的，精准的</li>
+<li>mandate : 命令，委任，要求</li>
+<li>even if : 即使，纵然，就算</li>
+<li>relieve : 缓解,减轻</li>
+<li>skepticism : 怀疑，怀疑主义</li>
+<li>miraculously : 奇迹般的，奇迹般地</li>
+<li>quiescent : 静止的，静态的</li>
+<li>poison: 中毒;下毒，中毒的</li>
+<li>prohibitive : 高昂到难以承受的</li>
+<li>enormous: 巨大的</li>
+<li>sketch : 草图，示意图，素描图</li>
+<li>cause and effect : 因果关系</li>
+<li>nevertheless :不过，仍然，虽然如此</li>
+<li>rudimentary : 基础的，基本的，初级的</li>
+<li>semipermanent : 暂时的,半永久的</li>
+<li>elimination : 淘汰,去除</li>
+<li>calamitous : 多灾难的，多灾多难的</li>
+<li>redundant : 多余的，过剩的，过多的</li>
+</ul>
+
+            <hr>
+          </div>
+          <br>
+          <div>
+            <p>
+            
+            
+              <span>
+                <i class="iconfont icon-tag"></i>
+                
+                  <a class="hover-with-bg" href="/tags/-%E8%8B%B1%E8%AF%AD%E5%AD%A6%E4%B9%A0">-英语学习</a>
+                
+              </span>
+            
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+      <br><br>
+      
+      
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = 'https://lexssama.github.io/2020/03/03/计算机网络自顶向下有意思的单词/';
+        this.page.identifier = '/2020/03/03/计算机网络自顶向下有意思的单词/';
+      };
+      var oldLoad = window.onload;
+      window.onload = function () {
+        var d = document, s = d.createElement('script');
+        s.type = 'text/javascript';
+        s.src = '//' + 'Lexssama' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      };
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" target="_blank" rel="nofollow noopener noopener">comments
+        powered by Disqus.</a></noscript>
+  </div>
+
+
+    
+  </div>
+</div>
+
+    
+  </main>
+
+  
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <b>Fluid</b></a>
+    <br>
+
+    
+  
+    <!-- 不蒜子统计PV -->
+    
+    &nbsp;<span id="busuanzi_container_site_pv"></span>总访问量 
+          <span id="busuanzi_value_site_pv"></span> 次&nbsp;
+  
+  
+    <!-- 不蒜子统计UV -->
+    
+    &nbsp;<span id="busuanzi_container_site_uv"></span>总访客数 
+            <span id="busuanzi_value_site_uv"></span> 人&nbsp;
+  
+  <br>
+
+
+
+    
+
+
+    <!-- cnzz Analytics icon -->
+    
+
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="/lib/jquery/jquery.min.js" ></script>
+<script src="/lib/popper/popper.min.js" ></script>
+<script src="/lib/bootstrap/js/bootstrap.min.js" ></script>
+<script src="/lib/mdbootstrap/js/mdb.min.js" ></script>
+<script src="/js/main.js" ></script>
+
+
+  <script src="/js/lazyload.js" ></script>
+
+
+
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
+
+
+  <script src="/lib/smoothscroll/SmoothScroll.min.js" ></script>
+
+
+
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+<!-- Plugins -->
+
+
+  
+
+  
+
+  
+
+  
+
+  <!-- cnzz Analytics -->
+  
+
+
+
+  <script src="/lib/prettify/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint  linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+
+  <script src="/lib/typed/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "计算机网络自顶向下有意思的单词&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script src="/lib/anchor/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "false",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script src="/lib/fancybox/jquery.fancybox.min.js" ></script>
+  <script>
+    $("#post img:not(.no-zoom img, img[no-zoom])").each(
+      function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "images");
+        $(element).attr("href", $(this).attr("src"));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+          tex2jax: {
+              inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+              processEscapes: true,
+              skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          }
+      });
+
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+
+    </script>
+
+    <script src="https://cdn.staticfile.org/mathjax/2.7.6/MathJax.js?config=TeX-MML-AM_CHTML" ></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

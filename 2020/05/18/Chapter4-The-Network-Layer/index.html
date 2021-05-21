@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/wallhaven-4xjllo.jpg">
+  <link rel="icon" type="image/png" href="/img/wallhaven-4xjllo.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="description" content="">
+  <meta name="author" content="Lexssama">
+  <meta name="keywords" content="">
+  <title>Chapter4-The-Network-Layer ~ Lexssama&#39;s Blogs</title>
+
+  <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
+<link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
+<link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
+<link rel="stylesheet" href="/lib/github-markdown/github-markdown.min.css"  >
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+
+
+
+  <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css"  >
+
+<link rel="stylesheet" href="/css/main.css"  >
+
+
+  <link rel="stylesheet" href="/lib/fancybox/jquery.fancybox.min.css"  >
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<body>
+  <header style="height: 100vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Lexssama's Blogs</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">首页</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">归档</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/categories/">分类</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">标签</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">关于</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" false
+         style="background: url('/img/wallhaven-j5l9gw.jpg')no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <br>
+              
+                <p class="mt-3">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
+                  星期一, 五月 18日 2020, 3:01 下午
+                </p>
+              
+
+              <p>
+                
+                  
+                  &nbsp;<i class="far fa-chart-bar"></i>
+                  <span class="post-count">
+                    10.8k 字
+                  </span>&nbsp;
+                
+
+                
+                  
+                  &nbsp;<i class="far fa-clock"></i>
+                  <span class="post-count">
+                      67 分钟
+                  </span>&nbsp;
+                
+
+                
+                  <!-- 不蒜子统计文章PV -->
+                  
+                  &nbsp;<i class="far fa-eye" aria-hidden="true"></i>&nbsp;
+                  <span id="busuanzi_container_page_pv">
+                    <span id="busuanzi_value_page_pv"></span> 次
+                  </span>&nbsp;
+                
+              </p>
+            
+          </div>
+
+          
+            <div class="scroll-down-bar">
+              <i class="fas fa-angle-down scroll-down-arrow"></i>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto" id="post">
+          <div class="markdown-body">
+            <p><strong>In summary , this chapter has three major parts , The first past , section 4.1 and 4.2 cover the network layer function and services. The second part , section 4.3 and 4.4 covers forwarding , finally , the third past ,  section 4.5 through 4.7 covers routing.<br></strong></p>
+<h1 id="4-1-Introduction"><a href="#4-1-Introduction" class="headerlink" title="4.1 Introduction"></a>4.1 Introduction</h1><p>The first past is used to introduce network layer function and services.<br></p>
+<h2 id="4-1-1-Forwarding-and-Routing"><a href="#4-1-1-Forwarding-and-Routing" class="headerlink" title="4.1.1 Forwarding and Routing"></a>4.1.1 Forwarding and Routing</h2><ul>
+<li><p><strong>Forwarding :</strong> When the packet arrives at router’s input link , the router must move the packet to the appropriate output link. Section 4.3 we will look inside router and examine how a packet is actually forwarded from an input link to output link within a router.<br></p>
+</li>
+<li><p><strong>Routing :</strong> The network layer must determine the route or path taken by packets as they flow from sender to receiver. The algorithm that calculated these paths are referred to as routing algorithm . We will discuss routing algorithm inside at section 4.5<br></p>
+</li>
+</ul>
+<p><strong>Forwarding table :</strong> A router forwards a packet by examining the value of a field in the arrived packet’s header and use the header value to index into the router’s forwarding table. The value stored in forwarding table entry for indicate the router’s outgoing link interface to which that packet is to be forwarded .<br><br><img src="Routing-algorithm-determine-value-in-forwarding-tables.png" srcset="/img/loading.gif" alt="Routing-algorithm-determine-value-in-forwarding-table"><br></p>
+<p><strong>How to configure the forwarding table of all router at the network.</strong><br><br>The answer is though the routing algorithm. The router receive the routing protocol message which are used to configure its forwarding table.<br></p>
+<p><strong>Routing algorithm:</strong> The routing algorithm has two kinds , one is centralized , another is decentralized.<br></p>
+<ul>
+<li><em>centralized :</em>  Every router has complete information about all other router in the network and the traffic status of the network. These algorithm is known as LS (link state) algorithm.<br></li>
+<li><em>decentralized :</em> Earn router have information about the routers it is directly connected to — it doesn’t know every router in the network. (These algorithm also known as DV (distance vector) algorithm.)</li>
+</ul>
+<h2 id="Connection-Setup"><a href="#Connection-Setup" class="headerlink" title="Connection Setup"></a>Connection Setup</h2><p>Addition to the two importance function (forward and routing) , the third importance function is <strong>connection setup.</strong><br><br>We will examine connection setup in Section 4.2.<br></p>
+<h2 id="4-1-2-Network-Service-Models"><a href="#4-1-2-Network-Service-Models" class="headerlink" title="4.1.2 Network Service Models"></a>4.1.2 Network Service Models</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center"><strong>Questions:</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><em>When the transport layer at a sending host transmits a packet into the network layer , can transport layer rely on the network layer to deliver the packet to destination ?</em></td>
+</tr>
+<tr>
+<td style="text-align:center"><em>When multiple packets is sent , will they be delivered to the transport layer in the receiver’s host in order in which they were sent ?</em></td>
+</tr>
+<tr>
+<td style="text-align:center"><em>will the amount of time between the send of two sequential packet transmission be same as the amount of time between their reception?</em></td>
+</tr>
+<tr>
+<td style="text-align:center"><em>will the network provide the feedback about the congestion in the network?</em></td>
+</tr>
+<tr>
+<td style="text-align:center"><em>what is the abstract view(properties) of the channel connecting the transport layer in the sending and receiving hosts?</em></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>The answer depend on provided network service model.<br><br>The specific services that could be provide by network layer include :<br></strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">Network Service Models</th>
+<th style="text-align:center">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><em>Guaranteed delivery</em></td>
+<td style="text-align:center">This service guaranteed that packet will eventually arrive at destination.</td>
+</tr>
+<tr>
+<td style="text-align:center"><em>Guaranteed delivery with bounded delay</em></td>
+<td style="text-align:center">This service not only guaranteed delivery of packets , but also delivery within a specified host-to-host delay bounded.</td>
+</tr>
+<tr>
+<td style="text-align:center"><em>In-order packet delivery</em></td>
+<td style="text-align:center">This service guaranteed that packet arrived at the destination in the order that they were sent.</td>
+</tr>
+<tr>
+<td style="text-align:center"><em>Guaranteed minimal bandwidth</em></td>
+<td style="text-align:center">The network layer service emulates the behavior of transmission a specified bit rate (for example 1Mbps) between sending and receiving host. As long as sending host transmits bits at a rate below the specified bit rate , then no packet lost and packet arrived within a prespecified host-to-host delay.(for example 40 msc).</td>
+</tr>
+<tr>
+<td style="text-align:center"><em>Guaranteed maximum jitter</em></td>
+<td style="text-align:center">The service guaranteed that the amount of time between the transmission of two successive packets at the sender is equal to the amount of time between their receipt at destination.(or that this spacing changes by no more than some specified value).</td>
+</tr>
+<tr>
+<td style="text-align:center"><em>Security service</em></td>
+<td style="text-align:center">Using a secret session key known by a source and destination host , the network layer in the source host could encrypt the payloads of all datagrams being sent to the destination , the network layer in the destination host would then be responsible for decrypting the payloads. In addition to confidentiality, the network layer could provide data integrity and source authentication services.</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="Internet-ATM-CBR-and-ATM-ABR-service-models"><a href="#Internet-ATM-CBR-and-ATM-ABR-service-models" class="headerlink" title="Internet , ATM CBR and ATM ABR service models."></a>Internet , ATM CBR and ATM ABR service models.</h3><ul>
+<li><strong>Internet-Best-effort-service</strong></li>
+<li><strong>Constant bit rate (CBR) ATM network service</strong></li>
+<li><strong>Available bit rate (ABR) ATM network service</strong><br><img src="Internet-ATM.png" srcset="/img/loading.gif" alt="Internet-ATM"><br></li>
+</ul>
+<h1 id="4-2-Virtual-Circuit-and-Datagram-Networks"><a href="#4-2-Virtual-Circuit-and-Datagram-Networks" class="headerlink" title="4.2 Virtual Circuit and Datagram Networks"></a>4.2 Virtual Circuit and Datagram Networks</h1><p>Similar to UDP and TCP , the network layer also provide the connectionless service and connection-oriented service.<br></p>
+<p>In all computer network architectures to data (Internet , ATM , frame relay , and so on ) the network layer provides either a host-to-host connectionless service or a host-to-host connection service , but not both . Computer networks that provide only a connection service at network layer are called <strong>Virtual-circuit(VC) networks</strong> , computer network that provide only connectionless service at the network layer are called <strong>datagram networks</strong>.</p>
+<h2 id="4-2-1-Virtual-Circuit-Networks"><a href="#4-2-1-Virtual-Circuit-Networks" class="headerlink" title="4.2.1 Virtual-Circuit Networks"></a>4.2.1 Virtual-Circuit Networks</h2><p><strong>A VC consists of :</strong><br><br>(1). A path (that is , a series of links and routers) between the source and the destination hosts <br><br>(2). VC number one number for each link along the path .<br><br>(3). Entries in the forwarding table in each router along the path. A packet belonging to a virtual circuit will carry a VC number in its header. Because a virtual circuit may have a different VC number on each link. Each intervening router must replace the VC number of each traversing packet with a new VC number . The new VC number is obtained from forwarding table.<br></p>
+<p><strong>For example:</strong><br><br>suppose The host A request to establish VC connection between itself and host B , We choose the path is A-R1-R2-B , suppose we set 12 , 22 and 32 to these three link. Hence , the value of VC number field is 12 when the packet leave  host A , the value of VC number field is 22 when the packet leave  R1 , the value of VC number field is 32 when the packet leave  R2 .<br><img src="Simple-Virtual-Circult-Network.png" srcset="/img/loading.gif" alt="Simple-Virtual-Circult-Network.png"><br><br><img src="Simple-VC-Path.png" srcset="/img/loading.gif" alt="Simple-VC-Path.png"><br></p>
+<p>Whenever a new VC is established across a router , an entry is added to the forwarding table . Similarly , whenever a VC terminates , the appropriate entry in each table along its path are removed. — <strong>In a VC network , the network router must maintain connection state information for each ongoing connection</strong><br></p>
+<p><strong>Three identifiable phases in a virtual-circuit network.</strong><br></p>
+<ul>
+<li><strong>VC setup:</strong> The network layer determines the path between sender and receiver , that is the series of link and routers through which all packets of VC will travel. The network layer also determines the VC number for each link along the path. Finally , the network layer add the entry to forwarding table in each router along the path. During the VC setup , the network layer may also reserve resource (for example : bandwidth) along the path of VC.</li>
+<li><strong>Data transfer :</strong> The VC connection have been established , packets can being flow along the VC.</li>
+<li><strong>VC teardown:</strong> This is initiated when the sender (or receiver) informs the network layer of its desire to terminate the VC connection , The network layer will typically inform the end system on the other side of the network of call termination and update the forwarding tables in each of packet routers on the path to indicate that the VC no long exist.<br></li>
+</ul>
+<p><strong>Signaling Message and Signaling Protocol</strong><br></p>
+<ul>
+<li><strong>Signaling Message:</strong> The message that the end systems send into the network to initiate or terminate a VC , the message passed between the routers to setup the VC (that is to modify connection state in router table ).</li>
+<li><strong>Signaling Protocol :</strong> The protocol used to exchange signaling message are often referred to as signaling protocol.<br><img src="Virtual-Circuit-Setup.png" srcset="/img/loading.gif" alt="Virtual-Circuit-Setup.png"><br></li>
+</ul>
+<p><em>More detail about the signaling protocol and signaling message see [Black 1997] for a general discussion of signaling in connection-oriented networksand [ITU-T Q.2931 1995] for the specification of ATM’s Q.2931 signaling protocol.</em><br></p>
+<h2 id="4-2-2-Datagram-Networks"><a href="#4-2-2-Datagram-Networks" class="headerlink" title="4.2.2 Datagram Networks"></a>4.2.2 Datagram Networks</h2><p>In the datagram networks , each time and end system want to send a packet , it stamps the packet with the address of the destination end system and then pop the packet into the network . As shown in figure follow , <strong>these is no VC setup and routers do not maintain any VC state information (because there are no VCs)</strong><br><img src="Datagram-Network.png" srcset="/img/loading.gif" alt="Datagram-Network.png"><br></p>
+<p>As a packet is transmitted from source to destination , it passes through a series of routers , Each of these router use the packet’s destination address to forward the packet , Specifically , each router these of router has a forwarding table map the destination address to link interfaces , When a packet arrived at the router , the router use the packet’s destination address to look up appropriate link interface in the forwarding table , the router then intentionally forwards the packet to the output link interface. <br></p>
+<p><img src="Datagram-Forwarding-Table.png" srcset="/img/loading.gif" alt="Datagram-Forwarding-Table.png"><br><br>When these are multiple matches , the router uses the <strong>longest prefix matching rule</strong> that is finding the longest matching entry in the forwarding table , and then forwards the packet to link interface associated with the longest prefix match.<br></p>
+<p><em>The time scale at which this forward state information (forward table entry) change is relatively slow. Indeed in a datagram network the forwarding table are modified by routing algorithm. which typically update a forwarding table every one-to-five minutes or so.</em> </p>
+<h1 id="4-3-What’s-Inside-a-Router"><a href="#4-3-What’s-Inside-a-Router" class="headerlink" title="4.3 What’s Inside a Router?"></a>4.3 What’s Inside a Router?</h1><p>A high-level view of a generic router architecture is shown in figure follow . Four router components can be identified :<br></p>
+<ul>
+<li><strong>Input port :</strong> An input port perform several key functions .<ul>
+<li>It performs the physical layer function of terminating an incoming physical link at router. (Occurring in leftmost box of input port<br>and rightmost box of output port.)<br></li>
+<li>It performs the link-layer functions needed to interoperate<br>with the link layer at other side of incoming link . (Occurring in middle box in the input and output ports)<br></li>
+<li>It perform the lookup functions that is the forwarding table is consulted to determine the router output port to which an arriving packet will be forwarded via the switching fabric. (Occurring in the rightmost box of input port)</li>
+</ul>
+</li>
+<li><strong>Switching Fabric :</strong> The switching fabric connects the router’s input port to its output port.<br></li>
+<li><strong>Output port:</strong> An output port store the packet from switching fabric and transmits these packets on outgoing link by performing the necessary link-layer and physical-layer functions.<br></li>
+<li><strong>Routing Processor :</strong> The routing processor executes the routing protocol (study in section 4.6) maintain routing table and attached link state information and computer the forwarding table for the router .It also perform the network management (study in chapter 9).<br><img src="Router-Architecture.png" srcset="/img/loading.gif" alt="Router-Architecture.png"><br></li>
+</ul>
+<p>A router input port , output port and switch fabric together implement the forwarding function and almost always implemented in the hardware.<br></p>
+<h2 id="4-3-1-Input-Processing"><a href="#4-3-1-Input-Processing" class="headerlink" title="4.3.1 Input Processing"></a>4.3.1 Input Processing</h2><p>The lookup performed in the input port is central to the router’s operation — it is here that the router uses the forwarding table to lookup the output port to which an arrived packet will be forwarded via switching fabric , the forwarding table is computed and updated by the router processor. The forwarding table is copied from the routing processor to the line cards over separate bus (eg: PCI bus). With the forwarding table copies , forwarding decision can be made locally , at each input port , without invoking the centralized routing processor. Once a packet’s output port have been determined via the lookup , the packet can be sent into the switching fabric.<br><br><img src="Input-Port-Processing.png" srcset="/img/loading.gif" alt="Input-Port-Processing.png"><br></p>
+<p><strong>Although lookup is arguably the most importance action in input port processing many other action must be taken :</strong> <br></p>
+<ul>
+<li>Physical and link layer processing must be occur as discussed above;</li>
+<li>The packet’s version number , checksum and time-to-live-field (We will study in section 4.4.1)<br></li>
+<li>counter used to network management (such as the number of IP datagram received) must be updated.</li>
+</ul>
+<h2 id="4-3-2-Switching"><a href="#4-3-2-Switching" class="headerlink" title="4.3.2 Switching"></a>4.3.2 Switching</h2><p><img src="Three-Switching-Techniques.png" srcset="/img/loading.gif" alt="Three-Switching-Techniques.png"><br><br><strong>Switching can be accomplished in a number of way , as shown in figure above.<br></strong></p>
+<ul>
+<li><p><strong>Switching via memory :</strong> The simplest , earliest routers were traditional computers with switching between the input ports and output ports being done direct control of the CPU (routing process). Input port and output ports functioned as traditional I/O devices in traditional operating system. An input ports with an arriving packet signaled the routing process via an interrupt , The packet was then copied from input port to processor memory. The routing process was then extracted the destination address from the header , look up the appropriate outpost in the forwarding table , and copied the packet to the output post’s buffer.<br><strong>Note that two packet can not be forwarded at the same time even if they has different destination ports. So that packets transferring speed is very slow.</strong> Many modern routers switch via memory. A major difference from early routers,however, is that the lookup of the destination address and the storing of the packet into the appropriate memory location are performed by processing on the input line cards.</p>
+</li>
+<li><p><strong>Switching via bus:</strong> In this approach , an input port transfers packet directly to output port without intervention by the routing process. This is typically done by having the input port pre-pend a switching internal label (header) to the packet indicating the local output port to which this packet is being transferred and transmitting the packet onto the bus. The packet is received by all output posts , but only the port that matches the label will keep this packet. The label is then removed at the outpost port. <strong>If multiple packets arrive to the router at the same , each at a different input ports , all but one must wait since only one packet can cross the bus at a time .(The roundabout could only contain one car at a time)</strong></p>
+</li>
+<li><p><strong>Switching via an interconnection network:</strong> A crossbar switch is an interconnection network consisting of 2N buses that connect N input ports and N output ports . Each vertical bus intersects intersects each horizontal bus at a crosspoint , which can opened and closed at any time by switching fabric controller. When a packet arrives from post A and need to be forwarded to post B , the switch controller closes the crosspoint at intersection of buses A and Y and port A sends the packet onto its bus , which is picked up (only) by bus Y. Note that the packet from B need to be forwarded to post X at the same time , <strong>crossbar network are capable of forwarding multiple packet in parallel, However if two different input post destined to same output post , the one have to wait at the input port.</strong></p>
+</li>
+</ul>
+<h2 id="4-3-3-Output-processing"><a href="#4-3-3-Output-processing" class="headerlink" title="4.3.3 Output processing"></a>4.3.3 Output processing</h2><p>Output post processing take packets that have been stored in the output port’s memory and then transmit them over the output link. This include selecting and de-queueing packet for transmission and performing the needed link-layer and physical-layer transmission functions.<br><br><img src="Output-Port-Processing.png" srcset="/img/loading.gif" alt="Output-Port-Processing.png"><br></p>
+<h2 id="4-3-4-Where-Does-Queueing-Occur"><a href="#4-3-4-Where-Does-Queueing-Occur" class="headerlink" title="4.3.4 Where Does Queueing Occur ?"></a>4.3.4 Where Does Queueing Occur ?</h2><p>It’s clear that packet queue may form at both the input port and the output port.<br><br><img src="Output-Port-Queueing.png" srcset="/img/loading.gif" alt="Output-Port-Queueing.png"><br><br>In this scenario (<em>$R<em>{switch}$ fast enough $R</em>{link}$</em> ), packets arriving at each of N input ports and destined to same the output port. Since the output port can transmit only a single packet in a unit of time(a packet transmission time) . The N arriving packets will have to queue(wait) for transmission over to outgoing link. Eventually if the number of queued packets grow large enough to exhaust available memory at the output port , in which case packet are dropped.<br><br>A consequence of output port queueing is that <strong>packet scheduler</strong> at the output port must choose a packet among those queued for transmission. The selection may be first-come-fist-served (FCFS) , weighted fair queueing (WFQ) which shares the outgoing link fairy among the different end-to-end connections that have packets queued for transmission.<br><br>Similarly , if there is not enough memory to buffer an incoming packet , a decision must be made to either drop arriving packet or remove one or more already-queued packets to make room for newly arriving packet.<br>For example : <em>Active Queue Management (AQM) algorithm</em> and <em>Random Early Detection (RED) algorithm</em><br><br>If <em>$R<em>{switch}$ not fast enough $R</em>{link}$</em> The switch fabric to transfer all arriving packets though the fabric without delay , then packet queueing can also occur at the input ports that is packets must join input port to wait turn to be transferred though the switching fabric to output port.<br><br><img src="HOL-Block-At-An-Input-Queued-Switch.png" srcset="/img/loading.gif" alt="HOL-Block-At-An-Input-Queued-Switch.png"><br><br>Figure above shown an example , and suppose that<br><br><strong>(1)</strong>.the switching fabric is crossbar switching fabric.<br><br><strong>(2)</strong>.Packets are moved from a given input queue to their desired output queue in an FCFS manner. Two packets (<em>darkly shaded, port 1,3</em>) at the front of their input port queues are destined for the same upper-right output port. Suppose that the switching fabric choose to transfer the packet from the front of the upper-left queue. In this case the packet in lower-left queue must wait , not only darkly shaded must be wait , but also the lightly shaded packet that behind the darkly shaded in the lower-left queue even though it destined for middle-right output port . This phenomenon is knowns as <strong>head-of-the-line (HOL) blocking.</strong></p>
+<h1 id="4-4-The-Internet-Protocol-IP-Forwarding-and-Addressing-in-the-Internet"><a href="#4-4-The-Internet-Protocol-IP-Forwarding-and-Addressing-in-the-Internet" class="headerlink" title="4.4 The Internet Protocol (IP) : Forwarding and Addressing in the Internet."></a>4.4 The Internet Protocol (IP) : Forwarding and Addressing in the Internet.</h1><p><strong>Inside of the Internet’s Network Layer:</strong><br><br><img src="A-Look-Inside-The-Internet-Network-Layer.png" srcset="/img/loading.gif" alt="A-Look-Inside-The-Internet-Network-Layer.png"><br><br><strong>The three major component inside the internet network:</strong></p>
+<ul>
+<li><strong>IP Protocol</strong></li>
+<li><strong>Routing Component (Routing protocol study in section 4.6)</strong></li>
+<li><strong>Report error and in datagram and respond to request for certain network-layer information. Internet Contorl Message Protocol (ICMP) studied in section 4.4.3</strong></li>
+</ul>
+<h2 id="4-4-1-Datagram-Format"><a href="#4-4-1-Datagram-Format" class="headerlink" title="4.4.1 Datagram Format"></a>4.4.1 Datagram Format</h2><p>The network-layer packet is referred to as a datagram.<br><br><strong>Ipv4-Datagram-Format:</strong><br><br><img src="Ipv4-Datagram-Format.png" srcset="/img/loading.gif" alt="Ipv4-Datagram-Format.png"><br><br><strong>The key field of Datagram format are following:</strong><br></p>
+<ul>
+<li><strong>Version number :</strong> These 4 bits specify the IP protocol version of the datagram , by look at the version number , the router can determine how to interpret the remainder of IP datagram . Different Version of IP use different datagram format.<br></li>
+<li><strong>Header length:</strong> Because the IPv4 datagram contain a variable number of options (which are included in the IPv4 datagram header) This 4 bits is needed to determine where the data actually being in the datagram . Most Ipv4 datagram don’t contain option , so the typical IP datagram has a 20 bytes header.</li>
+<li><strong>Type of service:</strong> The type of service bits were included in ipv4 header to allow different types of datagram (for example : requiring low delay , hight throughput or reliability).</li>
+<li><strong>Datagram length:</strong> This is a total length of the IP datagram (Header Plus Data) , since this field is 16 bits , so that the maximum size of the IP datagram is 65535 bytes, however datagram rarely larger than 1500 bytes.</li>
+<li><strong>Identifier , flags , fragmentation offset:</strong> These three field we will consider depth in shortly.</li>
+<li><strong>Time-to-live:</strong> The field used to ensure that datagram don’t circulate forever in the network.</li>
+<li><strong>Protocol :</strong> The value of this field is used to indicates the specific transport-layer-protocol to which the data portion of this datagram should be passed , for example the value 6 represent TCP and the value 17 represent UDP.</li>
+<li><strong>Header Checksum :</strong> The header checksum aids a router detecting bit error in a received IP datagram.<br><br><strong>Why does TCP/IP perform error checking at both the transport and network layer.</strong><br><ul>
+<li><em>only the IP header is checksummed at the IP layer while the TCP/UDP checksum is computed over the entire TCP/UDP segment.</em></li>
+<li><em>TCP/UDP and IP do not necessarily both have to belong to the same protocol stack. IP also can service other protocol (different to TCP/UDP).</em></li>
+</ul>
+</li>
+<li><strong>Source and Destination IP Addresses</strong></li>
+<li><strong>Options :</strong> The options flied allow an IP header to be extended.</li>
+<li><strong>Data field (payload):</strong> In most circumstance , the data field of the IP datagram contains the transport-layer segment (for example UDP/TCP) . However , the data field can carry other types of data such as ICMP message .</li>
+</ul>
+<h3 id="IP-datagram-fragmentation"><a href="#IP-datagram-fragmentation" class="headerlink" title="IP datagram fragmentation"></a>IP datagram fragmentation</h3><p>Since not all link-layer protocol can carry network-layer protocol of the same size . Some protocol can carry big datagrams , whereas other protocols can only a little packets. (for example : Ethernet frames carry 1500 bytes of data, the wide-area links can no more than 576 bytes.)<br></p>
+<p><em>Because each IP datagram is encapsulated within the link-layer frame for transport from one router to next router. The problem is that each of link along the router between sender and destination can use different link-layer protocols and each of those protocol can have different MTUs(maximum transmission unit).<br></em></p>
+<p>Suppose the router have MTU that is smaller than the length of the IP datagram . How to squeeze this oversize IP datagram into the payload field of the link-layer frame?<br><br>The solution is to fragment the data in the IP datagram into two or more smaller IP datagrams , encapsulate each of these smaller IP datagram in a separate link-layer frame and send these frames over the outgoing link . Each of these smaller datagram is referred to as a fragment.<br><br>Fragment need to reassembled before they reached the transport layer at the destination . Indeed both TCP and UDP expecting to complete, unfragmented segment from the network layer.<br></p>
+<p><strong>How to determine a packet whether or not a fragment , how to reassemble these fragment and when the destination host have received the last fragment of some original larger datagram.</strong><br><br>The answer is three field in the ipv4 datagram header.<br></p>
+<ul>
+<li><strong>16-bits-identifier field:</strong> When a datagram is created , the sending host stamps the datagram with an identification number as well as source and destination address. Typically , the sending host increments the identification number of each datagram it sends.<br></li>
+<li><p><strong>13-bits Fragmentation offset:</strong> When a router need to fragment a datagram , each resulting fragment is stamped with the source and destination address , and identification number of original datagram , and then the Fragmentation offset field is used to specify where the fragment fit within the original IP datagram.<em>(unit is bit)</em></p>
+</li>
+<li><p><strong>Flags field:</strong> This field is used to identify the last fragment of Original Ipv4 datagram . The last fragment has a flags bit set to 0 , and other fragment has a flags bit set to 1.<br><br><img src="IP-fragmentation-and-reassembly.png" srcset="/img/loading.gif" alt="IP-fragmentation-and-reassembly.png"><br><br><img src="Ip-fragments.png" srcset="/img/loading.gif" alt="Ip-fragments.png"><br><br>If one or more fragment does not arrive , the incomplete fragments is discarded and not passed to transport layer , and The transport layer protocol is TCP , TCP will recover this loss by retransmission.<br></p>
+</li>
+</ul>
+<h2 id="4-4-2-IPv4-Addressing"><a href="#4-4-2-IPv4-Addressing" class="headerlink" title="4.4.2 IPv4 Addressing"></a>4.4.2 IPv4 Addressing</h2><ul>
+<li><strong>Interface :</strong> The boundary between the host and physical link is called an interface.</li>
+</ul>
+<p><strong>A router has multiple interfaces and each of these interfaces have its own unique IP address.</strong><br><img src="Interface-Address-And-Subnets.png" srcset="/img/loading.gif" alt="Interface-Address-And-Subnets.png"><br></p>
+<ul>
+<li><strong>Subnet:</strong> To determine the subnet detach each interface from its host and router , creating islands of isolated networks with interfaces terminating the end points of isolated networks , Each of these isolated networks is called a subnet.<br></li>
+</ul>
+<p>Shown as figure above , In the upper-left , this network interconnecting three host interfaces and one router interface forms a <strong>subnet</strong>. IP addressing assigns an address to this subnet : 223.1.1.0/24 , where the /24 notation , sometime known as <strong>subnet mask</strong>, Indicate that the leftmost 24-bits of 32-bits quantity define the subnet address.</p>
+<p>The internet’s addressing assignment strategy is known as <strong>Classless Interdomain Routing (CIDR)</strong> As with subnet addressing , the 32-bits IP address is divided into two parts and again has the dotted-decimal form a.b.c.d/x , where x indicates the number of bits in the first past of the address (<strong>network prefix</strong>) . When we cover the internet BGP routing protocol in the section 4.6 , we will see that only these leading x prefix bits are considered by routers the organization’s network. That is when a router outside the organization forwards a datagram whose destination address is inside the organization only these leading x bits of the address need be considered . The remaining $32-x$ bits of an address can be though of as distinguishing among the devices within the organization. These bits will be considered when forwarding packets at routers within the organization.<br></p>
+<p><em>The special IP address : 255.255.255.255 (IP broadcast address), when a host send a datagram with destination address 255.255.255.255, this message is delivered to all host on the same subnet.</em></p>
+<h3 id="Obtaining-a-Block-of-Address"><a href="#Obtaining-a-Block-of-Address" class="headerlink" title="Obtaining a Block of Address"></a>Obtaining a Block of Address</h3><p><em>Internet corporation  for Assigned Name and Number (ICANN) has responsibility for managing the IP address space and allocating address blocks to ISPs and other organizations.<br></em></p>
+<p>In order to obtain a block of IP addresses for use within an organization’s subnet , a network administrator might first contract its ISP , while would provide addresses from a larger block of addresses that had already been allocated to the ISP. For example , the ISP may itself have been allocated the address block 200.23.16.0/20 ,the ISP divide its address block into eight equal-sized contiguous address block and give one of these address block out to each of up to eight organizations.<br><br><img src="Organization-Address.png" srcset="/img/loading.gif" alt="Organization-Address.png"><br></p>
+<h3 id="Obtaining-a-host-Address-The-Dynamic-Host-Configuration-Protocol"><a href="#Obtaining-a-host-Address-The-Dynamic-Host-Configuration-Protocol" class="headerlink" title="Obtaining a host Address : The Dynamic Host Configuration Protocol"></a>Obtaining a host Address : The Dynamic Host Configuration Protocol</h3><p>Once an organization obtained a block of addresses it can assign individual IP address to host and router interface in its organization.<br>The router IP address typically manually configure by a system administrator. The host IP address typically configure by using <strong>Dynamic Host Configuration Protocol (DHCP)</strong> DHCP allows a host obtain an IP address automatically. As the host join and leave , the DHCP server need to update its list of available IP addresses.<br></p>
+<p>DHCP is a client-service protocol . A client is typically a newly arriving host wanting to obtain network configuration informations. Each subnet have a DHCP service . If no server is present on the subnet , a DHCP relay agent (typically a router) that knows the address of a DHCP service for that network is needed , for example show as figure below , DHCP service attached to subnet 223.1.2/24 , with the router serving as relay agent for arriving clients attached to subnet 223.1.1/24 and 223.1.3/24 .<br><br><img src="DHCP-Client-Server-Scenario.png" srcset="/img/loading.gif" alt="DHCP-Client-Server-Scenario.png"><br></p>
+<p><strong>When a newly arriving host income to subnet , The DHCP has four steps for assign a IP address to new host.<br></strong></p>
+<ul>
+<li><p><strong>DHCP server discovery:</strong>  This is done using <strong>DHCP discovery message</strong> The new host send a DHCP discovery message with a UDP packet , port 67 source IP address : 0.0.0.0 (since , new host hasn’t IP address) and destination IP address : 255.255.255.255 (broadcast address). The UDP packet is encapsulated in a IP datagram and then passed to the link-layer. (We will cover the detail of broadcast in section 5.4)<br></p>
+</li>
+<li><p><strong>DHCP server offer(s) :</strong> A DHCP server receiving a DHCP discovery message responds to the client with the <strong>DHCP offset message</strong> that is broadcast to all notes on the subnet using the broadcast IP address : 255.255.255.255. Each server offer message contain the transaction ID of the receiver discovery message , the proposed IP address for the client , the network mask , and an IP address lease time . </p>
+</li>
+<li><p><strong>DHCP request :</strong> The newly arriving client will choose from among one or more server offers and respond to its selected offer with <strong>DHCP request message</strong> echoing back the configuration parameters.</p>
+</li>
+<li><p><strong>DHCP ACK:</strong> The server responds to the DHCP request message with a <strong>DHCP ACK message</strong> confirming the requested parameters.<br></p>
+</li>
+</ul>
+<p><em>yiaddr(as in “your Internet address”)</em><br><img src="DHCP-Client-Server-Interaction.png" srcset="/img/loading.gif" alt="DHCP-Client-Server-Interaction.png"><br><br>Once the clients receives the DHCP ACK , the interaction is compelte and client can use the DHCP-allocated IP address for the lease duration. Since a client may want to use its address beyond the lease’s expiration , DHCP also provide a mechanism that allow a client to renew its lease on an IP address.<br></p>
+<h3 id="Network-Address-Translation-NAT"><a href="#Network-Address-Translation-NAT" class="headerlink" title="Network Address Translation (NAT)"></a>Network Address Translation (NAT)</h3><p>With proliferation of small office , home office (for example , the kid at home not only their computer but have one or more smartphone and networked game ..etc) , the ISP have not enough IP address to handle this scenarios , what should we do in this scenarios.<br></p>
+<p>The answer is NAT (Network Address Translation)<br><br><strong>Figure follow is show the operation of NAT-enabled router.<br></strong><br><img src="Network-Address-Translation.png" srcset="/img/loading.gif" alt="Network-Address-Translation.png"><br><br>In figure above all traffic leaving the home router for for the larger internet has a source IP address of 138.76.29.7 and all traffic entering the home router must have a destination IP address 138.76.29.7. In essence the NAT-enabled router is hiding the detail of the home network from the outside world.<br></p>
+<ul>
+<li><p><strong>Question: How the home network computer (or other network device) get their home IP address (for example 10.0.0.0/24)?</strong><br><br>The answer is DHCP , The router get its IP address from the ISP’s DHCP server and the router runs a DHCP server to provide addresses to computer (or other device ) within the NAT-DHCP-router-controlled-home-network’s-address-space.<br></p>
+</li>
+<li><p><strong>Question : If all datagram arriving at the NAT-Router from the WAN have the same destination IP address , how does the router know the internal host which it should forward a given datagram.</strong> <br><br>The trick is use a <strong>NAT translation table</strong> at the NAT router , and to include port number as well as IP addresses in table entries. For example shown as figure above , the host computer 10.0.0.1 request a web page on some web server (port 80) with IP address 128.119.40.186 . The host 10.0.0.1 assigns the (arbitrary) source port number 3345 and send the datagram into the LAN , The NAT-Router receives the datagram , genarates a new source port number 5001 , replace the source IP address with it WAN-side IP address 138.76.29.7 and replace the original source number 3345 with its new source port number 5001. NAT-Router adds an new entry to its NAT translation table and send a new datagram to WAN , when a datagram arriving at the NAT-Router , the NAT-Router use the destination IP address and destination port to obtain appropriate IP address (10.0.0.1) and destination port (3345) , then send a datagram to home network.</p>
+</li>
+</ul>
+<h3 id="UPnP"><a href="#UPnP" class="headerlink" title="UPnP"></a>UPnP</h3><p>The detail we can see the textbook page 352.</p>
+<h2 id="4-4-3-Internet-Control-Message-Protocol-ICMP"><a href="#4-4-3-Internet-Control-Message-Protocol-ICMP" class="headerlink" title="4.4.3 Internet Control Message Protocol (ICMP)"></a>4.4.3 Internet Control Message Protocol (ICMP)</h2><p>ICMP protocol is used by hosts and router communicate network-layer informations to each other. The most typical use of ICMP is error reporting.<br><br>The ICMP message is carried inside the IP datagrams , that is ICMP messages are carried as IP payload.<br></p>
+<p>ICMP message have a type field and a code field and checksum field.<br><br><img src="General-en.svg.png" srcset="/img/loading.gif" alt="General-en.svg.png"><br></p>
+<p><strong>The ICMP control message :</strong><br><br><img src="ICMP-Message-Types.png" srcset="/img/loading.gif" alt="ICMP-Message-Types.png"><br></p>
+<h2 id="4-4-4-IPv6"><a href="#4-4-4-IPv6" class="headerlink" title="4.4.4 IPv6"></a>4.4.4 IPv6</h2><h3 id="IPv6-Datagram-Format"><a href="#IPv6-Datagram-Format" class="headerlink" title="IPv6 Datagram Format"></a>IPv6 Datagram Format</h3><p><strong>Most importance changes introduced in IPv6 :<br></strong></p>
+<ul>
+<li><p><strong>Expanded addressing capabilities :</strong> IPv6 increases the size of the IP address from 32 bits to 128 bits . This ensure that the world won’t run out of IP address. In addition to unicast and multicast address , IPv6 introduced a new type of address called <strong>anycast address</strong><br></p>
+</li>
+<li><p><strong>A streamlined 40-byte header :</strong> A number of IPv4 fields have been dropped or made optional , The resulting 40-bytes-fixed-length header allows for faster processing of the IP datagram . A new encoding of option allow for more flexible option processing.</p>
+</li>
+<li><p><strong>Flow labeling and priority :</strong> The IPv6 header also has an 8-bits traffic class field. This field can be used to give priority to certain datagram within a flow or it can be used to give priority to datagram from certain application (for example ICMP) over datagram from other applications (for example : network new).</p>
+</li>
+</ul>
+<p><img src="IPv6-Datagram-Format.png" srcset="/img/loading.gif" alt="IPv6-Datagram-Format.png"><br></p>
+<p><strong>The following fields defined in IPv6:</strong></p>
+<ul>
+<li><strong>Version :</strong> This 4-bits field identifies the IP version number.<br></li>
+<li><strong>Traffic class :</strong> This 8-bits field is similar in spirit to the TOS (Type of service) field we saw in IPv4.</li>
+<li><strong>Flow label :</strong> This 20-bits is used to identify a flow of datagrams.<br></li>
+<li><strong>Payload length :</strong> This 16-bits is treated as an unsigned integer giving the number of bytes in the IPv6 datagram following the fix-length 40-byte datagram header.</li>
+<li><strong>Next header :</strong> This field is used identifies the protocol to which the content of this datagram will be delivered. This field uses the same values as the protocol field in the IPv4 field.</li>
+<li><strong>Hop limit :</strong> The content of this field are decremented by one by each router that forward the datagram . If the hop limit count reaches zero , the datagram is discarded.</li>
+<li><strong>Source and destination address :</strong> 128-bits IP address.</li>
+<li><strong>Data :</strong> This is the payload portion of the IPv6 datagram.</li>
+</ul>
+<p><strong>The several fields appearing in the IPv4 datagram are no longer present in the IPv6 datagram.</strong><br></p>
+<ul>
+<li><strong>Fragmentation/Reassembly :</strong> IPv6 do not allow for fragmentation and reassembly at intermediate . These operations performed only by the source and destination . If an IPv6 datagram received by a router is too large to be forwarded over the outgoing link , the router simply drops the datagram and sends “a packet too big” ICMP error message back to the sender , the sender can then resend the packet using a smaller IP datagram size. Fragmentation and reassembly is a time-consuming operation ; removing this functionality from the routers and placing it squarely in the end systems considerably speeds up IP forwarding within the network.</li>
+<li><strong>Header checksum :</strong> Because the transport-layer and link-layer protocols in the internet layers perform checksumming , the designers of IP protocol felt that this functionality was sufficiently redundant in the network layer could be removed. The IPv4 header checksum needed to recomputed at every router , As with fragmentation and reassembly , this too was a costly operation in IPv4.</li>
+<li><strong>Options :</strong> An options field is no longer a part of the standard IP header. However , it has not gone away . Instead the option field is one of possible next header pointed to from within the IPv6 header . Just as TCP or UDP protocol headers can be the next header within an IP packet .</li>
+</ul>
+<p><em>A new version of ICMP protocol is known as ICMPv6 , that is used to service for IPv6</em></p>
+<h3 id="Transitioning-from-IPv4-to-IPv6"><a href="#Transitioning-from-IPv4-to-IPv6" class="headerlink" title="Transitioning from IPv4 to IPv6"></a>Transitioning from IPv4 to IPv6</h3><p>We have two approaches for gradually integrating IPv6 hosts and routers into an IPv4 world (with the long-term goal, of course, of having all Ipv4 node eventually translation to IPv4).<br></p>
+<p><strong>Dual-Stack Approach :</strong><br><br>That is IPv6 nodes also have complete IPv4 implementation. That has the ability to send and receive an both IPv4 and IPv6 datagram ; when interoprating with an IPv4 node an IPv6/IPv4 node can use IPv4 datagram , when interopratig with an IPv6 node it can speak IPv6. IPv6 and IPv4 nodes must have both IPv6 and Ipv4 address.<br><br><img src="A-Dual-Stack-Approachs.png" srcset="/img/loading.gif" alt="A-Dual-Stack-Approachs.png"><br></p>
+<p><strong>Problem :</strong> <br><br>As figure above , The node A communicate with node F , and node A send a datagram to node F , when a datagram is sent from node B (IPv6) to node C (IPv4) , The node B must create a new datagram to send to node C , the data field of the IPv6 can be copied into the data field of the IPv4 datagram and appropriate address mapping can be done . However , in performing the conversion from IPv6 to IPv4 , there will be IPv6-specific fields in the datagram (for example the flow identifier field) that have no counterpart in IPv4 , The information in these fields will be lost.<br></p>
+<p><strong>Tunneling (An alternative to the dual-stack approach):</strong><br><br><em>Tunneling can solve the problem note above.</em><br><br><img src="Tunneling.png" srcset="/img/loading.gif" alt="Tunneling.png"><br><br>Suppose two IPv6 nodes (for example : B and E in the figure above) want to interoperate using IPv6 datagram but are connected to each other by intervening IPv4 routers. We refer to the intervening set of IPv4 router between two IPv6 router as a <strong>tunnel</strong>. With tunneling , the IPv6 node on the send side of the tunnel (node B) **takes the entire IPv6 datagram and put it into the data field (payload) of IPv4 datagram.<br>This IPv4 datagram is then addressed to the IPv6 node on the receiving side of the tunnel (node E) and sent to the first node in the tunnel (node C). The IPv6 node on the receiving side of the tunnel eventually receives the IPv4 datagram (it is a destination of IPv4 datagram!) determine that IPv4 datagram contain an IPv6 datagram , extract the IPv6 datagram and then routes the IPv6 datagram exactly as it would if it had received the IPv6 datagram from a directly connected IPv6 neighbor.<br></p>
+<h2 id="4-4-5-A-Brief-Foray-into-IP-Security"><a href="#4-4-5-A-Brief-Foray-into-IP-Security" class="headerlink" title="4.4.5 A Brief Foray into IP Security"></a>4.4.5 A Brief Foray into IP Security</h2><p>Using IPsec protocol provide security service . (more detail see the chapter 8).</p>
+<h1 id="4-5-Routing-Algorithm"><a href="#4-5-Routing-Algorithm" class="headerlink" title="4.5 Routing Algorithm"></a>4.5 Routing Algorithm</h1><p><strong>Routing Algorithm operating in network routers , exchange and compute the information that is used to configure these forwarding table .</strong><br><br>Whether network layer provide datagram service (packet between the source and destination may takes many different routes)or VC service (packet between the source and destination take the same path) , the network layer must determine the path that packets take from sender to receiver.<br></p>
+<p><em>We will see the job of routing is determine the good paths <strong>(least-cost-path)</strong> from senders to receivers through the network of routers.</em></p>
+<p><strong>Classify routing algorithm according to whether they are global or decentralized.</strong><br></p>
+<ul>
+<li><strong>A global routing algorithm :</strong> Computes the least-cost path between a source and destination using complete global knowledge about the network.(complete global knowledge is mean all node connectively relationship and link cost in the network). In practice algorithm with global state information are often referred to as <strong>Link-state(LS) algorithm</strong>.<br></li>
+<li><strong>A decentralized routing algorithm :</strong> The calculation of least-cost path is carried out in an iterative , distributed manner. No node have complete information about the cost of all network link , instead each node begins with only the knowledge of the cost of its own directly attached links. Then through an iterative process of the calculation and exchange of information with its neighboring nodes , a node gradually calculates the least-cost path to destination or set of destinations. The decentralized routing algorithm is called distance-vector (DV) algorithm .</li>
+</ul>
+<h2 id="4-5-1-The-Link-State-LS-Routing-Algorithm"><a href="#4-5-1-The-Link-State-LS-Routing-Algorithm" class="headerlink" title="4.5.1 The Link-State (LS) Routing Algorithm"></a>4.5.1 The Link-State (LS) Routing Algorithm</h2><p>In practice , The Link-State Routing Algorithm is accomplished by having each node broadcast link-state packets to all other nodes in the network , with each link-state packet containing the identifies and cost of it attached links. The result of the note’s broadcast is that all node have an identical and complete view of the network.  Each node can then run the LS algorithm and compute the same set of least-cost paths as every other node.</p>
+<p>The LS algorithm is known as <strong>Dijkstra’s Algorithm</strong> name after its inventor. A closely related algorithm is Prim’s Algorithm .</p>
+<p><strong>Let us define the following notation:</strong><br></p>
+<ul>
+<li><strong>D(v) :</strong> Cost of the least-cost path from the source to destination v as of this iteration of the algorithm.</li>
+<li><strong>P(v) :</strong> Previous node (neighbor of node v) along the current least-cost path from source to node v.</li>
+<li><strong>N’:</strong> subset of nodes , if v in <strong>N’</strong> represent the least-cost path from source to v have been definitely known.</li>
+</ul>
+<p><img src="Graph-Of-Link-State-Algorithm.png" srcset="/img/loading.gif" alt="Graph-Of-Link-State-Algorithm.png"><br></p>
+<p><em>Link-State Algorithm For Source Node u</em><br></p>
+<pre><code class="lang-c++">Initialization :
+    N&#39; = &#123;u&#125;;
+    for all nodes v 
+        if v is a neighbor of u 
+            then D(v) = c(u,v)
+        else D(v) = ∞
+Loop :
+    Find w not in N&#39; simultaneously D(w) is a minimum
+    Add w to N&#39;
+    Update D(v) for each neighbor v of w and not in N&#39; : 
+    D(v) = min ( D(v) , D(w)+c(w,v) );
+Until : N&#39; = N ( N is set of all node )
+</code></pre>
+<p><img src="Result-Of-LS-Algorithm.png" srcset="/img/loading.gif" alt="Result-Of-LS-Algorithm.png"><br></p>
+<p><strong>The detail of step can watch the video follow:</strong><br> </p>
+<iframe 
+    width="800" 
+    height="450" 
+    src="https://www.youtube.com/embed/ud7qWRBirsk"
+    frameborder="0" 
+    allowfullscreen>
+</iframe>
+
+<p><strong>Problem of LS algorithm :</strong><br></p>
+<p><strong>Figure follow shown a simple network topology where link costs are equal to the load carried on the link.</strong><br>In this example , link cost are not symmetric that is the C(u,v) equal to C(v,u) only if the load carried on the both directions on the link(u,v) is same . <br></p>
+<p><strong>In this example , node z originates a unit of traffic destined for node w , node x also originates a unit of traffic destined for node w and node y injects an amount of traffic equal to e also destined for node w .</strong><br></p>
+<p><strong>The order of looking at figure is a-&gt;b-&gt;c-&gt;d</strong><br></p>
+<p><img src="Oscillations-With-Congestion-Sensitive-Routing.png" srcset="/img/loading.gif" alt="Oscillations-With-Congestion-Sensitive-Routing.png"><br></p>
+<p>We can see the <strong>Oscillation</strong> with congestion sensitive routing.<br></p>
+<p>What can be done to prevent such oscillation ?<br><br>One solution would be to mandate that link costs not depend on the amount of traffic carried — an unacceptable solution since one goal of routing is to avoid highly congested links, Another solution is to ensure that not all routers run the LS algorithm at the same time.</p>
+<h2 id="4-5-2-The-Distance-Vector-DV-Routing-Algorithm"><a href="#4-5-2-The-Distance-Vector-DV-Routing-Algorithm" class="headerlink" title="4.5.2 The Distance-Vector (DV) Routing Algorithm"></a>4.5.2 The Distance-Vector (DV) Routing Algorithm</h2><p>Whereas the LS algorithm is an algorithm using global information , the <strong>distance-vector algorithm</strong> is <em>iterative , asynchronous , and distributed. <br></em></p>
+<ul>
+<li><p>It is distributed in that each node receive some information from its directly attached neighbors , perform a calculation and distributed the result of its calculation back to its neighbors.<br></p>
+</li>
+<li><p>It is iterative in that , this process continue on until no more information is exchanged between the neighbors.<br></p>
+</li>
+<li><p>It is asynchronous in that is does not require all of the nodes to operate in lockstep with each other.<br></p>
+</li>
+</ul>
+<p><strong>The Distance-Vector Routing Algorithm also known as Bellman-Ford Algorithm</strong><br></p>
+<p>For get the least-cost paths , we need to using the celebrated <strong>Bellman-Ford equations:</strong><br> <strong>$d_{v}(y)$ is distance from $v$ to $y$</strong></p>
+<script type="math/tex; mode=display">d_{x}(y)=min_v{c(x,y)+d_v(y)}</script><p>Where the $min<em>{v}$ in the equation is taken over all of x’s neighbors.After traveling from x to v , if we then take the least-cost path from v to y , the path cost will be $c(x,y)+d</em>{v}(y)$ . Since we must begin by traveling to some neighbor $v$ , the least cost from $x$ to $y$ is the minimum of $c(x,y)+d_{v}(y)$ taken over all neighbor $v$.</p>
+<p><strong>Distance-Vector (DV) Algorithm:</strong> <br><br>at each node ,x:<br></p>
+<p><strong>Initialization :</strong> <br><br>&nbsp; &nbsp;  &nbsp; &nbsp; for all destinations $y$ in $N$ : <br><br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp;$D<em>{x}(y)$ = $c(x,y)$  &nbsp; /* if y is not a neighbor then $c(x,y)$ = $\infty$ */ <br><br>&nbsp; &nbsp;  &nbsp; &nbsp; for each neighbor $w$ <br><br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; $D</em>{w}(y)$ = $?$ &nbsp; /* for all destinations $y$ in $N$ */<br><br>&nbsp; &nbsp;  &nbsp; &nbsp; for each neighbor $w$ <br><br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;     &nbsp; &nbsp; &nbsp;  &nbsp; &nbsp; send distance vector $D<em>{x} = [ D</em>{x}(y) : y$ in $N ]$ to $w$<br><br><strong>Loop</strong><br><br>&nbsp; &nbsp; <strong>wait</strong> (until i see a link cost change to some neighbor $w$ <br> &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    &nbsp;&nbsp;or until i receive a distance vector from some neighbor $w$) <br><br>&nbsp;&nbsp;&nbsp; for each $y$ in $N$ :<br><br>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;    $D<em>{x}(y)$ = $min</em>{v} {c(x,y) + D<em>{v}(y)}$<br><br>&nbsp;&nbsp;&nbsp;if $D</em>{x}(y)$ changed for any destination $y$ <br><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; send the distance vector $D<em>{x}$ = $[D</em>{x}(y) : y$ in $N]$ to all neighbors<br><br><strong>Forever</strong> <br></p>
+<p><strong>A simple three node illustrates the operation of DV algorithm</strong><br><br><img src="DV-Simple-Example.png" srcset="/img/loading.gif" alt="DV-Simple-Example.png"></p>
+<iframe 
+    width="800" 
+    height="450" 
+    src="https://www.youtube.com/embed/dmS1t2twFrI"
+    frameborder="0" 
+    allowfullscreen>
+</iframe>
+
+<h3 id="Distance-Vector-Algorithm-Link-Cost-Changes-and-Link-failure"><a href="#Distance-Vector-Algorithm-Link-Cost-Changes-and-Link-failure" class="headerlink" title="Distance-Vector Algorithm : Link-Cost Changes and Link failure"></a>Distance-Vector Algorithm : Link-Cost Changes and Link failure</h3><p><img src="Changes-in-link-cost.png" srcset="/img/loading.gif" alt="Changes-in-link-cost.png"><br></p>
+<p>Figure (a) above illustrates a scenario where link cost from y to x distance vector change from 4 to 1. We force here only on y’ and z’ distance table entires to destination x. The Dv algorithm causes the following sequence of events to occur :<br></p>
+<ul>
+<li>At time $t_{0}$ , $y$ detects the link-cost change (the cost has change from 4 to 1 ) updates its distance vector and inform the neighbors of this change since its distance has changed.</li>
+<li>At time $t_{1}$ , $z$ receives the update from $y$ and update its table . It computer a new least cost of $x$ (it has decreased from a cost of 5 to cost of 2 ) and send its new distance vector to its neighbors.</li>
+<li>At time $t_{2}$ , $y$ receive $z’s$ update and updates its distance table . $y’s$ least cost do not change hence $y$ does not send any message to $z$. The algorithm come to a quiescent state.</li>
+</ul>
+<p>Thus only two iterations are requited for the DV algorithm to reach a quiescent state. <br></p>
+<p>Let now consider what happen when a link cost increases , support that support the link cost between $x$ and $y$ increases from 4 to 60 as shown in figure (b) above.<br></p>
+<ul>
+<li>Before the link cost changes , $D<em>{x}(y) = 4$ , $D</em>{y}(z) =1$ , $D<em>{z}(y) = 1$ and $D</em>{z}(x) = 5$ , $y$ detect the link cost change (the cost change from 4 to 60) , $y$ computes its new minimum-cost path to x have a cost of  <script type="math/tex; mode=display">D_{y}(x) = min \{C(y,x) + D_{x}(x) , C(y,z)+ D_{z}(x)\}= min \{ 60+0,1+5\} = 6</script>  of course , with out global view of the network , we can see that this new cost via $z$ is wrong . But the only information node $y$ has is that its direct cost to $x$ is 60 and that $z$ has last told $y$ that $z$ could get $x$ with a cost of 5 . So in order to get to $x$, $y$ would now route through $z$ , fully expecting that $z$ will be able to get to $x$ with cost of 5.</li>
+<li>Since node $y$ has computed a new minimum cost to $x$ , it inform $z$ of new distance vector at time $t_{1}$.</li>
+<li>Sometime after $t_{1}$ , $z$ receive the $y’s$ new distance vector ,which indicates that $y’s$ minimum cost to $x$ is 6 . $z$ know get to $y$ with a cost of 1 and computes a new least cost to x of <script type="math/tex; mode=display">D_{z}(x) = min \{50+0, 1+6\}=7</script>  Since $z’s$ least-cost to $x$ is increased , and then it inform $y$ of its new distance vector at $t<em>{2}$ at $t</em>{2}$.</li>
+<li>In a similar manner , after receiving $z’s$ a new distance vector , $y$ determines $D<em>{y}(x)=8$ and send $z$ its distance vector . $z$ then determine $D</em>{z}(x) = 9$ and sends $y$ its new distance vector over and over again until $D<em>{z}(x)= min{C</em>{z}(y)+D<em>{y}(x) , C</em>{z}(x)+D_{x}(x)}= min{50+1 ,50+0 }=50$ , at this point , $z$ finally ! determine that its lease-cost path to $x$ is via its direct connection to $x$.</li>
+</ul>
+<p><strong>What way could solve the problem noted above ?</strong><br><br>The answer is <em>Poisoned Reverse.</em><br></p>
+<h3 id="Distance-Vector-Algorithm-Adding-Poisoned-Reverse"><a href="#Distance-Vector-Algorithm-Adding-Poisoned-Reverse" class="headerlink" title="Distance-Vector Algorithm : Adding Poisoned Reverse"></a>Distance-Vector Algorithm : Adding Poisoned Reverse</h3><p>The specific looping scenario just described can be avoided using a technique known as <em>poisoned reverse.</em> The idea is simple <strong>if $z$ routers through $y$ to get to destination $x$ , then $z$ will advertise to $y$ that its distance to $x$ is infinity</strong>, $z$ will advertise to $y$ that $D<em>{z}(x) = \infty$ ( even though $z$ known $D</em>{x}(z) = 5$ in truth) $z$ will continue telling this little white lie to $y$ as long as it route $x$ via $y$ . Since $y$ believes that $z$ had no path to $x$ ,$y$ will never attempt to route to $x$ via $z$ , as long as $z$ continues to route to $x$ via $y$<br>Let now see how <em>Poisoned Reverse</em> solved the particular looping problem :  When the link-cost $(x,y)$ change from 4 to 60 , $y’s$ distance table indicate $D_{z}(x) = \infty$ .</p>
+<ul>
+<li>At the time $t<em>{0}$ ,$y$ update its table and continues to route directly to $x$ , albeit at the higher cost of 60 and then inform $z$ of the new distance vector to $x$ , that is $D</em>{y}(x) =60$ .</li>
+<li>After receiving the update at $t<em>{1}$ , $z$ immediately shits the its route to $x$ to be via the direct $(z,x)$ link at the cost of 50, and then $z$ inform $y$ of new cost of $D</em>{z}(x) = 50$ .</li>
+<li>After receiving the update from $z$ , $y$ update its distance table at $D<em>{y}(x)=51$, also , since $z$ is now on $y$’s lease-cost path to $x$ , $y$ poisoned the reverse from $z$ to $x$ by informing $z$ at time $t</em>{3}$ that $D<em>{y}(x) = \infty$ (even though $y$ know $D</em>{y}(x)=51$ in trush)</li>
+</ul>
+<p><strong>Does poisoned reverse solve the general count-to-infinity problem ? It dose not , when looping involving three or more nodes will not be detected by poisoned reverse.</strong><br></p>
+<h3 id="A-comparison-of-LS-and-DV-Algorithm"><a href="#A-comparison-of-LS-and-DV-Algorithm" class="headerlink" title="A comparison of LS and DV Algorithm"></a>A comparison of LS and DV Algorithm</h3><ul>
+<li><p><strong>Message complexity :</strong> <strong>In LS algorithm</strong> requires each node know all cost of link in the network . The require O(|E|*|N|) to be sent. Also , whenever a link cost changes , the new link cost must be sent to all node in the internet. <strong>In the DV algorithm</strong> The node only need to exchange the information between directly connection neighbors. When a link cost change , the DV algorithm will propagate the results of the changed link cost only if the new cost results in a changed lease-cost path for one of nodes attached to that link.</p>
+</li>
+<li><p><strong>Speed of convergence :</strong> LS is O($|N|^2$) algorithm require O(|N||E|) messages to be sent. DV algorithm can converge slowly and can have routing loops while the algorithm is converging . DV algorithm also suffers from the count-to-infinity problem. </p>
+</li>
+<li><p><strong>Robustness:</strong> What can happen if route fails misbehaves or is sabotage? Because LS algorithm only compute own forwarding table of each node in the network , This mean route calculation are somewhat separated under LS . Providing a degree of robustness. Under DV algorithm , a node must advertise incorrect least-cost path to any all destination , so that a malfunctioning router may be cause other router flood the malfunctioning router with traffic and cause a large portions of the internet to become disconnected for up to several hours.<br></p>
+</li>
+</ul>
+<h2 id="4-5-3-Hierarchical-Routing"><a href="#4-5-3-Hierarchical-Routing" class="headerlink" title="4.5.3 Hierarchical Routing"></a>4.5.3 Hierarchical Routing</h2><p>In our study of LS and DV algorithm , In practice , this model and its view of homogeneous set of routers all executing the same routing algorithm is a bit simplistic for at least two important reasons:<br></p>
+<ul>
+<li><p><strong>Scale</strong> :Because , today’s public internet consist of hundreds of millions hosts , LS algorithm updates among all of the router in public internet world would leave no bandwidth left for sending data packets, and under DV algorithm that iterated among such a large number of routers would surely never converge.</p>
+</li>
+<li><p><strong>Administrative autonomy:</strong> The corporation / organization / individual want to run and administer its network as it wishes.<br></p>
+</li>
+</ul>
+<p><strong>Both of these problems can be solve by organizing routers into autonomous systems (ASs)</strong><br></p>
+<p>Each AS consisting of a group of routers that are typically under the same administrative control ( eg : operated by the same ISP or belonging to the same company network).</p>
+<p>The routing algorithm running within a autonomous system is called an <strong>Intra-autonomous-system routing protocol</strong><br>One or more router in the AS being responsible for forwarding packets to destinations outside other AS : there routers are called <strong>gateway router</strong>, Obtaining reachability information from neighboring AS and propagating the reachability information to all router internal to AS are handled by the <strong>inter-AS-routing-protocol</strong><br><br><img src="autonomous-system-graph.png" srcset="/img/loading.gif" alt="autonomous-system-graph.png"><br><br>If a destination router of outside AS can be reached by more than one gateway router , the router inside AS can using <strong>Hot-Potato-Algorithm</strong> to choose which gateway router should be select. The hot-potato-algorithm is using information from Intra-AS-Routing-Protocol to choose the lease-cost path of gateway routers.<br><img src="hot-potato-algorithm.png" srcset="/img/loading.gif" alt="hot-potato-algorithm.png"><br></p>
+<h1 id="4-6-Routing-in-the-internet"><a href="#4-6-Routing-in-the-internet" class="headerlink" title="4.6 Routing in the internet"></a>4.6 Routing in the internet</h1><h2 id="4-6-1-Intra-AS-Routing-in-the-Internet-RIP"><a href="#4-6-1-Intra-AS-Routing-in-the-Internet-RIP" class="headerlink" title="4.6.1 Intra-AS Routing in the Internet : RIP"></a>4.6.1 Intra-AS Routing in the Internet : RIP</h2><p>RIP is a distance-vector algorithm that operates in a manner very close to idealized DV protocol . Each router maintains a RIP table is known as a routing table. RIP is implemented as an application-layer process can send and receive the (require/response) message over a standard socket (port 520) and using UDP protocol.<br><br><img src="RIP-UDP-Application.png" srcset="/img/loading.gif" alt="RIP-UDP-Application.png"><br><br>In RIP , routing updates are exchanged between neighbors approximately every 30 seconds using a <strong>RIP response message</strong>(RIP response message also known as <strong>RIP advertisements</strong>) . If a router does not hear from its neighbor at least once every 180 seconds , that neighbor is considered to be no longer reachable ; that is , either neighbor is died or the connecting link has gone down , when this happen , RIP modifies the local routing table and then propagates this information by sending advertisement to still alive neighbors.<br></p>
+<p><strong>Let us see a simple example:</strong><br><br>Dotted lines indicate that still has other AS connect on  ; thus this autonomous systems have many more routers and link than figure shown follow.<br><img src="ASs-connection-graph-RIP.png" srcset="/img/loading.gif" alt="ASs-connection-graph-RIP.png"><br><br><strong>Routing table of Router-D before receiving advertisement from Router-A:</strong><br><br><img src="Router-D-Routing-Table-Before-Receive-Infor-from-Router-A.png" srcset="/img/loading.gif" alt="Router-D-Routing-Table-Before-Receive-Infor-from-Router-A.png"><br></p>
+<p><strong>Advertisement from router A:</strong><br><br><img src="Advertisement-From-RouterA.png" srcset="/img/loading.gif" alt="Advertisement-From-RouterA.png"><br><br><strong>Routing table of Router-D after receiving advertisement from Router-A:</strong><br><br><img src="Router-table-of-Router-D-After-receiving-adverstiment-from-router-A.png" srcset="/img/loading.gif" alt="Router-table-of-Router-D-After-receiving-adverstiment-from-router-A.png"><br></p>
+<h2 id="4-6-2-Intra-AS-Routing-in-the-Internet-OSPF"><a href="#4-6-2-Intra-AS-Routing-in-the-Internet-OSPF" class="headerlink" title="4.6.2 Intra-AS Routing in the Internet : OSPF"></a>4.6.2 Intra-AS Routing in the Internet : OSPF</h2><p>OSPF is a link-state algorithm that uses flooding of link-state information and dijkstra least-cost path algorithm . With OSPF protocol , a router constructs a complete topological map of the entire autonomous system , The router then locally run dijkstra algorithm to determine the shortest-path tree to all subnet. Individual link cost can be configured by the network administrator .<br></p>
+<p>Under OSPF protocol , A router broadcast link-state information whenever there is change in a link’s state , It also broadcast information periodically (at least once every 30 minutes) even if the link’s state has not changed. OSPF protocol advertisements are contains in OSPF message that carried directly by IP protocol , with a upper-layer protocol 89 for OSPF.<br></p>
+<p>The OSPF protocol also checks that link are operational and allows an OPSF router to obtain a neighboring router’s database of network-wide link state.</p>
+<p>OPSF is conceived as the successor to RIP and as has a number of advanced feature. The advanced feature is include the following:<br></p>
+<ul>
+<li><p><strong>Security:</strong> Exchanged between OPSF router can be authenticated , with authentication ,only trusted router can participate in OPSF protocol within an AS. Two type of authentication is can be configured — <strong>simple and MD5</strong>( discuss in chapter 8).</p>
+</li>
+<li><p><strong>Multiple same-cost path:</strong> OPSF allow multiple same-cost path to be used , don’t need to select a path to carry all traffic.</p>
+</li>
+<li><p><strong>Integrated support to unicast and multicast routing:</strong> Multicast OSPF (MOSPF).<br></p>
+</li>
+<li><strong>Support a hierarchy within a single routing domain:</strong> An OPSF autonomous system can be configured hierarchically into areas , Each area run its own OSPF link-state-algorithm , with each router in an area broadcasting its link-state to all other in that area. Within each area of a autonomous system has one or more <strong>area border router</strong> are responsible for routing packets to outside the area . And exactly one OPSF area in the AS is configured to be the <strong>backbone</strong> area. The primary role of the backbone area is to route traffic between the other area in the AS. <em>Inter-area routing</em> within the AS requires that the packet be first route to a area border router , and routed through the backbone to the area border router that is in the destination area , and then routed to the final destination.</li>
+</ul>
+<h2 id="4-6-3-Inter-AS-Routing-BGP-Border-Gateway-Protocol"><a href="#4-6-3-Inter-AS-Routing-BGP-Border-Gateway-Protocol" class="headerlink" title="4.6.3 Inter-AS Routing : BGP (Border Gateway Protocol)"></a>4.6.3 Inter-AS Routing : BGP (Border Gateway Protocol)</h2><p>Let’s us examine how path are determined for source-destination pair span multiple ASs.<br><br>Under BGP protocol , pair of router exchange information through semi-permanent TCP connection using port 179.<br><br>The BGP protocol TCP connection has two type of connection : <br></p>
+<ul>
+<li>BGP TCP connection between router within a same AS.</li>
+<li>BGP TCP connection between routers in two different ASs.</li>
+</ul>
+<p>Two interconnecting router corresponding source and destination router that using TCP are called <strong>BGP peers</strong> . The TCP connection along with all BGP message sent over the connection is called <strong>BGP session</strong>.<br><br><strong>Two type of BGP session:</strong><br></p>
+<ul>
+<li>External BGP session (eBGP session) : The BGP message is sent span two routers.</li>
+<li>Internal BGP session (iBGP session) : The BGP message is sent within an AS.<br><img src="BGP-sessions.png" srcset="/img/loading.gif" alt="BGP-sessions.png"><br><br>In the BGP , destinations are not a host but instead are CIDRized prefixes with each prefixes is representing a subnet or a collection of subnet.<br></li>
+</ul>
+<p>In the BGP , some ASs has a globally unique <strong>autonomous system numbers(ASN)</strong> , the ASs hasn’t ASN is called stub AS. ASN similar to IP address are assigned by ICANN regional register.<br></p>
+<p>When a router advertise prefix to outside ASs , it include with a number of <strong>BGP attributes :</strong> , in BGP jargon , a prefix along with its attributes is called a route. The BGP  attributes is following: <br></p>
+<ul>
+<li><strong>AS-PATH :</strong> The attributes contain the ASN that the prefix have been passed.</li>
+<li><strong>NEXT-HOP:</strong> The NEXT-HOP is router interface that begins the AS-PATH. </li>
+</ul>
+<h3 id="BGP-Route-selection"><a href="#BGP-Route-selection" class="headerlink" title="BGP Route selection"></a>BGP Route selection</h3><p>Under BGP protocol , a router may be receive more than one route to the same prefix . Then BGP must be sequentially invokes the following elimination rules until one possible remain , The elimination rules is following:<br></p>
+<ul>
+<li>Routes are assigned a local preference values as one of their attributes , the routes with the highest local preference value are selected.</li>
+<li>From the remaining routes ( all routes has same preference value ) with the shortest AS-PATH are selected.</li>
+<li>From the remaining routes ( all routes has same preference value and same AS-PATH length) with closest NEXT-HOP are selected, here closest mean the least-cost path of a router itself interface and its corresponding eBGP session interface.</li>
+<li>If more than one route still remains , the router use the BGP identifiers to select the route.</li>
+</ul>
+<h3 id="Putting-all-together-How-does-an-entry-get-into-a-router’s-forwarding-table"><a href="#Putting-all-together-How-does-an-entry-get-into-a-router’s-forwarding-table" class="headerlink" title="Putting all together : How does an entry get into a router’s forwarding table ?"></a>Putting all together : How does an entry get into a router’s forwarding table ?</h3><p><strong>How does the packet is forwarded within a router ?<br></strong><br>When a packet arrive to the router , the packet’s destination IP address compared with the prefixes in the forwarding table and find a longest prefix match . Then the packet is forwarded to router’s port that associated with that matched prefix.<br><br><strong>How does an entry get into a router’s forwarding table ?</strong><br><br><em>In order to get an entry into a router’s forwarding table , first , the router must be aware of the prefix. The router become aware of the prefix via a BGP route advertisement , such a route advertisement may be sent over a eBGP session or over a iBGP session. After the router become aware of prefix , it need to determine appropriate output port to which datagram destined to that prefix will be forwarded. Before it can enter that entry (prefix + port) into its forwarding table . If router receive more than one route advertisement for this prefix , it is uses the BGP selection process to select to best route for the prefix , suppose the route have been selected , the selected route include NEXT-HOP attribute , which is IP address of first router outside the router’s AS along this best route. Then the router uses its Intra-AS routing protocol (typically OSPF) , to determine the shortest path to the NEXT-HOP router. The router finally determines the port number to associate with the prefix by identifying the first link along the shortest path . The router finally can enter the prefix-port pair into the forwarding table.</em></p>
+<h1 id="4-7-Broadcast-and-Multicast-Routing"><a href="#4-7-Broadcast-and-Multicast-Routing" class="headerlink" title="4.7 Broadcast and Multicast Routing"></a>4.7 Broadcast and Multicast Routing</h1><h2 id="4-7-1-Broadcast-Routing-Algorithm"><a href="#4-7-1-Broadcast-Routing-Algorithm" class="headerlink" title="4.7.1 Broadcast Routing Algorithm"></a>4.7.1 Broadcast Routing Algorithm</h2><p><strong>Two type of Broadcast routing algorithm: <br></strong></p>
+<ul>
+<li><strong>Source-Duplication:</strong> A packet is created and duplicated by a source router , and source router broadcast to all router in the network by unicast. This approach has several drawback is following:<ul>
+<li>inefficiency : The source router is required to copy a large amount of same packet and send these via a single link.</li>
+<li>Additional protocol mechanisms to obtain the address of the broadcast recipient ,would add more overhead and make the system more complex .</li>
+</ul>
+</li>
+<li><strong>In-network duplication:</strong> The source router broadcast by sending only one packet to attached routers , and then the attached routers copy the packet and send it to next attached routers .<br><img src="Source-duplication-In-network-duplication.png" srcset="/img/loading.gif" alt="Source-duplication-In-network-duplication.png"><br></li>
+</ul>
+<h3 id="Uncontrolled-Flooding"><a href="#Uncontrolled-Flooding" class="headerlink" title="Uncontrolled Flooding"></a>Uncontrolled Flooding</h3><p>The most obvious technique for broadcast is <strong>Flooding</strong> approach in which the source node send its copy of packet to its neighbor.<br><br>Although this approach is simple and elegant , it has a fatal flaw , that is , if the graph has a cycles , then one or more broadcast packet will cycle indefinitely .<br><br>This broadcast storm along with broadcast packet increasingly would cause the network crash (network useless).</p>
+<h3 id="Controlled-Flooding"><a href="#Controlled-Flooding" class="headerlink" title="Controlled Flooding"></a>Controlled Flooding</h3><p>In practice , we have several way to solve the problem of uncontrolled flooding .<br></p>
+<ul>
+<li><p><strong>Sequence-number-controlled-flooding:</strong> A source node put its address or other unique identifies as well as broadcast sequence number into broadcast packet , then send it to all neighbors. Each node maintain a list of the source address and sequence number of broadcast packet , it first checks whether the packet is in this list , if so , the packet is dropped , if not , the packet is duplicated and forwarded to all node’s neighbors.<br></p>
+</li>
+<li><p><strong>Reverse path forwarding (RPF):</strong> Reverse path forwarding is also known as Reverse path broadcast (RPB) , When a node receives a broadcast packet with the source node address , <strong>the node transmits the packet on all of its outgoing link (expect one that outgoing link of its receive that packet)only if the packet arrived on the link that is on its own shortest unicast path back to the source. Otherwise , this packet is discarded simply.</strong><br>As likely the figure following , the router E transmits only the packet that arrived from router C to all neighbors(because it is the shortest path from router D to source router A), Otherwise , the packet is discarded simply.<br><img src="RPF.png" srcset="/img/loading.gif" alt="RPF.png"><br></p>
+</li>
+</ul>
+<h3 id="Spanning-Tree-Broadcast"><a href="#Spanning-Tree-Broadcast" class="headerlink" title="Spanning-Tree Broadcast"></a>Spanning-Tree Broadcast</h3><p>Although The sequence-number-controlled-flooding algorithm and RPF algorithm avoid the broadcast storm , these don’t completely avoid the transmission of redundant broadcast packet.<br><br>Actually , every node receive only one broadcast packet is enough. The Spanning-Tree Broadcast algorithm can solve this problem .<br></p>
+<p>Thus , a node first have to construct a spanning-tree , when it wants to provide broadcast for all network node.<br></p>
+<p>We consider only one simple algorithm here , that is <strong>Center-based approach</strong> to build a spanning-tree.<br></p>
+<ul>
+<li>First determine a center node (also known as <strong>core</strong> and <strong>rendezvous point</strong>)</li>
+<li>The network node then unicast <strong>tree-join message</strong> addressed to center node. A tree-join message is forwarded using unicast routing toward the center until either arrives at a node that has already belong to the spanning tree or arrives at the center node.</li>
+</ul>
+<p><em>If each link associated cost , then a spanning-tree whose cost is the minimum of all of graph’s spanning-tree is called a <strong>minimum spanning-tree</strong> .</em> <br></p>
+<iframe 
+    width="800" 
+    height="450" 
+    src="https://www.youtube.com/embed/Uj47dxYPow8"
+    frameborder="0" 
+    allowfullscreen>
+</iframe>
+
+<h2 id="4-7-2-Multicast"><a href="#4-7-2-Multicast" class="headerlink" title="4.7.2 Multicast"></a>4.7.2 Multicast</h2><p>In multicast communication , we are immediately faced with two problem .<br></p>
+<ul>
+<li>How to identify the receiver of multicast packet.</li>
+<li>How to address a packet send to these receivers.<br>Network layer multicast in the internet consist of two complementary components : <strong>IGMP (Internet Group Management Protocol) and Multicast routing protocol</strong>. The IGMP is used to solve first problem. The Multicast routing protocol is used to solve second problem.<br></li>
+</ul>
+<h3 id="Internet-Group-Management-Protocol"><a href="#Internet-Group-Management-Protocol" class="headerlink" title="Internet Group Management Protocol"></a>Internet Group Management Protocol</h3><p>The IGMP protocol version 3 operates between a host and its directly attached router. The figure following , shows three fist-hop multicast protocol each connected to its attached hosts via one outgoing local interface.<br><br><img src="IGMP-component.png" srcset="/img/loading.gif" alt="IGMP-component.png"><br><br>IGMP provide the mean for a host to inform its attached router that an application running on the host want to join a specific multicast group.<br></p>
+<p><strong>IGMP has three message types.</strong><br></p>
+<ul>
+<li><strong>Membership_query message:</strong> That is sent by router to all host on an attached interface to determine which hosts on attached network are member of which multicast group.</li>
+<li><strong>Membership_report message :</strong> This message is used to respond to Membership_query message for inform the attached router that it still in multicast group and also be used to first joins a multicast group.</li>
+<li><strong>Leave_group message :</strong> This message is used to inform the router stops forwarding the multicast message to it. Interesting this message is optional , but it is optional , how to detect when a host leave the multicast group , The answer is the router infer this host have been leaved a multicast if this host no longer respond to Membership_query message. This example is called <strong>soft state</strong> in the internet protocol.<br></li>
+</ul>
+<h3 id="Multicast-Routing-Algorithm"><a href="#Multicast-Routing-Algorithm" class="headerlink" title="Multicast Routing Algorithm"></a>Multicast Routing Algorithm</h3><p>The goal of multicast routing , then is find a tree of links that connects all of routers that have attached hosts belonging to the multicast group . Multicast packet will be routed along with this tree from the multicast sender to all of the host belong to this multicast tree , of course , the tree also can contain some router that haven’t hosts belong to Multicast group.<br></p>
+<p>Two approach have been adopted for determining the multicast router tree.<br></p>
+<ul>
+<li><strong>A group shared tree :</strong> As in the case of Spanning-tree broadcast , multicast routing over a group-shared tree is base on building a tree that include all edge router with attached host belonging to multicast group. In practice , a center-based approach is used to construct the multicast routing tree with edge router with attached hosts belonging to multicast group send (via unicast) join-message addressed to center router.<br></li>
+<li><strong>A source base tree :</strong> The group shared tree constructs a single, shared routing tree to route packet from all senders . This approach is constructs a multicast routing tree for each source in the multicast group . In practice , an RPF algorithm is used to construct a multicast forwarding tree for multicast datagram originating at source x. The RPF broadcast algorithm require a bits of tweaking when it is used to multicast. To see why consider router D in Figure following. Under broadcast RPF , it forward packets to router G , even though router has no attached hosts that are joined to multicast group . While this is not so bad for this case , where router D has only one downstream router G , imagine what would happen if router D has thousand of downstream router ? Each of these downstream router would receive unwanted multicast packets. The solution of this problem is known as <strong>pruning</strong>.<br><img src="RPF-Multicast.png" srcset="/img/loading.gif" alt="RPF-Multicast.png"><br></li>
+</ul>
+
+            <hr>
+          </div>
+          <br>
+          <div>
+            <p>
+            
+              <span>
+                <i class="iconfont icon-inbox"></i>
+                
+                  <a class="hover-with-bg" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">计算机网络</a>
+                  &nbsp;
+                
+                  <a class="hover-with-bg" href="/categories/Computer%20Network%20A%20Top-Down%20Approach">Computer Network A Top-Down Approach</a>
+                  &nbsp;
+                
+              </span>&nbsp;&nbsp;
+            
+            
+              <span>
+                <i class="iconfont icon-tag"></i>
+                
+                  <a class="hover-with-bg" href="/tags/Computer%20Network%20A%20Top-Down%20Approach">Computer Network A Top-Down Approach</a>
+                
+                  <a class="hover-with-bg" href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">计算机网络</a>
+                
+              </span>
+            
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+      <br><br>
+      
+      
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = 'https://lexssama.github.io/2020/05/18/Chapter4-The-Network-Layer/';
+        this.page.identifier = '/2020/05/18/Chapter4-The-Network-Layer/';
+      };
+      var oldLoad = window.onload;
+      window.onload = function () {
+        var d = document, s = d.createElement('script');
+        s.type = 'text/javascript';
+        s.src = '//' + 'Lexssama' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      };
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" target="_blank" rel="nofollow noopener noopener">comments
+        powered by Disqus.</a></noscript>
+  </div>
+
+
+    
+  </div>
+</div>
+
+    
+  </main>
+
+  
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <b>Fluid</b></a>
+    <br>
+
+    
+  
+    <!-- 不蒜子统计PV -->
+    
+    &nbsp;<span id="busuanzi_container_site_pv"></span>总访问量 
+          <span id="busuanzi_value_site_pv"></span> 次&nbsp;
+  
+  
+    <!-- 不蒜子统计UV -->
+    
+    &nbsp;<span id="busuanzi_container_site_uv"></span>总访客数 
+            <span id="busuanzi_value_site_uv"></span> 人&nbsp;
+  
+  <br>
+
+
+
+    
+
+
+    <!-- cnzz Analytics icon -->
+    
+
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="/lib/jquery/jquery.min.js" ></script>
+<script src="/lib/popper/popper.min.js" ></script>
+<script src="/lib/bootstrap/js/bootstrap.min.js" ></script>
+<script src="/lib/mdbootstrap/js/mdb.min.js" ></script>
+<script src="/js/main.js" ></script>
+
+
+  <script src="/js/lazyload.js" ></script>
+
+
+
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
+
+
+  <script src="/lib/smoothscroll/SmoothScroll.min.js" ></script>
+
+
+
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+<!-- Plugins -->
+
+
+  
+
+  
+
+  
+
+  
+
+  <!-- cnzz Analytics -->
+  
+
+
+
+  <script src="/lib/prettify/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint  linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+
+  <script src="/lib/typed/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "Chapter4-The-Network-Layer&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script src="/lib/anchor/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "false",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script src="/lib/fancybox/jquery.fancybox.min.js" ></script>
+  <script>
+    $("#post img:not(.no-zoom img, img[no-zoom])").each(
+      function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "images");
+        $(element).attr("href", $(this).attr("src"));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+          tex2jax: {
+              inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+              processEscapes: true,
+              skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          }
+      });
+
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+
+    </script>
+
+    <script src="https://cdn.staticfile.org/mathjax/2.7.6/MathJax.js?config=TeX-MML-AM_CHTML" ></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

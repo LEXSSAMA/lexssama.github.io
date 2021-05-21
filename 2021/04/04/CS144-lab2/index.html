@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/wallhaven-4xjllo.jpg">
+  <link rel="icon" type="image/png" href="/img/wallhaven-4xjllo.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="description" content="">
+  <meta name="author" content="Lexssama">
+  <meta name="keywords" content="">
+  <title>CS144-lab2 ~ Lexssama&#39;s Blogs</title>
+
+  <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
+<link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
+<link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
+<link rel="stylesheet" href="/lib/github-markdown/github-markdown.min.css"  >
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+
+
+
+  <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css"  >
+
+<link rel="stylesheet" href="/css/main.css"  >
+
+
+  <link rel="stylesheet" href="/lib/fancybox/jquery.fancybox.min.css"  >
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<body>
+  <header style="height: 100vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Lexssama's Blogs</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">首页</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">归档</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/categories/">分类</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">标签</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">关于</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" false
+         style="background: url('/img/wallhaven-j5l9gw.jpg')no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <br>
+              
+                <p class="mt-3">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
+                  星期日, 四月 4日 2021, 6:45 晚上
+                </p>
+              
+
+              <p>
+                
+                  
+                  &nbsp;<i class="far fa-chart-bar"></i>
+                  <span class="post-count">
+                    961 字
+                  </span>&nbsp;
+                
+
+                
+                  
+                  &nbsp;<i class="far fa-clock"></i>
+                  <span class="post-count">
+                      4 分钟
+                  </span>&nbsp;
+                
+
+                
+                  <!-- 不蒜子统计文章PV -->
+                  
+                  &nbsp;<i class="far fa-eye" aria-hidden="true"></i>&nbsp;
+                  <span id="busuanzi_container_page_pv">
+                    <span id="busuanzi_value_page_pv"></span> 次
+                  </span>&nbsp;
+                
+              </p>
+            
+          </div>
+
+          
+            <div class="scroll-down-bar">
+              <i class="fas fa-angle-down scroll-down-arrow"></i>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto" id="post">
+          <div class="markdown-body">
+            <h1 id="实现wrapping-integers-cc"><a href="#实现wrapping-integers-cc" class="headerlink" title="实现wrapping_integers.cc"></a>实现wrapping_integers.cc</h1><p><strong>1.wrapping_integers.cc这个文件是干什么的呢？</strong><br><br>wrapping_integers.cc主要做两件事情，一是将64位表示的数包装成32位表示的数。二是将32位的数解包装还原为64位的数。至于为什么要这么做我们下面解释。<br></p>
+<p><strong>2.为什么要将64位数转化成32位数，32位数还原为64位数呢?</strong><br><br>因为TCP的<code>Sequence Number</code>和<code>Acknowledgement Number</code>是32位的,最多最多也就只能表示4G大小数据的传输,如果将32位其转化为64位后，就可以表示2^64-1这么大的空间(目前看说几乎是无限大),<br><br><em>那么怎么转化呢?</em><br><br>我们用<code>Initial Sequence Number = 0</code>,来举例,我们称呼转化后的64位的数字为<code>Absolute Sequence Number</code> 。<br><br>当TCP传输的数据小于4G的时候(这里假设<code>Initial Sequence Number = 0</code>),TCP的<code>Sequence Number</code> 与 <code>Absolute Sequence Number</code>相同,当TCP传输的数据大于4G后，TCP中的<code>Sequence Number</code>又从<code>0</code>开始计算，而<code>Absolute Sequence Number</code>则等于<code>Absolute Sequence Number + Sequence Number</code>。<br><br>正是应为如此我们就不知道<code>TCP</code>传入的<code>Sequence Number</code>，表示的<code>Absolute Sequence Number</code>是多少。<br><br>举个例子:传入的<code>Sequence Number</code>是10,可能表示的<code>Absolute Sequence Number</code> 是<code>&#123;10,2^32+10,2^33+10.....&#125;</code>,所以我们需要实现wrapping_integers.cc中的函数，将<code>Sequence Number</code>还原成正确的<code>Absoulte Sequence Number</code>。<br><br>同理: 我们要发送<code>ACK</code>回去给<code>Peer</code>,所以我们也要将<code>Absolute Sequence Number</code>转换成正确的32位数发送回去给<code>Peer</code>。<br></p>
+<pre><code class="lang-C++">WrappingInt32 wrap(uint64_t n, WrappingInt32 isn) &#123;
+    uint32_t n32 = n &amp; UINT32_MAX;
+    return WrappingInt32&#123;n32 + isn.raw_value()&#125;;
+&#125;
+
+/*这段是受到清华大佬(huangrt01)博客的启发*/
+uint64_t unwrap(WrappingInt32 n, WrappingInt32 isn, uint64_t checkpoint) &#123;
+    uint32_t offset = n.raw_value() - wrap(checkpoint, isn).raw_value();
+    uint64_t result = checkpoint + offset;
+    /*如果新位置距离checkpoint的偏移offset大于1&lt;&lt;32的一半也就是1&lt;&lt;31,
+    那么离checkpoint最近的应该是checkpoint前面的元素
+    举个例子: 1---------7(checkpoint)----------------1&lt;&lt;32+1;
+    由于是无符号数相减所以1-7 == 1&lt;&lt;32+1 - 7;
+    所以应该是1距离7最近所以应该选1 
+    */
+    if (offset &gt; (1u &lt;&lt; 31) &amp;&amp; result &gt;= (1ul &lt;&lt; 32))
+        result -= (1ul &lt;&lt; 32);
+    return result;
+&#125;
+</code></pre>
+<h1 id="实现tcp-receiver-cc"><a href="#实现tcp-receiver-cc" class="headerlink" title="实现tcp_receiver.cc"></a>实现tcp_receiver.cc</h1><p><code>tcp_receiver</code>的工作就非常简单了，大概有三个部分:<br></p>
+<ol>
+<li>将接受到的<code>tcp_segment</code>塞进lab1实现的<code>StreamReassembler</code>中重组字节流，</li>
+<li>维护一个<code>Acknowledgement Number</code></li>
+<li>维护一个<code>Window Size</code> <code>Window size  = first unacceptable - first unassembled</code> ;</li>
+</ol>
+<p>这一部分比较困难的点在于更新<code>Acknowledgement Number</code>，因为传入的<code>tcp_segment</code>可能是乱序的，更新<code>Acknowledgement Number</code>,就需要知道<code>StreamReassembler</code>中一次排序了多少个字节，而且<code>SYN</code>和<code>FIN</code>分别算一个字节,同样要更新<code>Acknowledgement Number</code>。<br></p>
+<p>直接上代码<br></p>
+<p>在tcp_receiver.hh中我的修改如下<br></p>
+<pre><code class="lang-C++">class TCPReceiver &#123;
+    size_t _capacity;
+    std::optional&lt;WrappingInt32&gt; init_seq_peer;
+    std::optional&lt;WrappingInt32&gt; ack_no;
+    bool syn;
+    bool fin;
+    ......
+&#125;
+</code></pre>
+<p>tcp_receiver.cc中<br></p>
+<pre><code class="lang-C++">#include &quot;tcp_receiver.hh&quot;
+#include &lt;cstdlib&gt;
+using namespace std;
+
+void TCPReceiver::segment_received(const TCPSegment &amp;seg) &#123;
+    /*只接受第一次的syn所以要满足!init_seq_peer.has_value()*/
+    if (seg.header().syn &amp;&amp; !init_seq_peer.has_value())
+        init_seq_peer = seg.header().seqno;
+
+    if (init_seq_peer.has_value()) &#123;
+    /*size_t expected_index = _reassembler.expected_bytes_index();
+     *size_t abs_seq = unwrap(seg.header().seqno,init_seq_peer.value(),expected_index);
+     *_reassembler.push_substring(seg.payload().copy(),abs_seq,seg.header().fin);
+     */
+    //上面三句可以合并成这一句
+       _reassembler.push_substring(
+           seg.payload().copy(),
+           unwrap(seg.header().seqno, init_seq_peer.value(), _reassembler.expected_bytes_index()),
+           seg.header().fin);
+
+        ack_no = wrap(_reassembler.expected_bytes_index(), init_seq_peer.value());
+    &#125;
+
+    fin = fin ? fin : seg.header().fin;
+
+    /*这个判断只会进入一次,(!syn)保证了这个判断只会执行一次*/
+    if (!syn &amp;&amp; seg.header().syn &amp;&amp; ack_no.has_value()) &#123;
+    /*这里的代码的主要目的是将Init Sequence Number设置为带Payload的第一个Sequence Number*/
+        ack_no = WrappingInt32(ack_no.value().raw_value() + 1);
+        init_seq_peer = ack_no;
+        syn = true;
+    &#125;
+
+    /*只有建立了连接(即init_seq_peer.has_value()为true),
+    同时fin来过(即fin==true)，
+    而且字符流重组完成(即_reassembler.stream_out().input_ended()返回true)才能为ack_no+1*/
+    if (init_seq_peer.has_value() &amp;&amp; fin &amp;&amp; _reassembler.stream_out().input_ended()) &#123;
+        ack_no = WrappingInt32(ack_no.value().raw_value() + 1);
+    &#125;
+
+    return;
+&#125;
+
+optional&lt;WrappingInt32&gt; TCPReceiver::ackno() const &#123; return ack_no; &#125;
+
+size_t TCPReceiver::window_size() const &#123; return this-&gt;stream_out().remaining_capacity(); &#125;
+</code></pre>
+
+            <hr>
+          </div>
+          <br>
+          <div>
+            <p>
+            
+              <span>
+                <i class="iconfont icon-inbox"></i>
+                
+                  <a class="hover-with-bg" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">计算机网络</a>
+                  &nbsp;
+                
+                  <a class="hover-with-bg" href="/categories/CS144">CS144</a>
+                  &nbsp;
+                
+              </span>&nbsp;&nbsp;
+            
+            
+              <span>
+                <i class="iconfont icon-tag"></i>
+                
+                  <a class="hover-with-bg" href="/tags/CS144">CS144</a>
+                
+                  <a class="hover-with-bg" href="/tags/lab2">lab2</a>
+                
+              </span>
+            
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+      <br><br>
+      
+      
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = 'https://lexssama.github.io/2021/04/04/CS144-lab2/';
+        this.page.identifier = '/2021/04/04/CS144-lab2/';
+      };
+      var oldLoad = window.onload;
+      window.onload = function () {
+        var d = document, s = d.createElement('script');
+        s.type = 'text/javascript';
+        s.src = '//' + 'Lexssama' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      };
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" target="_blank" rel="nofollow noopener noopener">comments
+        powered by Disqus.</a></noscript>
+  </div>
+
+
+    
+  </div>
+</div>
+
+    
+  </main>
+
+  
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <b>Fluid</b></a>
+    <br>
+
+    
+  
+    <!-- 不蒜子统计PV -->
+    
+    &nbsp;<span id="busuanzi_container_site_pv"></span>总访问量 
+          <span id="busuanzi_value_site_pv"></span> 次&nbsp;
+  
+  
+    <!-- 不蒜子统计UV -->
+    
+    &nbsp;<span id="busuanzi_container_site_uv"></span>总访客数 
+            <span id="busuanzi_value_site_uv"></span> 人&nbsp;
+  
+  <br>
+
+
+
+    
+
+
+    <!-- cnzz Analytics icon -->
+    
+
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="/lib/jquery/jquery.min.js" ></script>
+<script src="/lib/popper/popper.min.js" ></script>
+<script src="/lib/bootstrap/js/bootstrap.min.js" ></script>
+<script src="/lib/mdbootstrap/js/mdb.min.js" ></script>
+<script src="/js/main.js" ></script>
+
+
+  <script src="/js/lazyload.js" ></script>
+
+
+
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
+
+
+  <script src="/lib/smoothscroll/SmoothScroll.min.js" ></script>
+
+
+
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+<!-- Plugins -->
+
+
+  
+
+  
+
+  
+
+  
+
+  <!-- cnzz Analytics -->
+  
+
+
+
+  <script src="/lib/prettify/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint  linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+
+  <script src="/lib/typed/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "CS144-lab2&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script src="/lib/anchor/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "false",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script src="/lib/fancybox/jquery.fancybox.min.js" ></script>
+  <script>
+    $("#post img:not(.no-zoom img, img[no-zoom])").each(
+      function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "images");
+        $(element).attr("href", $(this).attr("src"));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+          tex2jax: {
+              inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+              processEscapes: true,
+              skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          }
+      });
+
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+
+    </script>
+
+    <script src="https://cdn.staticfile.org/mathjax/2.7.6/MathJax.js?config=TeX-MML-AM_CHTML" ></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

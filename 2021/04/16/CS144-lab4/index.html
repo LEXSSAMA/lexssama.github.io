@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/wallhaven-4xjllo.jpg">
+  <link rel="icon" type="image/png" href="/img/wallhaven-4xjllo.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="description" content="">
+  <meta name="author" content="Lexssama">
+  <meta name="keywords" content="">
+  <title>CS144-lab4 ~ Lexssama&#39;s Blogs</title>
+
+  <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
+<link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
+<link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
+<link rel="stylesheet" href="/lib/github-markdown/github-markdown.min.css"  >
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+
+
+
+  <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css"  >
+
+<link rel="stylesheet" href="/css/main.css"  >
+
+
+  <link rel="stylesheet" href="/lib/fancybox/jquery.fancybox.min.css"  >
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<body>
+  <header style="height: 100vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Lexssama's Blogs</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">首页</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">归档</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/categories/">分类</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">标签</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">关于</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" false
+         style="background: url('/img/wallhaven-j5l9gw.jpg')no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <br>
+              
+                <p class="mt-3">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
+                  星期五, 四月 16日 2021, 3:16 下午
+                </p>
+              
+
+              <p>
+                
+                  
+                  &nbsp;<i class="far fa-chart-bar"></i>
+                  <span class="post-count">
+                    902 字
+                  </span>&nbsp;
+                
+
+                
+                  
+                  &nbsp;<i class="far fa-clock"></i>
+                  <span class="post-count">
+                      4 分钟
+                  </span>&nbsp;
+                
+
+                
+                  <!-- 不蒜子统计文章PV -->
+                  
+                  &nbsp;<i class="far fa-eye" aria-hidden="true"></i>&nbsp;
+                  <span id="busuanzi_container_page_pv">
+                    <span id="busuanzi_value_page_pv"></span> 次
+                  </span>&nbsp;
+                
+              </p>
+            
+          </div>
+
+          
+            <div class="scroll-down-bar">
+              <i class="fas fa-angle-down scroll-down-arrow"></i>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto" id="post">
+          <div class="markdown-body">
+            <h1 id="实现TCPConnection"><a href="#实现TCPConnection" class="headerlink" title="实现TCPConnection"></a>实现TCPConnection</h1><p><code>TCPConnection</code>实际上就是结合<code>TCPReceiver</code>和<code>TCPSender</code>结合实现一个TCP的有限状态机<strong>(TCP Finite State Machine (FSM))</strong>,也就是实现下面这一张实际运行的逻辑图<br><br><strong>实现TCPConnection我修改了TCPReceiver和TCPSender一些接口的返回值例如将返回void修改成返回bool</strong><br><br><img src="tcpfsm.png" srcset="/img/loading.gif" alt="TCP Finite State Machine "><br></p>
+<p><strong>详细的FSM可以看这个网页:</strong> <a href="http://tcpipguide.com/free/t_TCPOperationalOverviewandtheTCPFiniteStateMachineF-2.htm" target="_blank" rel="noopener">TCP Finite State Machine</a></p>
+<p>其次就是研究透彻<code>tcp_state.cc</code>,这个文件中描述了<code>TCPConnection</code>处于某个状态的时候，<code>TCPSender</code>和<code>TCPReceiver</code>应该处于什么状态，例如:当<code>TCPConnection</code>处于<code>LISTEN</code>状态的时候，TCPSender和TCPReceiver应该分别处于<code>CLOSED</code>和<code>LISTEN</code>状态,(TCPSender和TCPReceiver)的状态在lab2和lab3中有描述。</p>
+<p><strong>TCPConnection.hh</strong><br></p>
+<pre><code class="lang-C++">...
+//为实现TCPConnection而增添的代码
+    bool _active&#123;true&#125;;
+    bool _established&#123;false&#125;;
+    bool _rst&#123;false&#125;;
+    size_t _ms_since_last_segment_received&#123;0&#125;;
+
+    void send_segments();
+    void fill_queue(std::queue&lt;TCPSegment&gt; &amp;stream_queue);
+    void set_rst();
+    void test_end();
+
+....
+</code></pre>
+<p><strong>TCPConnection.cc</strong><br></p>
+<pre><code class="lang-C++">size_t TCPConnection::remaining_outbound_capacity() const &#123; return _sender.stream_in().remaining_capacity(); &#125;
+
+size_t TCPConnection::bytes_in_flight() const &#123; return _sender.bytes_in_flight(); &#125;
+
+size_t TCPConnection::unassembled_bytes() const &#123; return _receiver.unassembled_bytes(); &#125;
+
+size_t TCPConnection::time_since_last_segment_received() const &#123; return _ms_since_last_segment_received; &#125;
+
+void TCPConnection::set_rst() &#123;
+    _active = false;
+    _rst = true;
+    _linger_after_streams_finish = false;
+    _sender.stream_in().set_error();
+    _receiver.stream_out().set_error();
+    if (_established)
+        send_segments();
+&#125;
+
+void TCPConnection::test_end() &#123;
+    if (_receiver.stream_out().input_ended() &amp;&amp; !_sender.stream_in().eof() &amp;&amp; _sender.next_seqno_absolute() &gt; 0) &#123;
+        _linger_after_streams_finish = false;
+    &#125; else if (_receiver.stream_out().eof() &amp;&amp; _sender.stream_in().eof() &amp;&amp; unassembled_bytes() == 0 &amp;&amp;
+               bytes_in_flight() == 0 &amp;&amp; _sender.fin_sent()) &#123;
+        if (!_linger_after_streams_finish)
+            _active = false;
+        else if (_ms_since_last_segment_received &gt;= 10 * _cfg.rt_timeout)
+            _active = false;
+    &#125;
+&#125;
+
+void TCPConnection::fill_queue(std::queue&lt;TCPSegment&gt; &amp;stream_queue) &#123;
+    TCPSegment tmp = stream_queue.front();
+    stream_queue.pop();
+
+    if (_receiver.ackno().has_value()) &#123;
+        tmp.header().ack = true;
+        tmp.header().ackno = _receiver.ackno().value();
+    &#125;
+    tmp.header().rst = _rst;
+    size_t window_size = _receiver.window_size();
+    tmp.header().win = window_size &lt; std::numeric_limits&lt;uint16_t&gt;::max() ? static_cast&lt;uint16_t&gt;(window_size)
+                                                                          : std::numeric_limits&lt;uint16_t&gt;::max();
+    _segments_out.push(tmp);
+
+    return;
+&#125;
+
+void TCPConnection::send_segments() &#123;
+    std::queue&lt;TCPSegment&gt; &amp;stream_queue = _sender.segments_out();
+    if (stream_queue.empty()) &#123;
+        _sender.send_empty_segment();
+    &#125;
+    if (_rst) &#123;
+        fill_queue(stream_queue);
+        return;
+    &#125;
+    while (!stream_queue.empty()) &#123;
+        fill_queue(stream_queue);
+    &#125;
+&#125;
+
+void TCPConnection::segment_received(const TCPSegment &amp;seg) &#123;
+    if (!_active)
+        return;
+
+    _ms_since_last_segment_received = 0;
+
+    if (seg.header().rst) &#123;
+        set_rst();
+        return;
+    &#125;
+    _receiver.segment_received(seg);
+    bool right_ack = seg.header().ack ? _sender.ack_received(seg.header().ackno, seg.header().win) : false;
+    if (seg.header().syn &amp;&amp; !_established) &#123;
+        if (right_ack) &#123;
+            _established = true;
+        &#125; else &#123;
+            _sender.fill_window();
+        &#125;
+    &#125;
+        else if (!_established &amp;&amp; right_ack) &#123;
+            /*SYN-RECEIVE transition to ESTABLISHED*/
+            _established = true;
+        &#125;
+        //  reply if seg sequence length equal not to 0 or _sender have segments want to send;
+        if (seg.length_in_sequence_space() != 0 || !_sender.segments_out().empty())
+            send_segments();
+
+        test_end();
+    &#125;
+
+    bool TCPConnection::active() const &#123; return _active; &#125;
+
+    size_t TCPConnection::write(const string &amp;data) &#123;
+        size_t size = _sender.stream_in().write(data);
+        _sender.fill_window();
+        send_segments();
+        test_end();
+        return size;
+    &#125;
+
+//! \param[in] ms_since_last_tick number of milliseconds since the last call to this method
+void TCPConnection::tick(const size_t ms_since_last_tick) &#123;
+    _ms_since_last_segment_received += ms_since_last_tick;
+
+    if (_sender.tick(ms_since_last_tick)) &#123;
+        if (_sender.consecutive_retransmissions() &gt; TCPConfig::MAX_RETX_ATTEMPTS) &#123;
+            set_rst();
+            return;
+        &#125;
+        send_segments();
+    &#125;
+    test_end();
+&#125;
+
+void TCPConnection::end_input_stream() &#123;
+    _sender.stream_in().end_input();
+    _sender.fill_window();
+    send_segments();
+    test_end();
+&#125;
+
+void TCPConnection::connect() &#123;
+    if (_sender.next_seqno_absolute() != 0)
+        return;
+    _sender.fill_window();
+    send_segments();
+    _active = true;
+&#125;
+
+TCPConnection::~TCPConnection() &#123;
+    try &#123;
+        if (active()) &#123;
+            cerr &lt;&lt; &quot;Warning: Unclean shutdown of TCPConnection\n&quot;;
+            // Your code here: need to send a RST segment to the peer
+            set_rst();
+        &#125;
+    &#125; catch (const exception &amp;e) &#123;
+        std::cerr &lt;&lt; &quot;Exception destructing TCP FSM: &quot; &lt;&lt; e.what() &lt;&lt; std::endl;
+    &#125;
+&#125;
+</code></pre>
+<p><strong>结果:</strong><br><br><img src="result.png" srcset="/img/loading.gif" alt="result"><br></p>
+<h1 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h1><p>优化实际上就是减少内存的拷贝复制,这里涉及到<strong>右值引用</strong>和<strong>智能指针</strong>相关的知识,因为每个人实现的代码都不同，所以下面只是记录一下我对自己代码的优化。<br></p>
+<p>主要的优化的地方就是<code>byte_stream.cc</code>这个文件，我将存储字符流容器的<code>std::deque&lt;char&gt;</code>改为使用CS144中给的<code>BufferList</code>,<strong>buffer.hh和buffer.cc这两个文件要好好读一读，这里使用了</strong>右值引用<strong>和</strong>智能指针<strong>,大大的减少了不需要的内存拷贝实在是妙！</strong>。<br></p>
+<p>其次第二个优化的地方就是<strong>stream_reassembler.cc</strong>,我将插入<code>insert_pair()</code>函数中<code>window[index]=data</code>这段代码改为<code>window[index] = std::move(data)</code>。<br></p>
+<p><strong>最后优化得到的成绩是</strong></p>
+<pre><code class="lang-bash">CPU-limited throughput                : 2.85 Gbit/s
+CPU-limited throughput with reordering: 2.58 Gbit/s
+</code></pre>
+
+            <hr>
+          </div>
+          <br>
+          <div>
+            <p>
+            
+              <span>
+                <i class="iconfont icon-inbox"></i>
+                
+                  <a class="hover-with-bg" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">计算机网络</a>
+                  &nbsp;
+                
+                  <a class="hover-with-bg" href="/categories/CS144">CS144</a>
+                  &nbsp;
+                
+              </span>&nbsp;&nbsp;
+            
+            
+              <span>
+                <i class="iconfont icon-tag"></i>
+                
+                  <a class="hover-with-bg" href="/tags/CS144">CS144</a>
+                
+                  <a class="hover-with-bg" href="/tags/lab4">lab4</a>
+                
+              </span>
+            
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+      <br><br>
+      
+      
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = 'https://lexssama.github.io/2021/04/16/CS144-lab4/';
+        this.page.identifier = '/2021/04/16/CS144-lab4/';
+      };
+      var oldLoad = window.onload;
+      window.onload = function () {
+        var d = document, s = d.createElement('script');
+        s.type = 'text/javascript';
+        s.src = '//' + 'Lexssama' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      };
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" target="_blank" rel="nofollow noopener noopener">comments
+        powered by Disqus.</a></noscript>
+  </div>
+
+
+    
+  </div>
+</div>
+
+    
+  </main>
+
+  
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <b>Fluid</b></a>
+    <br>
+
+    
+  
+    <!-- 不蒜子统计PV -->
+    
+    &nbsp;<span id="busuanzi_container_site_pv"></span>总访问量 
+          <span id="busuanzi_value_site_pv"></span> 次&nbsp;
+  
+  
+    <!-- 不蒜子统计UV -->
+    
+    &nbsp;<span id="busuanzi_container_site_uv"></span>总访客数 
+            <span id="busuanzi_value_site_uv"></span> 人&nbsp;
+  
+  <br>
+
+
+
+    
+
+
+    <!-- cnzz Analytics icon -->
+    
+
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="/lib/jquery/jquery.min.js" ></script>
+<script src="/lib/popper/popper.min.js" ></script>
+<script src="/lib/bootstrap/js/bootstrap.min.js" ></script>
+<script src="/lib/mdbootstrap/js/mdb.min.js" ></script>
+<script src="/js/main.js" ></script>
+
+
+  <script src="/js/lazyload.js" ></script>
+
+
+
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
+
+
+  <script src="/lib/smoothscroll/SmoothScroll.min.js" ></script>
+
+
+
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+<!-- Plugins -->
+
+
+  
+
+  
+
+  
+
+  
+
+  <!-- cnzz Analytics -->
+  
+
+
+
+  <script src="/lib/prettify/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint  linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+
+  <script src="/lib/typed/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "CS144-lab4&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script src="/lib/anchor/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "false",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script src="/lib/fancybox/jquery.fancybox.min.js" ></script>
+  <script>
+    $("#post img:not(.no-zoom img, img[no-zoom])").each(
+      function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "images");
+        $(element).attr("href", $(this).attr("src"));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+          tex2jax: {
+              inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+              processEscapes: true,
+              skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          }
+      });
+
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+
+    </script>
+
+    <script src="https://cdn.staticfile.org/mathjax/2.7.6/MathJax.js?config=TeX-MML-AM_CHTML" ></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -35,7 +35,7 @@
   <link rel="stylesheet" href="/lib/fancybox/jquery.fancybox.min.css"  >
 
 
-<meta name="generator" content="Hexo 5.3.0"></head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
 
 <body>
@@ -143,45 +143,592 @@
   <div class="row mx-auto index-card">
     
     
+      <div class="col-12 col-md-4 m-auto">
+        <a href="/2021/04/19/CS144-lab6/" target="_self">
+          <img src="/Picture/CS144.jpg" srcset="/img/loading.gif" alt="CS144-lab6" class="index-img img-fluid rounded index-thumbnails">
+        </a>
+      </div>
+    
     <div class="col-12 col-md-8 mx-auto index-info">
-      <a href="/2021/05/21/hello-world/">
-        <p class="h4 index-header">Hello World</p>
+      <a href="/2021/04/19/CS144-lab6/">
+        <p class="h4 index-header">CS144-lab6</p>
       </a>
 
-      <a href="/2021/05/21/hello-world/">
+      <a href="/2021/04/19/CS144-lab6/">
         
         
           
         
         <div class="index-excerpt" >
-          <div class="index-text mb-1">Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick StartCreate a new post$ hexo new &quot;My New Post&quot;
+          <div class="index-text mb-1">实现route.cc这个lab是实现路由器,路由转发的功能,需要维护一个路由转发表，通过目标IP地址与路由转发表中存储的IP地址进行最长前缀匹配来决定数据报要从路由器上面的哪一个网络接口Network Interface发出。
+代码route.hh
+class Router &#123;
+.....
+    //! The router&#39;s collection of network interfaces
+    struct Table &#123;
+        const uint32_t route_prefix;
+        const uint8_t prefix_length;
+        const std::optional&lt;Address&gt; next_hop;
+        const size_t interface_num;
+    &#125;;
 
-More info: Writing
-Run server$ hexo server
-
-More info: Server
-Generate static files$ hexo generate
-
-More info: Generating
-Deploy to remote sites$ hexo deploy
-
-More info: Deployment
-</div>
+    std::vector&lt;AsyncNetworkInterface&gt; _interfaces&#123;&#125;;
+    std::vector&lt;Ta</div>
         </div>
       </a>
 
       <div class="index-btm">
         
-          <i class="iconfont icon-riqi2"></i>&nbsp;2021-05-21&nbsp;&nbsp;
+          <i class="iconfont icon-riqi2"></i>&nbsp;2021-04-19&nbsp;&nbsp;
         
         
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">计算机网络</a>&nbsp;
+          
+            <a href="/categories/CS144">CS144</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/CS144">CS144</a>&nbsp;
+          
+            <a href="/tags/lab4">lab4</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
+        <a href="/2021/04/19/CS144-lab5/" target="_self">
+          <img src="/Picture/CS144.jpg" srcset="/img/loading.gif" alt="CS144-lab5" class="index-img img-fluid rounded index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 mx-auto index-info">
+      <a href="/2021/04/19/CS144-lab5/">
+        <p class="h4 index-header">CS144-lab5</p>
+      </a>
+
+      <a href="/2021/04/19/CS144-lab5/">
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">实现Network Interface网络接口Network Interface是网络层和链路层链接的桥梁，它的作用就是将网络层传下来的Internet datagrams封装成链路层的Ethernet frames,然后将封装好的Ethernet frames发出。
+封装Ethernet frames想将Internet datagrams封装成Ethernet frames我们需要知道Destination Mac Address和Source Mac Address 和 EtherType。
+
+Source Mac Address : 本机的Mac地址。
+Destination Mac Address : 目标主机的Mac地址会被存储到本机的目标IP和目标Mac地址的映射数据结构中,如果本机维护的这个数据结构不存在目标IP的Mac地址，那么我们就需要使用ARP协议向局域网中的其他主机询问目标IP的Mac地址。(APR协议的细节:Address Resolution Protocol)
+EtherType : 表示上层Internet datagrames使用的协议类型，lab5中</div>
+        </div>
+      </a>
+
+      <div class="index-btm">
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2021-04-19&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">计算机网络</a>&nbsp;
+          
+            <a href="/categories/CS144">CS144</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/CS144">CS144</a>&nbsp;
+          
+            <a href="/tags/lab4">lab4</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
+        <a href="/2021/04/16/CS144-lab4/" target="_self">
+          <img src="/Picture/CS144.jpg" srcset="/img/loading.gif" alt="CS144-lab4" class="index-img img-fluid rounded index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 mx-auto index-info">
+      <a href="/2021/04/16/CS144-lab4/">
+        <p class="h4 index-header">CS144-lab4</p>
+      </a>
+
+      <a href="/2021/04/16/CS144-lab4/">
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">实现TCPConnectionTCPConnection实际上就是结合TCPReceiver和TCPSender结合实现一个TCP的有限状态机(TCP Finite State Machine (FSM)),也就是实现下面这一张实际运行的逻辑图实现TCPConnection我修改了TCPReceiver和TCPSender一些接口的返回值例如将返回void修改成返回bool
+详细的FSM可以看这个网页: TCP Finite State Machine
+其次就是研究透彻tcp_state.cc,这个文件中描述了TCPConnection处于某个状态的时候，TCPSender和TCPReceiver应该处于什么状态，例如:当TCPConnection处于LISTEN状态的时候，TCPSender和TCPReceiver应该分别处于CLOSED和LISTEN状态,(TCPSender和TCPReceiver)的状态在lab2和lab3中有描述。
+TCPConnection.hh
+...
+//为实现TCPConnection而增添的代码
+    bool _active&#123;true&</div>
+        </div>
+      </a>
+
+      <div class="index-btm">
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2021-04-16&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">计算机网络</a>&nbsp;
+          
+            <a href="/categories/CS144">CS144</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/CS144">CS144</a>&nbsp;
+          
+            <a href="/tags/lab4">lab4</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
+        <a href="/2021/04/08/CS144-lab3/" target="_self">
+          <img src="/Picture/CS144.jpg" srcset="/img/loading.gif" alt="CS144-lab3" class="index-img img-fluid rounded index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 mx-auto index-info">
+      <a href="/2021/04/08/CS144-lab3/">
+        <p class="h4 index-header">CS144-lab3</p>
+      </a>
+
+      <a href="/2021/04/08/CS144-lab3/">
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">实现TCPSender这个lab有几个难点,分别是:
+
+TCP中会维护好几种状态:
+
+CLOSE: SYN还没有被发送
+SYN_SENT: SYN被发送了但是没有收到对应的ACK
+SYN_ACKED: 正常状态，可以利用sender来通信了
+SYN_ACKED_ASLO: sender已经发送完所以的字节流了，但是还没有发生FIN。
+FIN_SENT: FIN已经被发送，但是还没有收到对应的ACK
+FIN_ACKED: sender已经完成所以的任务。
+
+
+TCPSender使用的是累计确认的协议，也就是说如果收到合法的ACK,那么ACK之前的所有已经发送segments已经被成功接受。(如果收到的ACK大于我还未发送的Sequence Number那就是非法的ACK)
+
+timer的开启，重启，关闭的时机。在做这个是lab之前我一直以为是给每一个发出的segments安装一个timer，当segments超时的时候重发，但是看了huangrt01大佬的代码后，发现在这个lab中timer,timer记录的是在RTO时间内有没有收到合法的ACK,如果没有收到合法的ACK，那么就需要重传</div>
+        </div>
+      </a>
+
+      <div class="index-btm">
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2021-04-08&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">计算机网络</a>&nbsp;
+          
+            <a href="/categories/CS144">CS144</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/CS144">CS144</a>&nbsp;
+          
+            <a href="/tags/lab3">lab3</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
+        <a href="/2021/04/04/CS144-lab2/" target="_self">
+          <img src="/Picture/CS144.jpg" srcset="/img/loading.gif" alt="CS144-lab2" class="index-img img-fluid rounded index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 mx-auto index-info">
+      <a href="/2021/04/04/CS144-lab2/">
+        <p class="h4 index-header">CS144-lab2</p>
+      </a>
+
+      <a href="/2021/04/04/CS144-lab2/">
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">实现wrapping_integers.cc1.wrapping_integers.cc这个文件是干什么的呢？wrapping_integers.cc主要做两件事情，一是将64位表示的数包装成32位表示的数。二是将32位的数解包装还原为64位的数。至于为什么要这么做我们下面解释。
+2.为什么要将64位数转化成32位数，32位数还原为64位数呢?因为TCP的Sequence Number和Acknowledgement Number是32位的,最多最多也就只能表示4G大小数据的传输,如果将32位其转化为64位后，就可以表示2^64-1这么大的空间(目前看说几乎是无限大),那么怎么转化呢?我们用Initial Sequence Number = 0,来举例,我们称呼转化后的64位的数字为Absolute Sequence Number 。当TCP传输的数据小于4G的时候(这里假设Initial Sequence Number = 0),TCP的Sequence Number 与 Absolute Sequence Number相同,当TCP传输的数据大于4G后，TCP中的Sequence </div>
+        </div>
+      </a>
+
+      <div class="index-btm">
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2021-04-04&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">计算机网络</a>&nbsp;
+          
+            <a href="/categories/CS144">CS144</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/CS144">CS144</a>&nbsp;
+          
+            <a href="/tags/lab2">lab2</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
+        <a href="/2021/03/30/CS144-lab1/" target="_self">
+          <img src="/Picture/CS144.jpg" srcset="/img/loading.gif" alt="CS144-lab1" class="index-img img-fluid rounded index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 mx-auto index-info">
+      <a href="/2021/03/30/CS144-lab1/">
+        <p class="h4 index-header">CS144-lab1</p>
+      </a>
+
+      <a href="/2021/03/30/CS144-lab1/">
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">实现 stream reassembly
+什么是 stream reassembly ？stream reassembly 是一个字符流重组器 , 主要的功能是将传入的没一份打乱的字符流重新组合形成原来的有序的字符流。
+
+实现 stream reassemblystream reassembly 被包装成一个类，也就是lab1要实现的StreamReassembler类 。
+
+
+为了实现这个类的功能，我在类中添加了一下的一些变量和函数。
+class StreamReassembler &#123;
+  private: 
+    size_t expected_index;    
+    bool _eof_appear_sign;        
+    size_t _eof_index ;    
+    std::map&lt;size_t,std::string&gt; window;
+
+    void write_substring();
+    void insert_pair(const std::string &amp;data,const size_t inde</div>
+        </div>
+      </a>
+
+      <div class="index-btm">
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2021-03-30&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">计算机网络</a>&nbsp;
+          
+            <a href="/categories/CS144">CS144</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/CS144">CS144</a>&nbsp;
+          
+            <a href="/tags/lab1">lab1</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
+        <a href="/2021/03/27/CS144-lab0/" target="_self">
+          <img src="/Picture/CS144.jpg" srcset="/img/loading.gif" alt="CS144-lab0" class="index-img img-fluid rounded index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 mx-auto index-info">
+      <a href="/2021/03/27/CS144-lab0/">
+        <p class="h4 index-header">CS144-lab0</p>
+      </a>
+
+      <a href="/2021/03/27/CS144-lab0/">
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">实现webget.cc实现webget.cc实际上就是补充get_URL()函数。这里比较值得注意的是通过套接字与采用http协议的服务器沟通的语法是这样的:
+GET /hello HTTP/1.1        //注意这里换行符号为\r\n
+Host: cs144.keithw.org
+Connection:  close
+
+在程序上表现为:&quot;GET &quot; + path + &quot; &quot; + &quot;HTTP/1.1\r\nHost: &quot; + host + &quot;\r\nConnection: close\r\n\r\n&quot;
+void get_URL(const string &amp;host, const string &amp;path) &#123;
+
+    TCPSocket sock1;
+    Address addr = Address(host, &quot;http&quot;);
+    sock1.connect(addr);
+    sock1.write(&quot;GET &quot; + </div>
+        </div>
+      </a>
+
+      <div class="index-btm">
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2021-03-27&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">计算机网络</a>&nbsp;
+          
+            <a href="/categories/CS144">CS144</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/CS144">CS144</a>&nbsp;
+          
+            <a href="/tags/lab0">lab0</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
+        <a href="/2021/02/21/The-rule-of-Three-Five/" target="_self">
+          <img src="/Picture/the-rule-of-three-five.png" srcset="/img/loading.gif" alt="The rule of Three/Five" class="index-img img-fluid rounded index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 mx-auto index-info">
+      <a href="/2021/02/21/The-rule-of-Three-Five/">
+        <p class="h4 index-header">The rule of Three/Five</p>
+      </a>
+
+      <a href="/2021/02/21/The-rule-of-Three-Five/">
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">引用:
+
+Rule of three (C++ programming))
+C++11: The Rule of the Big Five
+
+IntroductionThe Rule of Three/Five （三法则/五法则）是为了编写异常安全代码(Exception-safe code)和为了资源管理而提出的经验法则。
+The Rule of Three首先介绍编译器会自动生成的三个特殊的成员函数(Special member funtions)
+
+Desturctor (析构函数)
+Copy Constructor (拷贝构造函数)
+Copy assignment operator (拷贝赋值运算符)
+
+三法则规定:如果类中定义了以下三个特殊的成员函数的其中一个，则这个应该显式的定义所有的三个特殊的成员函数。因为默认生成的三个函数通常不能满足我们的使用要求。
+默认生成的Copy Constructor和Copy assignment operator执行的是浅拷贝(Shallow Copy)。而我们的类中如果存在指针这类的成员变量,使用默认生成的这两个函数，可能会引起内存泄漏及</div>
+        </div>
+      </a>
+
+      <div class="index-btm">
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2021-02-21&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/C/C++">C/C++</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/C/C++">C/C++</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
+        <a href="/2021/02/18/lvalue-and-rvalue/" target="_self">
+          <img src="/Picture/lrvalue.png" srcset="/img/loading.gif" alt="lvalue and rvalue" class="index-img img-fluid rounded index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 mx-auto index-info">
+      <a href="/2021/02/18/lvalue-and-rvalue/">
+        <p class="h4 index-header">lvalue and rvalue</p>
+      </a>
+
+      <a href="/2021/02/18/lvalue-and-rvalue/">
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">如果有小伙伴看到我的文章的话，建议优先去看下面的这些文章,因为我写的质量不及下面文章的十分之一(哭脸)
+
+Rvalue References: C++0x Features in VC10, Part 2
+What is move semantics?
+What is the copy-and-swap idiom?
+lvalue VS rvalue, rvalue Reference, and Move Semantics in C++
+C++笔记 · 右值引用，移动语义，移动构造函数和移动赋值运算符
+
+还有这些视频:
+
+Move Semantics in C++
+Advanced C++: Understanding rvalue and lvalue
+
+lvalue and rvalue在C++中，每一个表达式都是由lvalue和rvalue组成.
+Example
+int i = 0;    /*i为lvalue,0为rvalue*/
+int a = i+1;        /*a为lvalue,i+1是rvalue*/
+1        /*1为rvalue*/
+
+lvalue</div>
+        </div>
+      </a>
+
+      <div class="index-btm">
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2021-02-18&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/C/C++">C/C++</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/C/C++">C/C++</a>&nbsp;
+          
+            <a href="/tags/Reference">Reference</a>&nbsp;
+          
+            <a href="/tags/lvalue%20rvalue">lvalue rvalue</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
+        <a href="/2020/12/30/PA3-2%E5%BF%85%E7%AD%94%E9%A2%98/" target="_self">
+          <img src="/Picture/PA.png" srcset="/img/loading.gif" alt="PA3.2必答题" class="index-img img-fluid rounded index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 mx-auto index-info">
+      <a href="/2020/12/30/PA3-2%E5%BF%85%E7%AD%94%E9%A2%98/">
+        <p class="h4 index-header">PA3.2必答题</p>
+      </a>
+
+      <a href="/2020/12/30/PA3-2%E5%BF%85%E7%AD%94%E9%A2%98/">
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">必答题-hello程序是什么, 它从而何来, 要到哪里去到此为止, PA中的所有组件已经全部亮相了, 整个计算机系统也开始趋于完整. 你也已经在这个自己创造的计算机系统上跑起了hello这个第一个还说得过去的用户程序 (dummy是给大家热身用的, 不算), 好消息是, 我们已经距离运行仙剑奇侠传不远了(下一个阶段就是啦).
+不过按照PA的传统, 光是跑起来还是不够的, 你还要明白它究竟怎么跑起来才行. 于是来回答这道必答题吧:
+我们知道navy-apps/tests/hello/hello.c只是一个C源文件, 它会被编译链接成一个ELF文件. 那么, hello程序一开始在哪里? 它是怎么出现内存中的? 为什么会出现在目前的内存位置? 它的第一条指令在哪里? 究竟是怎么执行到它的第一条指令的? hello程序在不断地打印字符串, 每一个字符又是经历了什么才会最终出现在终端上?
+上面一口气问了很多问题, 我们想说的是, 这其中蕴含着非常多需要你理解的细节. 我们希望你能够认真整理其中涉及的每一行代码, 然后用自己的语言融会贯通地把这个过程的理解描述清楚, 而不是机械地分点回答这几个问</div>
+        </div>
+      </a>
+
+      <div class="index-btm">
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-12-30&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86">计算机组成原理</a>&nbsp;
+          
+            <a href="/categories/PA">PA</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/PA">PA</a>&nbsp;
+          
+            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86">计算机组成原理</a>&nbsp;
+          
         
       </div>
     </div>
   </div>
 
 
+
+  <nav aria-label="index posts navigation">
+    <span class="pagination pg-blue justify-content-center mt-5" id="pagination">
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/2/"><i class="fas fa-angle-double-right"></i></a>
+    </span>
+  </nav>
+  
+  <script>
+    for (ele of document.getElementById("pagination").getElementsByClassName("page-number")) {
+      ele.href += '#board';
+    }
+  </script>
 
 
 

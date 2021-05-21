@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/wallhaven-4xjllo.jpg">
+  <link rel="icon" type="image/png" href="/img/wallhaven-4xjllo.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="description" content="">
+  <meta name="author" content="Lexssama">
+  <meta name="keywords" content="">
+  <title>KMP算法 ~ Lexssama&#39;s Blogs</title>
+
+  <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
+<link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
+<link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
+<link rel="stylesheet" href="/lib/github-markdown/github-markdown.min.css"  >
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+
+
+
+  <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css"  >
+
+<link rel="stylesheet" href="/css/main.css"  >
+
+
+  <link rel="stylesheet" href="/lib/fancybox/jquery.fancybox.min.css"  >
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<body>
+  <header style="height: 100vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Lexssama's Blogs</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">首页</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">归档</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/categories/">分类</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">标签</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">关于</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" false
+         style="background: url('/img/wallhaven-j5l9gw.jpg')no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <br>
+              
+                <p class="mt-3">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
+                  星期日, 三月 22日 2020, 2:35 下午
+                </p>
+              
+
+              <p>
+                
+                  
+                  &nbsp;<i class="far fa-chart-bar"></i>
+                  <span class="post-count">
+                    2.4k 字
+                  </span>&nbsp;
+                
+
+                
+                  
+                  &nbsp;<i class="far fa-clock"></i>
+                  <span class="post-count">
+                      9 分钟
+                  </span>&nbsp;
+                
+
+                
+                  <!-- 不蒜子统计文章PV -->
+                  
+                  &nbsp;<i class="far fa-eye" aria-hidden="true"></i>&nbsp;
+                  <span id="busuanzi_container_page_pv">
+                    <span id="busuanzi_value_page_pv"></span> 次
+                  </span>&nbsp;
+                
+              </p>
+            
+          </div>
+
+          
+            <div class="scroll-down-bar">
+              <i class="fas fa-angle-down scroll-down-arrow"></i>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto" id="post">
+          <div class="markdown-body">
+            <p><strong>感谢:<br></strong><br><a href="https://blog.csdn.net/qq_30974369/article/details/74276186" target="_blank" rel="noopener">KMP算法 Next数组详解(【洛谷3375】KMP字符串匹配 )</a><br><br><a href="https://wiki.jikexueyuan.com/project/kmp-algorithm/define.html" target="_blank" rel="noopener">从头到尾彻底理解 KMP</a><br><br><a href="http://www.ruanyifeng.com/blog/2013/05/Knuth%E2%80%93Morris%E2%80%93Pratt_algorithm.html" target="_blank" rel="noopener">字符串匹配的KMP算法</a><br></p>
+<p>KMP算法即是用来解决在一个字符串S(例如ABCDEFG)中快速查找字符串P(ABCD)的一个算法.<br><br>在介绍KMP算法之前我们先介绍暴力查找字符的算法<br></p>
+<h1 id="字符串的暴力查找法"><a href="#字符串的暴力查找法" class="headerlink" title="字符串的暴力查找法"></a>字符串的暴力查找法</h1><p>如下图用暴力查找法在字符串S(BB….DE)中寻找匹配项字符P(ABCDABD）．<br></p>
+<p><em>暴力查找法核心就是发现S[i]和P[j]不相等，S和P就开始回退，S回退到i=i-(j-1)处 ,j回退为０．具体看下图：<br></em></p>
+<p><strong>比较S[0]!=P[0]不相等则回退,i=i-(j-1)=0-0+1=1,j=0,相当于S向前进一步，而P回到j=0再开始比较</strong><br><img src="BL1.png" srcset="/img/loading.gif" alt="BL1"><br><strong>还是不相等，与上面情况相同</strong><br><img src="BL2.png" srcset="/img/loading.gif" alt="BL2"><br><strong>S[i]=p[i],i++,j++继续向下比较</strong><br><img src="BL3.png" srcset="/img/loading.gif" alt="BL3"><br><img src="BL4.png" srcset="/img/loading.gif" alt="BL4"><br><strong>发现S[i]!=P[j]不相等开始回退</strong><br><img src="BL5.png" srcset="/img/loading.gif" alt="BL5"><br><strong>置i=i-(j-1)=9-(6-1)=4,j=0,继续比较,即开始比较S[4]=B和P[0]=A,</strong><br><img src="BL6.png" srcset="/img/loading.gif" alt="BL6"></p>
+<p>可以发现暴力查找的缺点就在发现不相等，S和P都要回退，再重新比较，倘若S和P都特别长，假设S有10000个字符，P有1000个字符，S与P从第０个字符开始相等，而在第998个字符不等，这时，S就要从１号开始再和P从０开始重新比较，太费时．<br></p>
+<p>有没有一种方法让i不改变而只改变j的方法来解决这个字符串的查找问题？没错就是KMP算法.<br></p>
+<h1 id="KMP算法"><a href="#KMP算法" class="headerlink" title="KMP算法"></a>KMP算法</h1><p>在介绍KMP算法之前，需要先介绍<strong>部分匹配值表</strong><br></p>
+<p>首先，要了解两个概念：”前缀”和”后缀”。 “前缀”指除了最后一个字符以外，一个字符串的全部头部组合；”后缀”指除了第一个字符以外，一个字符串的全部尾部组合。</p>
+<p><strong>部分匹配值</strong>就是许多字符串＂前缀＂和＂后缀＂最长的共有元素长度，部分匹配值表就是各个子字符串的所以部分匹配值组成的表．<br></p>
+<p>以字符串ABCDABD为例：<br></p>
+<pre><code>-&quot;A&quot;,的＂前缀＂和＂后缀＂都是空集　共有元素长度是0． 
+-&quot;AB&quot;,的＂前缀＂是｛A｝和＂后缀＂是｛B｝　共有元素长度是0 
+-&quot;ABC&quot;,的＂前缀＂是｛A,AB｝和＂后缀＂是&#123;C,BC&#125;　共有元素长度是0. 
+-&quot;ABCD&quot;,的＂前缀＂是&#123;A,AB,ABC&#125;和＂后缀＂&#123;D,CD,BCD&#125;　共有元素长度是0 
+-&quot;ABCDA&quot;,的＂前缀＂是｛A,AB,ABC,ABCD｝和＂后缀＂是&#123;A,DA,CDA,BCDA&#125;　共有元素是A长度是1 
+-&quot;ABCDAB&quot;,的＂前缀＂是｛A,AB,ABC,ABCD,ABCDA｝和＂后缀＂是｛B,AB,DAB,CDAB,BCDAB｝　共有元素是AB长度是2. 
+-&quot;ABCDABD&quot;,的＂前缀＂是｛A,AB,ABC,ABCD,ABCDA,ABCDAB｝和＂后缀＂是｛D,BD,ABD,DABD,CDABD,BCDABD,｝　共有元素长度0
+</code></pre><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">字符串中各个子串</th>
+<th style="text-align:center">前缀</th>
+<th style="text-align:center">后缀</th>
+<th style="text-align:center">最大共有元素长度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">A</td>
+<td style="text-align:center">空集</td>
+<td style="text-align:center">空集</td>
+<td style="text-align:center">0</td>
+</tr>
+<tr>
+<td style="text-align:center">AB</td>
+<td style="text-align:center">｛A｝</td>
+<td style="text-align:center">｛B｝</td>
+<td style="text-align:center">0</td>
+</tr>
+<tr>
+<td style="text-align:center">ABC</td>
+<td style="text-align:center">｛A,AB｝</td>
+<td style="text-align:center">{C,BC}</td>
+<td style="text-align:center">0</td>
+</tr>
+<tr>
+<td style="text-align:center">ABCD</td>
+<td style="text-align:center">{A,AB,ABC}</td>
+<td style="text-align:center">{D,CD,BCD}　</td>
+<td style="text-align:center">0</td>
+</tr>
+<tr>
+<td style="text-align:center">ABCDA</td>
+<td style="text-align:center">｛A,AB,ABC,ABCD｝</td>
+<td style="text-align:center">{A,DA,CDA,BCDA}</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center">ABCDAB</td>
+<td style="text-align:center">｛A,AB,ABC,ABCD,ABCDA｝</td>
+<td style="text-align:center">｛B,AB,DAB,CDAB,BCDAB｝</td>
+<td style="text-align:center">2</td>
+</tr>
+<tr>
+<td style="text-align:center">ABCDABD</td>
+<td style="text-align:center">｛A,AB,ABC,ABCD,ABCDA,ABCDAB｝</td>
+<td style="text-align:center">｛D,BD,ABD,DABD,CDABD,BCDABD,｝</td>
+<td style="text-align:center">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><br></p>
+<p>如下图KMP算法在遇到S[i]!=P[j]时，i不改变而只改变j，j会向右前进，移动的位数符合以下公式：<br></p>
+<pre><code>移动位数（Z）　＝　已匹配位数(X)　－　匹配子字符串的部分匹配值(Y)
+</code></pre><p><img src="KMP举例1.png" srcset="/img/loading.gif" alt="KMP1"><br></p>
+<p>P要向前移动的位数是6-2=4位，再进行比较．<br><img src="KMP举例2.png" srcset="/img/loading.gif" alt="KMP2"></p>
+<p><strong>为什么移动的位数要等于4呢，如果小于4会怎样？<br></strong><br>答：因为移动的位数等于4，再次比较时P字符前Y个字符不会发生不匹配的现象，而如果移动位数小于4，则再次<br>字符P,S再次比较时一定会发生不匹配的现象．<br><br><strong>为什么如果右移动小于Z就会发生不匹配的现象呢？</strong><br><br>答：如果向又移动３位则且要求再次比较不会发生不匹配的现象，就要求字符串P的前三位P0P1P2,与P3P4P5相等才不会发生不匹配的现象，但现在现实时P0P1和P4P5相等（部分匹配值为２），P0P1P2和P3P4P5不等，所以向右移动３一定会不匹配，同理向右移动２或者１都一样．<br></p>
+<h2 id="KMP的代码实现"><a href="#KMP的代码实现" class="headerlink" title="KMP的代码实现"></a>KMP的代码实现</h2><p>next[i]里面存放就是计算出来的部分匹配值表的变形<br><br>部分匹配值表：<br><br>|部分匹配值表|||||||<br>|:——-:|:——-:|:——-:|:——-:|:——-:|:——-:|:——-:|<br>|0|1|2|3|4|5|6|<br>|A|AB|ABC|ABCD|ABCDA|ABCDAB|ABCDABD|<br>|0|0|0|0|1|2|0|</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">next[i]表</th>
+<th style="text-align:center">相当于</th>
+<th style="text-align:center">部分匹配值</th>
+<th style="text-align:center">右移１位</th>
+<th style="text-align:center">再把next[0]</th>
+<th style="text-align:center">赋值为-1</th>
+<th style="text-align:center"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">0</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">5</td>
+<td style="text-align:center">6</td>
+</tr>
+<tr>
+<td style="text-align:center">A</td>
+<td style="text-align:center">AB</td>
+<td style="text-align:center">ABC</td>
+<td style="text-align:center">ABCD</td>
+<td style="text-align:center">ABCDA</td>
+<td style="text-align:center">ABCDAB</td>
+<td style="text-align:center">ABCDABD</td>
+</tr>
+<tr>
+<td style="text-align:center">-1</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>为什么要这么做呢？而且为什么要把next[0]赋值为-1呢？</strong><br><br>因为这样方便写代码．把next[0]赋成-1,我认为是用来做一个标记，如果next[0]=0当两字符串从第0个就不匹配时，向又移动的位数就是0-0=0,相当于不移动，所以把next[0]设置成-1,当j=-1时代表第０个不匹配，就不用公式计算移动位数，直接i++,j++<br><br>假设现在文本串 S 匹配到 i 位置，模块串 P 匹配到 j 位置<br></p>
+<ul>
+<li>1.if (j == -1 || s[i] == p[j]) 则j++,i++<br></li>
+<li>2.否则若s[i] != p[j]&amp;&amp; j!=-1,j=next[j]　(这里就相当于P向右边移动了j-next[j]位)<br>1</li>
+</ul>
+<pre><code class="lang-c">
+int KmpSearch(char* s, char* p)  
+&#123;  
+    int i = 0;  
+    int j = 0;  
+    int sLen = strlen(s);  
+    int pLen = strlen(p);  
+    while (i &lt; sLen &amp;&amp; j &lt; pLen)  
+    &#123;  
+        //如果j = -1(第0个就不想等直接下一位)，或者当前字符匹配成功（即S[i] == P[j]），都令i++，j++      
+        if (j == -1 || s[i] == p[j])  
+        &#123;  
+            i++;  
+            j++;  
+        &#125;  
+        else  
+        &#123;  
+            //如果j != -1，且当前字符匹配失败（即S[i] != P[j]），则令 i 不变，j = next[j] (这条指令的效果相当于向右移动Z=j-next[j]位)     
+            //next[j]即为j所对应的next值        
+            j = next[j];  
+        &#125;  
+    &#125;  
+    if (j == pLen)  
+        return i - j;  
+    else  
+        return -1;  
+&#125;
+</code></pre>
+<p>执行上述代码需要的条件是已经计算出需要匹配字符P的next[i]数组．</p>
+<h2 id="next数组的计算"><a href="#next数组的计算" class="headerlink" title="next数组的计算"></a>next数组的计算</h2><p><strong>给出一个字符串P到底怎么计算出next[i]数组呢？</strong><br>答：<br></p>
+<p><strong>这就是给出的字符串，黑黑一坨</strong><br><br><img src="next1.png" srcset="/img/loading.gif" alt="next1"><br><br><strong>假设:字符串P的红色部分已经匹配，现在准备比较蓝色的位置</strong><br><br><img src="next2.png" srcset="/img/loading.gif" alt="next2"><br><br><strong>蓝色位置和绿色位置比较,(后缀的下一位和前缀的下一位比较)</strong><br><img src="next3.png" srcset="/img/loading.gif" alt="next3"><br><br><strong>蓝色与绿色匹配不上,此时寻找红色前缀的最大公共前后缀，即两个灰色部分相等</strong><br><br><img src="next4.png" srcset="/img/loading.gif" alt="next4"><br><br><strong>由于两个红色部分是相同的所以红色后缀，也有两个灰色相同，（这四个灰色都是相同的）</strong><br><br><img src="next5.png" srcset="/img/loading.gif" alt="next5"><br><br><strong>最后用第１个灰色的下一位，也就是紫色，与第４个灰色的下一位，也就是蓝色相比较</strong><br><br><img src="next6.png" srcset="/img/loading.gif" alt="next6"><br></p>
+<p>有点递归的感觉,具体代码如下：<br></p>
+<pre><code class="lang-c">void GetNext(char* p,int next[])
+&#123;
+    int pLen = strlen(p);
+    next[0] = -1;
+    int k = -1;
+    int j = 0;
+    while (j &lt; pLen - 1)
+    &#123;
+        //p[k]表示前缀，p[j]表示后缀
+//next[0]=-1,next[1]=0是固定的
+        if (k == -1 || p[j] == p[k]) 
+        &#123;
+            ++k;
+            ++j;
+            next[j] = k;
+        &#125;
+        else 
+        &#123;
+            k = next[k];
+        &#125;
+    &#125;
+&#125;
+</code></pre>
+<p>尽管next数组已经可以很到的提高匹配的效率，但是如果遇到极端情况例如：<br><br>|0|1|2|3|4|5|6|7|8|9|10|11|12||<br>|:——-:|:——-:|:——-:|:——-:|:——-:|——-:|:——-:|:——-:|:——-:|:——-:|:——-:|:——-:|:——-:|:——-:|<br>|A|A|A|A|A|A|A|A|B|B|B|B|B|…..|<br>|A|A|A|A|A|A|A|A|A|<br>|-1|0|1|2|3|4|5|6|7|这里是|next数组||<br>这样子匹配时，在８这里发生不匹配发生移动，移动的位数是８－７＝１位，也就是下次比较时是P[7]和S[8]比较，但是这两者也不匹配，则又会移动，同样是同样是移动１位，根据上图可以看出，如果遇到这种情况，KMP算法就相当于遍历又变成了暴力搜索了．<br></p>
+<p><strong>那是否有办法解决这个问题？</strong><br><br>答案是：改进next数组，得到的新数组就是nextval数组．<br></p>
+<h2 id="nextval数组"><a href="#nextval数组" class="headerlink" title="nextval数组"></a>nextval数组</h2><p>nextval数组值的求解方法：<br><br><strong>如果下标a的字符P[a]＝P[next[a]],则nextval[a]=nextval[next[a]]<br>如果不等则nextval[a]=next[a]</strong><br><br>所以得到的nextval数组：<br><br>|0|1|2|3|4|5|6|7|8|9|10|11|12||<br>|:——-:|:——-:|:——-:|:——-:|:——-:|——-:|:——-:|:——-:|:——-:|:——-:|:——-:|:——-:|:——-:|:——-:|<br>|A|A|A|A|A|A|A|A|B|B|B|B|B|…..|<br>|A|A|A|A|A|A|A|A|A|<br>|-1|0|1|2|3|4|5|6|7|next数组|||<br>|-1|-1|-1|-1|-1|-1|-1|-1|-1|nextval数组||<br>可以看到如果用nextval数组代替next数组，当在８号位不匹配时，直接遇到标志值，直接向右边移动了８位，再次比较时就是P[0]和S[8]比较了<br></p>
+<p><strong>nextval数组是怎么解决这个问题的呢?</strong><br><br>答:下标为a的位置不匹配，next[a]表示的是(0~a-1),a个字符的部分匹配值<strong>X</strong>(<strong>注意：部分匹配值是从１开始算的</strong>)，所以0~X-1的字符是其匹配的前缀，P[next[a]]是匹配前缀的下一个数，所以如果P[a]=P[next[a]]再次跳到P[next[a]]这里比较还会不匹配，所以nextval[a]=nextval[next[a]]（相当于一个递归向前寻找），如果不相等，再次跳到这里比较就有意义，所以nextval[a]=next[a]</p>
+
+            <hr>
+          </div>
+          <br>
+          <div>
+            <p>
+            
+              <span>
+                <i class="iconfont icon-inbox"></i>
+                
+                  <a class="hover-with-bg" href="/categories/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84">数据结构</a>
+                  &nbsp;
+                
+              </span>&nbsp;&nbsp;
+            
+            
+              <span>
+                <i class="iconfont icon-tag"></i>
+                
+                  <a class="hover-with-bg" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84">数据结构</a>
+                
+              </span>
+            
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+      <br><br>
+      
+      
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = 'https://lexssama.github.io/2020/03/22/KMP算法/';
+        this.page.identifier = '/2020/03/22/KMP算法/';
+      };
+      var oldLoad = window.onload;
+      window.onload = function () {
+        var d = document, s = d.createElement('script');
+        s.type = 'text/javascript';
+        s.src = '//' + 'Lexssama' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      };
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" target="_blank" rel="nofollow noopener noopener">comments
+        powered by Disqus.</a></noscript>
+  </div>
+
+
+    
+  </div>
+</div>
+
+    
+  </main>
+
+  
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <b>Fluid</b></a>
+    <br>
+
+    
+  
+    <!-- 不蒜子统计PV -->
+    
+    &nbsp;<span id="busuanzi_container_site_pv"></span>总访问量 
+          <span id="busuanzi_value_site_pv"></span> 次&nbsp;
+  
+  
+    <!-- 不蒜子统计UV -->
+    
+    &nbsp;<span id="busuanzi_container_site_uv"></span>总访客数 
+            <span id="busuanzi_value_site_uv"></span> 人&nbsp;
+  
+  <br>
+
+
+
+    
+
+
+    <!-- cnzz Analytics icon -->
+    
+
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="/lib/jquery/jquery.min.js" ></script>
+<script src="/lib/popper/popper.min.js" ></script>
+<script src="/lib/bootstrap/js/bootstrap.min.js" ></script>
+<script src="/lib/mdbootstrap/js/mdb.min.js" ></script>
+<script src="/js/main.js" ></script>
+
+
+  <script src="/js/lazyload.js" ></script>
+
+
+
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
+
+
+  <script src="/lib/smoothscroll/SmoothScroll.min.js" ></script>
+
+
+
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+<!-- Plugins -->
+
+
+  
+
+  
+
+  
+
+  
+
+  <!-- cnzz Analytics -->
+  
+
+
+
+  <script src="/lib/prettify/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint  linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+
+  <script src="/lib/typed/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "KMP算法&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script src="/lib/anchor/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "false",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script src="/lib/fancybox/jquery.fancybox.min.js" ></script>
+  <script>
+    $("#post img:not(.no-zoom img, img[no-zoom])").each(
+      function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "images");
+        $(element).attr("href", $(this).attr("src"));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+          tex2jax: {
+              inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+              processEscapes: true,
+              skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          }
+      });
+
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+
+    </script>
+
+    <script src="https://cdn.staticfile.org/mathjax/2.7.6/MathJax.js?config=TeX-MML-AM_CHTML" ></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,637 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/wallhaven-4xjllo.jpg">
+  <link rel="icon" type="image/png" href="/img/wallhaven-4xjllo.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="description" content="">
+  <meta name="author" content="Lexssama">
+  <meta name="keywords" content="">
+  <title>CS144-lab5 ~ Lexssama&#39;s Blogs</title>
+
+  <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
+<link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
+<link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
+<link rel="stylesheet" href="/lib/github-markdown/github-markdown.min.css"  >
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+
+
+
+  <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css"  >
+
+<link rel="stylesheet" href="/css/main.css"  >
+
+
+  <link rel="stylesheet" href="/lib/fancybox/jquery.fancybox.min.css"  >
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<body>
+  <header style="height: 100vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Lexssama's Blogs</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">首页</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">归档</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/categories/">分类</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">标签</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">关于</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" false
+         style="background: url('/img/wallhaven-j5l9gw.jpg')no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <br>
+              
+                <p class="mt-3">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
+                  星期一, 四月 19日 2021, 12:36 凌晨
+                </p>
+              
+
+              <p>
+                
+                  
+                  &nbsp;<i class="far fa-chart-bar"></i>
+                  <span class="post-count">
+                    953 字
+                  </span>&nbsp;
+                
+
+                
+                  
+                  &nbsp;<i class="far fa-clock"></i>
+                  <span class="post-count">
+                      5 分钟
+                  </span>&nbsp;
+                
+
+                
+                  <!-- 不蒜子统计文章PV -->
+                  
+                  &nbsp;<i class="far fa-eye" aria-hidden="true"></i>&nbsp;
+                  <span id="busuanzi_container_page_pv">
+                    <span id="busuanzi_value_page_pv"></span> 次
+                  </span>&nbsp;
+                
+              </p>
+            
+          </div>
+
+          
+            <div class="scroll-down-bar">
+              <i class="fas fa-angle-down scroll-down-arrow"></i>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto" id="post">
+          <div class="markdown-body">
+            <h1 id="实现Network-Interface"><a href="#实现Network-Interface" class="headerlink" title="实现Network Interface"></a>实现Network Interface</h1><p>网络接口<code>Network Interface</code>是网络层和链路层链接的桥梁，它的作用就是将网络层传下来的<code>Internet datagrams</code>封装成链路层的<code>Ethernet frames</code>,然后将封装好的<code>Ethernet frames</code>发出。<br></p>
+<h2 id="封装Ethernet-frames"><a href="#封装Ethernet-frames" class="headerlink" title="封装Ethernet frames"></a>封装Ethernet frames</h2><p>想将<code>Internet datagrams</code>封装成<code>Ethernet frames</code>我们需要知道<code>Destination Mac Address</code>和<code>Source Mac Address</code> 和 <code>EtherType</code>。</p>
+<ul>
+<li><strong>Source Mac Address</strong> : 本机的Mac地址。</li>
+<li><strong>Destination Mac Address</strong> : 目标主机的Mac地址会被存储到本机的目标IP和目标Mac地址的映射数据结构中,如果本机维护的这个数据结构不存在目标IP的Mac地址，那么我们就需要使用ARP协议向局域网中的其他主机询问目标IP的Mac地址。(APR协议的细节:<a href="https://en.wikipedia.org/wiki/Address_Resolution_Protocol" target="_blank" rel="noopener">Address Resolution Protocol</a>)</li>
+<li><strong>EtherType</strong> : 表示上层<code>Internet datagrames</code>使用的协议类型，lab5中只涉及到<code>ARP</code>和<code>IPv4</code>协议。</li>
+</ul>
+<h2 id="细节"><a href="#细节" class="headerlink" title="细节"></a>细节</h2><ol>
+<li>因为目标Mac地址缺失而没发出的<code>Ethernet frames</code>，得到目标Mac地址后需要重发。</li>
+<li>不能在<code>5秒内</code>向使用<code>ARP Request</code> 询问同一个目标IP的Mac地址。</li>
+<li>每一个存储在数据结构中的目标ip-mac映射对过了<code>30秒</code>后需要被清理。</li>
+</ol>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p><strong>network_interface.hh</strong><br></p>
+<pre><code class="lang-c++">class NetworkInterface &#123;
+  private:
+....
+    struct Dgram_nextHop &#123;
+        const InternetDatagram dgram;
+        Address next_hop;
+    &#125;;
+    struct EtherAddress_Time &#123;
+        EthernetAddress mac_addr;
+        size_t time;
+    &#125;;
+
+    std::queue&lt;Dgram_nextHop&gt; _frames_track&#123;&#125;;
+
+    std::map&lt;uint32_t, EtherAddress_Time&gt; _ip_eth_map&#123;&#125;;
+
+    std::map&lt;uint32_t, size_t&gt; _ip_msTime_map&#123;&#125;;
+
+    size_t _ms_clock&#123;0&#125;;
+
+    void send_arp(uint16_t opcode, EthernetAddress &amp;dst, uint32_t dst_ip);
+....
+&#125;
+</code></pre>
+<p><strong>network_interface.cc</strong><br></p>
+<pre><code class="lang-c++">#include &quot;network_interface.hh&quot;
+
+#include &quot;arp_message.hh&quot;
+#include &quot;ethernet_frame.hh&quot;
+
+#include &lt;iostream&gt;
+
+// Dummy implementation of a network interface
+// Translates from &#123;IP datagram, next hop address&#125; to link-layer frame, and from link-layer frame to IP datagram
+
+// For Lab 5, please replace with a real implementation that passes the
+// automated checks run by `make check_lab5`.
+
+// You will need to add private members to the class declaration in `network_interface.hh`
+
+template &lt;typename... Targs&gt;
+void DUMMY_CODE(Targs &amp;&amp;... /* unused */) &#123;&#125;
+
+using namespace std;
+
+//! \param[in] ethernet_address Ethernet (what ARP calls &quot;hardware&quot;) address of the interface
+//! \param[in] ip_address IP (what ARP calls &quot;protocol&quot;) address of the interface
+NetworkInterface::NetworkInterface(const EthernetAddress &amp;ethernet_address, const Address &amp;ip_address)
+    : _ethernet_address(ethernet_address), _ip_address(ip_address) &#123;
+    cerr &lt;&lt; &quot;DEBUG: Network interface has Ethernet address &quot; &lt;&lt; to_string(_ethernet_address) &lt;&lt; &quot; and IP address &quot;
+         &lt;&lt; ip_address.ip() &lt;&lt; &quot;\n&quot;;
+&#125;
+
+//! \param[in] dgram the IPv4 datagram to be sent
+//! \param[in] next_hop the IP address of the interface to send it to (typically a router or default gateway, but may also be another host if directly connected to the same network as the destination)
+//! (Note: the Address type can be converted to a uint32_t (raw 32-bit IP address) with the Address::ipv4_numeric() method.)
+
+bool NetworkInterface::send_datagram(const InternetDatagram &amp;dgram, const Address &amp;next_hop) &#123;
+    // convert IP address of next hop to raw 32-bit representation (used in ARP header)
+    const uint32_t next_hop_ip = next_hop.ipv4_numeric();
+
+    if (_ip_eth_map.count(next_hop_ip)) &#123;
+        if (_ms_clock - _ip_eth_map[next_hop_ip].time &gt;= 30 * 1000) &#123;
+            _ip_eth_map.erase(next_hop_ip);
+            _frames_track.push(Dgram_nextHop&#123;dgram, next_hop&#125;);
+            send_arp(ARPMessage::OPCODE_REQUEST, const_cast&lt;EthernetAddress &amp;&gt;(ETHERNET_BROADCAST), next_hop_ip);
+            _ip_msTime_map[next_hop_ip];
+            return false;
+        &#125;
+
+        EthernetFrame frame;
+        frame.header().src = _ethernet_address;
+        frame.header().dst = _ip_eth_map[next_hop_ip].mac_addr;
+        frame.header().type = EthernetHeader::TYPE_IPv4;
+
+        frame.payload() = std::move(dgram.serialize());
+        _frames_out.push(std::move(frame));
+        return true;
+    &#125;
+    if (!_ip_msTime_map.count(next_hop_ip)) &#123;
+        _frames_track.push(Dgram_nextHop&#123;dgram, next_hop&#125;);
+        send_arp(ARPMessage::OPCODE_REQUEST, const_cast&lt;EthernetAddress &amp;&gt;(ETHERNET_BROADCAST), next_hop_ip);
+        _ip_msTime_map[next_hop_ip];
+    &#125; else if (_ms_clock - _ip_msTime_map[next_hop_ip] &gt;= 5 * 1000) &#123;
+        send_arp(ARPMessage::OPCODE_REQUEST, const_cast&lt;EthernetAddress &amp;&gt;(ETHERNET_BROADCAST), next_hop_ip);
+        _ip_msTime_map.erase(next_hop_ip);
+    &#125;
+    return false;
+&#125;
+
+void NetworkInterface::send_arp(uint16_t opcode, EthernetAddress &amp;dst, uint32_t dst_ip) &#123;
+    ARPMessage arp;
+    EthernetFrame frame;
+    arp.opcode = opcode;
+    arp.sender_ethernet_address = _ethernet_address;
+    arp.sender_ip_address = _ip_address.ipv4_numeric();
+    if (opcode != ARPMessage::OPCODE_REQUEST) &#123;
+        arp.target_ethernet_address = dst;
+    &#125;
+    arp.target_ip_address = dst_ip;
+
+    frame.header().src = _ethernet_address;
+    frame.header().dst = dst;
+    frame.header().type = EthernetHeader::TYPE_ARP;
+
+    frame.payload() = arp.serialize();
+    _frames_out.push(std::move(frame));
+&#125;
+
+//! \param[in] frame the incoming Ethernet frame
+optional&lt;InternetDatagram&gt; NetworkInterface::recv_frame(const EthernetFrame &amp;frame) &#123;
+    if (frame.header().dst != _ethernet_address &amp;&amp; frame.header().dst != ETHERNET_BROADCAST)
+        return nullopt;
+    if (frame.header().type == EthernetHeader::TYPE_ARP) &#123;
+        ARPMessage arp;
+        if (arp.parse(frame.payload()) != ParseResult::NoError) &#123;
+            return std::nullopt;
+        &#125;
+        if (arp.target_ip_address != _ip_address.ipv4_numeric()) &#123;
+            return std::nullopt;
+        &#125;
+        if (arp.opcode == ARPMessage::OPCODE_REQUEST) &#123;
+            send_arp(ARPMessage::OPCODE_REPLY, arp.sender_ethernet_address, arp.sender_ip_address);
+        &#125;
+
+        _ip_eth_map[arp.sender_ip_address] = &#123;arp.sender_ethernet_address, _ms_clock&#125;;
+
+        while (!_frames_track.empty()) &#123;
+            if (send_datagram(_frames_track.front().dgram, _frames_track.front().next_hop)) &#123;
+                _frames_track.pop();
+            &#125; else
+                break;
+        &#125;
+
+    &#125; else if (frame.header().type == EthernetHeader::TYPE_IPv4) &#123;
+        InternetDatagram dgram;
+        if (dgram.parse(frame.payload()) != ParseResult::NoError)
+            return nullopt;
+        return dgram;
+    &#125;
+
+    return std::nullopt;
+&#125;
+
+//! \param[in] ms_since_last_tick the number of milliseconds since the last call to this method
+void NetworkInterface::tick(const size_t ms_since_last_tick) &#123; _ms_clock += ms_since_last_tick; &#125;
+</code></pre>
+
+            <hr>
+          </div>
+          <br>
+          <div>
+            <p>
+            
+              <span>
+                <i class="iconfont icon-inbox"></i>
+                
+                  <a class="hover-with-bg" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">计算机网络</a>
+                  &nbsp;
+                
+                  <a class="hover-with-bg" href="/categories/CS144">CS144</a>
+                  &nbsp;
+                
+              </span>&nbsp;&nbsp;
+            
+            
+              <span>
+                <i class="iconfont icon-tag"></i>
+                
+                  <a class="hover-with-bg" href="/tags/CS144">CS144</a>
+                
+                  <a class="hover-with-bg" href="/tags/lab4">lab4</a>
+                
+              </span>
+            
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+      <br><br>
+      
+      
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = 'https://lexssama.github.io/2021/04/19/CS144-lab5/';
+        this.page.identifier = '/2021/04/19/CS144-lab5/';
+      };
+      var oldLoad = window.onload;
+      window.onload = function () {
+        var d = document, s = d.createElement('script');
+        s.type = 'text/javascript';
+        s.src = '//' + 'Lexssama' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      };
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" target="_blank" rel="nofollow noopener noopener">comments
+        powered by Disqus.</a></noscript>
+  </div>
+
+
+    
+  </div>
+</div>
+
+    
+  </main>
+
+  
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <b>Fluid</b></a>
+    <br>
+
+    
+  
+    <!-- 不蒜子统计PV -->
+    
+    &nbsp;<span id="busuanzi_container_site_pv"></span>总访问量 
+          <span id="busuanzi_value_site_pv"></span> 次&nbsp;
+  
+  
+    <!-- 不蒜子统计UV -->
+    
+    &nbsp;<span id="busuanzi_container_site_uv"></span>总访客数 
+            <span id="busuanzi_value_site_uv"></span> 人&nbsp;
+  
+  <br>
+
+
+
+    
+
+
+    <!-- cnzz Analytics icon -->
+    
+
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="/lib/jquery/jquery.min.js" ></script>
+<script src="/lib/popper/popper.min.js" ></script>
+<script src="/lib/bootstrap/js/bootstrap.min.js" ></script>
+<script src="/lib/mdbootstrap/js/mdb.min.js" ></script>
+<script src="/js/main.js" ></script>
+
+
+  <script src="/js/lazyload.js" ></script>
+
+
+
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
+
+
+  <script src="/lib/smoothscroll/SmoothScroll.min.js" ></script>
+
+
+
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+<!-- Plugins -->
+
+
+  
+
+  
+
+  
+
+  
+
+  <!-- cnzz Analytics -->
+  
+
+
+
+  <script src="/lib/prettify/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint  linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+
+  <script src="/lib/typed/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "CS144-lab5&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script src="/lib/anchor/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "false",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script src="/lib/fancybox/jquery.fancybox.min.js" ></script>
+  <script>
+    $("#post img:not(.no-zoom img, img[no-zoom])").each(
+      function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "images");
+        $(element).attr("href", $(this).attr("src"));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+          tex2jax: {
+              inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+              processEscapes: true,
+              skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          }
+      });
+
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+
+    </script>
+
+    <script src="https://cdn.staticfile.org/mathjax/2.7.6/MathJax.js?config=TeX-MML-AM_CHTML" ></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

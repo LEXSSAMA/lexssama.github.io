@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/wallhaven-4xjllo.jpg">
+  <link rel="icon" type="image/png" href="/img/wallhaven-4xjllo.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="description" content="">
+  <meta name="author" content="Lexssama">
+  <meta name="keywords" content="">
+  <title>lvalue and rvalue ~ Lexssama&#39;s Blogs</title>
+
+  <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
+<link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
+<link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
+<link rel="stylesheet" href="/lib/github-markdown/github-markdown.min.css"  >
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+
+
+
+  <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css"  >
+
+<link rel="stylesheet" href="/css/main.css"  >
+
+
+  <link rel="stylesheet" href="/lib/fancybox/jquery.fancybox.min.css"  >
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<body>
+  <header style="height: 100vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Lexssama's Blogs</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">首页</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">归档</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/categories/">分类</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">标签</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">关于</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" false
+         style="background: url('/img/wallhaven-j5l9gw.jpg')no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <br>
+              
+                <p class="mt-3">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
+                  星期四, 二月 18日 2021, 9:34 晚上
+                </p>
+              
+
+              <p>
+                
+                  
+                  &nbsp;<i class="far fa-chart-bar"></i>
+                  <span class="post-count">
+                    1.3k 字
+                  </span>&nbsp;
+                
+
+                
+                  
+                  &nbsp;<i class="far fa-clock"></i>
+                  <span class="post-count">
+                      5 分钟
+                  </span>&nbsp;
+                
+
+                
+                  <!-- 不蒜子统计文章PV -->
+                  
+                  &nbsp;<i class="far fa-eye" aria-hidden="true"></i>&nbsp;
+                  <span id="busuanzi_container_page_pv">
+                    <span id="busuanzi_value_page_pv"></span> 次
+                  </span>&nbsp;
+                
+              </p>
+            
+          </div>
+
+          
+            <div class="scroll-down-bar">
+              <i class="fas fa-angle-down scroll-down-arrow"></i>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto" id="post">
+          <div class="markdown-body">
+            <p>如果有小伙伴看到我的文章的话，建议优先去看下面的这些文章,因为我写的质量不及下面文章的十分之一(哭脸)<br></p>
+<ul>
+<li><a href="https://devblogs.microsoft.com/cppblog/rvalue-references-c0x-features-in-vc10-part-2/" target="_blank" rel="noopener">Rvalue References: C++0x Features in VC10, Part 2</a><br></li>
+<li><a href="https://stackoverflow.com/questions/3106110/what-is-move-semantics" target="_blank" rel="noopener">What is move semantics?</a><br></li>
+<li><a href="https://stackoverflow.com/questions/3279543/what-is-the-copy-and-swap-idiom" target="_blank" rel="noopener">What is the copy-and-swap idiom?</a></li>
+<li><a href="https://leimao.github.io/blog/CPP-lvalue-rvalue-Reference/" target="_blank" rel="noopener">lvalue VS rvalue, rvalue Reference, and Move Semantics in C++</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/55229582" target="_blank" rel="noopener">C++笔记 · 右值引用，移动语义，移动构造函数和移动赋值运算符</a></li>
+</ul>
+<p>还有这些视频:<br></p>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=ehMg6zvXuMY" target="_blank" rel="noopener">Move Semantics in C++</a></li>
+<li><a href="https://www.youtube.com/watch?v=UTUdhjzws5g&amp;t=354s" target="_blank" rel="noopener">Advanced C++: Understanding rvalue and lvalue</a></li>
+</ul>
+<h1 id="lvalue-and-rvalue"><a href="#lvalue-and-rvalue" class="headerlink" title="lvalue and rvalue"></a>lvalue and rvalue</h1><p><strong>在C++中，每一个表达式都是由lvalue和rvalue组成.</strong><br></p>
+<p><strong>Example</strong></p>
+<pre><code class="lang-C++">int i = 0;    /*i为lvalue,0为rvalue*/
+int a = i+1;        /*a为lvalue,i+1是rvalue*/
+1        /*1为rvalue*/
+</code></pre>
+<p><em>lvalue和rvalue具体的定义是什么?</em><br></p>
+<p>实际上lvalue和rvalue很难给出一个具体的定义，但是我们可以给出<strong>简单的,概括的,应对大部分情况的说明。</strong><br></p>
+<ul>
+<li><strong>lvalue :</strong> 一个对象在内存中占据了可识别位置的，有地址的，持久的(脱离了单个表达式语句还依然存在的).<ul>
+<li>例如: 上面提到的<code>int a = i+1</code>,程序运行到了下一条语句<code>a</code>依然存在内存中为，<code>&amp;a</code>是合法的，lvalue，<code>i+1</code>则不存在内存中，不是持久的，<code>&amp;(i+1)</code>是不合法的，所以为rvalue。</li>
+</ul>
+</li>
+<li><strong>rvalue :</strong> 表达式中任何不是lvalue的对象就是rvalue.</li>
+</ul>
+<p><strong>下面解释出自Lei Mao的博客<a href="https://leimao.github.io/blog/CPP-lvalue-rvalue-Reference/" target="_blank" rel="noopener">lvalue VS rvalue, rvalue Reference, and Move Semantics in C++</a>:</strong><br><br><code>lvalue expression is associated with a specific piece of memory, the lifetime of the associated memory is the lifetime of lvalue expression, and we could get the memory address of it. rvalue expression might or might not take memory. Even if an rvalue expression takes memory, the memory taken would be temporary and the program would not usually allow us to get the memory address of it.</code></p>
+<h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h1><p>一个变量的引用可以理解为一个变量的别名,我们可以通过这个别名来实际操作这个变量。<br></p>
+<h2 id="lvalue-Reference-左值引用"><a href="#lvalue-Reference-左值引用" class="headerlink" title="lvalue Reference (左值引用)"></a>lvalue Reference (左值引用)</h2><p>T&amp; 表示lvalue Reference , lvalue Reference能绑定lvalue和rvalue(例外)。<br></p>
+<p><strong>Example</strong><br></p>
+<pre><code class="lang-C++">int i = 1;    
+int&amp; a = i;        /*a为变量i的lvalue Reference*/
+int&amp; b = (a+1)        /*Error! , (a+1)为rvalue*/
+a = 2;            /*a==2 ; i==2*/
+i = 3;            /*a==3;i==3*/
+int const&amp; c = 20;    /*例外:这样可以做到将一个rvalue绑定到一个lvalue reference上*/
+</code></pre>
+<h2 id="rvalue-Reference-右值引用"><a href="#rvalue-Reference-右值引用" class="headerlink" title="rvalue Reference (右值引用)"></a>rvalue Reference (右值引用)</h2><p>T&amp;&amp; 用来表示rvalue Reference , rvalue Reference只能绑定rvalue。<br><br><strong>Example</strong><br></p>
+<pre><code class="lang-C++">int a = 1;
+int &amp;&amp; b = a+1;    /*b为rvalue Reference*/
+</code></pre>
+<p>rvalue Reference 常常用于 <strong>Move Semantics</strong> 和 <strong>Perfect Forward</strong>。</p>
+<h3 id="Move-Semantics"><a href="#Move-Semantics" class="headerlink" title="Move Semantics"></a>Move Semantics</h3><p>我们先引入一段代码再做介绍:<br></p>
+<pre><code class="lang-C++">#include &lt;stdio.h&gt;
+#include &lt;algorithm&gt;
+#include &lt;cstring&gt;
+class String
+&#123;
+    char* data;
+
+public:
+
+    /*Command Constructor*/
+    String(const char* p)
+    &#123;
+    printf(&quot;Command Constructor!\n&quot;);
+        size_t size = std::strlen(p) + 1;
+        data = new char[size];
+        std::memcpy(data, p, size);
+    &#125;
+   ~String()
+    &#123;
+    printf(&quot;Destoryed!\n&quot;);
+        delete[] data;
+    &#125;
+    /*Copy Constructor*/
+    String(const String&amp; that)
+    &#123;
+    printf(&quot;Copy Constructor!\n&quot;);
+        size_t size = std::strlen(that.data) + 1;
+        data = new char[size];
+        std::memcpy(data, that.data, size);
+    &#125;
+    /*Move Constructor*/
+    String(String&amp;&amp; that)   // string&amp;&amp; is an rvalue reference to a string
+    &#123;
+    printf(&quot;Move Constructor!\n&quot;);
+        data = that.data;
+        that.data = nullptr;
+    &#125;
+    char* getData()&#123;
+        return data;
+    &#125;
+    void printfString()&#123;
+        printf(&quot;%s\n&quot;,data);
+    &#125;
+&#125;;
+
+class student &#123;
+    private:
+        String name;
+    public:
+        student(const String&amp; s):name(s)&#123;&#125;
+        //student(String&amp;&amp; s):name((String&amp;&amp;) s)&#123;&#125;
+    void printfName()&#123;
+        name.printfString();
+    &#125;
+&#125;;
+
+int main()&#123;
+    student a(&quot;LiQiBin&quot;);
+    a.printfName();
+    return 0;
+&#125;
+</code></pre>
+<p>通常情况下我们想创建一个<code>student</code>类，我们调用函数<code>student a(&quot;LiQiBin&quot;)</code>,函数首先会调用<code>String</code>类中的<code>Command Constructor</code>来创建一个传入参数，传入参数为<code>lvalue Reference</code>，虽然<code>LiQiBin</code>是一个<code>rvalue</code>但是会被转化为<code>lvalue Reference</code>，参照上文<code>lvalue Reference</code>的介绍,然后当<code>student</code>的构造器执行到<code>name(s)</code>时，程序又会调用<code>String</code>类中的<code>Copy Constructor</code>，最后才得到完整的<code>student</code>参数。</p>
+<p><strong>输出如下:</strong><br></p>
+<pre><code class="lang-C++">Command Constructor!
+Copy Constructor!
+Destoryed!
+LiQiBin
+Destoryed!
+</code></pre>
+<p>这个过程中分别调用了<code>String</code>类的<code>Command Constructor</code>和<code>Copy Constructor</code>这就意味着执行了两次内存的分配(<code>new</code>操作)和复制<code>memcpy()</code>操作,<code>String</code>类中的字符数非常少还可以接受，如果被操作的<code>String</code>类内的字符数量极其庞大,两次内存的分配和复制就是对资源相当大的浪费! 是否有办法，只执行一次复制就可以构造出student类呢?<br><br>答案是右值引用(rvalue Reference)的<strong>Move Semantics</strong><br></p>
+<p>我们取消代码中的<code>student(String&amp;&amp; s):name((String&amp;&amp;) s)&#123;&#125;</code>这行注释，这样rvalue<code>LiQiBin</code>就会优先被解释为<code>rvalue Reference</code>,程序就会先执行<code>String</code>类中的<code>Command Constructor</code>构造出一个传入参数,然后执行<code>name((String&amp;&amp;)s)</code>,即执行<code>String</code>类中的<code>Move Constructor</code>。<br></p>
+<p><strong>下面是Move Constructor的代码：</strong><br></p>
+<pre><code class="lang-C++">    /*Move Constructor*/
+    String(String&amp;&amp; that)   // string&amp;&amp; is an rvalue reference to a string
+    &#123;
+        printf(&quot;Move Constructor!\n&quot;);
+        data = that.data;
+        that.data = nullptr;
+    &#125;
+</code></pre>
+<p>可以看到<code>Move Constructor</code>没有调用<code>new</code>和<code>memcpy</code>而只是将<code>rvalue Reference</code>中的<code>that.data</code>指向的地址<strong>偷来</strong>给自己用，再将<code>that.data</code>指向<code>nullptr</code>,因为<code>rvalue</code>是暂时的，不持久的参数，<code>student a(&quot;LiQiBin&quot;)</code>执行结束后生成的临时<code>String</code>类就会调用析构函数将得到的资源收回，所以将<code>that.data</code>指向<code>nullptr</code>就避免了,临时<code>String</code>类收回资源时将指向<code>LiQiBin</code>位置收回，<strong>就相当于<code>Move Constructor</code>将<code>rvalue Reference</code>中的资源偷来</strong>,成功只用一次<code>new</code>和<code>memcpy</code>就构建出了<code>student</code>类。<br></p>
+<p><strong>输出如下:</strong><br></p>
+<pre><code class="lang-C++">Command Constructor!
+Move Constructor!
+Destoryed!
+LiQiBin
+Destoryed!
+</code></pre>
+
+            <hr>
+          </div>
+          <br>
+          <div>
+            <p>
+            
+              <span>
+                <i class="iconfont icon-inbox"></i>
+                
+                  <a class="hover-with-bg" href="/categories/C/C++">C/C++</a>
+                  &nbsp;
+                
+              </span>&nbsp;&nbsp;
+            
+            
+              <span>
+                <i class="iconfont icon-tag"></i>
+                
+                  <a class="hover-with-bg" href="/tags/C/C++">C/C++</a>
+                
+                  <a class="hover-with-bg" href="/tags/Reference">Reference</a>
+                
+                  <a class="hover-with-bg" href="/tags/lvalue%20rvalue">lvalue rvalue</a>
+                
+              </span>
+            
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+      <br><br>
+      
+      
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = 'https://lexssama.github.io/2021/02/18/lvalue-and-rvalue/';
+        this.page.identifier = '/2021/02/18/lvalue-and-rvalue/';
+      };
+      var oldLoad = window.onload;
+      window.onload = function () {
+        var d = document, s = d.createElement('script');
+        s.type = 'text/javascript';
+        s.src = '//' + 'Lexssama' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      };
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" target="_blank" rel="nofollow noopener noopener">comments
+        powered by Disqus.</a></noscript>
+  </div>
+
+
+    
+  </div>
+</div>
+
+    
+  </main>
+
+  
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <b>Fluid</b></a>
+    <br>
+
+    
+  
+    <!-- 不蒜子统计PV -->
+    
+    &nbsp;<span id="busuanzi_container_site_pv"></span>总访问量 
+          <span id="busuanzi_value_site_pv"></span> 次&nbsp;
+  
+  
+    <!-- 不蒜子统计UV -->
+    
+    &nbsp;<span id="busuanzi_container_site_uv"></span>总访客数 
+            <span id="busuanzi_value_site_uv"></span> 人&nbsp;
+  
+  <br>
+
+
+
+    
+
+
+    <!-- cnzz Analytics icon -->
+    
+
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="/lib/jquery/jquery.min.js" ></script>
+<script src="/lib/popper/popper.min.js" ></script>
+<script src="/lib/bootstrap/js/bootstrap.min.js" ></script>
+<script src="/lib/mdbootstrap/js/mdb.min.js" ></script>
+<script src="/js/main.js" ></script>
+
+
+  <script src="/js/lazyload.js" ></script>
+
+
+
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
+
+
+  <script src="/lib/smoothscroll/SmoothScroll.min.js" ></script>
+
+
+
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+<!-- Plugins -->
+
+
+  
+
+  
+
+  
+
+  
+
+  <!-- cnzz Analytics -->
+  
+
+
+
+  <script src="/lib/prettify/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint  linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+
+  <script src="/lib/typed/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "lvalue and rvalue&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script src="/lib/anchor/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "false",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script src="/lib/fancybox/jquery.fancybox.min.js" ></script>
+  <script>
+    $("#post img:not(.no-zoom img, img[no-zoom])").each(
+      function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "images");
+        $(element).attr("href", $(this).attr("src"));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+          tex2jax: {
+              inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+              processEscapes: true,
+              skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          }
+      });
+
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+
+    </script>
+
+    <script src="https://cdn.staticfile.org/mathjax/2.7.6/MathJax.js?config=TeX-MML-AM_CHTML" ></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/wallhaven-4xjllo.jpg">
+  <link rel="icon" type="image/png" href="/img/wallhaven-4xjllo.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="description" content="">
+  <meta name="author" content="Lexssama">
+  <meta name="keywords" content="">
+  <title>Chapter 3: Transport Layer ~ Lexssama&#39;s Blogs</title>
+
+  <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
+<link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
+<link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
+<link rel="stylesheet" href="/lib/github-markdown/github-markdown.min.css"  >
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+
+
+
+  <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css"  >
+
+<link rel="stylesheet" href="/css/main.css"  >
+
+
+  <link rel="stylesheet" href="/lib/fancybox/jquery.fancybox.min.css"  >
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<body>
+  <header style="height: 100vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Lexssama's Blogs</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">首页</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">归档</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/categories/">分类</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">标签</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">关于</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" false
+         style="background: url('/img/wallhaven-j5l9gw.jpg')no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <br>
+              
+                <p class="mt-3">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
+                  星期五, 四月 17日 2020, 7:08 晚上
+                </p>
+              
+
+              <p>
+                
+                  
+                  &nbsp;<i class="far fa-chart-bar"></i>
+                  <span class="post-count">
+                    6.2k 字
+                  </span>&nbsp;
+                
+
+                
+                  
+                  &nbsp;<i class="far fa-clock"></i>
+                  <span class="post-count">
+                      38 分钟
+                  </span>&nbsp;
+                
+
+                
+                  <!-- 不蒜子统计文章PV -->
+                  
+                  &nbsp;<i class="far fa-eye" aria-hidden="true"></i>&nbsp;
+                  <span id="busuanzi_container_page_pv">
+                    <span id="busuanzi_value_page_pv"></span> 次
+                  </span>&nbsp;
+                
+              </p>
+            
+          </div>
+
+          
+            <div class="scroll-down-bar">
+              <i class="fas fa-angle-down scroll-down-arrow"></i>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto" id="post">
+          <div class="markdown-body">
+            <p><strong>Most of content come from Computer-network-A-Top-Down-Approach.</strong></p>
+<h1 id="3-4-Principles-of-Reliable-Data-Transfer"><a href="#3-4-Principles-of-Reliable-Data-Transfer" class="headerlink" title="3.4 Principles of Reliable Data Transfer"></a>3.4 Principles of Reliable Data Transfer</h1><p>it may be corrupt bits , lose packets, packets out of order during the data transfer from client to servers . So . For avoid the data lose or other situation happened When we receive the data at the <strong>Application layer</strong>,we need to build a reliable data transfer protocol.<br><br>In fact , the layer that below the reliable data transfer protocol is unreliable . For example , TCP protocol is reliable data transfer protocol that is implemented top of unreliable (IP) end-to-end network layer.<br><br>we will discuss “build a reliable data transfer protocol above unreliable layer to reliable data transfer” following section below.<br></p>
+<p><img src="Reliable-data-tranfer.png" srcset="/img/loading.gif" alt="Reliable-data-tranfer"><br></p>
+<h1 id="3-4-1-Building-a-Reliable-Data-Transfer-Protocol"><a href="#3-4-1-Building-a-Reliable-Data-Transfer-Protocol" class="headerlink" title="3.4.1 Building a Reliable Data Transfer Protocol"></a>3.4.1 Building a Reliable Data Transfer Protocol</h1><p>We now step through a series of protocols , each one becoming more complex until arriving at a flawless reliable data transfer protocol.<br></p>
+<h2 id="Reliable-Data-Transfer-over-a-Perfectly-Reliable-Channel-rdt1-0"><a href="#Reliable-Data-Transfer-over-a-Perfectly-Reliable-Channel-rdt1-0" class="headerlink" title="Reliable Data Transfer over a Perfectly Reliable Channel: rdt1.0"></a>Reliable Data Transfer over a Perfectly Reliable Channel: rdt1.0</h2><p>We first consider a simple case, in which the underlying channel is completely reliable. We call that protocol <em>rdt1.0</em>. The finite-state-machine (FSM) definitions for the sender and receiver are shown in Figure below.<br><br><img src="rdt1.0-finite-state-machine.png" srcset="/img/loading.gif" alt="rdt1.0-finite-state-machine"><br></p>
+<p><strong>rdt1.0 data transferred actions:</strong> <br></p>
+<ol>
+<li>sending side<br></li>
+</ol>
+<ul>
+<li>The sending side simply accepts data from upper layer (application layer) via rdt_send(data) event.</li>
+<li>Creates packets containing the data via the make_pkt(data) event.</li>
+<li>Send the packets to the underlying channel (network layer) via the udt_send(packet) event.</li>
+</ul>
+<ol>
+<li>receiving side <br></li>
+</ol>
+<ul>
+<li>rdt receives packets from underlying channel (network layer) via the rdt_rcv(packet) event.</li>
+<li>Remove the data from the packet via extract(packet,data) event.</li>
+<li>Passes the data up to the upper layer(application layer) via the deliver_data(data).</li>
+</ul>
+<p><strong>In summary of rdt1.0</strong><br></p>
+<p><em>In this simple protocol , these is no difference between a unit of data or packet. Also all packet flow is send from sender to receiver over a reliable prefer channel, So receiver don’t need send feedback to sender (tell the sender ‘I have received the packet’) since nothing can go wrong! Note that we have assume the receiver can receive data as fast as the sender happens to send data, Thus , there is no need for the receiver to ask the sender to slow down.</em></p>
+<h2 id="Reliable-Data-Transfer-Over-a-Channel-With-Bit-Errors-rdt2-0"><a href="#Reliable-Data-Transfer-Over-a-Channel-With-Bit-Errors-rdt2-0" class="headerlink" title="Reliable Data Transfer Over a Channel With Bit Errors: rdt2.0"></a>Reliable Data Transfer Over a Channel With Bit Errors: rdt2.0</h2><p>A more realistic model of the underlying channel is one in which bit in the packet may be corrupted , such bit errors typically occur in physical components of network as a packet is transmitted packets , propagated , or buffered.<br><br><strong>we will continue assume for the moment that all transmitted packets are received in the order in which they we sent.</strong></p>
+<p><strong>Question:</strong><br></p>
+<ul>
+<li>The bit of packet may be corrupted , when the packet is transmitted ,propagated,or buffered .<br><br>For example: yourself might dictate a long message over the phone and send to your friends. In typical scenario, the message receiver might say “OK”<br>after he has been heard , understood and recorded. But ! If the message receiver hears a garbled sentence . How to solve this problem?<br></li>
+</ul>
+<p><strong>Solution:</strong><br><br>The message receiver will ask the sender to repeat the garbled sentence.<br><br>The rdt2.0 uses both positive acknowledgments (OK) and negative acknowledgments (“Please repeat that”). These control messages allow the receiver let sender know what have been received correctly , and what have been received error and thus requires repeating.<br><br>In the computer network setting , reliable data transfer protocols base on such retransmission are known as ARQ (Automatic Repeat reQuest) protocols. </p>
+<p>Fundamentally, three additional protocols capabilities are required in ARQ protocol to handle the presence of bit errors.<br></p>
+<ul>
+<li><strong>Error detection :</strong> A mechanism is needed to allow the receiver to detect when bit error have occurred . We can use internet checksum field to achieve this function as UDP did.</li>
+<li><strong>Receiver feedback :</strong> The receiver needs to provide explicit feedback to the sender to let the sender know the receiver’s view of the world. <strong>Positive acknowledgment (ACK) and Negative acknowledgment (NAK)</strong></li>
+<li><strong>Retransmission :</strong> The sender need to repeat send the corrupted packet to receiver.<br></li>
+</ul>
+<p><img src="rdt2.0-A-protocol.png" srcset="/img/loading.gif" alt="rdt2.0-A-protocol"><br></p>
+<p><strong>rdt2.0 data transferred actions</strong></p>
+<ol>
+<li>sending side<br></li>
+</ol>
+<ul>
+<li>First of all the protocol state is “Wait from call from above” . The sender will pass data via <em>rdt_send(data)</em> event from upper layer to transfer layer, when the sender wanna to tranfer data.<br></li>
+<li>The sender will create packet(sndpkt) containing the data to be sent along with the checksum filed via <em>sndpkt=make_pkt(data,checksum) event</em>.<br></li>
+<li>Then send the packet(sndpkt）via udt_send(sndpkt) operation to receiver side.<br></li>
+<li>In the end change the protocol state to “Wait for ACK or NAK” for waiting response message from receiver <strong>(In this state ,the sender cannot get more data from upper layer)</strong><br></li>
+<li>The sender will receive the response message and check it when the response message arrived. If the response is ACK (rdt_rcv(rcvpkt)&amp;&amp;isACK(rcvpkt)) , the sender will change the state back, otherwise the sender will resend the sndpkt to receiver via udt_send(sndpkt) event .<br></li>
+</ul>
+<ol>
+<li>receiving side <br><br>The receiving side still only has a state (wait call from below).<br></li>
+</ol>
+<ul>
+<li>The receiver will receive the packet and check it from below layer via <strong>(rdt_rcv(rcvpkt)&amp;&amp;corrupt(rcvpkt)) and (rdt_rcv(rcvpkt)&amp;7notcorrupt(rcvpkt))</strong> event.</li>
+<li>The receiver will make a packet along with NAK and send it back to sender side. If the packet suffer bit errors. </li>
+<li>Otherwise the receiver gets the corrupt packet, it will extract the packet and deliver the data to upper layer via <strong>extract(rcvpkt,data) and deliver_data(data)</strong> event. In the end . The receiver will make a packet along with ACK and send it back to sender via <strong>make_pkt(ACK) and udt_send(sndpkt)</strong><br></li>
+</ul>
+<p><strong>fatal flaw of rdt2.0</strong><br><br>Unfortunately rdt2.0 has a fatal flaw. In particular , we haven’t account for the possibility that the ACK and NAK could be corrupted !<br><br>And more difficulty question is how to recover from errors in ACK and NAK packets..</p>
+<p><strong>Solution for fatal flaw of rdt2.0</strong><br><br>Simply, we just need to retransmit the packet to the receiver when the sender got a corrupted ACK or NAK packets. <br></p>
+<p><strong>This approach , however introduce the duplicates packets into the sender-receiver-channel. The difficulty is receiver can not know whether the arrived packet containing content is retransmitted packet or new packet ?</strong></p>
+<p>A simple solution to this new problem is to add a new filed and have sender number its data packets by putting sequence number into this filed. The receiver then need only check this sequence number to know whether or not the receiver packet is retransmission .<br><br>In the sender side use 0 and 1 sequence numbers represent different  state of packets (new packet and old packet) . The packet containing sequence number 0 and sequence number 1 corresponding to the old packet and new packet, when the sender send packet containing sequence number 0 recent. In contrast ,the packet containing sequence number 0 and sequence number 1 corresponding to the new packet and old packet,when the sender send packet containing sequence number 1 recent. <br></p>
+<h2 id="Reliable-Data-Transfer-Over-a-Channel-With-Bit-Errors-rdt2-1"><a href="#Reliable-Data-Transfer-Over-a-Channel-With-Bit-Errors-rdt2-1" class="headerlink" title="Reliable Data Transfer Over a Channel With Bit Errors: rdt2.1"></a>Reliable Data Transfer Over a Channel With Bit Errors: rdt2.1</h2><p><em>rdt2.0 added a sequence number filed called rdt2.1.</em><br></p>
+<p><strong>rdt2.1 data transfer action:</strong></p>
+<p><img src="rdt2.1-sender.png" srcset="/img/loading.gif" alt="rdt2.1-sender"><br></p>
+<p><img src="rdt2.1-receiver.png" srcset="/img/loading.gif" alt="rdt2.1-receiver"><br></p>
+<h2 id="Reliable-Data-Transfer-Over-a-Channel-With-Bit-Errors-rdt2-2"><a href="#Reliable-Data-Transfer-Over-a-Channel-With-Bit-Errors-rdt2-2" class="headerlink" title="Reliable Data Transfer Over a Channel With Bit Errors: rdt2.2"></a>Reliable Data Transfer Over a Channel With Bit Errors: rdt2.2</h2><p><em>We can accomplish the same effect as a NAK via only send ACK .<br><br>Out free NAK reliable data transfer protocol for a channel with bit errors known as rdt2.2.</em><br></p>
+<p>Suppose the sender sends a packet containing sequence number 0, the receiver receives this packet and sends ACK 0 response (containing sequence number 0) to the sender. Sender got this ACK 0 response message and send a new packet containing sequence number 1 to the receiver, at this moment, the receiver that receiver a corrupted new packet, then the receiver will send an ACK of last received correctly packet (ACK 0)to sender side. The sender that receiver the same ACK 0 response twice (that is, receiver duplicate ACK) know that the receiver did not receive the new packet.<br></p>
+<p><strong>rdt2.2 data transfer action:</strong><br></p>
+<ol>
+<li>sender side<br><br><img src="rdt2.2-sender.png" srcset="/img/loading.gif" alt="rdt2.2-sender"><br></li>
+<li>receiver side<br><br><img src="rdt2.2-receiver.png" srcset="/img/loading.gif" alt="rdt2.2-receiver"><br></li>
+</ol>
+<h2 id="Reliable-Data-Transfer-Over-a-Lossy-Channel-With-Bit-Errors-rdt3-0"><a href="#Reliable-Data-Transfer-Over-a-Lossy-Channel-With-Bit-Errors-rdt3-0" class="headerlink" title="Reliable Data Transfer Over a Lossy Channel With Bit Errors: rdt3.0"></a>Reliable Data Transfer Over a Lossy Channel With Bit Errors: rdt3.0</h2><p><em>suppose now that in additions to corrupting bit errors , the underlying channel can lose packet as well.</em> <br></p>
+<p><strong>Questions:</strong><br> </p>
+<ul>
+<li>How to detect packet loss and what to do when packet loss occurs.<br></li>
+</ul>
+<p><strong>Solution:</strong><br></p>
+<ul>
+<li>The use of checksumming sequence numbers ACK packet and retransmissions - the techniques already developed in rdt2.2 allow us to solution the latter concern.<br></li>
+<li>To handling the first concern we require introduce a new protocol  mechanism. The protocol require the sender judiciously choose a time value. If an ACK is not received within this time , the packet is retransmitted .<br></li>
+</ul>
+<p><strong>rdt3.0 data transfer action:</strong><br><br>Because the packet sequence number alternate between 0 and 1, protocol rdt3.0 sometimes known as <strong>alternating-bit-protocol</strong><br><br><em>In the rdt3.0 , the sender will start a timer for packet via start_timer() event</em></p>
+<p><strong>rdt3.0 sender side.<br></strong></p>
+<p><img src="rdt3.0-sender.png" srcset="/img/loading.gif" alt="rdt3.0-sender"><br></p>
+<p><img src="operation-of-rdt3.0-1.png" srcset="/img/loading.gif" alt="rdt3.0-operation-of-data-transfer-1"><br></p>
+<p><img src="operation-of-rdt3.0-2.png" srcset="/img/loading.gif" alt="rdt3.0-operation-of-data-transfer-2"><br></p>
+<p><strong>Question:</strong></p>
+<ul>
+<li>How long must the sender wait to be certain that something has been lost ?<br></li>
+</ul>
+<h1 id="3-4-2-Pipelined-Reliable-Data-Transfer-Protocols"><a href="#3-4-2-Pipelined-Reliable-Data-Transfer-Protocols" class="headerlink" title="3.4.2 Pipelined Reliable Data Transfer Protocols"></a>3.4.2 Pipelined Reliable Data Transfer Protocols</h1><p><strong>Question:</strong><br></p>
+<ul>
+<li>Although the rdt3.0 is a functionally correct protocol . But it’s unlikely that anyone would happy with its performance . In fact , rdt3.0 has a dismal sender utilization. (more detail of calculation we can read the textbook)<br></li>
+</ul>
+<p><strong>Solution:</strong><br><br>To solution this performance problem is simple: Rather than operate in a stop-and-wait-protocol, the sender is allowed to send multiple packet without waiting for acknowledgment as illustrated figure below.<br></p>
+<p><img src="Stop-and-wait-versus-pipelined-protocol.png" srcset="/img/loading.gif" alt="Stop-and-wait-versus-pipelined-protocol"></p>
+<p><em>Since the many in-transit sender to receiver packets can be visualized as filling pipeline , the technique is known as pipelining</em></p>
+<p><strong>pipelining has the following consequence for reliable data transfer protocols:</strong><br></p>
+<ul>
+<li>The range of sequence number must be increated . Since we require to send mutiple packet , each packet need a unquie sequence number.</li>
+<li>The sender and receiver side of protocol must has to buffer more than one packet.</li>
+<li>The range of sequence number and buffering requirements will depend on the manner in which data transfer protocol responds to lost, corrupt and overlay delayed packets. Two basic approaches toward pipelined errors recovery can be identified :<strong>GO-Back-N and Selective repeat</strong>.<br></li>
+</ul>
+<h2 id="3-4-3-Go-Back-N-GBN"><a href="#3-4-3-Go-Back-N-GBN" class="headerlink" title="3.4.3 Go-Back-N(GBN)"></a>3.4.3 Go-Back-N(GBN)</h2><p>In the GBN protocol, the sender allowed to send mutiple packet without waiting for acknowledgment, but is constrained to have no more than some maximum allowable number N , the N often be referred as the window size, the Go-Back-N(GBN) protocol often be referred as sliding-window-protocol.<br></p>
+<p><em>We maybe have questions that why we limit the window size N instead of unlimited</em><br><br>About this question we will discuss in the flow control and congestion control sections.<br></p>
+<p><strong>Define</strong><br><br><img src="Sender&#39;s-view-of-sequence-numbers-in-the-Go-Back-N.png" srcset="/img/loading.gif" alt="Sender&#39;s-view-of-sequence-numbers-in-the-Go-Back-N"><br></p>
+<ul>
+<li><strong>Base:</strong> The sequence number of the oldest unacknowledgment .</li>
+<li><strong>nextseqnum :</strong> The smallest unused sequence number.</li>
+<li><strong>[0 ~ base-1]:</strong> corresponds to have already been transmitted and acknowledged.</li>
+<li><strong>[base ~ nextseqnum-1]:</strong> corresponds to have already been sent but not yet acknowledge.</li>
+<li><strong>[nextseqnum ~ base+N-1]:</strong> can be used to send packet when the data arrived from upper layer.<br><br><strong>[base+N ~ ]:</strong> can not be used until an unacknowledged packet has been acknowledged. </li>
+</ul>
+<p><em>Note that the GBN protocol packet containing fixed-length-sequence-number-filed ,in TCP protocol ,the length of sequence-number-filed is 32 bits, the range of sequence number is [0 ~ $2^{32} -1$ ] different to rdt3.0 that ranger of sequence number is [0 ~ 1],and the length of sequence-number-filed is 1 bits.</em><br></p>
+<p><strong>GBN data transfer action:</strong><br></p>
+<ol>
+<li>receiver side <br></li>
+</ol>
+<p><img src="GBN&#39;s-FSM-receiver.png" srcset="/img/loading.gif" alt="GBN&#39;s-FSM-description-receiver"><br></p>
+<p><strong>The GBN’s sender must respond to three type of event.</strong><br></p>
+<ul>
+<li><strong>Invacation from above:</strong> When rdt_send() be invoked from the upper layer. The sender requires to check the window whether the window has full. If the window is not full , the data from above can make be packet and sent . The sender will update appropriately some variables. If the window is full, the sender will refuse data and indication the upper layer that the window has full. The upper layer will resend it again before a period of time.<br></li>
+<li><strong>Receipt of an ACK:</strong> Noting function <code>base = getacknum(rcvpkt)+1</code> because the receiver use <strong>cumulative acknowledgment</strong>(we will discuss in receiver side ), for example , we can know packet of sequence number low than n has received correctly in the receiver side. When the sender side got the packet of sequence number n. Then we can update <code>base = n+1</code> and (stop_timer()orstart_timer) according to corrusp<br></li>
+<li><strong>A timeout event:</strong> If timeout occurs , the sender will resends all packets that previously sent but have not yet been acknowledgment . Namely<code>udt_send(sndpkt[base])....udt_send(sndpkt[nextseqnum-1])</code><br></li>
+</ul>
+<p><strong>The GBN’s receiver must respond to event:</strong><br><br><em>In the GBN protocol , the receiver will discard out-of-order packets , for example the receiver expected sequence number is n , but the receiver receive a packet containing sequence number n+1 or more larger than n , the receiver will discard this packet and resend the packet containing expected sequence number to sender via udt_send(sndpkt) event. So the receiver be called use <strong>cumulative acknowledgment</strong>.</em> <br></p>
+<p><img src="GBN-in-operation.png" srcset="/img/loading.gif" alt="GBN-in-operation"><br></p>
+<p><strong>Note that the GBN protocol sender must be maintain The upper and lower bound of its window and position of nextseqnum within this window. The receiver must be maintain the sequence number of next in-order-packet.(expectedseqnum)</strong><br></p>
+<p>How does GBN protocol work we can see this video: <a href="https://www.youtube.com/watch?v=9BuaeEjIeQI" target="_blank" rel="noopener">GBN</a><br></p>
+<h2 id="3-4-4-Selective-Repeat-SR"><a href="#3-4-4-Selective-Repeat-SR" class="headerlink" title="3.4.4 Selective Repeat (SR)"></a>3.4.4 Selective Repeat (SR)</h2><p><strong>Question:</strong><br>Although GBN protocol avoiding the utilization problem of rdt3.0 , The GBN itself also has a performance problem . When the window size and bandwidth-delay both large, many packets can be in pipeline. If have a packet lost in the transmission will cause a large number of packets to retransmission.<br></p>
+<p><strong>Solution:</strong><br>As the name suggests, <strong>selective repeat protocol</strong> avoid unnecessary retransmission by having the sender retransmit those packets that it suspects were received in error(that were lost or corrupted ) at the receiver.<br></p>
+<p><img src="Selective-repeat-sender-and-receiver-views-of-sequence-number-space.png" srcset="/img/loading.gif" alt="Selective-repeat(SR)-sender-and-receiver-views-of-sequence-number-space.png"><br></p>
+<p><strong>Difference to GBN protocol, SR protocol has window in the receiver side like the figure above. <br></strong><br><em>The receiver will acknowledgment a correctly received packet whether or not it is in-order. Out-of-order packet will be buffering until any missing packet (that is lower than sequence number has buffered) are received. When the packet of sequence number (rcv_base) is received , the receiver will deliver a batch of packet that <strong>begin with sequence number (rcv_base) and end with smallest unreceived sequence number minus one</strong> to upper layer. Then number rcv_base increase <br></em></p>
+<p><strong>SR protocol data transfer action:</strong><br></p>
+<ol>
+<li>sender side <br></li>
+</ol>
+<ul>
+<li><strong>Data received from above:</strong> The sender will check the next sequence number (nextseqnum) whether or not larger than window size <code>If(nextseqnum&gt;base+N)</code>.If the nextseqnum is within the window, the sender will make data into packet and send it to receiver. Otherwise the sender will either buffered or returned to upper layer for later transmission as in GBN.<br></li>
+<li><strong>Timeout:</strong>  Different to GBN protocol , in the SR protocol , each packet has its own logical timer since only a single packet will be transmitted on timeout.<br></li>
+<li><strong>ACK received:</strong> If an ACK packet within the window is received , the SR sender will marks that packet as having been received. Until the packet containing sequence number (send_base) is received . Then the sender will move the send_base forward to the unackknowledgment packet with smallest sequence number.<br></li>
+</ul>
+<ol>
+<li>receiver side <br></li>
+</ol>
+<ul>
+<li>Packet with sequence number in [rcv_base,rcv_base+N-1] is correctly received whatever whether or not in-order. Then the packet is buffered at the receiver . If the packet containing sequence number (rcv_base) is received. The receiver will deliver the packet that begins with rcv_base and end with the smallest unreceived sequence number minus one to the upper layer. Then move rcv_base forward to the smallest unreceived sequence number.<br></li>
+<li>Packet with sequence number in [rcv_base-N,rcv_base] is correctly received . Occur this situation cause is a ACK with sequence number in [rcv_base-N,rcv_base] maybe lost or corrupted or bandwidth-delay ,then timeout the sender retransmission the packet , In this case , an ACK must be generated and resend this ACK to sender, even though this is a packet that has previously acknowledgment.<br></li>
+<li>Otherwise : Ignore this packet.</li>
+</ul>
+<p><img src="SR-operation.png" srcset="/img/loading.gif" alt="SR-operation.png"><br></p>
+<p><strong>Disadvantages of SR protocol</strong><br><br><em>The two case could happen when the window size too-large and the range of sequence number too-small</em><br><br>The window size is 3 and the range of sequence number is 4 in the example <br></p>
+<p><img src="SR-receiver-dilemma-a.png" srcset="/img/loading.gif" alt="SR-receiver-dilemma-a.png"><br></p>
+<p><strong>In this case , the old packet 0 is recognized as new packet 0, packet confuse</strong></p>
+<p><img src="SR-receiver-dilemma-b.png" srcset="/img/loading.gif" alt="SR-receiver-dilemma-b.png"><br></p>
+<p><strong>In this case , packet 3 is lost , the rcv_base = 3 , The packet 0 containing new data will be recognized as old packet 0 when the sender send the new packet 0. Because <code>0&lt; [3,3+3-1]</code>. Packet confuse.</strong><br></p>
+<p><em>How small window size must be ?</em><br><br><strong>Answer is window size must be less than or equal to a half of sequence number space for SR protocol.<br></strong></p>
+<p>How does SR protocol work we can see this video : <a href="https://www.youtube.com/watch?v=Cs8tR8A9jm8" target="_blank" rel="noopener">SR</a></p>
+<h1 id="3-5-Connection-Oriented-Transport-TCP"><a href="#3-5-Connection-Oriented-Transport-TCP" class="headerlink" title="3.5 Connection-Oriented Transport:TCP"></a>3.5 Connection-Oriented Transport:TCP</h1><h2 id="3-5-1-The-TCP-connection"><a href="#3-5-1-The-TCP-connection" class="headerlink" title="3.5.1　The TCP connection"></a>3.5.1　The TCP connection</h2><p>The TCP “connection” is not an end-to-end TDM or FDM circuit as in a circuit switch network. Nor it’s a virtual circuit , only as the connection state reside entirely in two end system.<br><br>The TCP connection provide <strong>full-duplex service</strong>, namely , Application layer data of two end system  can sent to other side.</p>
+<p><strong>The TCP connection always point-of-point that is between a single sender and a single receiver.</strong><br><br>The TCP connection established by <strong>three-way-handshake</strong> , the first two handshake by send the segment that can not carry payload, the third handshake by send the segment that can carry payload.<br></p>
+<p>The TCP connection also always point-to-point , that is a singer sender and a single receiver.<br><br><strong>The TCP connection has buffer in two end system. The data is passed through socket then the TCP directs this data to connection’s sender buffer then the TCP will grab chuck of data from send’s buffer and pass the data to network layer. As shown in figrue below.</strong><br><br><img src="TCP-sender-and-receiver-buffer.png" srcset="/img/loading.gif" alt="TCP-sender-and-receiver-buffer"><br></p>
+<p><strong>Two terminology</strong><br></p>
+<ul>
+<li>MSS(Maximum segment size): The maximum amount of application data can place in segment.<br></li>
+<li>MTU(Maximum transmission unit): The largest frame size (application data plus TCP/IP header line)<br> </li>
+</ul>
+<p><strong>In Summary</strong><br><br><em>The TCP connection consist of sender’s buffer and sender’s variables and socket connection to process in sender’s host and socket connection to process in receiver’s host and receiver’s variables and receiver’s buffer.</em><br> <em>As mentioned early TCP connection only has two state reside in the sender host and receiver host , no buffer and variable allocated in network element between two end system host (router and switch and repeater)<br></em></p>
+<h2 id="3-5-2-TCP-Segment-Structure"><a href="#3-5-2-TCP-Segment-Structure" class="headerlink" title="3.5.2 TCP Segment Structure"></a>3.5.2 TCP Segment Structure</h2><p><img src="TCP-Segment-structure.png" srcset="/img/loading.gif" alt="TCP-segment-structure"><br></p>
+<ul>
+<li><strong>Source and destination port numbers</strong>:corresponding to sender socket and receiver socket.<br></li>
+<li><strong>Checksum field</strong>: for detecting the corrupt whether occurred during the traveling as like UDP checksum field.<br></li>
+<li><strong>The 32 bits sequence number field</strong>: The sequence number is the byte number of first byte of data in the TCP packet sent (also called TCP segment)</li>
+<li><strong>The 32 bits acknowledgment numbers</strong>: The next packet that receiver expects to receive.</li>
+<li><strong>The 16-bits receiver number</strong>: Used for flow control , indicate the window size N that we discuss in the GBN and SR protocol.<br></li>
+<li><strong>The 4-bits header length field</strong>: indicates how long the header is, in 32 bit “words”. The minimum value is “5” which would be 160 bits, or 20 bytes. The maximum length is 15, which would be 480 bits, or 60 bytes</li>
+<li><strong>The optional and variable-length optional field</strong>: Used  when  a  sender  andreceiver negotiate the maximum segment size (MSS) or as a window scaling fac-tor for use in high-speed networks. A time-stamping option is also defined. </li>
+<li><strong>The flag field contain 6 bits</strong>:<ul>
+<li>ACK bit : Used to indicate that value carried in the acknowledgment field is valid .</li>
+<li>RST,SYN,FIN bit: Used for connection setup and teardown .</li>
+<li>PSH bit: Used to indicate the receiver should pass the data to upper layer immediately.</li>
+<li>URG bit: I don’t know what this means</li>
+</ul>
+</li>
+</ul>
+<h3 id="Sequence-number-and-acknowledgment-number"><a href="#Sequence-number-and-acknowledgment-number" class="headerlink" title="Sequence number and acknowledgment number"></a>Sequence number and acknowledgment number</h3><p>Cause These two fields are critical part of TCP connection , We discuss more detail about these.<br></p>
+<p><em>All byte in TCP connection are numbered beginning at a <strong>randomly choose</strong> initial sequence number(ISN) , The SYN packets consume one sequence number , so actual data begin at ISN+1</em><br></p>
+<p><strong>For example The TCP connection establish as shown in figure below</strong><br><br><img src="TCP-connection.png" srcset="/img/loading.gif" alt="TCP-connection-establish"><br></p>
+<ul>
+<li>Step 1: The client want to establish connection with server , it will send a packet contain SYN bit and randomly choose initial sequence number (Client_isn) to sever.(no payload)<br></li>
+<li>Step 2: The server has received this packet then response a packet contain initial sequence number (server_isn) and SYN bit and acknowledgment number (Client_isn+1) to Client.(no payload)<br></li>
+<li>Step 3: The connection established success when the Client has received the response of packet, Client then change the SYN to 0 and send the packet contain sequence number client_isn+1 and acknowledgment number server_isn+1 and actual data (payload) to server.<br> </li>
+</ul>
+<h2 id="3-5-3-Round-Trip-Time-Estimation-and-Timeout"><a href="#3-5-3-Round-Trip-Time-Estimation-and-Timeout" class="headerlink" title="3.5.3 Round-Trip Time Estimation and Timeout"></a>3.5.3 Round-Trip Time Estimation and Timeout</h2><p>TCP like rdt3.0 use timeout/retransmission mechanism to recover from lost segment.<br><br>Although conceptually simple , many subtle issue arise when we implement timeout/retransmission mechanism in actual protocol such as TCP protocol.<br><br><strong>Questions:</strong></p>
+<ul>
+<li>How larger time is timeout .<br> </li>
+<li>How estimating the round-trip-time between the sender and receiver<br></li>
+<li>Should a timer be associated with each and every unacknowledgment packet?<br></li>
+</ul>
+<h3 id="Estimating-The-Round-Trip-Time"><a href="#Estimating-The-Round-Trip-Time" class="headerlink" title="Estimating The Round-Trip-Time"></a>Estimating The Round-Trip-Time</h3><ul>
+<li><strong>SampleRTT</strong>: Represent the amount of time between when the packet sent from the sender (that is pass the packet to the network layer) and when the acknowledgment segment has received.<br><br><em>The TCP does not estimate stampleRTT for every single packet(segment), Instead of TCP implementation take only one sampleRTT measurement at a time</em></li>
+<li><strong>EstimatedRTT</strong>: Because different sampleRTT value will be fluctuate due to congestion in the routers and to varying load on the end systems. The sampleRTT is atypical , In order to estimate a typical RTT ,it is therefore natural to take some sort of avenger of sampleRTT . The TCP maintains an avenger called <strong>EstimatedRTT</strong>.<br><br><code>EstimatedRTT = (1- a) * EstimatedRTT + a * SampleRTT</code><br><br>The value of <code>a</code> typically choose 0.125.<br><br><code>EstimatedRTT = 0.875 * EstimatedRTT + 0.125 * sampleRTT</code><br><br><img src="RTT-sample-and-RTT-estimates.png" srcset="/img/loading.gif" alt="RTT-sample-and-RTT-estimates"><br></li>
+<li><strong>DevRTT</strong>: DevRTT as an estimate of how much sampleRTT typical deviates from EstimatedRTT.<br><br><code>DevRTT = (1-b) * DevRTT + b * |sampleRTT - EstimatedRTT|</code><br><br>The value of <code>b</code> typical choose 0.25.<br><br><code>DevRTT = 0.75 * DevRTT + 0.25 * |sampleRTT - EstimatedRTT|</code><br></li>
+<li><strong>Timeout Interval</strong>: Clearly The timeout interval should be greater than or equal to EstiamtedRTT or unnecessary retransmission will be sent. But the timeout should not be too larger than EstimatedRTT . Otherwise when the segment has lost , The TCP would not retransmission quickly , leading to large transfer delay.<br><br><code>TimeoutInterval = EstimatedRTT + 4 * DevRTT</code><br><br>An <strong>initial</strong> Timeoutinterval value of 1 second is recommended </li>
+</ul>
+<h2 id="3-5-4-Reliable-Data-Transfer"><a href="#3-5-4-Reliable-Data-Transfer" class="headerlink" title="3.5.4 Reliable Data Transfer"></a>3.5.4 Reliable Data Transfer</h2><p>TCP is best categorize as a hybrid of GBN and SR protocol.<br></p>
+<p><strong>In the receiver(server) side:</strong><br><br>In TCP protocol ,server use <strong>cumulative ACK</strong> as like GBN protocol does, server also buffer out-of-order packet as like SR protocol. <br><br><strong>In the sender(client)  side:</strong><br><br>Since TCP use cumulative ACK, If the client has received ACK with acknowledgment number 120, just mean the server has received all byte lower than 120<br><br><em>For example: The server sends the ACK with acknowledgment number is 120, namely, server expect next sequence number is 120, the client got the ACK packet, then sent two packets with sequence number 120,130 to the server , unfortunately, the packet with sequence number 120 is lost, the server received the out-of-order packet with sequence number 130, then, the server buffers the out-of-order packet as like SR protocol does and sent ACK with acknowledgment number 120 back to the client , here is different to SR protocol, as like GBN protocol does.</em></p>
+<h3 id="TCP-Retransmission-and-Doubling-the-timeout-interval"><a href="#TCP-Retransmission-and-Doubling-the-timeout-interval" class="headerlink" title="TCP Retransmission and Doubling the timeout interval"></a>TCP Retransmission and Doubling the timeout interval</h3><p>Different from GBN and SR protocol, TCP only retransmits the not-yet-acknowledgment segment with the smallest sequence number when the timeout occurs, then restart timer with doubling timeout interval.<br></p>
+<p><em>For example : Suppose the timeoutinterval associated with oldest not-yet-acknowledgment segment is 0.75 sec when the timer expires, TCP will retransmit this segment and set new expiration time to 1.5 sec , If the timer expires again 1.5 sec later , TCP will retransmit this segment and set new expiration time to 3.0 sec, however whenever the timer is started after either of two other events (that is ACK received and data received from application above), the timeoutinterval is derived from the most recent value of EstimatedRTT and DevRTT</em><br></p>
+<p><strong>Qusetion: Why we need to doubling timeout interval.</strong><br><br>Because, in times of congestion , the segment maybe dropped or suffer long queues delay, If we resent the packet persistently , the congestion may get worse . Instead TCP should acts more politely with earn sender retransmit after long and long interval.<br></p>
+<p><strong>TCP Fast Retransmit</strong><br><br>One of problem with timeout-triggered retransmissions is that the timeout period relatively long , when a segment is lost, this long timeout period will force sender to delay this segment retransmit thereby increasing the end-to-end delay. So we need to fast retransmits mechanism.<br></p>
+<p>Before discuss TCP Fast Retransmit , we should know how does ACK generate .<br><br><strong>TCP ACK Generation Recommendation</strong><br><img src="TCP-ACK-Generation-Recommendation.png" srcset="/img/loading.gif" alt="TCP-ACK-Generation-Recommendation"><br><br>The duplicate ACK is indicated that this segment has been lost, when the sender has received this same segment three time . TCP will perform fast retransmit , send this segment to receiver again.<br><br><em>For example : The sender send a large number of segment back to back , if one segment is lost , there will likely be many back-to-back duplicate ACK, if the sender received same duplicate more than three time , The sender will be perform fast retransmit, As shown in figure below.</em><br></p>
+<p><img src="Fast-retransmit.png" srcset="/img/loading.gif" alt="Fast-retransmit"></p>
+<p><strong>Code snippet of Fast retransmit</strong><br><br><img src="Code-snippet-of-fast-retransmit.png" srcset="/img/loading.gif" alt="Code snippet of Fast retransmit"><br></p>
+<h2 id="3-5-5-Flow-Control"><a href="#3-5-5-Flow-Control" class="headerlink" title="3.5.5 Flow Control"></a>3.5.5 Flow Control</h2><p>Flow control is speed-matching-service that be used to matching the sender sending speed and the receiver’s application reading speed.<br><br>If the application reading receiver’s buffer at slow speed , the sender can very easily overflow the connection’s receive buffer by sending too much data and too quickly.<br> </p>
+<p>TCP provide the flow control by having the sender maintain a variable called <strong>receive window</strong>, Because the TCP is full-duplex , the sender at each side of the connection maintain a distinct receive window.<br></p>
+<p>Suppose the host A send segments to host B over TCP connection, host B allocate a buffer to this connection.<br><br>Let me define some variables for host B and host A.<br><br><strong>For Host B (server)</strong><br></p>
+<ul>
+<li>RcvBuffer : the size of receive window(buffer) size of host B.<br></li>
+<li>LastByteRead : the number of the last byte in the data stream read from receive buffer by application in B.<br></li>
+<li>LastByteRcv : the number of the last byte in the data stream has been received from network and has been placed in receive buffer.<br></li>
+<li>rwnd : the amount of space room in the buffer  <code>rwnd = Rcvbuffer - [LastByteRead - LastByteRcv]</code> <br><br><img src="TCP-RcvBuffer.png" srcset="/img/loading.gif" alt="RcvBuffer"><br><br><strong>For Host A (Client)</strong> <br></li>
+<li>LastByteSent : the number of last byte in the data stream has sent at the sender side .<br></li>
+<li>LastByteAcked : the number of last byte in the data stream has ACKed at the sender side . <br></li>
+</ul>
+<p>Host B and host A maintain those variables that we mention above.<br></p>
+<p><strong>How to control the flow through these information.</strong><br><br>The Host B tells Host A that how much space room it has in the connection buffer by place the value of rwnd in receive window field of ACK segment.<br><br>The host A just need to keep the <code>LastByteSent - LastByteAcked</code> less than <code>rwnd</code> (,LastByteSent - LastByteAcked &lt;= rwnd`), the sender can assure that it is not overflowing the receive buffer at the Host B.<br></p>
+<p>If the receive buffer has filled at the Host B, the Host A will stop sending data to Host B, instead, Host A will send one bit to Host B for keeping the connection until the Host B has space room again. <br></p>
+<h2 id="3-5-6-TCP-Connection-Manage"><a href="#3-5-6-TCP-Connection-Manage" class="headerlink" title="3.5.6 TCP-Connection-Manage"></a>3.5.6 TCP-Connection-Manage</h2><p><strong>Establish TCP connection</strong><br><br><img src="TCP-connection-manage-1.png" srcset="/img/loading.gif" alt="TCP-Connection-Manage-1"><br><br><strong>Finish TCP connection</strong><br><br><img src="TCP-connection-manage-2.png" srcset="/img/loading.gif" alt="TCP-Connection-Manage-2"><br><br><strong>TCP states at the sender side</strong><br><br><img src="TCP-connection-manage-3.png" srcset="/img/loading.gif" alt="TCP-Connection-Manage-3"><br><br><strong>TCP states at the receiver side</strong><br><br><img src="TCP-connection-manage-4.png" srcset="/img/loading.gif" alt="TCP-Connection-Manage-4"><br></p>
+<p><strong>The SYN flood attack</strong><br><br><em>we can see detail in the textbook</em><br></p>
+<h2 id="3-6-Principles-of-Congestion-control"><a href="#3-6-Principles-of-Congestion-control" class="headerlink" title="3.6 Principles of Congestion control"></a>3.6 Principles of Congestion control</h2><h3 id="3-6-1-The-Causes-and-the-costs-of-Congestion"><a href="#3-6-1-The-Causes-and-the-costs-of-Congestion" class="headerlink" title="3.6.1 The Causes and the costs of Congestion"></a>3.6.1 The Causes and the costs of Congestion</h3><ul>
+<li><p><strong>Scenario 1: Two sender , a Router with infinite buffer</strong><br><br>Assume the host A and host B have same sending original data rate $\lambda <em>{in}$ ( application sending original data into socket  by $\lambda </em>{in}$  ignore the cost of that be encapsulated by TCP/IP header line) and the router throughput capability is $R$<br><img src="Congestion-scenario-1-two-connection.png" srcset="/img/loading.gif" alt="Chapter3-Transport-Layer/Congestion-scenario-1-two-connection.png"><br></p>
+<p>  <em>The throughput equal to R/2 is consequence of two sender Host A and Host B sharing outgoing link of the router.<br></em><br><img src="Congestion-scenario-1-throughput-and-delay.png" srcset="/img/loading.gif" alt="Chapter3-Transport-Layer/Congestion-scenario-1-throughput-and-delay.png"><br></p>
+<p>  <em>We can see the sender sending rate more approaches $R/2$ , delay become more larger and larger. The delay become to infinite when the $\lambda_{in}$ larger than $R/2$<br></em></p>
+<p>  <strong>Here , we found one cost of congestion — large queue delay are experienced as the packet-arrived rate near the link throughput capability.<br></strong></p>
+</li>
+<li><p><strong>Scenario 2: Two Senders and a Router with Finite Buffers</strong><br></p>
+<p>  The $\lambda<em>{in}$ is denoted application layer sending the original data into socket by $\lambda</em>{in}$ bytes/sec.<br><br>  The $\lambda’<em>{in}$ is denoted transfer layer sending segment into network by $\lambda’</em>{in}$ bytes/sec (containing original data and retransmited data).<br><br>  The Router throughput capacity is $R$ bytes/sec.<br><br><img src="Scenario-2-two-hosts.png" srcset="/img/loading.gif" alt="Chapter3-Transport-Layer/Scenario-2-two-hosts.png"><br><br><strong>a.</strong> The Host A and Host B is able to somehow (magically) determine whether or not the buffer is free in the router . sender only sends data only has free buffer . In this case  $\lambda<em>{in}$ equal to $\lambda’</em>{in}$, didn’t occur packet loss. This case is shown as figure.a below <br><br><strong>b.</strong> The Host A and Host B may set a larger enough timeout can determine the pakect has been lost , then sender only retransmit packet that is determinded has been lost. This case is shown as figure.b below, we can see the $0.5R$ units of data transmitted . $0.333R$ bytes is original data and $0.166R$ bytes is retransmitted data<br><br><strong>we can here see another cost of congestion is the sender must perform retransmit packet in order to compensate for dropped packet due to buffer overflow.</strong><br><br><strong>c.</strong> The Host A and Host B may set a small timeout interval (or in face of large delay), the sender retransmit prematurely and retransmit packet that have been delay in queue but not yet lost. The original data and retransmited data both may reach the receiver , the receiver will discard the copy of original data . This case is shown as figure.c below <br><br><strong>we can here see the third cost of congestion — unneeded retransmissions by sender in face of large delay may cause router to use it link bandwish to forward unneeded copies of packet</strong><br><img src="Scenario-2-performance.png" srcset="/img/loading.gif" alt="Chapter3-Transport-Layer/Scenario-2-performance.png"><br></p>
+</li>
+<li><strong>Scenario 3 Four sender and Router with Finite Buffer and Multihop Paths</strong></li>
+</ul>
+<p><img src="Scenario-3-Four-senders.png" srcset="/img/loading.gif" alt="Chapter3-Transport-Layer/Scenario-3-Four-senders.png"><br><br>In this case the A-C connection share route R2 with B-D connection. Consider The host A send data to host C and host B send data to host D both at the same time . The data of host A arrive router R2 with R bytes/sec i , The data of Host B arrive router R2 with $\lambda$ , the Host A and Host B need to compare for the free buffer of router R2, if the $\lambda &lt;&lt; R$ , nothing going happen , data will safely arrive in destination host, but if the $\lambda &gt;&gt; R$ (the $\lambda$ extremely large) , the router will be filled immediately by data of host B , the data of host A will lost because of buffer overflow and that work done by router A will be wasted.<br></p>
+<p><img src="Scenario-3-performance.png" srcset="/img/loading.gif" alt="Chapter3-Transport-Layer/Scenario-3-performance.png"><br><br><strong>We can see the fourth cost of dropping the packet due to congestion — when a packet is drop along a path, the transmission capacity that was used at each of upstream link to forward that packet to this point at which it is dropped end up having been wasted.</strong><br></p>
+<h3 id="3-6-2-Approach-to-Congestion-Control"><a href="#3-6-2-Approach-to-Congestion-Control" class="headerlink" title="3.6.2 Approach to Congestion Control"></a>3.6.2 Approach to Congestion Control</h3><p><strong>Two kind of Congestion control way</strong><br></p>
+<ul>
+<li><strong>End-to-End Congestion Control</strong></li>
+<li><strong>Network-assisted Congestion Control:</strong> The Network (router) provide the feedback to sender indicate the congestion state .<strong>Two feedback way for congestion control.</strong><br><ul>
+<li>Direct feedback: The router direct inform the sender via send choke packet.<br></li>
+<li>The router mark/updata in a packet flowing from sender to receiver to indicate the congestion. Upon recipt of a marked packet , the receiver notifies the sender congestion indication .<br></li>
+</ul>
+</li>
+</ul>
+<p><img src="Two-feedback-way.png" srcset="/img/loading.gif" alt="Chapter3-Transport-Layer/Two-feedback-way.png"></p>
+<h3 id="3-6-3-Network-Assisted-ATM-ABR-Congestion-Control"><a href="#3-6-3-Network-Assisted-ATM-ABR-Congestion-Control" class="headerlink" title="3.6.3 Network Assisted ATM ABR Congestion Control"></a>3.6.3 Network Assisted ATM ABR Congestion Control</h3><p><strong>This section we can learn by textboot</strong><br></p>
+<h2 id="3-7-TCP-Congestion-Control-End-To-End-Congestion-Control"><a href="#3-7-TCP-Congestion-Control-End-To-End-Congestion-Control" class="headerlink" title="3.7 TCP Congestion Control (End-To-End Congestion Control)"></a>3.7 TCP Congestion Control (End-To-End Congestion Control)</h2><p>This approach (The TCP Congestion Control Mechanism )taken by TCP is to have each sender limit the rate at which its sends traffic into its connection as a function of perceive network congestion. How to perceive the congestion ? we will discuss below. <br><br>This approach requires senders keep track of an additional variable , <strong>the congestion window</strong> that is denoted <strong>cwnd</strong> [different to <strong>receive window(rwnd)</strong> at flow control]<br><br>The congestion window imposes an constraint on the rate at which a TCP sender can send into the network.<br><br><code>The unacknowledged data = LastByteSent - LastBystAck &lt;= min&#123; cwnd , rwnd&#125;</code></p>
+<ul>
+<li><strong>In order to focus to Congestion Control , we assume the receive window is large enough that we can ignore it.</strong><br></li>
+<li><strong>We also assume the sender always has data to send.</strong><br></li>
+<li><strong>We define the “loss event” at a TCP sender as the ocurrence of either a timeout or recipt of three duplicate ACK from the receiver.<br></strong></li>
+</ul>
+<p><strong>How congestion is detected ?.</strong><br><br><em>In the TCP congestion mechanism, The ACK is used to perceive the network congestion situation, The congestion window is used to constrain sent data rate. If ACK is received quickly, the TCP will increase the sender congestion window size quickly. If ACK is received slowly, the TCP will increase the sender congestion window size slowly. If “loss event” occurred (indicate Netwok congestion ),　the TCP will take some measures to reduce the congestion window size<br></em></p>
+<p><strong>Give a overview of TCP congestion control, Now ,let me see more detail about TCP congestion-control algorithm</strong><br></p>
+<p>The TCP congestion-control algorithm has three major components:</p>
+<ul>
+<li><strong>Slow start</strong></li>
+<li><strong>Congestion avoidance</strong></li>
+<li><strong>Fast recovery</strong></li>
+</ul>
+<h3 id="Slow-Start"><a href="#Slow-Start" class="headerlink" title="Slow Start"></a>Slow Start</h3><p>When a TCP connection begin . the value of cwnd typically initialized to a small value of 1 MSS (maximum segment size) resulting in an initial sending rate of roundly MSS/RTT. For example , The MSS equal to 500 bytes , the RTT equal to 200 msec , the resulting inital sending rate is only roundly 20 kbps.<br><br><strong>If each ACK that is sent within RTT can be received within the same RTT. The TCP is doubling the value of cwnd. Namely increase the value of cwnd by a single MSS every ACK within the same RTT</strong><br><br>For example, the initial value of cwnd is 1 MSS, the sender is sending 1 segment into the network within an RTT . when ACK of this segment is received at the sender within the same RTT  , the TCP is doubling the value of cwnd that is to say cwnd become to 2 MSS, the sender can send two-segment within RTT right now. If these two ACK of segments is received at the sender within the same RTT  , the cwnd is doubling to 4 MSS.<br><br><strong>Thus the TCP send rate start slow , but grow exponentially during the slow phase.</strong><br><br><img src="Slow-Start.png" srcset="/img/loading.gif" alt="Slow-Start"> <br><br><strong>When should this exponentail growth end?</strong></p>
+<ul>
+<li><strong>The first way:</strong> When timeout event ocurred , The TCP will set the value of cwnd back to 1 MSS begin slow start process anew, and <em>set a new state variable <strong>ssthresh</strong> (that is “Slow Start Threashold”) to $cwnd/2$</em></li>
+<li><strong>The second way:</strong> When the $cwnd \geq ssthresh$ ocurred , the slow start end and turn into congestion aviodance mode.</li>
+<li><strong>The third way:</strong> When the thripe duplicate ACK is detected , the slow start end and turn into fast recovery mode, perform fast retransmit.</li>
+</ul>
+<h3 id="Congestion-Avoidance"><a href="#Congestion-Avoidance" class="headerlink" title="Congestion Avoidance"></a>Congestion Avoidance</h3><p>On entry to the Congestion-Avoidance state , the value of cwnd is approximately half its value when congestion was last encountered , that is to say , the congestion could be just around the corner.<br><br><strong>Thus , rather than doubling the value of cwnd every RTT. TCP adopt more conservative approach and increase the value of cwnd by just a single MSS every RTT</strong></p>
+<p><strong>The several events should do in the Congestion Avoidance state.</strong><br></p>
+<ul>
+<li>The TCP sender increases the value of cwnd by $MSS\cdot(\frac{MSS}{cwnd})$ bytes (here cwnd is constant) when ever a new Acknowledgment arrives. For example the cwnd equal to 500 bytes and the MSS equal to 50 bytes, the sender is sending 10 segment within an RTT . Thus the TCP sender is increasing the value of cwnd by $5$ bytes when ever a new Acknowledgment arrives.</li>
+<li>When the timeout occurred , The TCP sender is set the value of cwnd back to $1$ MSS and the value of ssthresh is updated to half the value of cwnd , end up turn into slow start mode .<br></li>
+<li>When the thripe duplicate Acknowledgment is received . The sender is seting $ssthresh =\frac{cwnd}{2}$ and $cwnd = ssthresh + 3 \ast MSS$,then turn into fast recovery mode.</li>
+</ul>
+<h3 id="Fast-Recovery"><a href="#Fast-Recovery" class="headerlink" title="Fast Recovery"></a>Fast Recovery</h3><p><strong>The several events should do in the Fast Recovery state</strong><br></p>
+<ul>
+<li>The value of cwnd increased by $1$ MSS for every duplicate ACK received for the missing segment that caused TCP enter the fast-recovery state.</li>
+<li><p>When the ACK arrived for the missing segment , the sender set $cwnd = ssthresh$ and turn into congestion avoidance state .</p>
+</li>
+<li><p>If the timeout occurred , the sender  set the value of ssthresh to half the value of cwnd and set the value of cwnd to $1$ MSS, then turn into slow start state.<br><br><strong>The relationship between the three kinds of state</strong><br><br><img src="The-three-state-of-congestion-algorithm.png" srcset="/img/loading.gif" alt="The-three-state-of-congestion-algorithm.png"><br><br><strong>Congestion window size changes along with time Ignoring theinitial slow-start period when a connection begins and assuming that losses are indi-cated by triple duplicate ACKs rather than timeouts.<br></strong><br><img src="Congestion-window-size-changes-along-with-time.png" srcset="/img/loading.gif" alt="Congestion-window-size-changes-along-with-time.png"><br></p>
+</li>
+</ul>
+
+            <hr>
+          </div>
+          <br>
+          <div>
+            <p>
+            
+              <span>
+                <i class="iconfont icon-inbox"></i>
+                
+                  <a class="hover-with-bg" href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">计算机网络</a>
+                  &nbsp;
+                
+                  <a class="hover-with-bg" href="/categories/Computer%20Network%20A%20Top-Down%20Approach">Computer Network A Top-Down Approach</a>
+                  &nbsp;
+                
+              </span>&nbsp;&nbsp;
+            
+            
+              <span>
+                <i class="iconfont icon-tag"></i>
+                
+                  <a class="hover-with-bg" href="/tags/Computer%20Network%20A%20Top-Down%20Approach">Computer Network A Top-Down Approach</a>
+                
+              </span>
+            
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+      <br><br>
+      
+      
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = 'https://lexssama.github.io/2020/04/17/Chapter3-Transport-Layer/';
+        this.page.identifier = '/2020/04/17/Chapter3-Transport-Layer/';
+      };
+      var oldLoad = window.onload;
+      window.onload = function () {
+        var d = document, s = d.createElement('script');
+        s.type = 'text/javascript';
+        s.src = '//' + 'Lexssama' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      };
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" target="_blank" rel="nofollow noopener noopener">comments
+        powered by Disqus.</a></noscript>
+  </div>
+
+
+    
+  </div>
+</div>
+
+    
+  </main>
+
+  
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <b>Fluid</b></a>
+    <br>
+
+    
+  
+    <!-- 不蒜子统计PV -->
+    
+    &nbsp;<span id="busuanzi_container_site_pv"></span>总访问量 
+          <span id="busuanzi_value_site_pv"></span> 次&nbsp;
+  
+  
+    <!-- 不蒜子统计UV -->
+    
+    &nbsp;<span id="busuanzi_container_site_uv"></span>总访客数 
+            <span id="busuanzi_value_site_uv"></span> 人&nbsp;
+  
+  <br>
+
+
+
+    
+
+
+    <!-- cnzz Analytics icon -->
+    
+
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="/lib/jquery/jquery.min.js" ></script>
+<script src="/lib/popper/popper.min.js" ></script>
+<script src="/lib/bootstrap/js/bootstrap.min.js" ></script>
+<script src="/lib/mdbootstrap/js/mdb.min.js" ></script>
+<script src="/js/main.js" ></script>
+
+
+  <script src="/js/lazyload.js" ></script>
+
+
+
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
+
+
+  <script src="/lib/smoothscroll/SmoothScroll.min.js" ></script>
+
+
+
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+<!-- Plugins -->
+
+
+  
+
+  
+
+  
+
+  
+
+  <!-- cnzz Analytics -->
+  
+
+
+
+  <script src="/lib/prettify/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint  linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+
+  <script src="/lib/typed/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "Chapter 3: Transport Layer&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script src="/lib/anchor/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "false",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script src="/lib/fancybox/jquery.fancybox.min.js" ></script>
+  <script>
+    $("#post img:not(.no-zoom img, img[no-zoom])").each(
+      function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "images");
+        $(element).attr("href", $(this).attr("src"));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+          tex2jax: {
+              inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+              processEscapes: true,
+              skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          }
+      });
+
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+
+    </script>
+
+    <script src="https://cdn.staticfile.org/mathjax/2.7.6/MathJax.js?config=TeX-MML-AM_CHTML" ></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

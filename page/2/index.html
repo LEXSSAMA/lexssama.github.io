@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/wallhaven-4xjllo.jpg">
+  <link rel="icon" type="image/png" href="/img/wallhaven-4xjllo.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="description" content="">
+  <meta name="author" content="Lexssama">
+  <meta name="keywords" content="">
+  <title>Lexssama&#39;s Blogs</title>
+
+  <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
+<link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
+<link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
+<link rel="stylesheet" href="/lib/github-markdown/github-markdown.min.css"  >
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+
+
+
+  <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css"  >
+
+<link rel="stylesheet" href="/css/main.css"  >
+
+
+  <link rel="stylesheet" href="/lib/fancybox/jquery.fancybox.min.css"  >
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<body>
+  <header style="height: 100vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Lexssama's Blogs</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">首页</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">归档</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/categories/">分类</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">标签</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">关于</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/img/wallhaven-j5l9gw.jpg')no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+          </div>
+
+          
+            <div class="scroll-down-bar">
+              <i class="fas fa-angle-down scroll-down-arrow"></i>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      <div class="container nopadding-md">
+        <div class="py-5 z-depth-3" id="board">
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
+        <a href="/2020/12/18/PA2%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/" target="_self">
+          <img src="/Picture/PA.png" srcset="/img/loading.gif" alt="PA2实验报告" class="index-img img-fluid rounded index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 mx-auto index-info">
+      <a href="/2020/12/18/PA2%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/">
+        <p class="h4 index-header">PA2实验报告</p>
+      </a>
+
+      <a href="/2020/12/18/PA2%E5%AE%9E%E9%AA%8C%E6%8A%A5%E5%91%8A/">
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">1.RTFSC 请整理一条指令在NEMU中的执行过程. (我们其实已经在PA2.1阶段提到过这道题了)    程序在nexus-am中被交叉编译成二进制指令被装入NEMU的内存中，NEMU通过一系列函数来取指令，解码指令，执行指令函数调用历程如图:
+graph LR;
+    A[cpu_exec];
+    B[exec_once];
+    C[isa_exec];
+    D[update_pc];
+    E[instr_fetch];
+    F[set_width];
+    G[idex];
+    A--&gt;B;
+    B--&gt;C;
+    B--&gt;D;
+    C--&gt;E;
+    C--&gt;F;
+    C--&gt;G;
+
+以指令0x00为例cpu执行模拟函数cpu_exec一路执行到instr_fetch在内存中取出指令0x00然后查询NEMU模拟器中存储的符合x指令集规范的表opcode_table(需要我们手动实现)得到对应的0x00这一条指令的执行宽度,opcode_table[0x00].width,调用宽度设置函数set_w</div>
+        </div>
+      </a>
+
+      <div class="index-btm">
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-12-18&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86">计算机组成原理</a>&nbsp;
+          
+            <a href="/categories/PA">PA</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/PA">PA</a>&nbsp;
+          
+            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86">计算机组成原理</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
+        <a href="/2020/11/28/%E6%9C%89%E7%AC%A6%E5%8F%B7%E6%95%B0%E5%8F%B3%E7%A7%BB32%E4%BD%8D/" target="_self">
+          <img src="/Picture/C++log.jpg" srcset="/img/loading.gif" alt="有符号数右移32位" class="index-img img-fluid rounded index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 mx-auto index-info">
+      <a href="/2020/11/28/%E6%9C%89%E7%AC%A6%E5%8F%B7%E6%95%B0%E5%8F%B3%E7%A7%BB32%E4%BD%8D/">
+        <p class="h4 index-header">有符号数右移32位</p>
+      </a>
+
+      <a href="/2020/11/28/%E6%9C%89%E7%AC%A6%E5%8F%B7%E6%95%B0%E5%8F%B3%E7%A7%BB32%E4%BD%8D/">
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">在做项目的过程中把右移31位写成了右移32位，造成了大错，找了好久的bug，心累!!于是我发现一个我无法理解的情况，有符号右移32位得到的数和原来未移动的数相同。
+#include&lt;iostream&gt;
+using namespace std;
+int main() &#123;
+    int n = 0x11;
+    int n1 = n&gt;&gt;32;
+    printf(&quot;n1==0x%x\n&quot;,n1);
+    return 0;
+&#125;
+
+Output:n1==0x11
+为什么会发生这样的事情呢?
+原因是: 对于32-bit的int,n&gt;&gt;32这一指令是未定义行为(undefined behaviour),所以处理器做出32%32的处理，所以最终n&gt;&gt;32就相当于n&gt;&gt;0,所以移动后的数和未移动的数相等。
+下面我们做一下验证:n&gt;&gt;33
+#include&lt;iostream&gt;
+using namespace std;
+int main() &#123;
+    int n</div>
+        </div>
+      </a>
+
+      <div class="index-btm">
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-11-28&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/C/C++">C/C++</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/C/C++">C/C++</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
+        <a href="/2020/11/15/%E5%85%B3%E4%BA%8E%E6%B1%87%E7%BC%96%E4%B8%ADEFLAGS%E5%AF%84%E5%AD%98%E5%99%A8%E4%B8%ADCF%E5%92%8COF%E6%A0%87%E5%BF%97%E4%BD%8D/" target="_self">
+          <img src="/Picture/EFLAGS.jpg" srcset="/img/loading.gif" alt="关于汇编中EFLAGS寄存器中CF和OF标志位" class="index-img img-fluid rounded index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 mx-auto index-info">
+      <a href="/2020/11/15/%E5%85%B3%E4%BA%8E%E6%B1%87%E7%BC%96%E4%B8%ADEFLAGS%E5%AF%84%E5%AD%98%E5%99%A8%E4%B8%ADCF%E5%92%8COF%E6%A0%87%E5%BF%97%E4%BD%8D/">
+        <p class="h4 index-header">关于汇编中EFLAGS寄存器中CF和OF标志位</p>
+      </a>
+
+      <a href="/2020/11/15/%E5%85%B3%E4%BA%8E%E6%B1%87%E7%BC%96%E4%B8%ADEFLAGS%E5%AF%84%E5%AD%98%E5%99%A8%E4%B8%ADCF%E5%92%8COF%E6%A0%87%E5%BF%97%E4%BD%8D/">
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">前言近来在写项目过程中遇到了EFLAGS的OF和CF标志位，这两个功能有点相似，有点搞不清楚，所以去搜索一下，以下的内容是我对回答的粗略的翻译，原回答在此: about assembly CF(Carry) and OF(Overflow) flag
+疑问我知道CF用来解释无符号数的进位，OF解释有符号数的溢出,所以对于有符号数和无符号数都是一串01序列,汇编程序是如何进行区分(differntiate)的？(通过用额外的存储空间记录类型信息?或是通过位置信息？) 还有就是OF和CF两个标志位能否互换(interchangeably)来使用.
+回答有符号数和无符号数的区别在于用什么指令来操作数据，而非数据本身 , 现代计算机(自1970以来)用补码来表示整型数据，所以有符号数和无符号数的加法和减法的其实操作是一样的
+
+有符号数和无符号数的不同关键在于如何对最高有效位 (sign bit) 解释，对于有符号数sign bit 用来代表正负(0代表正,1代表负),无符号数则正常计算。
+
+不同的指令可能对同一个bit的解释不同。
+
+OF(overflow flag)标志位告诉进位是否将结果最</div>
+        </div>
+      </a>
+
+      <div class="index-btm">
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-11-15&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86">计算机组成原理</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BB%84%E6%88%90%E5%8E%9F%E7%90%86">计算机组成原理</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
+        <a href="/2020/11/14/377-Combination-Sum-IV/" target="_self">
+          <img src="/Picture/Dynamic-programming.jpeg" srcset="/img/loading.gif" alt="377. Combination Sum IV" class="index-img img-fluid rounded index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 mx-auto index-info">
+      <a href="/2020/11/14/377-Combination-Sum-IV/">
+        <p class="h4 index-header">377. Combination Sum IV</p>
+      </a>
+
+      <a href="/2020/11/14/377-Combination-Sum-IV/">
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">
+class Solution &#123;
+    public int combinationSum4(int[] nums, int target) &#123;
+        int[] fina = new int[target+1];
+        //到达target=0时到达target==0的方式有1种,就是什么都不选
+        fina[0]=1;
+        //fina[i]表示target=i时有几种方式(路)可以到达target=0.
+        for(int i=1;i&lt;=target;++i)
+        &#123;
+            for(int j=0;j&lt;nums.length;++j)
+            &#123;
+                if(nums[j]&lt;=i)
+                fina[i]+=fina[i-nums[j]];
+            &#125;
+        &#125;
+        return fina[target];
+  </div>
+        </div>
+      </a>
+
+      <div class="index-btm">
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-11-14&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E5%8A%9B%E6%89%A3">力扣</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/%E5%8A%9B%E6%89%A3">力扣</a>&nbsp;
+          
+            <a href="/tags/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92">动态规划</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
+        <a href="/2020/11/14/52-N-Queens-II/" target="_self">
+          <img src="/Picture/N_Queens.jpg" srcset="/img/loading.gif" alt="52. N-Queens II" class="index-img img-fluid rounded index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 mx-auto index-info">
+      <a href="/2020/11/14/52-N-Queens-II/">
+        <p class="h4 index-header">52. N-Queens II</p>
+      </a>
+
+      <a href="/2020/11/14/52-N-Queens-II/">
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">N皇后N皇后是经典题目了，这篇文章不写解题思路,看解题思路可以看这一篇力扣的官方文章52. N-Queens这篇文章主要记录一下用二进制数解N皇后的疑问和解答
+先贴代码:
+class Solution &#123;
+    public int totalNQueens(int n) &#123;
+        return solve(n, 0, 0, 0, 0);
+    &#125;
+    public int solve(int n, int row, int columns, int diagonals1, int diagonals2) &#123;
+        if(n==row)
+            return 1;
+        int count =0;
+        int availablePosition = ~(columns|diagonals1|diagonals2)&amp;((1&lt;&lt;n)-1);
+        while(availablePosition&gt;0)
+        &#123;
+          </div>
+        </div>
+      </a>
+
+      <div class="index-btm">
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-11-14&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E5%8A%9B%E6%89%A3">力扣</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/%E5%8A%9B%E6%89%A3">力扣</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
+        <a href="/2020/11/14/%E5%85%B3%E4%BA%8E%E8%BF%9B%E7%A8%8BProcess%E7%9A%84%E4%B8%80%E7%AF%87%E5%86%99%E7%9A%84%E5%BE%88%E5%A5%BD%E7%9A%84%E6%96%87%E7%AB%A0/" target="_self">
+          <img src="/Picture/process.png" srcset="/img/loading.gif" alt="关于进程Process的一篇写的很好的文章 " class="index-img img-fluid rounded index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 mx-auto index-info">
+      <a href="/2020/11/14/%E5%85%B3%E4%BA%8E%E8%BF%9B%E7%A8%8BProcess%E7%9A%84%E4%B8%80%E7%AF%87%E5%86%99%E7%9A%84%E5%BE%88%E5%A5%BD%E7%9A%84%E6%96%87%E7%AB%A0/">
+        <p class="h4 index-header">关于进程Process的一篇写的很好的文章 </p>
+      </a>
+
+      <a href="/2020/11/14/%E5%85%B3%E4%BA%8E%E8%BF%9B%E7%A8%8BProcess%E7%9A%84%E4%B8%80%E7%AF%87%E5%86%99%E7%9A%84%E5%BE%88%E5%A5%BD%E7%9A%84%E6%96%87%E7%AB%A0/">
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">Process本来想翻译一下的，但是文章太长了，我又太懒，所以就贴一下网址吧Process;
+</div>
+        </div>
+      </a>
+
+      <div class="index-btm">
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-11-14&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">操作系统</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">操作系统</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
+        <a href="/2020/07/05/Spring-Cloud-Hystrix/" target="_self">
+          <img src="/Picture/spring-cloud-hystrix.png" srcset="/img/loading.gif" alt="Spring Cloud Hystrix" class="index-img img-fluid rounded index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 mx-auto index-info">
+      <a href="/2020/07/05/Spring-Cloud-Hystrix/">
+        <p class="h4 index-header">Spring Cloud Hystrix</p>
+      </a>
+
+      <a href="/2020/07/05/Spring-Cloud-Hystrix/">
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">Hystrix (还需要继续丰富）服务熔断:提供线程池，不同的服务走不同的线程池，实现不同服务调用的隔离，避免了服务雪崩的问题
+Hystrix的使用详情１．创建请求命令HystrixCommand 它用来封装具体的依赖服务调用逻辑
+
+同步执行
+异步执行２．定义服务降级fallback是Hystrix命令执行失败时使用的后备方法，用来实现服务的降级处理逻辑，在HystrixCommand中可以通过重载getFallback()方法来实现降级逻辑这些情况可以不去实现降级逻辑执行写操作的命令执行批处理或离线计算的命令３．异常处理
+异常传播HystrixCommad实现run()方法中抛出异常时，除了HystrixBadRequestException之外，其他异常均会被Hystrix认为命令执行失败并触发服务降级的处理逻辑
+异常获取当Hystrix命令因为异常（除了HystrixBadRequest的异常）进入服务的降级逻辑之后，往往需要对不同异常做针对性处理４．命令名称，分组以及线程池划分通常情况下，尽量通过HystrixThreadPoolKey的方式来指定线程池的划分，而不是通过组名的</div>
+        </div>
+      </a>
+
+      <div class="index-btm">
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-07-05&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AD%A6%E4%B9%A0">微服务学习</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AD%A6%E4%B9%A0">微服务学习</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
+        <a href="/2020/06/17/Spring-Cloud-Eureka-%E5%88%9D%E5%85%A5%E9%97%A8/" target="_self">
+          <img src="/Picture/Spring-Cloud-Eureka.png" srcset="/img/loading.gif" alt="Spring Cloud Eureka 初入门" class="index-img img-fluid rounded index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 mx-auto index-info">
+      <a href="/2020/06/17/Spring-Cloud-Eureka-%E5%88%9D%E5%85%A5%E9%97%A8/">
+        <p class="h4 index-header">Spring Cloud Eureka 初入门</p>
+      </a>
+
+      <a href="/2020/06/17/Spring-Cloud-Eureka-%E5%88%9D%E5%85%A5%E9%97%A8/">
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">Eureka是什么？Eureka就是由Netflix公司开发的一款开源的服务注册和发现的的产品 SpringCloud将其集成到SpringCloud的子项目Spring-Cloud-netflix中实现SpringCloud的服务注册和发现功能
+Eureka解决什么实际问题？Eureka解决的是服务的硬编码问题提供服务地址的问题,也就是微服务客户端不用在代码中硬写出微服务服务端，如果微服务客户端和服务端都有很多例如100个，那么每个微服物客户端都要写下100个服务端的IP地址以及端口,如果由于业务需求增加客户端或服务端，就又需要添加相应的代码，这样很难维护.
+Eureka的划分Eureka可以分为Eureka Service端和Eureka Client端Eureka Client可以建立在微服务的服务端(Application Service)和客户端(Application Client).
+Eureka的架构
+简单的解释上图: 每一个Eureka Client(包括ApplicationService和ApplicationClient)需要向Eureka Service(服务</div>
+        </div>
+      </a>
+
+      <div class="index-btm">
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-06-17&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AD%A6%E4%B9%A0">微服务学习</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E5%AD%A6%E4%B9%A0">微服务学习</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
+        <a href="/2020/05/28/chapter4-Homework-problems-and-Questions/" target="_self">
+          <img src="/Picture/Question-Mark.jpg" srcset="/img/loading.gif" alt="chapter4-Homework-problems-and-Questions " class="index-img img-fluid rounded index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 mx-auto index-info">
+      <a href="/2020/05/28/chapter4-Homework-problems-and-Questions/">
+        <p class="h4 index-header">chapter4-Homework-problems-and-Questions </p>
+      </a>
+
+      <a href="/2020/05/28/chapter4-Homework-problems-and-Questions/">
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">
+</div>
+        </div>
+      </a>
+
+      <div class="index-btm">
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-05-28&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">计算机网络</a>&nbsp;
+          
+            <a href="/categories/Computer%20Network%20A%20Top-Down%20Approach">Computer Network A Top-Down Approach</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/Computer%20Network%20A%20Top-Down%20Approach">Computer Network A Top-Down Approach</a>&nbsp;
+          
+            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">计算机网络</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+      <div class="col-12 col-md-4 m-auto">
+        <a href="/2020/05/18/Chapter4-The-Network-Layer/" target="_self">
+          <img src="/Picture/ipv4-ipv6.jpg" srcset="/img/loading.gif" alt="Chapter4-The-Network-Layer" class="index-img img-fluid rounded index-thumbnails">
+        </a>
+      </div>
+    
+    <div class="col-12 col-md-8 mx-auto index-info">
+      <a href="/2020/05/18/Chapter4-The-Network-Layer/">
+        <p class="h4 index-header">Chapter4-The-Network-Layer</p>
+      </a>
+
+      <a href="/2020/05/18/Chapter4-The-Network-Layer/">
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">In summary , this chapter has three major parts , The first past , section 4.1 and 4.2 cover the network layer function and services. The second part , section 4.3 and 4.4 covers forwarding , finally , the third past ,  section 4.5 through 4.7 covers routing.
+4.1 IntroductionThe first past is used to introduce network layer function and services.
+4.1.1 Forwarding and Routing
+Forwarding : When the packet arrives at router’s input link , the router must move the packet to the appropriate output li</div>
+        </div>
+      </a>
+
+      <div class="index-btm">
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-05-18&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/categories/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">计算机网络</a>&nbsp;
+          
+            <a href="/categories/Computer%20Network%20A%20Top-Down%20Approach">Computer Network A Top-Down Approach</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/tags/Computer%20Network%20A%20Top-Down%20Approach">Computer Network A Top-Down Approach</a>&nbsp;
+          
+            <a href="/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C">计算机网络</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+
+
+  <nav aria-label="index posts navigation">
+    <span class="pagination pg-blue justify-content-center mt-5" id="pagination">
+      <a class="extend prev" rel="prev" href="/"><i class="fas fa-angle-double-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/"><i class="fas fa-angle-double-right"></i></a>
+    </span>
+  </nav>
+  
+  <script>
+    for (ele of document.getElementById("pagination").getElementsByClassName("page-number")) {
+      ele.href += '#board';
+    }
+  </script>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+  </main>
+
+  
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <b>Fluid</b></a>
+    <br>
+
+    
+  
+    <!-- 不蒜子统计PV -->
+    
+    &nbsp;<span id="busuanzi_container_site_pv"></span>总访问量 
+          <span id="busuanzi_value_site_pv"></span> 次&nbsp;
+  
+  
+    <!-- 不蒜子统计UV -->
+    
+    &nbsp;<span id="busuanzi_container_site_uv"></span>总访客数 
+            <span id="busuanzi_value_site_uv"></span> 人&nbsp;
+  
+  <br>
+
+
+
+    
+
+
+    <!-- cnzz Analytics icon -->
+    
+
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="/lib/jquery/jquery.min.js" ></script>
+<script src="/lib/popper/popper.min.js" ></script>
+<script src="/lib/bootstrap/js/bootstrap.min.js" ></script>
+<script src="/lib/mdbootstrap/js/mdb.min.js" ></script>
+<script src="/js/main.js" ></script>
+
+
+  <script src="/js/lazyload.js" ></script>
+
+
+
+
+
+  <script src="/lib/smoothscroll/SmoothScroll.min.js" ></script>
+
+
+
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+<!-- Plugins -->
+
+
+  
+
+  
+
+  
+
+  
+
+  <!-- cnzz Analytics -->
+  
+
+
+
+  <script src="/lib/prettify/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint  linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+
+  <script src="/lib/typed/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "Stay hungry  Stay foolish&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script src="/lib/anchor/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "false",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script src="/lib/fancybox/jquery.fancybox.min.js" ></script>
+  <script>
+    $("#post img:not(.no-zoom img, img[no-zoom])").each(
+      function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "images");
+        $(element).attr("href", $(this).attr("src"));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+          tex2jax: {
+              inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+              processEscapes: true,
+              skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          }
+      });
+
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+
+    </script>
+
+    <script src="https://cdn.staticfile.org/mathjax/2.7.6/MathJax.js?config=TeX-MML-AM_CHTML" ></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

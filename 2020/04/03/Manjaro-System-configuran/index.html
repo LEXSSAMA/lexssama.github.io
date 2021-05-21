@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/wallhaven-4xjllo.jpg">
+  <link rel="icon" type="image/png" href="/img/wallhaven-4xjllo.jpg">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="description" content="">
+  <meta name="author" content="Lexssama">
+  <meta name="keywords" content="">
+  <title>Manjaro-System-configuran ~ Lexssama&#39;s Blogs</title>
+
+  <link rel="stylesheet" href="/lib/font-awesome/css/all.min.css"  >
+<link rel="stylesheet" href="/lib/bootstrap/css/bootstrap.min.css"  >
+<link rel="stylesheet" href="/lib/mdbootstrap/css/mdb.min.css"  >
+<link rel="stylesheet" href="/lib/github-markdown/github-markdown.min.css"  >
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+
+
+
+  <link rel="stylesheet" href="/lib/prettify/tomorrow-night-eighties.min.css"  >
+
+<link rel="stylesheet" href="/css/main.css"  >
+
+
+  <link rel="stylesheet" href="/lib/fancybox/jquery.fancybox.min.css"  >
+
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+
+<body>
+  <header style="height: 100vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/">&nbsp;<strong>Lexssama's Blogs</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/">首页</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/archives/">归档</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/categories/">分类</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/tags/">标签</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/about/">关于</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" false
+         style="background: url('/img/wallhaven-j5l9gw.jpg')no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask rgba-black-light flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              <br>
+              
+                <p class="mt-3">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>&nbsp;
+                  星期五, 四月 3日 2020, 12:43 下午
+                </p>
+              
+
+              <p>
+                
+                  
+                  &nbsp;<i class="far fa-chart-bar"></i>
+                  <span class="post-count">
+                    1k 字
+                  </span>&nbsp;
+                
+
+                
+                  
+                  &nbsp;<i class="far fa-clock"></i>
+                  <span class="post-count">
+                      4 分钟
+                  </span>&nbsp;
+                
+
+                
+                  <!-- 不蒜子统计文章PV -->
+                  
+                  &nbsp;<i class="far fa-eye" aria-hidden="true"></i>&nbsp;
+                  <span id="busuanzi_container_page_pv">
+                    <span id="busuanzi_value_page_pv"></span> 次
+                  </span>&nbsp;
+                
+              </p>
+            
+          </div>
+
+          
+            <div class="scroll-down-bar">
+              <i class="fas fa-angle-down scroll-down-arrow"></i>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="py-5 z-depth-3" id="board">
+        <div class="post-content mx-auto" id="post">
+          <div class="markdown-body">
+            <h1 id="Manjaro-System-finish-picture"><a href="#Manjaro-System-finish-picture" class="headerlink" title="Manjaro System finish picture"></a>Manjaro System finish picture</h1><p><img src="manjaro_System_finish.png" srcset="/img/loading.gif" alt="Manjaro"></p>
+<p>一下配置文件都在 <a href="https://github.com/LEXSSAMA/Configure-file-of-Manjaro-System" target="_blank" rel="noopener">https://github.com/LEXSSAMA/Configure-file-of-Manjaro-System</a></p>
+<h1 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h1><h2 id="1-首先下载镜像安装"><a href="#1-首先下载镜像安装" class="headerlink" title="1.首先下载镜像安装"></a>1.首先下载镜像安装</h2><h2 id="２．换源"><a href="#２．换源" class="headerlink" title="２．换源"></a>２．换源</h2><pre><code>sudo pacman-mirrors -i -c China -m rank
+</code></pre><p>选择一个好用的就可以，我选择的是<br><a href="https://mirrors.sjtug.sjtu.edu.cn/manjaro/" target="_blank" rel="noopener">https://mirrors.sjtug.sjtu.edu.cn/manjaro/</a></p>
+<h2 id="３．更新系统"><a href="#３．更新系统" class="headerlink" title="３．更新系统"></a>３．更新系统</h2><pre><code>sudo pacman -Syy     #更新缓存
+sudo Pacman -Syyu    #更新系统
+</code></pre><h2 id="４．配置VIM"><a href="#４．配置VIM" class="headerlink" title="４．配置VIM"></a>４．配置VIM</h2><pre><code>sudo pacman -S vim
+</code></pre><p>然后编辑$HOME下的.vim/vimrc文件即可<br><br>我的也是刚刚开始使用vim所以配置的内容并不丰富</p>
+<pre><code>syntax on
+set number
+set relativenumber
+set hlsearch
+set smartcase
+set cursorline
+set cursorcolumn 
+hi CursorColumn term=reverse ctermbg=white guibg=grey40
+hi CursorColumn ctermbg=238 guibg=grey40
+hi CursorLine term=underline cterm=underline guibg=grey40
+set ignorecase
+set cursorline
+set wrap
+set incsearch
+set showcmd
+set wildmenu
+map s &lt;nop&gt;
+map S :w&lt;CR&gt;
+map Q :q&lt;CR&gt;
+map R :source $MYVIMRC&lt;CR&gt;
+noremap U 5k
+noremap D 5j
+call plug#begin(&#39;~/.vim/plugged&#39;)
+Plug &#39;vim-airline/vim-airline&#39;
+Plug &#39;rakr/vim-one&#39;
+Plug &#39;preservim/nerdtree&#39;
+Plug &#39;ybian/smartim&#39;
+Plug &#39;arcticicestudio/nord-vim&#39; Plug &#39;connorholyday/vim-snazzy&#39;
+Plug &#39;Valloric/YouCompleteMe&#39;
+Plug &#39;iamcco/markdown-preview.nvim&#39;, &#123; &#39;do&#39;: &#39;cd app &amp; yarn install&#39;  &#125;
+Plug &#39;dhruvasagar/vim-table-mode&#39;, &#123; &#39;on&#39;: &#39;TableModeToggle&#39; &#125;
+Plug &#39;vimwiki/vimwiki&#39;
+
+call plug#end()    
+
+let g:lightline = &#123;
+\ &#39;colorscheme&#39;: &#39;snazzy&#39;,
+\ &#125;
+</code></pre><h2 id="5-安装i3wm"><a href="#5-安装i3wm" class="headerlink" title="5.安装i3wm"></a>5.安装i3wm</h2><pre><code>sudo pacman -S i3
+</code></pre><p>配置i3只需要配置~/.config/i3/config文件即可<br><br>安装完i3可能会有分辨率的问题可以修改$HOME下的.Xresources文件<br>添加一下语句：<br></p>
+<pre><code>Xft.dpi = 200     #数字可以随便改
+</code></pre><h2 id="6-安装fcitx中文输入法"><a href="#6-安装fcitx中文输入法" class="headerlink" title="6.安装fcitx中文输入法"></a>6.安装fcitx中文输入法</h2><pre><code>$ sudo pacman -S fcitx-sogoupinyin
+$ sudo pacman -S fcitx-im     # 全部安装
+$ sudo pacman -S fcitx-configtool     # 图形化配置工具
+</code></pre><p>将fcitx添加到环境变量中去</p>
+<pre><code>sudo vim ~/.xprofile
+</code></pre><p>然后在里面添加：</p>
+<pre><code>export GTK_IM_MODULE=fcitx
+export QT_IM_MODULE=fcitx
+export XMODIFIERS=”@im=fcitx”
+</code></pre><p>最后在~/.config/i3/config文件中添加</p>
+<pre><code>exec_always fcitx
+</code></pre><p>这样开机就会直接启动fcitx了</p>
+<h2 id="7-安装alacritty"><a href="#7-安装alacritty" class="headerlink" title="7.安装alacritty"></a>7.安装alacritty</h2><pre><code>sudo pacman -S alacritty
+</code></pre><p>在i3中修改alacritty的快捷键为mod+回车键</p>
+<pre><code>bindsym $mod+return exec alacritty
+</code></pre><p>配置alacritty只需要修改~/.config/alacritty/alacritty.yml文件即可<br></p>
+<p><strong>如果~/.config/文件中没有alacritty/alacritty.yml文件就自己创建一个，或者上github上面复制一个就可以了</strong><br><br>如果要alacritty的透明的话要安装picom，这个软件就是以前的compton</p>
+<pre><code>sudo pacman -S picom
+</code></pre><p>执行picom,然后修改~/.config/alacritty/alacritty.yml<br></p>
+<pre><code>background_opacity: 0.75
+</code></pre><p>也可以修改成其他的值，我比较喜欢0.75的透明度<br><br>最后把picom加入i3的开机启动中</p>
+<h2 id="8-安装SSR"><a href="#8-安装SSR" class="headerlink" title="8.安装SSR"></a>8.安装SSR</h2><p><strong>无图像界面的SSR client</strong></p>
+<pre><code>wget http://www.texfox.com/ssr
+sudo mv ssr /usr/local/bin
+sudo chmod +x /usr/local/bin/ssr
+ssr install
+</code></pre><p>安装完成后配置SSR</p>
+<pre><code>ssr config
+</code></pre><p>把机场的SSR信息填入</p>
+<pre><code>ssr start
+</code></pre><p>就连接上了，有不明白的命令可以执行</p>
+<pre><code>ssr help
+</code></pre><p><strong>有图像界面的SSR client可以用electron-ssr</strong><br><br>链接：<br><a href="https://github.com/qingshuisiyuan/electron-ssr-backup" target="_blank" rel="noopener">https://github.com/qingshuisiyuan/electron-ssr-backup</a></p>
+<h2 id="9-安装google-chrome-谷歌浏览器"><a href="#9-安装google-chrome-谷歌浏览器" class="headerlink" title="9.安装google-chrome_(谷歌浏览器)"></a>9.安装google-chrome_(谷歌浏览器)</h2><pre><code>sudo pacman -S google-chrome
+</code></pre><p>因为很经常用到google所以我把它设置成i3的快捷键，即在~/.config/i3/config中添加下面语句</p>
+<pre><code>bindsym $mod+c exec google-chrome-stable
+</code></pre><h2 id="10-安装Albert"><a href="#10-安装Albert" class="headerlink" title="10.安装Albert"></a>10.安装Albert</h2><p>因为i3默认的$mod+d的菜单快捷键太丑了，所以安装Albert<br><img src="albert.png" srcset="/img/loading.gif" alt="albert"><br></p>
+<pre><code>sudo pacman -S albert
+</code></pre><p>在i3中设置albert开机启动<br></p>
+<pre><code>exec_always albert
+</code></pre><p>然后修改albert的热键在终端第一次执行albert时会提醒修改热键，下图是我的配置．<br></p>
+<p><img src="albert1.png" srcset="/img/loading.gif" alt="albert1"><br><br><img src="albert2.png" srcset="/img/loading.gif" alt="albert2"><br><br>因为我设置的热键ALT+d与i3的热键冲突（我的$mod键是ALT键）,所以我干脆取消了i3中的热键</p>
+<h2 id="11-安装ranger"><a href="#11-安装ranger" class="headerlink" title="11. 安装ranger"></a>11. 安装ranger</h2><pre><code>sudo pacman -S ranger
+</code></pre><p>配置ranger依旧是修改~/.config/ranger/rc.conf文件<br><br><strong>如果没有这些文件可以自己创建，详细看官方</strong></p>
+<h2 id="12-安装网易云音乐"><a href="#12-安装网易云音乐" class="headerlink" title="12. 安装网易云音乐"></a>12. 安装网易云音乐</h2><pre><code>sudo pacman -S netease-cloud-music
+</code></pre><h2 id="13-安装QQ-TIM"><a href="#13-安装QQ-TIM" class="headerlink" title="13.安装QQ/TIM"></a>13.安装QQ/TIM</h2><pre><code>sudo pacman -S deepin.qq.com.office
+sudo pacman -S deepin.qq.com.im
+</code></pre><p>由于在i3的环境下，一打开QQ就会闪退，解决方法是<br></p>
+<pre><code>yaourt -S gnome-setting-daemon
+</code></pre><p>然后运行/usr/lib/gsd-xsettings(最好在i3配置中设置开机启动)，然后就可以运行ＱＱ了</p>
+<h2 id="14-安装light"><a href="#14-安装light" class="headerlink" title="14. 安装light"></a>14. 安装light</h2><p>因为i3装上之后亮度调节是个问题所以装一个light</p>
+<pre><code>sudo pacman -S light
+</code></pre><p>要设置亮度的时候只要在命令行输入</p>
+<pre><code>sudo light -S 20     #数值可改，我一般用２０
+</code></pre>
+            <hr>
+          </div>
+          <br>
+          <div>
+            <p>
+            
+              <span>
+                <i class="iconfont icon-inbox"></i>
+                
+                  <a class="hover-with-bg" href="/categories/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">操作系统</a>
+                  &nbsp;
+                
+              </span>&nbsp;&nbsp;
+            
+            
+              <span>
+                <i class="iconfont icon-tag"></i>
+                
+                  <a class="hover-with-bg" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">操作系统</a>
+                
+              </span>
+            
+            </p>
+            
+              <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="d-none d-lg-block col-lg-2 toc-container">
+      
+  <div id="toc">
+    <p class="h4"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+    <div id="tocbot"></div>
+  </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- custom -->
+
+
+<!-- Comments -->
+<div class="col-lg-7 mx-auto nopadding-md">
+  <div class="container comments mx-auto" id="comments">
+    
+      <br><br>
+      
+      
+  <div class="disqus" style="width:100%">
+    <div id="disqus_thread"></div>
+    <script>
+      var disqus_config = function () {
+        this.page.url = 'https://lexssama.github.io/2020/04/03/Manjaro-System-configuran/';
+        this.page.identifier = '/2020/04/03/Manjaro-System-configuran/';
+      };
+      var oldLoad = window.onload;
+      window.onload = function () {
+        var d = document, s = d.createElement('script');
+        s.type = 'text/javascript';
+        s.src = '//' + 'Lexssama' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+      };
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" target="_blank" rel="nofollow noopener noopener">comments
+        powered by Disqus.</a></noscript>
+  </div>
+
+
+    
+  </div>
+</div>
+
+    
+  </main>
+
+  
+    <a class="z-depth-1" id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><b>Hexo</b></a>
+    <i class="iconfont icon-love"></i>
+    <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener"> <b>Fluid</b></a>
+    <br>
+
+    
+  
+    <!-- 不蒜子统计PV -->
+    
+    &nbsp;<span id="busuanzi_container_site_pv"></span>总访问量 
+          <span id="busuanzi_value_site_pv"></span> 次&nbsp;
+  
+  
+    <!-- 不蒜子统计UV -->
+    
+    &nbsp;<span id="busuanzi_container_site_uv"></span>总访客数 
+            <span id="busuanzi_value_site_uv"></span> 人&nbsp;
+  
+  <br>
+
+
+
+    
+
+
+    <!-- cnzz Analytics icon -->
+    
+
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="/lib/jquery/jquery.min.js" ></script>
+<script src="/lib/popper/popper.min.js" ></script>
+<script src="/lib/bootstrap/js/bootstrap.min.js" ></script>
+<script src="/lib/mdbootstrap/js/mdb.min.js" ></script>
+<script src="/js/main.js" ></script>
+
+
+  <script src="/js/lazyload.js" ></script>
+
+
+
+  
+    <script src="/lib/tocbot/tocbot.min.js" ></script>
+  
+  <script src="/js/post.js" ></script>
+
+
+
+  <script src="/lib/smoothscroll/SmoothScroll.min.js" ></script>
+
+
+
+  <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" ></script>
+
+
+<!-- Plugins -->
+
+
+  
+
+  
+
+  
+
+  
+
+  <!-- cnzz Analytics -->
+  
+
+
+
+  <script src="/lib/prettify/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').addClass('prettyprint  linenums');
+      prettyPrint();
+    })
+  </script>
+
+
+
+  <script src="/lib/typed/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "Manjaro-System-configuran&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script src="/lib/anchor/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "false",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script src="/js/local-search.js" ></script>
+  <script>
+    var path = "/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script src="/lib/fancybox/jquery.fancybox.min.js" ></script>
+  <script>
+    $("#post img:not(.no-zoom img, img[no-zoom])").each(
+      function () {
+        var element = document.createElement("a");
+        $(element).attr("data-fancybox", "images");
+        $(element).attr("href", $(this).attr("src"));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+  
+
+  
+    <!-- MathJax -->
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+          tex2jax: {
+              inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+              processEscapes: true,
+              skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+          }
+      });
+
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+
+    </script>
+
+    <script src="https://cdn.staticfile.org/mathjax/2.7.6/MathJax.js?config=TeX-MML-AM_CHTML" ></script>
+
+  
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
